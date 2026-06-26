@@ -4,6 +4,11 @@
 /.claude/agents/
 /.claude/commands/
 /.claude/references/
+/.claude/hooks/
+/.claude/AGENT-SKILLS-LICENSE
+/.claude/settings.local.json
+/.claude/sdd-cache/
+/.claude/.simplify-ignore-cache/
 
 # node
 node_modules/
