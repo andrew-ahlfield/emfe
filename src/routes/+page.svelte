@@ -3,6 +3,7 @@
 	import { selection, selectedAllocation } from '$lib/state/selection';
 	import { layers } from '$lib/state/layers';
 	import { license } from '$lib/state/license';
+	import { axisOptions } from '$lib/state/axis';
 	import { LOD_LABELS } from '$lib/spectrum/lod';
 	import { PLOT } from '$lib/components/plot-layout';
 	import Axis from '$lib/components/Axis.svelte';
@@ -13,6 +14,8 @@
 	import Inspector from '$lib/components/Inspector.svelte';
 	import LayerToggles from '$lib/components/LayerToggles.svelte';
 	import LicenseFilter from '$lib/components/LicenseFilter.svelte';
+	import AxisOptions from '$lib/components/AxisOptions.svelte';
+	import ThemeToggle from '$lib/components/ThemeToggle.svelte';
 
 	let width = $state(0);
 </script>
@@ -56,7 +59,12 @@
 						layers={$layers}
 					/>
 					<RegionLabels {width} domain={$visibleDomain} />
-					<Axis {width} domain={$visibleDomain} />
+					<Axis
+						{width}
+						domain={$visibleDomain}
+						showExp={$axisOptions.showExp}
+						showLambda={$axisOptions.showLambda}
+					/>
 				</svg>
 			{/if}
 		</div>
@@ -70,14 +78,15 @@
 	<div class="panel license-col">
 		<LicenseFilter />
 	</div>
-	<div class="panel placeholder">
-		<div class="panel-eyebrow">Detail &amp; axis</div>
-		<p class="soon">Coming in Phase 3</p>
+	<div class="panel axis-col">
+		<AxisOptions />
 	</div>
 	<div class="panel inspector-col">
 		<Inspector allocation={$selectedAllocation} license={$license} />
 	</div>
 </Dock>
+
+<ThemeToggle />
 
 <style>
 	main {
@@ -145,8 +154,8 @@
 	.panel:first-child {
 		padding-left: 0;
 	}
-	.placeholder {
-		width: 200px;
+	.axis-col {
+		width: 210px;
 		flex-shrink: 0;
 	}
 	.layers-col {
@@ -163,28 +172,12 @@
 		border-right: none;
 		padding-right: 0;
 	}
-	.panel-eyebrow {
-		font-family: var(--font-mono);
-		font-size: 9px;
-		letter-spacing: 0.14em;
-		color: var(--faint);
-		text-transform: uppercase;
-		margin-bottom: 11px;
-	}
-	.soon {
-		margin: 0;
-		font-family: var(--font-sans);
-		font-size: 11.5px;
-		color: var(--faint);
-		font-style: italic;
-	}
-
 	@media (max-width: 720px) {
 		.panel {
 			border-right: none;
 			padding: 0;
 		}
-		.placeholder,
+		.axis-col,
 		.layers-col,
 		.license-col {
 			width: 100%;

@@ -21,7 +21,7 @@ Concise checklist. Full detail (acceptance criteria, verification, files) in [pl
 - [ ] **Task 7** — ⚠ Zoom + pan → semantic zoom (HIGH RISK) _(M, dep: 4)_ — _DEFERRED (per user, doing 8–11 first)_
 - [x] **Task 8** — Content-layer toggles + counts _(S, dep: 5,6)_ ✅
 - [x] **Task 9** — License filter + amateur eligibility _(M, dep: 6)_ ✅
-- [ ] **Task 10** — Axis toggles (sci-notation, λ) + theme _(S, dep: 4)_
+- [x] **Task 10** — Axis toggles (sci-notation, λ) + theme _(S, dep: 4)_ ✅
 - [ ] **Task 11** — Sources & provenance modal _(S, dep: 3,6)_
 - [ ] **Checkpoint: Interactive explorer** — zoom + filters + theme + sources · human review
 
