@@ -17,6 +17,7 @@
 	import LicenseFilter from '$lib/components/LicenseFilter.svelte';
 	import AxisOptions from '$lib/components/AxisOptions.svelte';
 	import ThemeToggle from '$lib/components/ThemeToggle.svelte';
+	import SourcesModal from '$lib/components/SourcesModal.svelte';
 
 	let width = $state(0);
 	let zoomed = $derived($view.zoom > 1);
@@ -95,6 +96,7 @@
 	</div>
 </Dock>
 
+<SourcesModal />
 <ThemeToggle />
 
 <style>

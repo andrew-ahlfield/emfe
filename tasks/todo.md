@@ -22,7 +22,7 @@ Concise checklist. Full detail (acceptance criteria, verification, files) in [pl
 - [x] **Task 8** — Content-layer toggles + counts _(S, dep: 5,6)_ ✅
 - [x] **Task 9** — License filter + amateur eligibility _(M, dep: 6)_ ✅
 - [x] **Task 10** — Axis toggles (sci-notation, λ) + theme _(S, dep: 4)_ ✅
-- [ ] **Task 11** — Sources & provenance modal _(S, dep: 3,6)_
+- [x] **Task 11** — Sources & provenance modal _(S, dep: 3,6)_ ✅
 - [ ] **Checkpoint: Interactive explorer** — zoom + filters + theme + sources · human review
 
 ## Phase 4 — Deep-linking, live data, mobile
