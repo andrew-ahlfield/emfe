@@ -1,0 +1,37 @@
+{
+	"$schema": "http://json-schema.org/draft-07/schema#",
+	"$id": "https://emfe/schema/allocations.json",
+	"title": "Allocation list",
+	"type": "array",
+	"items": { "$ref": "#/$defs/allocation" },
+	"$defs": {
+		"allocation": {
+			"type": "object",
+			"additionalProperties": false,
+			"required": ["id", "name", "hz", "layer", "region", "minLod", "note", "source"],
+			"properties": {
+				"id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$" },
+				"name": { "type": "string", "minLength": 1 },
+				"hz": { "type": "number", "exclusiveMinimum": 0 },
+				"band": {
+					"type": "array",
+					"items": { "type": "number", "exclusiveMinimum": 0 },
+					"minItems": 2,
+					"maxItems": 2
+				},
+				"layer": {
+					"enum": ["consumer", "amateur", "navigation", "gov", "science"]
+				},
+				"region": {
+					"enum": ["radio", "microwave", "infrared", "visible", "uv", "xray", "gamma"]
+				},
+				"minLod": { "type": "integer", "minimum": 0, "maximum": 3 },
+				"reqLicense": {
+					"enum": ["unlicensed", "technician", "general", "extra"]
+				},
+				"note": { "type": "string", "minLength": 1 },
+				"source": { "type": "string", "minLength": 1 }
+			}
+		}
+	}
+}

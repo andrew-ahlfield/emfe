@@ -1,0 +1,217 @@
+[
+	{
+		"id": "am",
+		"name": "AM radio",
+		"hz": 1000000,
+		"band": [535000, 1605000],
+		"layer": "consumer",
+		"region": "radio",
+		"minLod": 2,
+		"note": "AM broadcast. Amplitude-modulated; long groundwave range at night.",
+		"source": "fcc-tofa"
+	},
+	{
+		"id": "ham20",
+		"name": "20 m ham",
+		"hz": 14000000,
+		"band": [14000000, 14350000],
+		"layer": "amateur",
+		"region": "radio",
+		"minLod": 2,
+		"reqLicense": "general",
+		"note": "Premier HF DX band. CW, digital and SSB phone segments by licence class.",
+		"source": "fcc-part97"
+	},
+	{
+		"id": "cb",
+		"name": "CB radio",
+		"hz": 27000000,
+		"band": [26900000, 27400000],
+		"layer": "amateur",
+		"region": "radio",
+		"minLod": 2,
+		"reqLicense": "unlicensed",
+		"note": "Citizens Band — license-free voice, 40 channels, 4 W.",
+		"source": "fcc-part97"
+	},
+	{
+		"id": "mri",
+		"name": "MRI RF",
+		"hz": 64000000,
+		"layer": "science",
+		"region": "radio",
+		"minLod": 3,
+		"note": "The RF pulse that flips proton spins inside a 1.5-tesla MRI magnet (≈64 MHz).",
+		"source": "nasa-ems"
+	},
+	{
+		"id": "fm",
+		"name": "FM radio",
+		"hz": 98000000,
+		"band": [88000000, 108000000],
+		"layer": "consumer",
+		"region": "radio",
+		"minLod": 2,
+		"note": "FM broadcast. Wideband stereo, line-of-sight propagation.",
+		"source": "fcc-tofa"
+	},
+	{
+		"id": "noaa",
+		"name": "NOAA wx sat",
+		"hz": 137000000,
+		"layer": "gov",
+		"region": "radio",
+		"minLod": 3,
+		"note": "Polar weather-satellite image downlink (137 MHz APT) — receivable with a simple antenna.",
+		"source": "fcc-tofa"
+	},
+	{
+		"id": "2m",
+		"name": "2 m ham",
+		"hz": 146000000,
+		"band": [144000000, 148000000],
+		"layer": "amateur",
+		"region": "radio",
+		"minLod": 3,
+		"reqLicense": "technician",
+		"note": "Local repeater / simplex band. Technician class and up.",
+		"source": "fcc-part97"
+	},
+	{
+		"id": "frs",
+		"name": "FRS / GMRS",
+		"hz": 465000000,
+		"band": [462000000, 467000000],
+		"layer": "amateur",
+		"region": "radio",
+		"minLod": 3,
+		"reqLicense": "unlicensed",
+		"note": "Family Radio — license-free walkie-talkies (GMRS needs a no-test permit).",
+		"source": "fcc-part97"
+	},
+	{
+		"id": "tv",
+		"name": "TV (UHF)",
+		"hz": 600000000,
+		"band": [470000000, 698000000],
+		"layer": "consumer",
+		"region": "radio",
+		"minLod": 3,
+		"note": "Digital TV broadcast (ATSC). Also reused for cellular post-repack.",
+		"source": "fcc-tofa"
+	},
+	{
+		"id": "adsb",
+		"name": "ADS-B",
+		"hz": 1090000000,
+		"layer": "navigation",
+		"region": "microwave",
+		"minLod": 3,
+		"note": "Aircraft position broadcast (1090 MHz). Trackable with a cheap SDR dongle.",
+		"source": "fcc-tofa"
+	},
+	{
+		"id": "gps",
+		"name": "GPS L1",
+		"hz": 1575420000,
+		"layer": "navigation",
+		"region": "microwave",
+		"minLod": 2,
+		"note": "GNSS positioning. Spread-spectrum, ~−130 dBm at the ground.",
+		"source": "fcc-tofa"
+	},
+	{
+		"id": "goes",
+		"name": "GOES sat",
+		"hz": 1690000000,
+		"layer": "gov",
+		"region": "microwave",
+		"minLod": 3,
+		"note": "Geostationary weather-satellite imagery downlink (1.69 GHz).",
+		"source": "fcc-tofa"
+	},
+	{
+		"id": "wifi",
+		"name": "Wi-Fi 2.4",
+		"hz": 2450000000,
+		"band": [2400000000, 2483500000],
+		"layer": "consumer",
+		"region": "microwave",
+		"minLod": 2,
+		"note": "Shared ISM band: Wi-Fi ch 1/6/11, Bluetooth, Zigbee, microwave ovens.",
+		"source": "fcc-tofa"
+	},
+	{
+		"id": "5g",
+		"name": "5G n77",
+		"hz": 3700000000,
+		"band": [3300000000, 4200000000],
+		"layer": "consumer",
+		"region": "microwave",
+		"minLod": 3,
+		"note": "5G mid-band — the capacity workhorse for modern cellular.",
+		"source": "fcc-tofa"
+	},
+	{
+		"id": "wifi5",
+		"name": "Wi-Fi 5",
+		"hz": 5500000000,
+		"band": [5150000000, 5850000000],
+		"layer": "consumer",
+		"region": "microwave",
+		"minLod": 3,
+		"note": "5 GHz Wi-Fi — more channels, shorter range than 2.4 GHz.",
+		"source": "fcc-tofa"
+	},
+	{
+		"id": "radar",
+		"name": "Wx radar",
+		"hz": 9400000000,
+		"layer": "gov",
+		"region": "microwave",
+		"minLod": 3,
+		"note": "Weather / marine radar (X-band, 9.4 GHz). Pulsed, high peak power.",
+		"source": "fcc-tofa"
+	},
+	{
+		"id": "ir",
+		"name": "IR heat",
+		"hz": 30000000000000,
+		"layer": "science",
+		"region": "infrared",
+		"minLod": 3,
+		"note": "Thermal infrared (≈30 THz) — heat lamps, night vision, TV remotes nearby.",
+		"source": "nasa-ems"
+	},
+	{
+		"id": "vis",
+		"name": "Visible light",
+		"hz": 540000000000000,
+		"band": [428000000000000, 769000000000000],
+		"layer": "science",
+		"region": "visible",
+		"minLod": 2,
+		"note": "The single octave the eye detects (390–700 nm) — a sliver of the whole spectrum.",
+		"source": "nasa-ems"
+	},
+	{
+		"id": "uv",
+		"name": "UV-C",
+		"hz": 1000000000000000,
+		"layer": "science",
+		"region": "uv",
+		"minLod": 3,
+		"note": "Germicidal ultraviolet (≈1 PHz); also the cause of sunburn at longer UV.",
+		"source": "nasa-ems"
+	},
+	{
+		"id": "xray",
+		"name": "Medical X-ray",
+		"hz": 3000000000000000000,
+		"layer": "science",
+		"region": "xray",
+		"minLod": 2,
+		"note": "Diagnostic radiography & CT (≈3 EHz). Ionising; tightly dose-controlled.",
+		"source": "nasa-ems"
+	}
+]

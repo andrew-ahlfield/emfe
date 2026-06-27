@@ -1,0 +1,26 @@
+[
+	{
+		"id": "fcc-tofa",
+		"title": "FCC Table of Frequency Allocations (47 CFR §2.106)",
+		"url": "https://www.fcc.gov/engineering-technology/policy-and-rules-division/radio-spectrum-allocation",
+		"retrieved": "2026-06-26"
+	},
+	{
+		"id": "fcc-part97",
+		"title": "FCC Part 97 / ARRL Amateur Radio Band Plan",
+		"url": "https://www.arrl.org/band-plan",
+		"retrieved": "2026-06-26"
+	},
+	{
+		"id": "itu-rr",
+		"title": "ITU Radio Regulations — Nomenclature of frequency bands",
+		"url": "https://www.itu.int/pub/R-REG-RR",
+		"retrieved": "2026-06-26"
+	},
+	{
+		"id": "nasa-ems",
+		"title": "NASA Science — Tour of the Electromagnetic Spectrum",
+		"url": "https://science.nasa.gov/ems/",
+		"retrieved": "2026-06-26"
+	}
+]

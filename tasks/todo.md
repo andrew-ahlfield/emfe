@@ -6,8 +6,8 @@ Concise checklist. Full detail (acceptance criteria, verification, files) in [pl
 
 - [x] **Task 1** — Scaffold SvelteKit + Vite + TS + tooling + CI skeleton _(M)_ ✅
 - [x] **Task 2** — Pure spectrum math: scale/pos, LOD, `fmtFreq`, `fmtLambda` _(M, dep: 1)_ ✅
-- [ ] **Task 3** — Data schema + types + loader + seed JSON + `data:validate` _(M, dep: 1)_
-- [ ] **Checkpoint: Foundation** — build/check/test/data:validate green · human review
+- [x] **Task 3** — Data schema + types + loader + seed JSON + `data:validate` _(M, dep: 1)_ ✅
+- [x] **Checkpoint: Foundation** — build/check/test/data:validate green ✅ · _awaiting human review_
 
 ## Phase 2 — Static render
 
