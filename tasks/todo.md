@@ -1,0 +1,47 @@
+# EM Frequency Explorer — Task List
+
+Concise checklist. Full detail (acceptance criteria, verification, files) in [plan.md](plan.md).
+
+## Phase 1 — Foundation
+
+- [x] **Task 1** — Scaffold SvelteKit + Vite + TS + tooling + CI skeleton _(M)_ ✅
+- [ ] **Task 2** — Pure spectrum math: scale/pos, LOD, `fmtFreq`, `fmtLambda` _(M, dep: 1)_
+- [ ] **Task 3** — Data schema + types + loader + seed JSON + `data:validate` _(M, dep: 1)_
+- [ ] **Checkpoint: Foundation** — build/check/test/data:validate green · human review
+
+## Phase 2 — Static render
+
+- [ ] **Task 4** — Axis + region band + ITU row (view + theme stores) _(M, dep: 2,3)_
+- [ ] **Task 5** — Allocation markers + LOD filtering (selection store) _(M, dep: 4)_
+- [ ] **Task 6** — Dock shell + Inspector (provenance) _(M, dep: 5)_
+- [ ] **Checkpoint: Static explorer** — matches prototype, click-to-inspect · human review
+
+## Phase 3 — Interaction & filters
+
+- [ ] **Task 7** — ⚠ Zoom + pan → semantic zoom (HIGH RISK) _(M, dep: 4)_
+- [ ] **Task 8** — Content-layer toggles + counts _(S, dep: 5,6)_
+- [ ] **Task 9** — License filter + amateur eligibility _(M, dep: 6)_
+- [ ] **Task 10** — Axis toggles (sci-notation, λ) + theme _(S, dep: 4)_
+- [ ] **Task 11** — Sources & provenance modal _(S, dep: 3,6)_
+- [ ] **Checkpoint: Interactive explorer** — zoom + filters + theme + sources · human review
+
+## Phase 4 — Deep-linking, live data, mobile
+
+- [ ] **Task 12** — Deep-link URL round-trip _(M, dep: 7–10)_
+- [ ] **Task 13** — FCC proxy endpoint + cache + snapshot fallback _(M, dep: 3,5)_
+- [ ] **Task 14** — Mobile / touch / responsive _(M, dep: 7)_
+- [ ] **Checkpoint: Feature-complete** — deep-link + live FCC + mobile · human review
+
+## Phase 5 — Content, hardening & launch
+
+- [ ] **Task 15** — Full ELF→gamma curation + annotations _(L, dep: 3 + Open Q #1)_
+- [ ] **Task 16** — Accessibility pass (WCAG AA) _(M, dep: 6–11)_
+- [ ] **Task 17** — e2e suite consolidation _(M, dep: 7–14)_
+- [ ] **Task 18** — Netlify deploy + CI + scheduled drift-check _(M, dep: 1 + all)_
+- [ ] **Checkpoint: Launch-ready** — all SPEC success criteria met · final go/no-go
+
+## Resolved questions
+
+- [x] **Q #1** — non-radio sources: treat as a **research task** within Task 15 (not a blocker).
+- [x] **Q #2** — LOD thresholds: **iterate as we go** (tune during Phase 3).
+- [x] **Q #3** — FCC_API_KEY: **present in `.env`** (used by proxy + CI/preview).

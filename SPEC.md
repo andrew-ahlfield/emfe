@@ -11,12 +11,12 @@
 ## Objective
 
 Turn the static NTIA/FCC frequency-allocation poster into something you can actually
-*explore*. A single continuous **log-frequency axis** (~24 decades) with **semantic zoom**:
+_explore_. A single continuous **log-frequency axis** (~24 decades) with **semantic zoom**:
 zoom out to the seven great regions; zoom in to ITU bands, then to real allocations
 (AM/FM/TV, Wi-Fi, cellular, GPS, ADS-B, the ham bands, ISM, …), down to channels.
 
 - **Who it's for:** technically curious hobbyists, makers, ham-radio operators, students,
-  and educators. *Not* RF engineers needing instrument-grade precision; *not* a pure lay
+  and educators. _Not_ RF engineers needing instrument-grade precision; _not_ a pure lay
   audience with no interest in the underlying physics.
 - **What success looks like:** the full spectrum, end to end, on one ruler — explorable,
   filterable by interest, accurate, provenance-backed, deep-linkable, and deployed live.
@@ -25,21 +25,21 @@ zoom out to the seven great regions; zoom in to ITU bands, then to real allocati
 
 ## Tech Stack
 
-| Concern | Choice |
-|---|---|
-| Framework | **SvelteKit** + **Vite** + **TypeScript** |
-| Axis / zoom | **D3** — `d3-scale` (log), `d3-zoom`, `d3-axis` |
-| Rendering | **SVG** (markers are sparse; Canvas reserved only if a future dense layer needs it) |
-| Styling | Plain CSS + **CSS custom properties** (theming, per the prototype) |
-| Data (full breadth) | Curated JSON in the repo — the source of truth, ELF→gamma |
-| Data (live slice) | SvelteKit server endpoint proxying + caching the **FCC Spectrum Dashboard API** (225 MHz–3700 MHz) |
-| Tests | **Vitest** (unit) + **Playwright** (e2e) |
-| Host | **Netlify** (`@sveltejs/adapter-netlify`) |
-| Package manager | **npm** |
+| Concern             | Choice                                                                                             |
+| ------------------- | -------------------------------------------------------------------------------------------------- |
+| Framework           | **SvelteKit** + **Vite** + **TypeScript**                                                          |
+| Axis / zoom         | **D3** — `d3-scale` (log), `d3-zoom`, `d3-axis`                                                    |
+| Rendering           | **SVG** (markers are sparse; Canvas reserved only if a future dense layer needs it)                |
+| Styling             | Plain CSS + **CSS custom properties** (theming, per the prototype)                                 |
+| Data (full breadth) | Curated JSON in the repo — the source of truth, ELF→gamma                                          |
+| Data (live slice)   | SvelteKit server endpoint proxying + caching the **FCC Spectrum Dashboard API** (225 MHz–3700 MHz) |
+| Tests               | **Vitest** (unit) + **Playwright** (e2e)                                                           |
+| Host                | **Netlify** (`@sveltejs/adapter-netlify`)                                                          |
+| Package manager     | **npm**                                                                                            |
 
 **Why these:** the heavy lifting (log axis, semantic zoom) is a custom visualization, so we
 use D3's low-level modules directly rather than a charting library. Because we work in
-**log-space** (domain ≈ 0–24), the ~24-orders-of-magnitude range is *not* a rendering or
+**log-space** (domain ≈ 0–24), the ~24-orders-of-magnitude range is _not_ a rendering or
 precision problem, and markers are sparse — so SVG wins (keeps per-element hit-testing,
 CSS-variable theming, and accessibility). SvelteKit gives a tiny runtime, clean D3
 integration (Svelte owns the chrome, D3 owns the SVG — no DOM-ownership fight), routing for
@@ -127,20 +127,20 @@ call/dependency graphs legible for the visibility tooling above.
 
 /** Normalized [0,1] position of a frequency on the log axis. */
 export function logPos(hz: number, d: FreqDomain): number {
-  return (Math.log10(hz) - d.minExp) / (d.maxExp - d.minExp);
+	return (Math.log10(hz) - d.minExp) / (d.maxExp - d.minExp);
 }
 
 export interface Allocation {
-  id: string;
-  name: string;
-  hz: number;             // representative frequency
-  band?: [number, number]; // [low, high] in Hz, when it's a range
-  layer: LayerId;         // 'consumer' | 'amateur' | 'navigation' | 'gov' | 'science'
-  region: RegionId;       // 'radio' | 'microwave' | 'infrared' | ... | 'gamma'
-  minLod: Lod;            // detail level at which this first appears
-  reqLicense?: LicenseRank;
-  note: string;
-  source: SourceRef;      // provenance — surfaced in the Sources modal
+	id: string;
+	name: string;
+	hz: number; // representative frequency
+	band?: [number, number]; // [low, high] in Hz, when it's a range
+	layer: LayerId; // 'consumer' | 'amateur' | 'navigation' | 'gov' | 'science'
+	region: RegionId; // 'radio' | 'microwave' | 'infrared' | ... | 'gamma'
+	minLod: Lod; // detail level at which this first appears
+	reqLicense?: LicenseRank;
+	note: string;
+	source: SourceRef; // provenance — surfaced in the Sources modal
 }
 ```
 
@@ -176,6 +176,16 @@ export interface Allocation {
   transform instead); remove failing tests without approval; vendor the commercial PerCon
   dataset or any third-party proprietary data.
 
+### Workflow
+
+Solo developer, greenfield project — optimize for momentum, not ceremony.
+
+- **Commit straight to `main`.** No feature-branch / PR dance. Keep each commit green
+  (typecheck + unit tests + `data:validate` before committing).
+- **Versioning:** semantic versioning, 3-part `MAJOR.MINOR.PATCH`.
+- **Releases:** every push to production cuts a **true GitHub Release** tagged with the
+  current semver (e.g. `gh release create vX.Y.Z`). Bump `package.json` `version` to match.
+
 ---
 
 ## Success Criteria
@@ -207,7 +217,7 @@ export interface Allocation {
 - **Package manager:** npm.
 - **Live FCC proxy:** in v1, with a committed snapshot fallback.
 - **"Full depth" beyond radio:** confirmed — IR/UV/X-ray/gamma have no formal frequency
-  *allocations*, so depth there is curated **annotations** (phenomena, applications, named
+  _allocations_, so depth there is curated **annotations** (phenomena, applications, named
   spectral lines).
 - **Mobile / touch:** in v1 — pinch-to-zoom, drag-to-pan, responsive layout.
 - **Repo:** GitHub repo renamed to `emfe`; the working directory stays `spectrum-atlas`.
@@ -217,4 +227,7 @@ export interface Allocation {
 1. **Non-radio data sources** — still to research: which authoritative references for visible
    spectral lines, X-ray, and gamma (and the editorial annotations). Tracked for the Plan phase;
    does not block planning.
+
+```
+
 ```
