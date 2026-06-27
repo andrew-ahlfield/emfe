@@ -50,6 +50,16 @@
 		"source": "fcc-tofa"
 	},
 	{
+		"id": "rfid-lf",
+		"name": "LF RFID",
+		"hz": 125000,
+		"layer": "consumer",
+		"region": "radio",
+		"minLod": 3,
+		"note": "Low-frequency RFID (125 kHz) — animal microchips, access fobs, immobilisers.",
+		"source": "fcc-tofa"
+	},
+	{
 		"id": "ham2200m",
 		"name": "2200 m",
 		"hz": 136750,
@@ -60,6 +70,17 @@
 		"reqLicense": "technician",
 		"note": "2200 m — LF experimental; 1 W EIRP, CW & narrowband digital only.",
 		"source": "fcc-part97"
+	},
+	{
+		"id": "lw-bcast",
+		"name": "Longwave radio",
+		"hz": 200000,
+		"band": [153000, 279000],
+		"layer": "consumer",
+		"region": "radio",
+		"minLod": 3,
+		"note": "Longwave broadcast (153–279 kHz) — continent-spanning AM heard across Europe & Asia.",
+		"source": "itu-rr"
 	},
 	{
 		"id": "ndb",
@@ -82,6 +103,16 @@
 		"reqLicense": "technician",
 		"note": "630 m — MF band shared with maritime; 5 W EIRP.",
 		"source": "fcc-part97"
+	},
+	{
+		"id": "navtex",
+		"name": "NAVTEX",
+		"hz": 518000,
+		"layer": "navigation",
+		"region": "radio",
+		"minLod": 3,
+		"note": "NAVTEX — maritime safety, weather & navigation warnings to ships (518 kHz).",
+		"source": "fcc-tofa"
 	},
 	{
 		"id": "am",
@@ -131,6 +162,17 @@
 		"source": "fcc-part97"
 	},
 	{
+		"id": "sw-49m",
+		"name": "Shortwave 49 m",
+		"hz": 6100000,
+		"band": [5900000, 6200000],
+		"layer": "consumer",
+		"region": "radio",
+		"minLod": 3,
+		"note": "Shortwave broadcast 49 m band — international radio that skips around the globe at night.",
+		"source": "itu-rr"
+	},
+	{
 		"id": "ham40m",
 		"name": "40 m",
 		"hz": 7150000,
@@ -143,6 +185,16 @@
 		"source": "fcc-part97"
 	},
 	{
+		"id": "wwv",
+		"name": "WWV time signal",
+		"hz": 10000000,
+		"layer": "science",
+		"region": "radio",
+		"minLod": 2,
+		"note": "NIST WWV time & frequency standard — atomic-clock ticks at 2.5/5/10/15/20 MHz.",
+		"source": "fcc-tofa"
+	},
+	{
 		"id": "ham30m",
 		"name": "30 m",
 		"hz": 10125000,
@@ -153,6 +205,16 @@
 		"reqLicense": "general",
 		"note": "30 m WARC — CW and data only; 200 W PEP, no voice.",
 		"source": "fcc-part97"
+	},
+	{
+		"id": "nfc",
+		"name": "NFC / HF RFID",
+		"hz": 13560000,
+		"layer": "consumer",
+		"region": "radio",
+		"minLod": 2,
+		"note": "NFC & HF RFID (13.56 MHz ISM) — tap-to-pay, transit cards, smart labels.",
+		"source": "fcc-tofa"
 	},
 	{
 		"id": "ham20",
@@ -260,6 +322,28 @@
 		"source": "fcc-tofa"
 	},
 	{
+		"id": "vor",
+		"name": "VOR / aviation nav",
+		"hz": 113000000,
+		"band": [108000000, 118000000],
+		"layer": "navigation",
+		"region": "radio",
+		"minLod": 3,
+		"note": "VOR & ILS — aircraft course beacons (108–118 MHz).",
+		"source": "fcc-tofa"
+	},
+	{
+		"id": "airband",
+		"name": "Air-traffic voice",
+		"hz": 127000000,
+		"band": [118000000, 137000000],
+		"layer": "navigation",
+		"region": "radio",
+		"minLod": 2,
+		"note": "VHF airband — air-traffic-control voice, 118–137 MHz AM.",
+		"source": "fcc-tofa"
+	},
+	{
 		"id": "noaa",
 		"name": "NOAA wx sat",
 		"hz": 137000000,
@@ -282,6 +366,47 @@
 		"source": "fcc-part97"
 	},
 	{
+		"id": "marine-vhf",
+		"name": "Marine VHF",
+		"hz": 157000000,
+		"band": [156000000, 162000000],
+		"layer": "navigation",
+		"region": "radio",
+		"minLod": 3,
+		"note": "Marine VHF — ship-to-ship & coast-guard; channel 16 (156.8 MHz) is the distress call.",
+		"source": "fcc-tofa"
+	},
+	{
+		"id": "ais",
+		"name": "AIS ship tracking",
+		"hz": 161975000,
+		"layer": "navigation",
+		"region": "radio",
+		"minLod": 3,
+		"note": "AIS — automatic ship-position beacons (161.975 / 162.025 MHz).",
+		"source": "fcc-tofa"
+	},
+	{
+		"id": "nws-wx",
+		"name": "NOAA Weather Radio",
+		"hz": 162550000,
+		"layer": "gov",
+		"region": "radio",
+		"minLod": 3,
+		"note": "NOAA Weather Radio — continuous forecasts & alerts, 162.40–162.55 MHz.",
+		"source": "fcc-tofa"
+	},
+	{
+		"id": "tv-vhf",
+		"name": "VHF television",
+		"hz": 187250000,
+		"layer": "consumer",
+		"region": "radio",
+		"minLod": 3,
+		"note": "VHF television — channels 2–13 (54–216 MHz), the original broadcast TV bands.",
+		"source": "fcc-tofa"
+	},
+	{
 		"id": "ham125cm",
 		"name": "1.25 m",
 		"hz": 223000000,
@@ -292,6 +417,57 @@
 		"reqLicense": "technician",
 		"note": "1.25 m (222 MHz) — FM repeaters and weak-signal work, all modes.",
 		"source": "fcc-part97"
+	},
+	{
+		"id": "keyfob-315",
+		"name": "Key fobs (315)",
+		"hz": 315000000,
+		"layer": "consumer",
+		"region": "microwave",
+		"minLod": 3,
+		"note": "Car key fobs & garage remotes (US) — 315 MHz ISM.",
+		"source": "fcc-tofa"
+	},
+	{
+		"id": "milair",
+		"name": "Military UHF",
+		"hz": 350000000,
+		"band": [225000000, 400000000],
+		"layer": "gov",
+		"region": "microwave",
+		"minLod": 3,
+		"note": "Military UHF aircraft & satellite comms — 225–400 MHz.",
+		"source": "fcc-tofa"
+	},
+	{
+		"id": "radiosonde",
+		"name": "Weather balloons",
+		"hz": 403000000,
+		"layer": "gov",
+		"region": "microwave",
+		"minLod": 3,
+		"note": "Radiosondes — weather-balloon telemetry at 403 MHz (meteorological aids).",
+		"source": "fcc-tofa"
+	},
+	{
+		"id": "epirb",
+		"name": "Emergency beacons",
+		"hz": 406000000,
+		"layer": "navigation",
+		"region": "microwave",
+		"minLod": 3,
+		"note": "EPIRB / PLB distress beacons — 406 MHz, relayed by Cospas-Sarsat search-and-rescue sats.",
+		"source": "fcc-tofa"
+	},
+	{
+		"id": "keyfob-433",
+		"name": "433 MHz ISM",
+		"hz": 433920000,
+		"layer": "consumer",
+		"region": "microwave",
+		"minLod": 3,
+		"note": "433 MHz ISM — car fobs (EU), weather stations, remote switches, LPD radios.",
+		"source": "fcc-tofa"
 	},
 	{
 		"id": "ham70cm",
@@ -329,6 +505,56 @@
 		"source": "fcc-tofa"
 	},
 	{
+		"id": "cell-600",
+		"name": "5G low-band",
+		"hz": 617000000,
+		"layer": "consumer",
+		"region": "microwave",
+		"minLod": 2,
+		"note": "600 MHz 5G/4G (n71) — repacked from TV; reaches deep into buildings and rural areas.",
+		"source": "fcc-tofa"
+	},
+	{
+		"id": "cell-700",
+		"name": "700 MHz LTE",
+		"hz": 700000000,
+		"layer": "consumer",
+		"region": "microwave",
+		"minLod": 3,
+		"note": "700 MHz LTE (Bands 12/13) — strong coverage and building penetration.",
+		"source": "fcc-tofa"
+	},
+	{
+		"id": "firstnet",
+		"name": "FirstNet",
+		"hz": 763000000,
+		"layer": "gov",
+		"region": "microwave",
+		"minLod": 3,
+		"note": "FirstNet — nationwide public-safety LTE (Band 14, 700 MHz).",
+		"source": "fcc-tofa"
+	},
+	{
+		"id": "cell-850",
+		"name": "850 MHz cellular",
+		"hz": 850000000,
+		"layer": "consumer",
+		"region": "microwave",
+		"minLod": 3,
+		"note": "850 MHz cellular (Band 5) — legacy CDMA/GSM voice, wide coverage.",
+		"source": "fcc-tofa"
+	},
+	{
+		"id": "lora-915",
+		"name": "915 MHz ISM",
+		"hz": 903000000,
+		"layer": "consumer",
+		"region": "microwave",
+		"minLod": 3,
+		"note": "902–928 MHz ISM — LoRa, Z-Wave, smart meters, baby monitors, cordless phones.",
+		"source": "fcc-tofa"
+	},
+	{
 		"id": "ham33cm",
 		"name": "33 cm",
 		"hz": 915000000,
@@ -341,6 +567,26 @@
 		"source": "fcc-part97"
 	},
 	{
+		"id": "uat",
+		"name": "ADS-B UAT",
+		"hz": 978000000,
+		"layer": "navigation",
+		"region": "microwave",
+		"minLod": 3,
+		"note": "ADS-B UAT (978 MHz) — general-aviation position broadcast (US).",
+		"source": "fcc-tofa"
+	},
+	{
+		"id": "dme",
+		"name": "DME",
+		"hz": 1025000000,
+		"layer": "navigation",
+		"region": "microwave",
+		"minLod": 3,
+		"note": "DME — aircraft distance-measuring equipment (960–1215 MHz).",
+		"source": "fcc-tofa"
+	},
+	{
 		"id": "adsb",
 		"name": "ADS-B",
 		"hz": 1090000000,
@@ -348,6 +594,26 @@
 		"region": "microwave",
 		"minLod": 3,
 		"note": "Aircraft position broadcast (1090 MHz). Trackable with a cheap SDR dongle.",
+		"source": "fcc-tofa"
+	},
+	{
+		"id": "gps-l5",
+		"name": "GPS L5",
+		"hz": 1176450000,
+		"layer": "navigation",
+		"region": "microwave",
+		"minLod": 3,
+		"note": "GPS L5 — modern aviation-safety GNSS signal (1176.45 MHz).",
+		"source": "fcc-tofa"
+	},
+	{
+		"id": "gps-l2",
+		"name": "GPS L2",
+		"hz": 1227600000,
+		"layer": "navigation",
+		"region": "microwave",
+		"minLod": 3,
+		"note": "GPS L2 — second GNSS frequency (1227.6 MHz), dual-band precision.",
 		"source": "fcc-tofa"
 	},
 	{
@@ -363,6 +629,26 @@
 		"source": "fcc-part97"
 	},
 	{
+		"id": "hydrogen-line",
+		"name": "Hydrogen line (21 cm)",
+		"hz": 1420405751,
+		"layer": "science",
+		"region": "microwave",
+		"minLod": 2,
+		"note": "The 21 cm hydrogen line (1420.4 MHz) — neutral-hydrogen emission; cornerstone of radio astronomy & SETI.",
+		"source": "itu-rr"
+	},
+	{
+		"id": "inmarsat",
+		"name": "Inmarsat MSS",
+		"hz": 1545000000,
+		"layer": "gov",
+		"region": "microwave",
+		"minLod": 3,
+		"note": "Inmarsat / mobile-satellite service — L-band sat phones & data (~1.5 GHz).",
+		"source": "fcc-tofa"
+	},
+	{
 		"id": "gps",
 		"name": "GPS L1",
 		"hz": 1575420000,
@@ -373,6 +659,16 @@
 		"source": "fcc-tofa"
 	},
 	{
+		"id": "glonass",
+		"name": "GLONASS",
+		"hz": 1602000000,
+		"layer": "navigation",
+		"region": "microwave",
+		"minLod": 3,
+		"note": "GLONASS L1 — the Russian GNSS constellation (≈1602 MHz).",
+		"source": "itu-rr"
+	},
+	{
 		"id": "goes",
 		"name": "GOES sat",
 		"hz": 1690000000,
@@ -380,6 +676,26 @@
 		"region": "microwave",
 		"minLod": 3,
 		"note": "Geostationary weather-satellite imagery downlink (1.69 GHz).",
+		"source": "fcc-tofa"
+	},
+	{
+		"id": "dect",
+		"name": "DECT cordless",
+		"hz": 1900000000,
+		"layer": "consumer",
+		"region": "microwave",
+		"minLod": 3,
+		"note": "DECT cordless phones — 1.88–1.90 GHz.",
+		"source": "fcc-tofa"
+	},
+	{
+		"id": "aws",
+		"name": "AWS cellular",
+		"hz": 2100000000,
+		"layer": "consumer",
+		"region": "microwave",
+		"minLod": 2,
+		"note": "AWS cellular (1.7/2.1 GHz, Band 66) — a 4G/5G capacity workhorse.",
 		"source": "fcc-tofa"
 	},
 	{
@@ -395,6 +711,26 @@
 		"source": "fcc-part97"
 	},
 	{
+		"id": "sdars",
+		"name": "Satellite radio",
+		"hz": 2332500000,
+		"layer": "consumer",
+		"region": "microwave",
+		"minLod": 3,
+		"note": "Satellite radio (SiriusXM) — S-band downlink, 2.32–2.345 GHz.",
+		"source": "fcc-tofa"
+	},
+	{
+		"id": "bluetooth",
+		"name": "Bluetooth / Zigbee",
+		"hz": 2440000000,
+		"layer": "consumer",
+		"region": "microwave",
+		"minLod": 2,
+		"note": "Bluetooth & Zigbee — 2.4 GHz ISM, frequency-hopping personal-area links.",
+		"source": "fcc-tofa"
+	},
+	{
 		"id": "wifi",
 		"name": "Wi-Fi 2.4",
 		"hz": 2450000000,
@@ -406,6 +742,26 @@
 		"source": "fcc-tofa"
 	},
 	{
+		"id": "cell-2500",
+		"name": "2.5 GHz 5G",
+		"hz": 2500000000,
+		"layer": "consumer",
+		"region": "microwave",
+		"minLod": 3,
+		"note": "2.5 GHz 5G mid-band (n41) — a major capacity layer.",
+		"source": "fcc-tofa"
+	},
+	{
+		"id": "nexrad",
+		"name": "NEXRAD weather radar",
+		"hz": 2800000000,
+		"layer": "gov",
+		"region": "microwave",
+		"minLod": 3,
+		"note": "NEXRAD Doppler weather radar (S-band, 2.7–3.0 GHz) — the national storm-tracking network.",
+		"source": "fcc-tofa"
+	},
+	{
 		"id": "5g",
 		"name": "5G n77",
 		"hz": 3700000000,
@@ -414,6 +770,16 @@
 		"region": "microwave",
 		"minLod": 3,
 		"note": "5G mid-band — the capacity workhorse for modern cellular.",
+		"source": "fcc-tofa"
+	},
+	{
+		"id": "c-band-sat",
+		"name": "C-band satellite",
+		"hz": 4000000000,
+		"layer": "gov",
+		"region": "microwave",
+		"minLod": 3,
+		"note": "C-band satellite downlink (3.7–4.2 GHz) — TV distribution; lower edge repurposed for 5G.",
 		"source": "fcc-tofa"
 	},
 	{
@@ -440,6 +806,16 @@
 		"source": "fcc-part97"
 	},
 	{
+		"id": "wifi6e",
+		"name": "Wi-Fi 6E / 7",
+		"hz": 6000000000,
+		"layer": "consumer",
+		"region": "microwave",
+		"minLod": 2,
+		"note": "Wi-Fi 6E/7 — the new 6 GHz band (5.925–7.125 GHz), wide and uncongested.",
+		"source": "fcc-tofa"
+	},
+	{
 		"id": "radar",
 		"name": "Wx radar",
 		"hz": 9400000000,
@@ -462,6 +838,26 @@
 		"source": "fcc-part97"
 	},
 	{
+		"id": "ku-dbs",
+		"name": "Ku-band satellite TV",
+		"hz": 12500000000,
+		"layer": "consumer",
+		"region": "microwave",
+		"minLod": 3,
+		"note": "Ku-band direct-broadcast satellite TV (12.2–12.7 GHz) — DirecTV / Dish.",
+		"source": "fcc-tofa"
+	},
+	{
+		"id": "water-maser",
+		"name": "Water maser (22 GHz)",
+		"hz": 22235000000,
+		"layer": "science",
+		"region": "microwave",
+		"minLod": 3,
+		"note": "The 22.235 GHz water-vapour maser — radio astronomy of star-forming regions and galactic nuclei.",
+		"source": "itu-rr"
+	},
+	{
 		"id": "5g-mmwave",
 		"name": "5G mmWave",
 		"hz": 28000000000,
@@ -472,6 +868,16 @@
 		"source": "fcc-tofa"
 	},
 	{
+		"id": "ka-sat",
+		"name": "Ka-band satellite",
+		"hz": 30000000000,
+		"layer": "gov",
+		"region": "microwave",
+		"minLod": 3,
+		"note": "Ka-band satellite (20/30 GHz) — high-throughput broadband (incl. modern LEO mega-constellations).",
+		"source": "fcc-tofa"
+	},
+	{
 		"id": "wigig",
 		"name": "WiGig 60",
 		"hz": 60000000000,
@@ -479,6 +885,16 @@
 		"region": "microwave",
 		"minLod": 3,
 		"note": "60 GHz WiGig (802.11ad) — multi-gigabit links that oxygen absorption stops at the wall.",
+		"source": "fcc-tofa"
+	},
+	{
+		"id": "auto-radar",
+		"name": "Automotive radar",
+		"hz": 77000000000,
+		"layer": "navigation",
+		"region": "microwave",
+		"minLod": 3,
+		"note": "Automotive radar (76–81 GHz) — adaptive cruise control & collision avoidance.",
 		"source": "fcc-tofa"
 	},
 	{
@@ -502,6 +918,16 @@
 		"source": "nasa-ems"
 	},
 	{
+		"id": "co2-laser",
+		"name": "CO₂ laser",
+		"hz": 28300000000000,
+		"layer": "science",
+		"region": "infrared",
+		"minLod": 3,
+		"note": "CO₂ laser (10.6 µm) — industrial cutting & welding, laser surgery.",
+		"source": "nasa-ems"
+	},
+	{
 		"id": "ir",
 		"name": "IR heat",
 		"hz": 30000000000000,
@@ -522,6 +948,26 @@
 		"source": "nasa-ems"
 	},
 	{
+		"id": "fiber-1310",
+		"name": "Fibre O-band",
+		"hz": 229000000000000,
+		"layer": "consumer",
+		"region": "infrared",
+		"minLod": 3,
+		"note": "Fibre-optic O-band (1310 nm) — short-haul datacenter and access links.",
+		"source": "nasa-ems"
+	},
+	{
+		"id": "nir-remote",
+		"name": "Near-IR (940 nm)",
+		"hz": 319000000000000,
+		"layer": "consumer",
+		"region": "infrared",
+		"minLod": 3,
+		"note": "Near-infrared (940 nm) — TV remotes, IR illuminators, face-unlock and proximity sensors.",
+		"source": "nasa-ems"
+	},
+	{
 		"id": "vis",
 		"name": "Visible light",
 		"hz": 540000000000000,
@@ -530,6 +976,16 @@
 		"region": "visible",
 		"minLod": 0,
 		"note": "The single octave the eye detects (390–700 nm) — a sliver of the whole spectrum.",
+		"source": "nasa-ems"
+	},
+	{
+		"id": "green-laser",
+		"name": "532 nm green laser",
+		"hz": 563900000000000,
+		"layer": "science",
+		"region": "visible",
+		"minLod": 3,
+		"note": "532 nm green laser — pointers, rangefinders, and laser light shows.",
 		"source": "nasa-ems"
 	},
 	{
@@ -543,6 +999,16 @@
 		"source": "nasa-ems"
 	},
 	{
+		"id": "uvb",
+		"name": "UV-B",
+		"hz": 950000000000000,
+		"layer": "science",
+		"region": "uv",
+		"minLod": 3,
+		"note": "UV-B (280–315 nm) — drives sunburn and vitamin-D synthesis; mostly absorbed by ozone.",
+		"source": "nasa-ems"
+	},
+	{
 		"id": "uv",
 		"name": "UV-C",
 		"hz": 1000000000000000,
@@ -553,6 +1019,16 @@
 		"source": "nasa-ems"
 	},
 	{
+		"id": "lyman-alpha",
+		"name": "Lyman-alpha",
+		"hz": 2466000000000000,
+		"layer": "science",
+		"region": "uv",
+		"minLod": 3,
+		"note": "Hydrogen Lyman-alpha (121.6 nm) — a key UV line for observing the Sun and the early universe.",
+		"source": "nasa-ems"
+	},
+	{
 		"id": "euv",
 		"name": "EUV lithography",
 		"hz": 22200000000000000,
@@ -560,6 +1036,16 @@
 		"region": "uv",
 		"minLod": 3,
 		"note": "Extreme-UV (13.5 nm) — the tin-plasma light that prints today's microchips.",
+		"source": "nasa-ems"
+	},
+	{
+		"id": "soft-xray",
+		"name": "Soft X-rays",
+		"hz": 300000000000000000,
+		"layer": "science",
+		"region": "xray",
+		"minLod": 3,
+		"note": "Soft X-rays (~1 keV) — solar-corona imaging and water-window microscopy.",
 		"source": "nasa-ems"
 	},
 	{
@@ -583,6 +1069,16 @@
 		"source": "nasa-ems"
 	},
 	{
+		"id": "tc99m",
+		"name": "Technetium-99m",
+		"hz": 34000000000000000000,
+		"layer": "science",
+		"region": "gamma",
+		"minLod": 2,
+		"note": "Technetium-99m (140 keV) — the workhorse isotope of nuclear-medicine SPECT imaging.",
+		"source": "nasa-ems"
+	},
+	{
 		"id": "pet",
 		"name": "PET annihilation",
 		"hz": 123000000000000000000,
@@ -590,6 +1086,16 @@
 		"region": "gamma",
 		"minLod": 1,
 		"note": "Positron-annihilation γ-rays (511 keV) — the photons a PET scanner maps to find tumours.",
+		"source": "nasa-ems"
+	},
+	{
+		"id": "cs137",
+		"name": "Caesium-137",
+		"hz": 160000000000000000000,
+		"layer": "science",
+		"region": "gamma",
+		"minLod": 3,
+		"note": "Caesium-137 (662 keV) — calibration sources, food irradiation, and a fallout tracer.",
 		"source": "nasa-ems"
 	},
 	{
