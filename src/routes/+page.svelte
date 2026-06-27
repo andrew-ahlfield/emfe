@@ -2,6 +2,7 @@
 	import { visibleDomain, lod } from '$lib/state/view';
 	import { selection, selectedAllocation } from '$lib/state/selection';
 	import { layers } from '$lib/state/layers';
+	import { license } from '$lib/state/license';
 	import { LOD_LABELS } from '$lib/spectrum/lod';
 	import { PLOT } from '$lib/components/plot-layout';
 	import Axis from '$lib/components/Axis.svelte';
@@ -11,11 +12,9 @@
 	import Dock from '$lib/components/Dock.svelte';
 	import Inspector from '$lib/components/Inspector.svelte';
 	import LayerToggles from '$lib/components/LayerToggles.svelte';
+	import LicenseFilter from '$lib/components/LicenseFilter.svelte';
 
 	let width = $state(0);
-
-	// Control panels still to come in Phase 3 (Tasks 9–10).
-	const upcoming = ['Operator licence', 'Detail & axis'];
 </script>
 
 <svelte:head>
@@ -68,14 +67,15 @@
 	<div class="panel layers-col">
 		<LayerToggles lod={$lod} />
 	</div>
-	{#each upcoming as section (section)}
-		<div class="panel placeholder">
-			<div class="panel-eyebrow">{section}</div>
-			<p class="soon">Coming in Phase 3</p>
-		</div>
-	{/each}
+	<div class="panel license-col">
+		<LicenseFilter />
+	</div>
+	<div class="panel placeholder">
+		<div class="panel-eyebrow">Detail &amp; axis</div>
+		<p class="soon">Coming in Phase 3</p>
+	</div>
 	<div class="panel inspector-col">
-		<Inspector allocation={$selectedAllocation} />
+		<Inspector allocation={$selectedAllocation} license={$license} />
 	</div>
 </Dock>
 
@@ -153,6 +153,10 @@
 		width: 238px;
 		flex-shrink: 0;
 	}
+	.license-col {
+		width: 236px;
+		flex-shrink: 0;
+	}
 	.inspector-col {
 		flex: 1;
 		min-width: 0;
@@ -181,7 +185,8 @@
 			padding: 0;
 		}
 		.placeholder,
-		.layers-col {
+		.layers-col,
+		.license-col {
 			width: 100%;
 		}
 	}
