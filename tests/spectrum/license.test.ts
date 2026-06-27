@@ -1,10 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import {
-	eligibility,
-	privilegeNote,
-	privilegeStrip,
-	HAM_SUBBANDS
-} from '$lib/spectrum/license';
+import { eligibility, privilegeNote, privilegeStrip, HAM_SUBBANDS } from '$lib/spectrum/license';
 import { LICENSE_RANKS, type LicenseRank } from '$lib/data/types';
 
 describe('eligibility', () => {

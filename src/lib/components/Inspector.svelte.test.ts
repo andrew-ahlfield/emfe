@@ -35,7 +35,9 @@ const mount = (allocation: Allocation, license: LicenseRank) =>
 describe('Inspector eligibility pill', () => {
 	it('grants a band the held licence covers', async () => {
 		const screen = mount(ham20, 'general');
-		await expect.element(screen.getByText('✓ General licence covers this band')).toBeInTheDocument();
+		await expect
+			.element(screen.getByText('✓ General licence covers this band'))
+			.toBeInTheDocument();
 	});
 
 	it('denies a band above the held class, naming what is required', async () => {

@@ -41,7 +41,11 @@ export function eligibility(reqLicense: LicenseRank | undefined, held: LicenseRa
 		return { amateur: true, granted: true, text: '✓ License-free — anyone may transmit' };
 	}
 	if (have >= need) {
-		return { amateur: true, granted: true, text: `✓ ${RANK_LABELS[held]} licence covers this band` };
+		return {
+			amateur: true,
+			granted: true,
+			text: `✓ ${RANK_LABELS[held]} licence covers this band`
+		};
 	}
 	return {
 		amateur: true,
