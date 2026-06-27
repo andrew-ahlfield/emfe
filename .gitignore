@@ -15,3 +15,8 @@ node_modules/
 dist/
 .DS_Store
 .netlify/
+
+# env — secrets stay local; .env.example is the committed template
+.env
+.env.*
+!.env.example

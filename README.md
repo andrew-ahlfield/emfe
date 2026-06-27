@@ -1,13 +1,15 @@
-# Spectrum Atlas
+# EM Frequency Explorer
 
-**From radio waves to gamma rays.**
-Eighteen orders of magnitude on a single logarithmic ruler. Everything we
+**From lightning to gamma rays.**
+More than twenty orders of magnitude on a single logarithmic ruler. Everything we
 broadcast, navigate by, cook with, and see falls somewhere along this line.
 
-Spectrum Atlas is an interactive, zoomable explorer for the electromagnetic
-spectrum — the "make the static NTIA/FCC frequency allocation poster actually
-fun to explore" idea, taken end to end from radio through visible light, UV,
-X-ray, and gamma.
+EM Frequency Explorer (`emfe`) is an interactive, zoomable explorer for the
+electromagnetic spectrum — the "make the static NTIA/FCC frequency allocation
+poster actually fun to explore" idea, taken end to end from below ELF (lightning,
+the magnetosphere) through radio, visible light, UV, X-ray, and gamma.
+
+See [SPEC.md](SPEC.md) for the full specification.
 
 ## The idea
 
