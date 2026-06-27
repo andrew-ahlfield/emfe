@@ -185,6 +185,12 @@ Solo developer, greenfield project — optimize for momentum, not ceremony.
 - **Versioning:** semantic versioning, 3-part `MAJOR.MINOR.PATCH`.
 - **Releases:** every push to production cuts a **true GitHub Release** tagged with the
   current semver (e.g. `gh release create vX.Y.Z`). Bump `package.json` `version` to match.
+- **Deploy to prod:** push `main` onto the **`prod` branch** — `git push origin main:prod`.
+  Netlify CD watches `prod` and builds/publishes it. Do **not** run `netlify deploy` from the
+  CLI; the `prod` branch is the deploy trigger.
+
+**Ship sequence:** bump `package.json` → commit on `main` → `git push origin main` →
+`gh release create vX.Y.Z` → `git push origin main:prod`.
 
 ---
 
