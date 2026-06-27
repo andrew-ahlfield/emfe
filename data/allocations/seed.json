@@ -50,6 +50,18 @@
 		"source": "fcc-tofa"
 	},
 	{
+		"id": "ham2200m",
+		"name": "2200 m",
+		"hz": 136750,
+		"band": [135700, 137800],
+		"layer": "amateur",
+		"region": "radio",
+		"minLod": 3,
+		"reqLicense": "technician",
+		"note": "2200 m — LF experimental; 1 W EIRP, CW & narrowband digital only.",
+		"source": "fcc-part97"
+	},
+	{
 		"id": "ndb",
 		"name": "Aviation NDB",
 		"hz": 350000,
@@ -58,6 +70,18 @@
 		"minLod": 2,
 		"note": "Non-directional beacons (LF) — among the oldest radio navaids still in service.",
 		"source": "fcc-tofa"
+	},
+	{
+		"id": "ham630m",
+		"name": "630 m",
+		"hz": 475000,
+		"band": [472000, 479000],
+		"layer": "amateur",
+		"region": "radio",
+		"minLod": 3,
+		"reqLicense": "technician",
+		"note": "630 m — MF band shared with maritime; 5 W EIRP.",
+		"source": "fcc-part97"
 	},
 	{
 		"id": "am",
@@ -69,6 +93,66 @@
 		"minLod": 0,
 		"note": "AM broadcast. Amplitude-modulated; long groundwave range at night.",
 		"source": "fcc-tofa"
+	},
+	{
+		"id": "ham160m",
+		"name": "160 m",
+		"hz": 1900000,
+		"band": [1800000, 2000000],
+		"layer": "amateur",
+		"region": "radio",
+		"minLod": 2,
+		"reqLicense": "general",
+		"note": "160 m 'Top Band' — night-time DX; General and up, all modes.",
+		"source": "fcc-part97"
+	},
+	{
+		"id": "ham80m",
+		"name": "80 m",
+		"hz": 3750000,
+		"band": [3500000, 4000000],
+		"layer": "amateur",
+		"region": "radio",
+		"minLod": 2,
+		"reqLicense": "technician",
+		"note": "80/75 m — Technician CW window, voice for General and up; classic nighttime band.",
+		"source": "fcc-part97"
+	},
+	{
+		"id": "ham60m",
+		"name": "60 m",
+		"hz": 5368000,
+		"band": [5330500, 5406500],
+		"layer": "amateur",
+		"region": "radio",
+		"minLod": 3,
+		"reqLicense": "general",
+		"note": "60 m — five fixed USB channels; 100 W ERP, General and up.",
+		"source": "fcc-part97"
+	},
+	{
+		"id": "ham40m",
+		"name": "40 m",
+		"hz": 7150000,
+		"band": [7000000, 7300000],
+		"layer": "amateur",
+		"region": "radio",
+		"minLod": 2,
+		"reqLicense": "technician",
+		"note": "40 m — reliable day and night; Technician CW, voice for General and up.",
+		"source": "fcc-part97"
+	},
+	{
+		"id": "ham30m",
+		"name": "30 m",
+		"hz": 10125000,
+		"band": [10100000, 10150000],
+		"layer": "amateur",
+		"region": "radio",
+		"minLod": 3,
+		"reqLicense": "general",
+		"note": "30 m WARC — CW and data only; 200 W PEP, no voice.",
+		"source": "fcc-part97"
 	},
 	{
 		"id": "ham20",
@@ -83,6 +167,42 @@
 		"source": "fcc-part97"
 	},
 	{
+		"id": "ham17m",
+		"name": "17 m",
+		"hz": 18118000,
+		"band": [18068000, 18168000],
+		"layer": "amateur",
+		"region": "radio",
+		"minLod": 3,
+		"reqLicense": "general",
+		"note": "17 m WARC — CW/data plus voice for General and up; smooth DX band.",
+		"source": "fcc-part97"
+	},
+	{
+		"id": "ham15m",
+		"name": "15 m",
+		"hz": 21225000,
+		"band": [21000000, 21450000],
+		"layer": "amateur",
+		"region": "radio",
+		"minLod": 2,
+		"reqLicense": "technician",
+		"note": "15 m — daytime DX in solar max; Technician CW, voice for General and up.",
+		"source": "fcc-part97"
+	},
+	{
+		"id": "ham12m",
+		"name": "12 m",
+		"hz": 24940000,
+		"band": [24890000, 24990000],
+		"layer": "amateur",
+		"region": "radio",
+		"minLod": 3,
+		"reqLicense": "general",
+		"note": "12 m WARC — CW/data plus voice; opens near the solar peak.",
+		"source": "fcc-part97"
+	},
+	{
 		"id": "cb",
 		"name": "CB radio",
 		"hz": 27000000,
@@ -92,6 +212,30 @@
 		"minLod": 2,
 		"reqLicense": "unlicensed",
 		"note": "Citizens Band — license-free voice, 40 channels, 4 W.",
+		"source": "fcc-part97"
+	},
+	{
+		"id": "ham10m",
+		"name": "10 m",
+		"hz": 28850000,
+		"band": [28000000, 29700000],
+		"layer": "amateur",
+		"region": "radio",
+		"minLod": 2,
+		"reqLicense": "technician",
+		"note": "10 m — Technician voice at 28.3–28.5 MHz; spectacular in solar max.",
+		"source": "fcc-part97"
+	},
+	{
+		"id": "ham6m",
+		"name": "6 m",
+		"hz": 52000000,
+		"band": [50000000, 54000000],
+		"layer": "amateur",
+		"region": "radio",
+		"minLod": 2,
+		"reqLicense": "technician",
+		"note": "6 m 'Magic Band' — sporadic-E surprises; all modes for Technician and up.",
 		"source": "fcc-part97"
 	},
 	{
@@ -138,6 +282,30 @@
 		"source": "fcc-part97"
 	},
 	{
+		"id": "ham125cm",
+		"name": "1.25 m",
+		"hz": 223000000,
+		"band": [222000000, 225000000],
+		"layer": "amateur",
+		"region": "radio",
+		"minLod": 3,
+		"reqLicense": "technician",
+		"note": "1.25 m (222 MHz) — FM repeaters and weak-signal work, all modes.",
+		"source": "fcc-part97"
+	},
+	{
+		"id": "ham70cm",
+		"name": "70 cm",
+		"hz": 435000000,
+		"band": [420000000, 450000000],
+		"layer": "amateur",
+		"region": "microwave",
+		"minLod": 2,
+		"reqLicense": "technician",
+		"note": "70 cm (440 MHz) — repeaters, satellites, and fast-scan TV.",
+		"source": "fcc-part97"
+	},
+	{
 		"id": "frs",
 		"name": "FRS / GMRS",
 		"hz": 465000000,
@@ -161,6 +329,18 @@
 		"source": "fcc-tofa"
 	},
 	{
+		"id": "ham33cm",
+		"name": "33 cm",
+		"hz": 915000000,
+		"band": [902000000, 928000000],
+		"layer": "amateur",
+		"region": "microwave",
+		"minLod": 3,
+		"reqLicense": "technician",
+		"note": "33 cm — shared with the 915 MHz ISM band; all modes for Technician and up.",
+		"source": "fcc-part97"
+	},
+	{
 		"id": "adsb",
 		"name": "ADS-B",
 		"hz": 1090000000,
@@ -169,6 +349,18 @@
 		"minLod": 3,
 		"note": "Aircraft position broadcast (1090 MHz). Trackable with a cheap SDR dongle.",
 		"source": "fcc-tofa"
+	},
+	{
+		"id": "ham23cm",
+		"name": "23 cm",
+		"hz": 1270000000,
+		"band": [1240000000, 1300000000],
+		"layer": "amateur",
+		"region": "microwave",
+		"minLod": 3,
+		"reqLicense": "technician",
+		"note": "23 cm (1.2 GHz) — ATV, satellites, and EME for Technician and up.",
+		"source": "fcc-part97"
 	},
 	{
 		"id": "gps",
@@ -189,6 +381,18 @@
 		"minLod": 3,
 		"note": "Geostationary weather-satellite imagery downlink (1.69 GHz).",
 		"source": "fcc-tofa"
+	},
+	{
+		"id": "ham13cm",
+		"name": "13 cm",
+		"hz": 2304000000,
+		"band": [2300000000, 2450000000],
+		"layer": "amateur",
+		"region": "microwave",
+		"minLod": 3,
+		"reqLicense": "technician",
+		"note": "13 cm (2.3 GHz) — weak-signal and ATV; shared with Wi-Fi and ISM.",
+		"source": "fcc-part97"
 	},
 	{
 		"id": "wifi",
@@ -224,6 +428,18 @@
 		"source": "fcc-tofa"
 	},
 	{
+		"id": "ham5cm",
+		"name": "5 cm",
+		"hz": 5760000000,
+		"band": [5650000000, 5925000000],
+		"layer": "amateur",
+		"region": "microwave",
+		"minLod": 3,
+		"reqLicense": "technician",
+		"note": "5 cm (5.7 GHz) — microwave weak-signal and amateur TV.",
+		"source": "fcc-part97"
+	},
+	{
 		"id": "radar",
 		"name": "Wx radar",
 		"hz": 9400000000,
@@ -232,6 +448,18 @@
 		"minLod": 3,
 		"note": "Weather / marine radar (X-band, 9.4 GHz). Pulsed, high peak power.",
 		"source": "fcc-tofa"
+	},
+	{
+		"id": "ham3cm",
+		"name": "3 cm",
+		"hz": 10250000000,
+		"band": [10000000000, 10500000000],
+		"layer": "amateur",
+		"region": "microwave",
+		"minLod": 3,
+		"reqLicense": "technician",
+		"note": "3 cm (10 GHz) — microwave DX, EME, and narrowband experiments.",
+		"source": "fcc-part97"
 	},
 	{
 		"id": "5g-mmwave",

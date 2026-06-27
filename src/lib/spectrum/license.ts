@@ -70,20 +70,91 @@ export interface PrivilegeSegment {
 }
 
 /**
- * Per-band privilege plans, keyed by allocation id. Only bands with a documented sub-band
- * structure appear here; the Inspector draws the strip when an entry exists. Fractions are
- * offsets within the allocation's `band` span, so the strip stays correct under any width.
+ * US amateur sub-band privilege plans, in MHz, sourced from the ARRL US band chart
+ * (FCC 47 CFR §97.301/.305). Each row is `[fromMHz, toMHz, lowest class, mode]`, where the
+ * class is the lowest that may transmit in that segment. Only the classic HF bands whose
+ * privileges vary by class are detailed; simpler bands just show the eligibility pill.
  *
- * 20 m (14.000–14.350 MHz) — US amateur band plan, FCC 47 CFR §97.301/.305.
+ * The app models the four live US classes (unlicensed/technician/general/extra); the closed
+ * Novice/Advanced classes are folded into the nearest live class.
  */
-export const HAM_SUBBANDS: Record<string, PrivilegeSegment[]> = {
-	ham20: [
-		{ from: 0, to: 0.0714, minLicense: 'extra', mode: 'cw' }, //      14.000–14.025 Extra CW
-		{ from: 0.0714, to: 0.4286, minLicense: 'general', mode: 'data' }, // 14.025–14.150 Gen CW/data
-		{ from: 0.4286, to: 0.6429, minLicense: 'extra', mode: 'phone' }, //  14.150–14.225 Extra phone
-		{ from: 0.6429, to: 1, minLicense: 'general', mode: 'phone' } //      14.225–14.350 Gen phone
-	]
+const SUBBAND_PLANS_MHZ: Record<
+	string,
+	{ band: [number, number]; segs: [number, number, LicenseRank, PrivilegeMode][] }
+> = {
+	ham80: {
+		band: [3.5, 4.0],
+		segs: [
+			[3.5, 3.525, 'extra', 'cw'],
+			[3.525, 3.6, 'technician', 'cw'],
+			[3.6, 3.8, 'extra', 'phone'],
+			[3.8, 4.0, 'general', 'phone']
+		]
+	},
+	ham40: {
+		band: [7.0, 7.3],
+		segs: [
+			[7.0, 7.025, 'extra', 'cw'],
+			[7.025, 7.125, 'technician', 'cw'],
+			[7.125, 7.175, 'extra', 'phone'],
+			[7.175, 7.3, 'general', 'phone']
+		]
+	},
+	ham20: {
+		band: [14.0, 14.35],
+		segs: [
+			[14.0, 14.025, 'extra', 'cw'],
+			[14.025, 14.15, 'general', 'data'],
+			[14.15, 14.225, 'extra', 'phone'],
+			[14.225, 14.35, 'general', 'phone']
+		]
+	},
+	ham15: {
+		band: [21.0, 21.45],
+		segs: [
+			[21.0, 21.025, 'extra', 'cw'],
+			[21.025, 21.2, 'technician', 'cw'],
+			[21.2, 21.275, 'extra', 'phone'],
+			[21.275, 21.45, 'general', 'phone']
+		]
+	},
+	ham10: {
+		band: [28.0, 29.7],
+		segs: [
+			[28.0, 28.3, 'technician', 'data'],
+			[28.3, 28.5, 'technician', 'phone'],
+			[28.5, 29.7, 'general', 'phone']
+		]
+	}
 };
+
+/**
+ * Per-band privilege plans, keyed by allocation id, as fractional offsets within each band's
+ * span (so the Inspector strip stays correct at any width). Derived from
+ * {@link SUBBAND_PLANS_MHZ}; the Inspector draws the strip when an entry exists.
+ */
+export const HAM_SUBBANDS: Record<string, PrivilegeSegment[]> = Object.fromEntries(
+	Object.entries(SUBBAND_PLANS_MHZ).map(
+		([
+			id,
+			{
+				band: [lo, hi],
+				segs
+			}
+		]) => {
+			const span = hi - lo;
+			return [
+				id,
+				segs.map(([fromMHz, toMHz, minLicense, mode]) => ({
+					from: (fromMHz - lo) / span,
+					to: (toMHz - lo) / span,
+					minLicense,
+					mode
+				}))
+			];
+		}
+	)
+);
 
 /** A privilege segment resolved against a held license. */
 export interface RenderedSegment extends PrivilegeSegment {
@@ -111,7 +182,7 @@ export function privilegeNote(held: LicenseRank): string {
 		case 'general':
 			return 'General privileges';
 		case 'technician':
-			return 'Technician: no 20 m HF voice';
+			return 'Technician privileges';
 		default:
 			return 'No amateur privileges';
 	}

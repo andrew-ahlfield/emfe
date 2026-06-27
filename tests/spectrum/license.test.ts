@@ -64,12 +64,26 @@ describe('privilegeStrip', () => {
 		expect(strip.every((s) => !s.enabled)).toBe(true);
 	});
 
-	it('keeps segments ordered and spanning the full band', () => {
-		const segs = HAM_SUBBANDS.ham20;
-		expect(segs[0].from).toBe(0);
-		expect(segs[segs.length - 1].to).toBe(1);
-		for (let i = 1; i < segs.length; i++) {
-			expect(segs[i].from).toBeCloseTo(segs[i - 1].to, 5);
+	it('keeps every plan ordered and spanning the full band', () => {
+		for (const segs of Object.values(HAM_SUBBANDS)) {
+			expect(segs[0].from).toBe(0);
+			expect(segs[segs.length - 1].to).toBe(1);
+			for (let i = 1; i < segs.length; i++) {
+				expect(segs[i].from).toBeCloseTo(segs[i - 1].to, 5);
+			}
+		}
+	});
+
+	it('grants a Technician only the CW window on 80 m', () => {
+		const strip = privilegeStrip('ham80', 'technician');
+		const enabled = strip.filter((s) => s.enabled);
+		expect(enabled).toHaveLength(1);
+		expect(enabled[0].mode).toBe('cw');
+	});
+
+	it('covers the classic HF bands with sub-band plans', () => {
+		for (const id of ['ham80', 'ham40', 'ham20', 'ham15', 'ham10']) {
+			expect(HAM_SUBBANDS[id]?.length).toBeGreaterThan(0);
 		}
 	});
 });
