@@ -1,10 +1,15 @@
+import { readFileSync } from 'node:fs';
 import { defineConfig } from 'vitest/config';
 import { playwright } from '@vitest/browser-playwright';
 import adapter from '@sveltejs/adapter-netlify';
 import { sveltekit } from '@sveltejs/kit/vite';
 import Inspect from 'vite-plugin-inspect';
 
+const pkg = JSON.parse(readFileSync(new URL('./package.json', import.meta.url), 'utf8'));
+
 export default defineConfig({
+	// Expose the package version to the app (shown in the Sources & credits modal).
+	define: { __APP_VERSION__: JSON.stringify(pkg.version) },
 	plugins: [
 		// Dev-only module-graph + transform inspector at http://localhost:5173/__inspect/
 		Inspect(),

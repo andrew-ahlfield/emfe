@@ -162,6 +162,13 @@ export interface Allocation {
 - **Coverage:** core `lib` ≥ 90%; overall pragmatic.
 - **a11y:** keyboard navigation + WCAG AA contrast — see
   `.claude/references/accessibility-checklist.md`.
+- **Visual inspection (required):** before shipping any UI change, render the affected
+  states in the browser preview and _look_ at them — desktop and mobile, light and dark, and
+  at representative zoom levels. Treat overlapping or colliding elements (labels over labels,
+  chrome over content, controls crowding the title) as defects, not cosmetics. Iterate on
+  layout until there is **deliberate, even spacing** between elements and nothing overlaps;
+  prefer integrating floating controls into a container (e.g. the dock) over absolutely
+  positioning them over the canvas. Capture a screenshot as evidence.
 
 ---
 

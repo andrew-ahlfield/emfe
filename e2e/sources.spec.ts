@@ -11,7 +11,9 @@ test('sources modal opens, lists origins, and closes via Esc with focus returned
 
 	await trigger.click();
 	await expect(dialog).toBeVisible();
-	await expect(dialog.getByRole('heading', { name: /Sources & provenance/ })).toBeVisible();
+	await expect(dialog.getByRole('heading', { name: /Sources & credits/ })).toBeVisible();
+	// Credits section carries the app version.
+	await expect(dialog).toContainText(/EM Frequency Explorer · v\d+\.\d+\.\d+/);
 
 	// Lists the distinct referenced sources (FCC ToFA, Part 97, NASA EMS at minimum).
 	await expect(

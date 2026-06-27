@@ -2,6 +2,7 @@
 	import { referencedSources } from '$lib/data/loader';
 
 	const sources = referencedSources();
+	const version = __APP_VERSION__;
 	let dialog = $state<HTMLDialogElement>();
 
 	function open() {
@@ -16,57 +17,74 @@
 	}
 </script>
 
-<button type="button" class="trigger" onclick={open}>Sources</button>
+<button type="button" class="action" onclick={open}>Sources</button>
 
 <!-- Native <dialog> handles focus trapping, Esc-to-close, and focus return for free. -->
 <dialog bind:this={dialog} class="modal" aria-labelledby="sources-title" onclick={onDialogClick}>
 	<div class="panel">
 		<header>
-			<h2 id="sources-title">Sources &amp; provenance</h2>
+			<h2 id="sources-title">Sources &amp; credits</h2>
 			<button type="button" class="close" onclick={close} aria-label="Close">×</button>
 		</header>
-		<p class="lead">Every data origin referenced by the allocations on the spectrum.</p>
-		<ul>
-			{#each sources as s (s.id)}
-				<li>
-					<div class="title">
-						{#if s.url}
-							<!-- External source URL (absolute https), not an internal SvelteKit route. -->
-							<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
-							<a href={s.url} target="_blank" rel="noreferrer noopener">{s.title}</a>
-						{:else}
-							{s.title}
+
+		<section>
+			<div class="eyebrow">Data sources</div>
+			<ul>
+				{#each sources as s (s.id)}
+					<li>
+						<div class="title">
+							{#if s.url}
+								<!-- External source URL (absolute https), not an internal SvelteKit route. -->
+								<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
+								<a href={s.url} target="_blank" rel="noreferrer noopener">{s.title}</a>
+							{:else}
+								{s.title}
+							{/if}
+						</div>
+						{#if s.retrieved}
+							<div class="meta">retrieved {s.retrieved}</div>
 						{/if}
-					</div>
-					{#if s.retrieved}
-						<div class="meta">retrieved {s.retrieved}</div>
-					{/if}
-				</li>
-			{/each}
-		</ul>
+					</li>
+				{/each}
+			</ul>
+		</section>
+
+		<section>
+			<div class="eyebrow">Credits</div>
+			<p class="credit">
+				An interactive, zoomable tour of the electromagnetic spectrum — from sub-ELF to gamma — on
+				one continuous log-frequency axis.
+			</p>
+			<p class="credit">
+				Design adapted from the Spectrum Atlas prototype. Built with SvelteKit. Amateur band plan
+				per the ARRL / FCC Part 97.
+			</p>
+		</section>
+
+		<footer>EM Frequency Explorer · v{version}</footer>
 	</div>
 </dialog>
 
 <style>
-	.trigger {
-		position: fixed;
-		top: 18px;
-		left: 18px;
-		z-index: 60;
-		height: 46px;
-		padding: 0 18px;
-		border-radius: 23px;
-		border: 1px solid var(--panelb);
+	.action {
+		display: flex;
+		align-items: center;
+		height: 32px;
+		padding: 0 14px;
+		border-radius: 8px;
+		border: 1px solid var(--line);
 		background: var(--chip);
 		color: var(--ink);
 		font-family: var(--font-mono);
 		font-size: 10px;
-		letter-spacing: 0.16em;
+		letter-spacing: 0.14em;
 		text-transform: uppercase;
 		cursor: pointer;
-		transition: border-color 0.15s;
+		transition:
+			background 0.15s,
+			border-color 0.15s;
 	}
-	.trigger:hover {
+	.action:hover {
 		border-color: var(--sub);
 	}
 
@@ -87,13 +105,14 @@
 	}
 
 	.panel {
-		padding: 22px 24px 24px;
+		padding: 22px 24px 20px;
 	}
 	header {
 		display: flex;
 		align-items: baseline;
 		justify-content: space-between;
 		gap: 12px;
+		margin-bottom: 18px;
 	}
 	h2 {
 		margin: 0;
@@ -113,10 +132,17 @@
 	.close:hover {
 		color: var(--ink);
 	}
-	.lead {
-		margin: 4px 0 16px;
-		font-size: 13px;
-		color: var(--sub);
+
+	section {
+		margin-bottom: 18px;
+	}
+	.eyebrow {
+		font-family: var(--font-mono);
+		font-size: 9px;
+		letter-spacing: 0.14em;
+		color: var(--faint);
+		text-transform: uppercase;
+		margin-bottom: 10px;
 	}
 	ul {
 		list-style: none;
@@ -124,7 +150,7 @@
 		padding: 0;
 		display: flex;
 		flex-direction: column;
-		gap: 14px;
+		gap: 12px;
 	}
 	.title {
 		font-size: 13.5px;
@@ -141,6 +167,23 @@
 		margin-top: 2px;
 		font-family: var(--font-mono);
 		font-size: 9.5px;
+		color: var(--faint);
+	}
+	.credit {
+		margin: 0 0 8px;
+		font-size: 12.5px;
+		line-height: 1.5;
+		color: var(--sub);
+	}
+	.credit:last-child {
+		margin-bottom: 0;
+	}
+	footer {
+		padding-top: 14px;
+		border-top: 1px solid var(--line);
+		font-family: var(--font-mono);
+		font-size: 9.5px;
+		letter-spacing: 0.08em;
 		color: var(--faint);
 	}
 </style>

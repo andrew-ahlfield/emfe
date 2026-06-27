@@ -171,10 +171,12 @@
 	<div class="panel inspector-col">
 		<Inspector allocation={$selectedAllocation} license={$license} />
 	</div>
-</Dock>
 
-<SourcesModal />
-<ThemeToggle />
+	{#snippet actions()}
+		<SourcesModal />
+		<ThemeToggle />
+	{/snippet}
+</Dock>
 
 <style>
 	.skip-link {

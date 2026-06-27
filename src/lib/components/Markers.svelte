@@ -27,6 +27,9 @@
 	/** Three staggered label rows so neighbouring labels don't collide. */
 	const LEVELS = [4, 36, 68];
 
+	/** Callout dots sit on the vertical centre line of the colored band. */
+	const bandMid = PLOT.bandY + PLOT.bandH / 2;
+
 	let markers = $derived(
 		visibleAllocations(allocations, lod, layers)
 			.map((a) => ({ a, pos: logPos(a.hz, domain) }))
@@ -75,21 +78,21 @@
 		onclick={() => select(m.a.id)}
 		onkeydown={(e) => onKey(e, m.a.id)}
 	>
-		<!-- connector line -->
+		<!-- connector line: from the label down to the band's centre line -->
 		<line
 			x1={m.x}
 			y1={m.lineTop}
 			x2={m.x}
-			y2={PLOT.bandY}
+			y2={bandMid}
 			class="line"
 			style="stroke: {sel ? m.color : 'var(--panelb)'}; stroke-width: {sel ? 2 : 1}"
 		/>
 
-		<!-- dot (or spectral swatch for visible light) -->
+		<!-- dot (or spectral swatch for visible light), centred on the band -->
 		{#if m.a.region === 'visible'}
 			<rect
 				x={m.x - 13}
-				y={PLOT.bandY - 4}
+				y={bandMid - 4}
 				width="26"
 				height="8"
 				rx="2"
@@ -97,14 +100,7 @@
 				stroke="var(--panel)"
 			/>
 		{:else}
-			<circle
-				cx={m.x}
-				cy={PLOT.bandY}
-				r={sel ? 7 : 5}
-				style="fill: {m.color}"
-				class="dot"
-				class:sel
-			/>
+			<circle cx={m.x} cy={bandMid} r={sel ? 7 : 5} style="fill: {m.color}" class="dot" class:sel />
 		{/if}
 
 		<!-- label -->

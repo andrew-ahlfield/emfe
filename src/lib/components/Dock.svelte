@@ -2,24 +2,41 @@
 	import type { Snippet } from 'svelte';
 	import { browser } from '$app/environment';
 
-	let { children }: { children: Snippet } = $props();
+	let { children, actions }: { children: Snippet; actions?: Snippet } = $props();
 
 	// Collapsed by default on phones (the dock is fixed and would cover the plot); open on desktop.
 	let open = $state(browser ? !window.matchMedia('(max-width: 720px)').matches : true);
+	const toggle = () => (open = !open);
 </script>
 
 <section class="dock" class:open>
-	<button
-		type="button"
-		class="handle"
-		aria-expanded={open}
-		aria-controls="dock-body"
-		onclick={() => (open = !open)}
-	>
-		<span class="grip" aria-hidden="true"></span>
-		<span class="label">Controls</span>
-		<span class="chevron" aria-hidden="true">{open ? '▾' : '▴'}</span>
-	</button>
+	<div class="handle">
+		<button
+			type="button"
+			class="bar"
+			aria-expanded={open}
+			aria-controls="dock-body"
+			onclick={toggle}
+		>
+			<span class="grip" aria-hidden="true"></span>
+			<span class="label">Controls</span>
+		</button>
+
+		{#if actions}
+			<div class="actions">{@render actions()}</div>
+		{/if}
+
+		<button
+			type="button"
+			class="chevron"
+			aria-expanded={open}
+			aria-controls="dock-body"
+			aria-label={open ? 'Collapse controls' : 'Expand controls'}
+			onclick={toggle}
+		>
+			{open ? '▾' : '▴'}
+		</button>
+	</div>
 
 	{#if open}
 		<div id="dock-body" class="body">
@@ -45,9 +62,18 @@
 	.handle {
 		display: flex;
 		align-items: center;
-		gap: 12px;
+		gap: 14px;
 		width: 100%;
-		padding: 9px 22px;
+		padding: 8px 16px 8px 22px;
+	}
+
+	.bar {
+		display: flex;
+		align-items: center;
+		gap: 12px;
+		flex: 1;
+		min-width: 0;
+		padding: 4px 0;
 		background: none;
 		border: none;
 		cursor: pointer;
@@ -59,11 +85,10 @@
 		height: 4px;
 		border-radius: 2px;
 		background: var(--panelb);
+		flex-shrink: 0;
 	}
 
 	.label {
-		flex: 1;
-		text-align: left;
 		font-family: var(--font-mono);
 		font-size: 10px;
 		letter-spacing: 0.16em;
@@ -71,10 +96,28 @@
 		text-transform: uppercase;
 	}
 
+	.actions {
+		display: flex;
+		align-items: center;
+		gap: 8px;
+	}
+
 	.chevron {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 28px;
+		height: 28px;
+		border: none;
+		border-radius: 8px;
+		background: none;
 		font-family: var(--font-mono);
 		font-size: 13px;
 		color: var(--sub);
+		cursor: pointer;
+	}
+	.chevron:hover {
+		background: var(--chip);
 	}
 
 	.body {

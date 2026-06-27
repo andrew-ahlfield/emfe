@@ -51,7 +51,7 @@ test('mobile layout reflows without horizontal overflow and collapses the dock',
 	expect(overflow).toBe(false);
 
 	// Dock starts collapsed on phones: the handle shows, the panel contents do not.
-	await expect(page.getByRole('button', { name: 'Controls' })).toBeVisible();
+	await expect(page.getByRole('button', { name: 'Controls', exact: true })).toBeVisible();
 	await expect(page.getByText('Content layers')).toBeHidden();
 });
 
