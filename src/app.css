@@ -1,0 +1,74 @@
+/*
+ * EM Frequency Explorer — design tokens.
+ * Every color in markup comes from a CSS custom property (SPEC §Code Style).
+ * Ported from the prototype (moodboards/spectrum-atlas-prototype.html).
+ */
+
+:root {
+	/* Dark theme is the default. */
+	--bg: #16181d;
+	--panel: #1c1f27;
+	--panel2: #23262f;
+	--panelb: #2c303b;
+	--ink: #eef1f6;
+	--sub: #9aa2b2;
+	--faint: #606878;
+	--line: #262a34;
+	--chip: #22262f;
+	--chipink: #c3cad9;
+	--softshadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+	--glow: 0.17;
+
+	/* Region palette (zoomed-out spectrum regions). */
+	--region-radio: #ff5470;
+	--region-microwave: #ff9a3d;
+	--region-infrared: #ff6b3d;
+	--region-uv: #7c5cff;
+	--region-xray: #2f86ff;
+	--region-gamma: #c44cf0;
+
+	/* Content-layer palette. */
+	--layer-consumer: #2fb3a0;
+	--layer-amateur: #c44cf0;
+	--layer-navigation: #3e8bff;
+	--layer-gov: #ff9a3d;
+	--layer-science: #46d160;
+
+	/* Typography. */
+	--font-sans: 'Hanken Grotesk', system-ui, sans-serif;
+	--font-serif: 'Newsreader', Georgia, serif;
+	--font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+}
+
+html[data-theme='light'] {
+	--bg: #ffffff;
+	--panel: #fbfbfa;
+	--panel2: #f4f4f1;
+	--panelb: #e6e6e1;
+	--ink: #191b21;
+	--sub: #5f6573;
+	--faint: #a3a9b5;
+	--line: #ededea;
+	--chip: #f1f1ee;
+	--chipink: #3a4154;
+	--softshadow: 0 24px 60px rgba(30, 35, 60, 0.12);
+	--glow: 0.09;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+html,
+body {
+	margin: 0;
+	background: var(--bg);
+	color: var(--ink);
+	font-family: var(--font-sans);
+}
+
+/* Visible focus for keyboard users (a11y — SPEC §Boundaries). */
+:focus-visible {
+	outline: 2px solid var(--layer-consumer);
+	outline-offset: 2px;
+}

@@ -1,0 +1,14 @@
+# Netlify build config for EM Frequency Explorer.
+# SvelteKit's @sveltejs/adapter-netlify emits the static site to `build/` and
+# serverless/edge functions to `.netlify/`. Per-PR deploy previews are enabled
+# by default for the connected repo.
+
+[build]
+  command = "npm run build"
+  publish = "build"
+
+[build.environment]
+  NODE_VERSION = "24"
+
+# Note: @sveltejs/adapter-netlify generates the function routing/redirects
+# automatically — no manual [[redirects]] needed.
