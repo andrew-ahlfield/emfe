@@ -6,7 +6,7 @@
 	import { fmtFreq } from '$lib/spectrum/format';
 	import { LICENSE_ICON } from '$lib/spectrum/license';
 	import { allocations } from '$lib/data/loader';
-	import type { LayerId } from '$lib/data/types';
+	import type { LayerId, LicenseRank } from '$lib/data/types';
 	import { select } from '$lib/state/selection';
 	import { PLOT } from './plot-layout';
 
@@ -14,12 +14,14 @@
 		width,
 		domain,
 		selected,
-		layers
+		layers,
+		license
 	}: {
 		width: number;
 		domain: FreqDomain;
 		selected: string | null;
 		layers: Record<LayerId, boolean>;
+		license: LicenseRank;
 	} = $props();
 
 	/** Three staggered label rows so neighbouring labels don't collide. */
@@ -31,8 +33,9 @@
 	let markers = $derived(
 		// LOD detail-tiers were confusing, so they're disabled for now: pass the maximum detail
 		// (3) so every allocation shows at any zoom. Restore semantic zoom by passing the live
-		// `lod` here (and re-adding the prop in this component + +page.svelte).
-		visibleAllocations(allocations, 3, layers)
+		// `lod` here (and re-adding the prop in this component + +page.svelte). The held licence
+		// hides amateur bands the class can't transmit on.
+		visibleAllocations(allocations, 3, layers, license)
 			.map((a) => ({ a, pos: logPos(a.hz, domain) }))
 			// cull markers outside the visible window (with a small margin for labels)
 			.filter(({ pos }) => pos >= -0.05 && pos <= 1.05)

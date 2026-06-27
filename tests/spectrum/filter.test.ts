@@ -56,6 +56,25 @@ describe('visibleAllocations', () => {
 		expect(got).toHaveLength(atLod.filter((a) => a.layer !== 'science').length);
 		expect(got.every((a) => a.layer !== 'science')).toBe(true);
 	});
+
+	it('hides amateur bands the held licence class cannot transmit on', () => {
+		const all = visibleAllocations(allocations, 3, allLayersOn); // no licence filter
+		const extra = visibleAllocations(allocations, 3, allLayersOn, 'extra');
+		const unlicensed = visibleAllocations(allocations, 3, allLayersOn, 'unlicensed');
+
+		// Extra holds every privilege → no amateur band is hidden.
+		expect(extra).toHaveLength(all.length);
+
+		// Unlicensed keeps only the licence-free amateur entries; the rest are hidden.
+		expect(unlicensed.length).toBeLessThan(all.length);
+		expect(unlicensed.every((a) => a.layer !== 'amateur' || a.reqLicense === 'unlicensed')).toBe(
+			true
+		);
+
+		// Non-amateur allocations are never affected by the licence.
+		const nonAmateur = all.filter((a) => a.layer !== 'amateur').length;
+		expect(unlicensed.filter((a) => a.layer !== 'amateur')).toHaveLength(nonAmateur);
+	});
 });
 
 describe('layerCounts', () => {

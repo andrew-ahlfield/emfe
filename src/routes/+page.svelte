@@ -135,7 +135,13 @@
 					use:zoomable={{ width: () => width, apply: (fn) => view.update(fn) }}
 				>
 					<SpectrumBand {width} domain={$visibleDomain} />
-					<Markers {width} domain={$visibleDomain} selected={$selection} layers={$layers} />
+					<Markers
+						{width}
+						domain={$visibleDomain}
+						selected={$selection}
+						layers={$layers}
+						license={$license}
+					/>
 					<RegionLabels {width} domain={$visibleDomain} />
 					<Axis
 						{width}

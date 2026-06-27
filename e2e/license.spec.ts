@@ -36,3 +36,34 @@ test('licence selector dims when the amateur layer is off; a click turns the lay
 	await expect(group).not.toHaveClass(/dimmed/);
 	await expect(group.getByRole('radio', { name: /General/ })).toBeChecked();
 });
+
+test('lowering the licence class hides amateur bands on the line', async ({ page }) => {
+	await page.goto('/');
+	// Zoom into the HF amateur region.
+	await page.evaluate(() => {
+		const svg = document.querySelector('svg.zoomable')!;
+		const r = svg.getBoundingClientRect();
+		for (let i = 0; i < 13; i++) {
+			svg.dispatchEvent(
+				new WheelEvent('wheel', {
+					deltaY: -120,
+					clientX: r.left + r.width * (6.9 / 24),
+					clientY: r.top + r.height / 2,
+					bubbles: true,
+					cancelable: true
+				})
+			);
+		}
+	});
+
+	const fortyM = page.locator('svg g.marker', { hasText: '40 m' });
+	await expect(fortyM).toBeVisible(); // default Extra → 40 m (a General/Tech band) shows
+
+	// Unlicensed can't transmit on 40 m → it disappears from the line.
+	await page.getByRole('radio', { name: /Unlicensed/ }).click();
+	await expect(fortyM).toHaveCount(0);
+
+	// Back to Extra → it returns.
+	await page.getByRole('radio', { name: /Amateur Extra/ }).click();
+	await expect(fortyM).toBeVisible();
+});
