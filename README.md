@@ -47,6 +47,32 @@ Frequency Allocations, ARRL / Part 97 amateur band plan) and kept current via
 a scheduled sync, so the atlas stays in step with reality and every change
 shows up as a reviewable diff.
 
+## Scope
+
+**USA-scoped for now.** Allocations follow US regulators — the FCC Table of
+Frequency Allocations and FCC Part 97 / ARRL amateur band plan. The physics
+(regions, ITU band nomenclature, wavelengths) is universal, but the specific
+allocations are US ones; other ITU regions may come later.
+
+## Brand & style guide
+
+Visual identity carried over from the prototype (`moodboards/`):
+
+| Role                                            | Typeface                        |
+| ----------------------------------------------- | ------------------------------- |
+| Headings                                        | **Newsreader** (serif)          |
+| Body / UI                                       | **Hanken Grotesk** (sans-serif) |
+| Technical readouts (frequencies, ticks, labels) | **IBM Plex Mono**               |
+
+- **Icons** — [Lucide](https://lucide.dev) (`lucide-svelte`) is the project's
+  icon set.
+- **Color** — every color is a CSS custom property in
+  [`src/app.css`](src/app.css); never a hard-coded hex in markup. Light + dark
+  themes, with region and content-layer palettes defined there.
+- **Spectrum band** — the continuous gradient fades to transparent at **both**
+  ends (below ELF and above gamma): asymptotically there is always a lower and a
+  higher frequency.
+
 ## Status
 
 Early development. Building toward a live deployment.

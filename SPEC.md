@@ -221,6 +221,13 @@ Solo developer, greenfield project — optimize for momentum, not ceremony.
   spectral lines).
 - **Mobile / touch:** in v1 — pinch-to-zoom, drag-to-pan, responsive layout.
 - **Repo:** GitHub repo renamed to `emfe`; the working directory stays `spectrum-atlas`.
+- **Geographic scope:** **USA-scoped** for now — allocations follow US regulators (FCC Table
+  of Frequency Allocations, FCC Part 97 / ARRL). Physics is universal; other ITU regions later.
+- **Brand / style:** headings **Newsreader** (serif); body & UI **Hanken Grotesk** (sans);
+  technical readouts **IBM Plex Mono**. Icon set: **Lucide** (`lucide-svelte`). Colors are
+  CSS custom properties only (see `src/app.css`). See README §Brand & style guide.
+- **Spectrum band rendering:** the continuous gradient fades to transparent at **both** ends
+  (below ELF and above gamma) — asymptotically there is always a lower / higher frequency.
 
 ## Open Questions
 

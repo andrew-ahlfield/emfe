@@ -170,6 +170,8 @@ Svelte renders the SVG; every color from a CSS variable.
 - [ ] Full axis renders ~3 Hz→10²⁴ Hz with correct tick labels (and λ-ready tick data).
 - [ ] All 7 region labels + 12 ITU bands render at correct positions; region labels always visible.
 - [ ] Visual parity with the prototype's plot area (dark theme).
+- [ ] The gradient band fades to transparent at **both** ends (low/sub-ELF and high/gamma),
+      not just the high end as in the prototype.
 
 **Verification:**
 
