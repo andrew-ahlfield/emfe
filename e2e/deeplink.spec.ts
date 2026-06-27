@@ -23,7 +23,7 @@ test('view state round-trips through the URL on reload', async ({ page }) => {
 
 	await page.getByRole('button', { name: /Switch to (light|dark) theme/ }).click(); // → light
 	await page.getByRole('switch', { name: /Gov \/ satellite/ }).click(); // gov layer off
-	await page.getByRole('radio', { name: /Amateur Extra/ }).click(); // license → extra
+	await page.getByRole('radio', { name: /Technician/ }).click(); // license → technician (non-default)
 	await zoomIn(page);
 
 	// The URL now encodes every changed dimension.
@@ -32,7 +32,7 @@ test('view state round-trips through the URL on reload', async ({ page }) => {
 	const params = new URL(url).searchParams;
 	expect(params.get('t')).toBe('light');
 	expect(params.get('off')).toContain('gov');
-	expect(params.get('lic')).toBe('extra');
+	expect(params.get('lic')).toBe('technician');
 
 	// Reload restores the identical view.
 	await page.reload();
@@ -41,7 +41,7 @@ test('view state round-trips through the URL on reload', async ({ page }) => {
 		'aria-checked',
 		'false'
 	);
-	await expect(page.getByRole('radio', { name: /Amateur Extra/ })).toBeChecked();
+	await expect(page.getByRole('radio', { name: /Technician/ })).toBeChecked();
 	await expect(page.getByRole('button', { name: 'reset zoom' })).toBeVisible();
 	expect(page.url()).toBe(url);
 });
@@ -51,7 +51,7 @@ test('a malformed query degrades to the default view', async ({ page }) => {
 
 	await expect(page.getByRole('button', { name: 'reset zoom' })).toHaveCount(0); // full view
 	await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
-	await expect(page.getByRole('radio', { name: /General/ })).toBeChecked();
+	await expect(page.getByRole('radio', { name: /Amateur Extra/ })).toBeChecked();
 	await expect(page.getByRole('switch', { name: /Consumer/ })).toHaveAttribute(
 		'aria-checked',
 		'true'

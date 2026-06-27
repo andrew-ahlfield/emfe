@@ -22,7 +22,7 @@ export interface DeepLinkSnapshot {
 	selected: string | null;
 }
 
-const DEFAULT_LICENSE: LicenseRank = 'general';
+const DEFAULT_LICENSE: LicenseRank = 'extra';
 const DEFAULT_THEME: Theme = 'dark';
 const midExp = (full: FreqDomain) => (full.minExp + full.maxExp) / 2;
 

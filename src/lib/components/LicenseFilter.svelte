@@ -2,6 +2,16 @@
 	import { LICENSE_RANKS, type LicenseRank } from '$lib/data/types';
 	import { LICENSE_ICON } from '$lib/spectrum/license';
 	import { license, setLicense } from '$lib/state/license';
+	import { layers, enableLayer } from '$lib/state/layers';
+
+	// The licence only applies to amateur bands, so the selector is dimmed when that layer is
+	// hidden — but a click still registers and switches the layer back on.
+	let amateurOn = $derived($layers.amateur);
+
+	function pick(rank: LicenseRank) {
+		if (!amateurOn) enableLayer('amateur');
+		setLicense(rank);
+	}
 
 	/** Selector copy per class (label + the bands it opens), mirroring the prototype. */
 	const DEFS: Record<LicenseRank, { label: string; note: string }> = {
@@ -14,7 +24,7 @@
 
 <div class="eyebrow">Operator licence</div>
 
-<div class="rows" role="radiogroup" aria-label="Operator licence">
+<div class="rows" class:dimmed={!amateurOn} role="radiogroup" aria-label="Operator licence">
 	{#each LICENSE_RANKS as rank (rank)}
 		{@const on = $license === rank}
 		<button
@@ -23,7 +33,7 @@
 			class:on
 			role="radio"
 			aria-checked={on}
-			onclick={() => setLicense(rank)}
+			onclick={() => pick(rank)}
 		>
 			<span class="dot" aria-hidden="true">{LICENSE_ICON[rank]}</span>
 			<span class="text">
@@ -47,6 +57,11 @@
 		display: flex;
 		flex-direction: column;
 		gap: 3px;
+		transition: opacity 0.15s;
+	}
+	/* Amateur layer is hidden — the licence has nothing to act on, so dim it (still clickable). */
+	.rows.dimmed {
+		opacity: 0.4;
 	}
 	.row {
 		display: flex;

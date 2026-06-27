@@ -25,3 +25,8 @@ export const layers = writable<LayerVisibility>(allOn());
 export function toggleLayer(id: LayerId): void {
 	layers.update((s) => ({ ...s, [id]: !s[id] }));
 }
+
+/** Force a content layer on (used when interacting with a control that depends on it). */
+export function enableLayer(id: LayerId): void {
+	layers.update((s) => ({ ...s, [id]: true }));
+}

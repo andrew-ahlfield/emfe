@@ -9,7 +9,7 @@ const DEFAULTS: DeepLinkSnapshot = {
 	centerExp: 12,
 	zoom: 1,
 	layers: allOn(),
-	license: 'general',
+	license: 'extra',
 	theme: 'dark',
 	selected: null
 };
