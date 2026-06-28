@@ -8,9 +8,8 @@
 	let { width, domain }: { width: number; domain: FreqDomain } = $props();
 
 	const gradId = 'band-gradient';
-	// The rainbow is gently widened to a legible minimum when zoomed out and tapers to its true
-	// width as you zoom in; the axis ruler stays honest throughout, so this is always on.
-	let stops = $derived(bandGradientStops(domain, { width, exaggerateVisible: true }));
+	// The visible rainbow renders at its true physical width — no exaggeration; zoom in to see it.
+	let stops = $derived(bandGradientStops(domain));
 	let bands = $derived(
 		ITU_BANDS.map((b) => {
 			const x = logPos(b.lo, domain) * width;
