@@ -11,7 +11,7 @@
 	import { allocations } from '$lib/data/loader';
 	import type { LayerId, LicenseRank } from '$lib/data/types';
 	import { select } from '$lib/state/selection';
-	import { view } from '$lib/state/view';
+	import { jumpTo } from '$lib/state/view';
 	import { PLOT } from './plot-layout';
 
 	let {
@@ -74,7 +74,25 @@
 	let labelledLeafIds = $derived(
 		new Set(layout.items.filter((i) => i.kind === 'leaf').map((i) => i.id))
 	);
-	let plainDots = $derived(layout.dots.filter((d) => !labelledLeafIds.has(d.id)));
+
+	/** On-screen bar width of an allocation (0 when it renders as a point), for z-ordering. */
+	const barWidth = (a: Allocation | null) => barOf(a)?.w ?? 0;
+
+	// Draw order at the band line, back → front, so nothing is swallowed:
+	//   1. group envelopes (the transparent neighbourhood spans) sit underneath everything;
+	//   2. then data dots/bars and labelled leaves, each sorted widest-first so the *smaller*
+	//      an entry is, the higher it rides — a narrow band is never buried under a wide one.
+	let groupItems = $derived(placed.filter((p) => p.item.kind === 'group'));
+	let leafItems = $derived(
+		placed
+			.filter((p) => p.item.kind === 'leaf')
+			.sort((a, b) => barWidth(b.item.alloc ?? null) - barWidth(a.item.alloc ?? null))
+	);
+	let plainDots = $derived(
+		layout.dots
+			.filter((d) => !labelledLeafIds.has(d.id))
+			.sort((a, b) => barWidth(b.alloc) - barWidth(a.alloc))
+	);
 
 	/** Click a group chip → frame that neighbourhood (drill down a tier). */
 	function zoomToFamily(item: PlacedItem) {
@@ -85,7 +103,7 @@
 		const span = Math.max(hiE - loE, 0.2) * 1.4; // pad so the cluster isn't edge-to-edge
 		const zoom = clampZoom(decades(FULL_DOMAIN) / span);
 		const centerExp = clampCenter((loE + hiE) / 2, FULL_DOMAIN, zoom);
-		view.set({ centerExp, zoom });
+		jumpTo({ centerExp, zoom });
 	}
 
 	function activate(item: PlacedItem) {
@@ -119,8 +137,26 @@
 	</linearGradient>
 </defs>
 
-<!-- Data dots: every visible allocation not already drawn as a label, clickable to inspect
-     (so addresses inside a collapsed neighbourhood, or whose label didn't fit, stay reachable). -->
+<!-- Layer 1 — neighbourhood envelopes. Kept beneath every entry so a wide transparent span
+     never splits a narrow band's bar (the labelled chip in layer 3 is the real button; this
+     stays a mouse target but is hidden from assistive tech to avoid a double announcement). -->
+{#each groupItems as p (p.item.id)}
+	{@const item = p.item}
+	<rect
+		x={item.loX}
+		y={bandMid - 7}
+		width={Math.max(item.hiX - item.loX, 2)}
+		height="14"
+		rx="4"
+		style="fill: {p.color}"
+		class="span"
+		aria-hidden="true"
+		onclick={() => activate(item)}
+	/>
+{/each}
+
+<!-- Layer 2 — data dots/bars: every visible allocation not already drawn as a label, clickable
+     to inspect. Sorted widest-first so narrow bands ride on top of broad ones. -->
 {#each plainDots as d (d.id)}
 	{@const sel = selected === d.id}
 	{@const bar = barOf(d.alloc)}
@@ -159,13 +195,34 @@
 	</g>
 {/each}
 
-<!-- Labels: expanded leaves and collapsed group chips, lane-packed so none overlap. -->
-{#each placed as p (p.item.id)}
+<!-- Layer 3a — group chips: the connector + label for each collapsed neighbourhood. -->
+{#each groupItems as p (p.item.id)}
 	{@const item = p.item}
-	{@const sel = item.kind === 'leaf' && selected === item.id}
+	<g
+		class="marker group"
+		role="button"
+		tabindex="0"
+		aria-label={item.aria}
+		onclick={() => activate(item)}
+		onkeydown={(e) => onKey(e, item)}
+	>
+		<line x1={item.x} y1={p.lineTop} x2={item.x} y2={bandMid - 7} class="line group-line" />
+		<text x={item.x} y={p.nameY} text-anchor="middle" class="name" data-mk={item.id}
+			>{item.label}</text
+		>
+		<text x={item.x} y={p.subY} text-anchor="middle" class="count" data-mk={item.id}
+			>{item.sublabel}</text
+		>
+	</g>
+{/each}
+
+<!-- Layer 3b — labelled leaves: expanded allocations, sorted widest-first (smaller on top). -->
+{#each leafItems as p (p.item.id)}
+	{@const item = p.item}
+	{@const sel = selected === item.id}
+	{@const bar = barOf(item.alloc)}
 	<g
 		class="marker"
-		class:group={item.kind === 'group'}
 		class:selected={sel}
 		role="button"
 		tabindex="0"
@@ -173,70 +230,42 @@
 		onclick={() => activate(item)}
 		onkeydown={(e) => onKey(e, item)}
 	>
-		{#if item.kind === 'group'}
-			<!-- real-bandwidth span bar for the neighbourhood -->
+		<line
+			x1={item.x}
+			y1={p.lineTop}
+			x2={item.x}
+			y2={bandMid}
+			class="line"
+			style="stroke: {sel ? p.color : 'var(--panelb)'}; stroke-width: {sel ? 2 : 1}"
+		/>
+		{#if bar}
+			<!-- real-bandwidth bar for the labelled leaf -->
 			<rect
-				x={item.loX}
-				y={bandMid - 7}
-				width={Math.max(item.hiX - item.loX, 2)}
-				height="14"
-				rx="4"
+				x={bar.x0}
+				y={bandMid - 6}
+				width={bar.w}
+				height="12"
+				rx="3"
 				style="fill: {p.color}"
-				class="span"
+				class="leaf-bar"
+				class:sel
 			/>
-			<!-- connector from the chip label down to the span's centre -->
-			<line x1={item.x} y1={p.lineTop} x2={item.x} y2={bandMid - 7} class="line group-line" />
-			<text x={item.x} y={p.nameY} text-anchor="middle" class="name" data-mk={item.id}
-				>{item.label}</text
-			>
-			<text x={item.x} y={p.subY} text-anchor="middle" class="count" data-mk={item.id}
-				>{item.sublabel}</text
-			>
-		{:else}
-			{@const bar = barOf(item.alloc)}
-			<line
-				x1={item.x}
-				y1={p.lineTop}
-				x2={item.x}
-				y2={bandMid}
-				class="line"
-				style="stroke: {sel ? p.color : 'var(--panelb)'}; stroke-width: {sel ? 2 : 1}"
-			/>
-			{#if bar}
-				<!-- real-bandwidth bar for the labelled leaf -->
-				<rect
-					x={bar.x0}
-					y={bandMid - 6}
-					width={bar.w}
-					height="12"
-					rx="3"
-					style="fill: {p.color}"
-					class="leaf-bar"
-					class:sel
-				/>
-			{:else if item.alloc?.region !== 'visible'}
-				<!-- emphasised dot for the labelled leaf (sits over its band dot) -->
-				<circle
-					cx={item.x}
-					cy={bandMid}
-					r={sel ? 7 : 5}
-					style="fill: {p.color}"
-					class="dot"
-					class:sel
-				></circle>
-				{#if p.licenseIcon}
-					<text x={item.x} y={bandMid} class="license-icon" class:sel>{p.licenseIcon}</text>
-				{/if}
-			{:else}
-				<circle cx={item.x} cy={bandMid} r={sel ? 6 : 4} class="pin" class:sel />
+		{:else if item.alloc?.region !== 'visible'}
+			<!-- emphasised dot for the labelled leaf (sits over its band dot) -->
+			<circle cx={item.x} cy={bandMid} r={sel ? 7 : 5} style="fill: {p.color}" class="dot" class:sel
+			></circle>
+			{#if p.licenseIcon}
+				<text x={item.x} y={bandMid} class="license-icon" class:sel>{p.licenseIcon}</text>
 			{/if}
-			<text x={item.x} y={p.nameY} text-anchor="middle" class="name" data-mk={item.id}
-				>{item.label}</text
-			>
-			<text x={item.x} y={p.subY} text-anchor="middle" class="freq" data-mk={item.id}
-				>{item.sublabel}</text
-			>
+		{:else}
+			<circle cx={item.x} cy={bandMid} r={sel ? 6 : 4} class="pin" class:sel />
 		{/if}
+		<text x={item.x} y={p.nameY} text-anchor="middle" class="name" data-mk={item.id}
+			>{item.label}</text
+		>
+		<text x={item.x} y={p.subY} text-anchor="middle" class="freq" data-mk={item.id}
+			>{item.sublabel}</text
+		>
 	</g>
 {/each}
 
@@ -317,10 +346,10 @@
 		opacity: 0.32;
 		stroke: var(--panel);
 		stroke-width: 1;
+		cursor: zoom-in;
 		transition: opacity 0.12s;
 	}
-	.marker.group:hover .span,
-	.marker.group:focus-visible .span {
+	.span:hover {
 		opacity: 0.5;
 	}
 	.group-line {

@@ -25,6 +25,33 @@ export const INITIAL_VIEW: ViewState = {
 
 export const view = writable<ViewState>({ ...INITIAL_VIEW });
 
+/**
+ * Undo stack for discrete view *jumps* (clicking a neighbourhood to frame it, resetting). Smooth
+ * wheel/drag zoom is deliberately not recorded — only the big snaps you'd want Ctrl+Z to reverse.
+ */
+const jumpHistory: ViewState[] = [];
+
+/** Get the current view synchronously (without subscribing). */
+function readView(): ViewState {
+	let v!: ViewState;
+	view.subscribe((s) => (v = s))();
+	return v;
+}
+
+/** Jump the view to a new framing, recording the prior one so {@link undoView} can return. */
+export function jumpTo(next: ViewState): void {
+	jumpHistory.push(readView());
+	view.set(next);
+}
+
+/** Reverse the most recent {@link jumpTo}. Returns false when there's nothing to undo. */
+export function undoView(): boolean {
+	const prev = jumpHistory.pop();
+	if (!prev) return false;
+	view.set(prev);
+	return true;
+}
+
 /** The currently visible frequency window (clamped to the full spectrum). */
 export const visibleDomain = derived(view, ($v) =>
 	windowDomain(FULL_DOMAIN, $v.centerExp, $v.zoom)
@@ -36,7 +63,7 @@ export const lod = derived(visibleDomain, ($d) => lodForDomain($d));
 /** How many decades are currently visible (handy for readouts/labels). */
 export const visibleDecades = derived(visibleDomain, ($d) => decades($d));
 
-/** Reset the view to the full spectrum. */
+/** Reset the view to the full spectrum (recorded, so Ctrl+Z returns to the prior framing). */
 export function resetView(): void {
-	view.set({ ...INITIAL_VIEW });
+	jumpTo({ ...INITIAL_VIEW });
 }

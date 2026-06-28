@@ -1,13 +1,18 @@
 <script lang="ts">
 	import type { Snippet } from 'svelte';
-	import { browser } from '$app/environment';
 
 	let { children, actions }: { children: Snippet; actions?: Snippet } = $props();
 
 	/** "Compact" = a phone in portrait (narrow) OR landscape (short): the dock must not eat the
 	 *  screen, so it starts collapsed there and opens on demand. Desktop starts open. */
 	const COMPACT = '(max-width: 720px), (max-height: 600px)';
-	let open = $state(browser ? !window.matchMedia(COMPACT).matches : true);
+	// Start collapsed so SSR (which can't measure the viewport) never renders the dock open over a
+	// phone; a mount-time effect opens it on roomy viewports. This keeps the initial state correct
+	// on touch devices without a desktop-versus-mobile guess on the server.
+	let open = $state(false);
+	$effect(() => {
+		if (!window.matchMedia(COMPACT).matches) open = true;
+	});
 	let dragY = $state(0);
 	let dragging = $state(false);
 
@@ -199,10 +204,17 @@
 		overflow-y: hidden;
 		padding: 0 22px;
 		border-top: 1px solid transparent;
+		/* The grid collapse clips the body to zero height, but its children keep their own boxes —
+		   so hide it outright once collapsed (after the slide finishes), both for assistive tech and
+		   so it's genuinely gone, not just visually clipped. */
+		visibility: hidden;
+		transition: visibility 0s 0.28s;
 	}
 	.dock.open .body {
 		padding: 16px 22px 22px;
 		border-top-color: var(--line);
+		visibility: visible;
+		transition: visibility 0s 0s;
 	}
 
 	@media (prefers-reduced-motion: reduce) {

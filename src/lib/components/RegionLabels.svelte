@@ -7,6 +7,17 @@
 
 	let { width, domain }: { width: number; domain: FreqDomain } = $props();
 
+	/** ROYGBIV spectral colours, one per letter of "VISIBLE" (7 letters, 7 hues). */
+	const ROYGBIV = [
+		'--spectral-red',
+		'--spectral-orange',
+		'--spectral-yellow',
+		'--spectral-green',
+		'--spectral-cyan',
+		'--spectral-blue',
+		'--spectral-violet'
+	];
+
 	/** Geometric mean = the log-axis midpoint of a region. */
 	const mid = (lo: number, hi: number) => Math.sqrt(lo * hi);
 
@@ -30,8 +41,13 @@
 			const x = Math.min(Math.max(cx, half + 2), width - half - 2);
 			return { r, x, half, onScreenWidth: hi - lo };
 		});
-		// Place wider-on-screen regions first; keep only those that don't collide.
-		const order = [...candidates].sort((a, b) => b.onScreenWidth - a.onScreenWidth);
+		// Place wider-on-screen regions first; keep only those that don't collide. The visible
+		// rainbow is the hero of the chart, so it claims its spot first even when it's a sliver.
+		const order = [...candidates].sort((a, b) => {
+			if (a.r.id === 'visible') return -1;
+			if (b.r.id === 'visible') return 1;
+			return b.onScreenWidth - a.onScreenWidth;
+		});
 		const kept: typeof candidates = [];
 		for (const c of order) {
 			const clash = kept.some((k) => Math.abs(k.x - c.x) < k.half + c.half + PAD);
@@ -43,13 +59,22 @@
 </script>
 
 {#each placed as p (p.r.id)}
-	<text
-		x={p.x}
-		y={PLOT.regionLabelY}
-		text-anchor="middle"
-		class="region"
-		style="fill: {p.r.colorVar}">{p.r.label}</text
-	>
+	{#if p.r.id === 'visible'}
+		<!-- Hero label: each letter of VISIBLE wears its own ROYGBIV hue. -->
+		<text x={p.x} y={PLOT.regionLabelY} text-anchor="middle" class="region">
+			{#each [...p.r.label.toUpperCase()] as ch, i (i)}
+				<tspan style="fill: var({ROYGBIV[i % ROYGBIV.length]})">{ch}</tspan>
+			{/each}
+		</text>
+	{:else}
+		<text
+			x={p.x}
+			y={PLOT.regionLabelY}
+			text-anchor="middle"
+			class="region"
+			style="fill: {p.r.colorVar}">{p.r.label}</text
+		>
+	{/if}
 {/each}
 
 <style>

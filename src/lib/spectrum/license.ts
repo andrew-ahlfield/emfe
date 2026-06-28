@@ -24,7 +24,7 @@ const RANK_LABELS: Record<LicenseRank, string> = {
  */
 export const LICENSE_ICON: Record<LicenseRank, string> = {
 	unlicensed: '○',
-	technician: '▴',
+	technician: '▲',
 	general: '◆',
 	extra: '★'
 };

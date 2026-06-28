@@ -13,6 +13,15 @@
 
 	const regionLabel = (id: Allocation['region']) => REGIONS.find((r) => r.id === id)?.label ?? id;
 
+	/** Optional "learn more" deep links for allocations whose story rewards a click-through. */
+	const LEARN_MORE: Record<string, { url: string; label: string }> = {
+		frs: {
+			url: 'https://www.fcc.gov/general-mobile-radio-service-gmrs',
+			label: 'About the GMRS licence'
+		}
+	};
+	let learnMore = $derived(LEARN_MORE[allocation.id]);
+
 	/** Privilege-strip segment colours reuse the layer palette (≈ the prototype's mode hues). */
 	const MODE_VAR: Record<PrivilegeMode, string> = {
 		cw: '--layer-navigation',
@@ -65,6 +74,14 @@
 	{/if}
 
 	<p class="note">{allocation.note}</p>
+
+	{#if learnMore}
+		<!-- External explainer (absolute https), not an internal SvelteKit route. -->
+		<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
+		<a class="learn-more" href={learnMore.url} target="_blank" rel="noreferrer noopener">
+			{learnMore.label} →
+		</a>
+	{/if}
 
 	<div class="source">
 		Source:
@@ -162,6 +179,18 @@
 		font-size: 12.5px;
 		line-height: 1.5;
 		color: var(--sub);
+	}
+	.learn-more {
+		display: inline-block;
+		margin: 0 0 12px;
+		font-family: var(--font-sans);
+		font-size: 12.5px;
+		font-weight: 600;
+		color: var(--layer-amateur);
+		text-decoration: none;
+	}
+	.learn-more:hover {
+		text-decoration: underline;
 	}
 	.source {
 		font-family: var(--font-mono);

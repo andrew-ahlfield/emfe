@@ -1,5 +1,29 @@
 import { describe, it, expect } from 'vitest';
-import { fmtExp, fmtFreq, fmtLambda, fmtWavelengthOf, toSuperscript } from '$lib/spectrum/format';
+import {
+	fmtExp,
+	fmtFreq,
+	fmtFreqTicks,
+	fmtLambda,
+	fmtWavelengthOf,
+	toSuperscript
+} from '$lib/spectrum/format';
+
+describe('fmtFreqTicks', () => {
+	it('shows enough decimals to distinguish neighbouring ticks', () => {
+		// 100 kHz steps around 27 MHz must not all collapse to "27 MHz".
+		const out = fmtFreqTicks([26.9e6, 27.0e6, 27.1e6, 27.2e6], 0.1e6);
+		expect(out).toEqual(['26.9 MHz', '27.0 MHz', '27.1 MHz', '27.2 MHz']);
+		expect(new Set(out).size).toBe(4);
+	});
+
+	it('uses whole numbers when the step is coarse', () => {
+		expect(fmtFreqTicks([20e6, 25e6, 30e6], 5e6)).toEqual(['20 MHz', '25 MHz', '30 MHz']);
+	});
+
+	it('shares one unit across all ticks', () => {
+		expect(fmtFreqTicks([2.4e9, 2.45e9, 2.5e9], 0.05e9).every((s) => s.endsWith('GHz'))).toBe(true);
+	});
+});
 
 describe('fmtFreq', () => {
 	it('picks the right SI prefix across the spectrum', () => {

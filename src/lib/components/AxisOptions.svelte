@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { axisOptions, toggleExp, toggleLambda, toggleAccurateVisible } from '$lib/state/axis';
+	import { axisOptions, toggleExp, toggleLambda } from '$lib/state/axis';
 </script>
 
 <div class="eyebrow">Axis &amp; scale</div>
@@ -26,17 +26,6 @@
 	>
 		<span class="box" aria-hidden="true">{$axisOptions.showLambda ? '✓' : ''}</span>
 		<span class="label">Wavelength λ (metres)</span>
-	</button>
-	<button
-		type="button"
-		class="row"
-		class:on={$axisOptions.accurateVisible}
-		role="switch"
-		aria-checked={$axisOptions.accurateVisible}
-		onclick={toggleAccurateVisible}
-	>
-		<span class="box" aria-hidden="true">{$axisOptions.accurateVisible ? '✓' : ''}</span>
-		<span class="label">Accurate visible band</span>
 	</button>
 </div>
 

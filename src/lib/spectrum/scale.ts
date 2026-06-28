@@ -68,6 +68,25 @@ export function windowDomain(full: FreqDomain, centerExp: number, zoom: number):
 	return { minExp: Math.max(minExp, full.minExp), maxExp: Math.min(maxExp, full.maxExp) };
 }
 
+/**
+ * "Nice" 1-2-5 tick frequencies spanning the linear range [lo, hi], for the zoomed-in axis.
+ *
+ * The decade ruler (ticks at powers of ten) goes blank once you zoom inside a single decade —
+ * e.g. framing the CB band at ~27 MHz, there's no 10ⁿ tick in view to read a width against. Here
+ * we fall back to evenly-spaced round numbers (…, 2, 5, 10, 20, 50, …) so the scale stays legible
+ * at any magnification. Returns ~`target` ticks; empty when the range is degenerate.
+ */
+export function niceTicks(lo: number, hi: number, target = 7): number[] {
+	if (!(hi > lo) || !Number.isFinite(lo) || !Number.isFinite(hi)) return [];
+	const rawStep = (hi - lo) / target;
+	const mag = 10 ** Math.floor(Math.log10(rawStep));
+	const norm = rawStep / mag;
+	const step = (norm < 1.5 ? 1 : norm < 3 ? 2 : norm < 7 ? 5 : 10) * mag;
+	const out: number[] = [];
+	for (let v = Math.ceil(lo / step) * step; v <= hi + step * 1e-9; v += step) out.push(v);
+	return out;
+}
+
 /** Wavelength (metres) of an electromagnetic wave at the given frequency (Hz). */
 export function freqToWavelength(hz: number): number {
 	return SPEED_OF_LIGHT / hz;

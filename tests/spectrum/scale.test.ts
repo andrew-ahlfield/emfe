@@ -6,11 +6,42 @@ import {
 	decades,
 	freqToWavelength,
 	logPos,
+	niceTicks,
 	posToHz,
 	wavelengthToFreq,
 	windowDomain,
 	type FreqDomain
 } from '$lib/spectrum/scale';
+
+describe('niceTicks', () => {
+	it('returns round 1-2-5 steps across a sub-decade window (the CB band)', () => {
+		// 26.9–27.4 MHz: a decade ruler shows nothing here; we want readable round ticks.
+		const ticks = niceTicks(26.9e6, 27.4e6);
+		expect(ticks.length).toBeGreaterThanOrEqual(4);
+		// Every tick is a clean multiple of the step (100 kHz here).
+		const step = ticks[1] - ticks[0];
+		for (let i = 1; i < ticks.length; i++) {
+			expect(ticks[i] - ticks[i - 1]).toBeCloseTo(step, 3);
+		}
+		expect(ticks.every((t) => t >= 26.9e6 && t <= 27.4e6)).toBe(true);
+	});
+
+	it('picks a step from the 1-2-5 family', () => {
+		const step = (lo: number, hi: number) => {
+			const t = niceTicks(lo, hi);
+			return t[1] - t[0];
+		};
+		// normalised step mantissa should be 1, 2 or 5 × a power of ten
+		const mantissa = (s: number) => s / 10 ** Math.floor(Math.log10(s));
+		expect([1, 2, 5]).toContain(Math.round(mantissa(step(0, 100))));
+		expect([1, 2, 5]).toContain(Math.round(mantissa(step(1e6, 1.07e6))));
+	});
+
+	it('is empty for a degenerate range', () => {
+		expect(niceTicks(5, 5)).toEqual([]);
+		expect(niceTicks(10, 1)).toEqual([]);
+	});
+});
 
 describe('FULL_DOMAIN', () => {
 	it('spans 1 Hz to 10^24 Hz (24 decades)', () => {

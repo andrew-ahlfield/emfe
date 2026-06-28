@@ -87,13 +87,13 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		width: 18px;
-		height: 18px;
+		width: 24px;
+		height: 24px;
 		border-radius: 50%;
 		flex-shrink: 0;
 		background: var(--panelb);
 		color: var(--sub);
-		font-size: 10px;
+		font-size: 14px;
 		line-height: 1;
 		transition:
 			background 0.15s,

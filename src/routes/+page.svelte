@@ -1,11 +1,12 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
-	import { view, visibleDomain, resetView } from '$lib/state/view';
+	import { view, visibleDomain, resetView, undoView } from '$lib/state/view';
 	import { selection, selectedAllocation, clearSelection } from '$lib/state/selection';
 	import { layers } from '$lib/state/layers';
 	import { license } from '$lib/state/license';
 	import { theme } from '$lib/state/theme';
 	import { axisOptions } from '$lib/state/axis';
+	import { inspectorPinned } from '$lib/state/inspector';
 	import { encodeState, decodeState, discreteChanged, type DeepLinkSnapshot } from '$lib/state/url';
 	import { allocations } from '$lib/data/loader';
 	import { FULL_DOMAIN } from '$lib/spectrum/scale';
@@ -76,6 +77,13 @@
 		prev = snap;
 	});
 
+	// Ctrl/Cmd+Z reverses the last view jump (clicking a neighbourhood to frame it, or a reset).
+	function onKeydown(e: KeyboardEvent) {
+		if ((e.ctrlKey || e.metaKey) && !e.shiftKey && e.key.toLowerCase() === 'z') {
+			if (undoView()) e.preventDefault();
+		}
+	}
+
 	// Back/forward: re-apply the view encoded in the URL the browser navigated to.
 	function onPopState() {
 		const s = decodeState(new URLSearchParams(window.location.search), FULL_DOMAIN);
@@ -88,7 +96,7 @@
 	}
 </script>
 
-<svelte:window onpopstate={onPopState} />
+<svelte:window onpopstate={onPopState} onkeydown={onKeydown} />
 
 <svelte:head>
 	<title>EM Frequency Explorer</title>
@@ -100,86 +108,95 @@
 
 <a href="#explorer" class="skip-link">Skip to the spectrum explorer</a>
 
-<main>
-	<section class="card">
-		<ThemeToggle />
-		<header>
-			<div>
-				<h1>The Electromagnetic Spectrum</h1>
-				<p class="sub">Everything we broadcast, navigate by, and see — on one continuous scale.</p>
-			</div>
-			<div class="readout">
-				ν, hertz (log)
-				{#if zoomed}
-					<br />
-					<button type="button" class="reset" onclick={resetView}>reset zoom</button>
+<!-- When the inspector is pinned, the whole layout slides left so the docked drawer and the
+     number line stay side by side without overlap (desktop side-sheet only). -->
+<div class="layout" class:pinned={$inspectorPinned}>
+	<main>
+		<section class="card">
+			<ThemeToggle />
+			<header>
+				<div>
+					<h1>The Electromagnetic Spectrum</h1>
+					<p class="sub">
+						Everything we broadcast, navigate by, and see — on one continuous scale.
+					</p>
+				</div>
+				<div class="readout">
+					ν, hertz (log)
+					{#if zoomed}
+						<br />
+						<button type="button" class="reset" onclick={resetView}>reset zoom</button>
+					{/if}
+				</div>
+			</header>
+
+			<div class="plot" style="height: {PLOT.height}px" bind:clientWidth={width}>
+				{#if width > 0}
+					<!-- Deliberately focusable: a custom-keyboard widget (arrows pan, +/- zoom) whose
+				     interactive marker children stay exposed to assistive tech. -->
+					<!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+					<svg
+						id="explorer"
+						{width}
+						height={PLOT.height}
+						viewBox="0 0 {width} {PLOT.height}"
+						role="application"
+						tabindex="0"
+						aria-roledescription="spectrum explorer"
+						aria-label="Electromagnetic spectrum on a logarithmic frequency axis from 1 hertz to 10 to the 24 hertz. Use arrow keys to pan, plus and minus to zoom, and 0 to reset."
+						class="zoomable"
+						use:zoomable={{ width: () => width, apply: (fn) => view.update(fn) }}
+					>
+						<SpectrumBand {width} domain={$visibleDomain} />
+						<Markers
+							{width}
+							domain={$visibleDomain}
+							selected={$selection}
+							layers={$layers}
+							license={$license}
+						/>
+						<RegionLabels {width} domain={$visibleDomain} />
+						<Axis
+							{width}
+							domain={$visibleDomain}
+							showExp={$axisOptions.showExp}
+							showLambda={$axisOptions.showLambda}
+						/>
+					</svg>
 				{/if}
 			</div>
-		</header>
 
-		<div class="plot" style="height: {PLOT.height}px" bind:clientWidth={width}>
-			{#if width > 0}
-				<!-- Deliberately focusable: a custom-keyboard widget (arrows pan, +/- zoom) whose
-				     interactive marker children stay exposed to assistive tech. -->
-				<!-- svelte-ignore a11y_no_noninteractive_tabindex -->
-				<svg
-					id="explorer"
-					{width}
-					height={PLOT.height}
-					viewBox="0 0 {width} {PLOT.height}"
-					role="application"
-					tabindex="0"
-					aria-roledescription="spectrum explorer"
-					aria-label="Electromagnetic spectrum on a logarithmic frequency axis from 1 hertz to 10 to the 24 hertz. Use arrow keys to pan, plus and minus to zoom, and 0 to reset."
-					class="zoomable"
-					use:zoomable={{ width: () => width, apply: (fn) => view.update(fn) }}
-				>
-					<SpectrumBand {width} domain={$visibleDomain} />
-					<Markers
-						{width}
-						domain={$visibleDomain}
-						selected={$selection}
-						layers={$layers}
-						license={$license}
-					/>
-					<RegionLabels {width} domain={$visibleDomain} />
-					<Axis
-						{width}
-						domain={$visibleDomain}
-						showExp={$axisOptions.showExp}
-						showLambda={$axisOptions.showLambda}
-					/>
-				</svg>
-			{/if}
+			<p class="hint hint-fine" aria-hidden="true">Scroll to zoom · Shift-scroll to pan</p>
+			<p class="hint hint-touch" aria-hidden="true">
+				Scroll or pinch to zoom · Drag or shift-scroll to pan
+			</p>
+			<p class="sr-only" role="status" aria-live="polite">{announcement}</p>
+		</section>
+	</main>
+
+	<Dock>
+		<div class="panel layers-col">
+			<LayerToggles />
+		</div>
+		<div class="panel license-col">
+			<LicenseFilter />
+		</div>
+		<div class="panel axis-col">
+			<AxisOptions />
 		</div>
 
-		<p class="hint" aria-hidden="true">Scroll to zoom · Shift-scroll to pan</p>
-		<p class="sr-only" role="status" aria-live="polite">{announcement}</p>
-	</section>
-</main>
+		{#snippet actions()}
+			<SourcesModal />
+		{/snippet}
+	</Dock>
 
-<Dock>
-	<div class="panel layers-col">
-		<LayerToggles />
-	</div>
-	<div class="panel license-col">
-		<LicenseFilter />
-	</div>
-	<div class="panel axis-col">
-		<AxisOptions />
-	</div>
-
-	{#snippet actions()}
-		<SourcesModal />
-	{/snippet}
-</Dock>
-
-<InspectorDrawer
-	allocation={$selectedAllocation}
-	license={$license}
-	open={$selection !== null}
-	onclose={clearSelection}
-/>
+	<InspectorDrawer
+		allocation={$selectedAllocation}
+		license={$license}
+		open={$selection !== null}
+		onclose={clearSelection}
+	/>
+</div>
 
 <style>
 	.skip-link {
@@ -232,6 +249,35 @@
 		letter-spacing: 0.12em;
 		text-transform: uppercase;
 		color: var(--faint);
+	}
+	/* Phrase the gesture hint for the actual input device: touch users get pinch/drag wording. */
+	.hint-touch {
+		display: none;
+	}
+	@media (pointer: coarse) {
+		.hint-fine {
+			display: none;
+		}
+		.hint-touch {
+			display: block;
+		}
+	}
+
+	/* Pinned inspector: slide the number line + dock left by the docked drawer's width so they
+	   never sit under it. Side-sheet (desktop/tablet) only — the portrait bottom sheet doesn't
+	   overlap horizontally. */
+	.layout {
+		--inspector-shift: 396px;
+	}
+	@media (min-width: 721px) {
+		.layout.pinned main {
+			margin-right: var(--inspector-shift);
+			transition: margin-right 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+		}
+		.layout.pinned :global(.dock) {
+			right: calc(18px + var(--inspector-shift));
+			transition: right 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+		}
 	}
 
 	main {
@@ -361,6 +407,16 @@
 		}
 		.license-col {
 			width: 226px;
+		}
+	}
+
+	/* Desktop / tablet with real height: float the card up into the upper-middle rather than
+	   pinning it to the very top. The dock's reserved bottom padding biases the vertical centre
+	   above the geometric middle, so the card lands around three-quarters up the viewport. */
+	@media (min-width: 721px) and (min-height: 700px) {
+		main {
+			min-height: 100dvh;
+			align-items: center;
 		}
 	}
 

@@ -3,30 +3,33 @@
 		"id": "schumann",
 		"name": "Schumann resonance",
 		"hz": 7.83,
+		"band": [7.5, 8.3],
 		"layer": "science",
 		"region": "radio",
 		"minLod": 1,
-		"note": "The Earth–ionosphere cavity ringing at ≈7.83 Hz — the planet's natural EM heartbeat.",
+		"note": "The Earth–ionosphere cavity ringing near 7.83 Hz — the planet's natural EM heartbeat. The fundamental drifts and broadens with the day/night ionosphere (≈7.5–8.3 Hz); higher modes ring at 14, 20, 27 Hz.",
 		"source": "nasa-ems"
 	},
 	{
 		"id": "powerline",
 		"name": "AC mains",
 		"hz": 60,
+		"band": [59.95, 60.05],
 		"layer": "consumer",
 		"region": "radio",
 		"minLod": 1,
-		"note": "Power-line hum — the 60 Hz that runs North America (50 Hz across much of the world).",
+		"note": "Power-line hum — the 60 Hz that runs North America (50 Hz across much of the world). The grid is held to ≈±0.05 Hz under normal conditions, wandering within that window minute to minute.",
 		"source": "nasa-ems"
 	},
 	{
 		"id": "sub-elf",
 		"name": "Navy ELF",
 		"hz": 76,
+		"band": [74, 78],
 		"layer": "gov",
 		"region": "radio",
 		"minLod": 2,
-		"note": "US Navy ELF — 76 Hz signalling that reaches submerged submarines, a few bits per minute.",
+		"note": "US Navy ELF — 76 Hz signalling that reaches submerged submarines. Counter-intuitively narrow: at ~1 bit/minute the emission occupies only a few Hz, even though the ELF band itself spans 3 Hz–3 kHz.",
 		"source": "nasa-ems"
 	},
 	{
@@ -316,6 +319,17 @@
 		"source": "nasa-ems"
 	},
 	{
+		"id": "tv-vhf-lo",
+		"name": "VHF TV (low)",
+		"hz": 70000000,
+		"band": [54000000, 88000000],
+		"layer": "consumer",
+		"region": "radio",
+		"minLod": 3,
+		"note": "Low-VHF television — channels 2–6 (54–88 MHz). Sits just below the FM band; the two don't overlap.",
+		"source": "fcc-tofa"
+	},
+	{
 		"id": "fm",
 		"name": "FM radio",
 		"hz": 98000000,
@@ -372,6 +386,18 @@
 		"source": "fcc-part97"
 	},
 	{
+		"id": "murs",
+		"name": "MURS",
+		"hz": 152000000,
+		"band": [151820000, 154600000],
+		"layer": "amateur",
+		"region": "radio",
+		"minLod": 3,
+		"reqLicense": "unlicensed",
+		"note": "Multi-Use Radio Service — five license-free VHF channels (151.82–154.60 MHz), 2 W. Like FRS but lower in frequency, with better outdoor range.",
+		"source": "fcc-part97"
+	},
+	{
 		"id": "marine-vhf",
 		"name": "Marine VHF",
 		"hz": 157000000,
@@ -405,14 +431,14 @@
 		"source": "fcc-tofa"
 	},
 	{
-		"id": "tv-vhf",
-		"name": "VHF television",
-		"hz": 187250000,
-		"band": [54000000, 216000000],
+		"id": "tv-vhf-hi",
+		"name": "VHF TV (high)",
+		"hz": 195000000,
+		"band": [174000000, 216000000],
 		"layer": "consumer",
 		"region": "radio",
 		"minLod": 3,
-		"note": "VHF television — channels 2–13 (54–216 MHz), the original broadcast TV bands.",
+		"note": "High-VHF television — channels 7–13 (174–216 MHz). The gap below it (108–174 MHz) holds FM, airband and VHF land-mobile, so VHF TV never overlaps FM.",
 		"source": "fcc-tofa"
 	},
 	{
@@ -503,7 +529,7 @@
 		"region": "radio",
 		"minLod": 3,
 		"reqLicense": "unlicensed",
-		"note": "Family Radio — license-free walkie-talkies (GMRS needs a no-test permit).",
+		"note": "FRS is license-free — the bubble-pack walkie-talkies, 22 channels at up to 2 W. GMRS shares those channels but unlocks much more: up to 50 W, removable antennas and repeaters for far greater range. GMRS needs a licence, but there's no exam — a $35 FCC permit covers your whole family for 10 years.",
 		"source": "fcc-part97"
 	},
 	{
@@ -964,10 +990,11 @@
 		"id": "co2-laser",
 		"name": "CO₂ laser",
 		"hz": 28300000000000,
+		"band": [27750000000000, 32580000000000],
 		"layer": "science",
 		"region": "infrared",
 		"minLod": 3,
-		"note": "CO₂ laser (10.6 µm) — industrial cutting & welding, laser surgery.",
+		"note": "CO₂ laser — industrial cutting & welding, laser surgery. Not a single line: it lases across a comb of rotational transitions spanning 9.2–10.8 µm (the 10.6 µm line is just the strongest).",
 		"source": "nasa-ems"
 	},
 	{
@@ -1007,10 +1034,22 @@
 		"id": "nir-remote",
 		"name": "Near-IR (940 nm)",
 		"hz": 319000000000000,
+		"band": [310900000000000, 327900000000000],
 		"layer": "consumer",
 		"region": "infrared",
 		"minLod": 3,
-		"note": "Near-infrared (940 nm) — TV remotes, IR illuminators, face-unlock and proximity sensors.",
+		"note": "Near-infrared (940 nm) — the invisible light a TV remote blinks. Also IR illuminators on security cameras, face-unlock dot projectors, and proximity sensors. The LED emission is genuinely broad (≈915–965 nm).",
+		"source": "nasa-ems"
+	},
+	{
+		"id": "lidar",
+		"name": "LIDAR",
+		"hz": 331260000000000,
+		"band": [318900000000000, 352700000000000],
+		"layer": "navigation",
+		"region": "infrared",
+		"minLod": 3,
+		"note": "LIDAR — pulsed near-infrared light (commonly 905 nm; some automotive units use 1550 nm) for self-driving perception and 3-D mapping. Note it's *light*, not the 77 GHz radio of automotive radar.",
 		"source": "nasa-ems"
 	},
 	{
@@ -1028,21 +1067,22 @@
 		"id": "green-laser",
 		"name": "532 nm green laser",
 		"hz": 563900000000000,
+		"band": [562300000000000, 565500000000000],
 		"layer": "science",
 		"region": "visible",
 		"minLod": 3,
-		"note": "532 nm green laser — pointers, rangefinders, and laser light shows.",
+		"note": "532 nm green laser — pointers, rangefinders, and laser light shows. Frequency-doubled Nd:YAG; consumer units hold ±1–2 nm.",
 		"source": "nasa-ems"
 	},
 	{
 		"id": "uva",
-		"name": "UV-A",
+		"name": "UV-A / blacklight",
 		"hz": 821000000000000,
 		"band": [750000000000000, 950000000000000],
-		"layer": "science",
+		"layer": "consumer",
 		"region": "uv",
 		"minLod": 3,
-		"note": "UV-A (≈365 nm) — blacklight glow, ink curing, and most of a suntan.",
+		"note": "UV-A (315–400 nm) — the blacklight in a 365 nm torch that makes posters and tonic water glow, plus gel-nail/ink curing and most of a suntan. The everyday face of ultraviolet.",
 		"source": "nasa-ems"
 	},
 	{
@@ -1154,10 +1194,11 @@
 		"id": "cobalt60",
 		"name": "Cobalt-60",
 		"hz": 320000000000000000000,
+		"band": [283600000000000000000, 322100000000000000000],
 		"layer": "science",
 		"region": "gamma",
 		"minLod": 2,
-		"note": "Co-60 γ-rays (≈1.3 MeV) — sterilising medical kit and treating cancer.",
+		"note": "Co-60 γ-rays — sterilising medical kit and treating cancer. Each decay emits two gammas, at 1.17 and 1.33 MeV, so it's really a pair of lines rather than one.",
 		"source": "nasa-ems"
 	},
 	{

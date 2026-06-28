@@ -49,6 +49,19 @@ export function fmtFreq(hz: number): string {
 }
 
 /**
+ * Format a list of axis-tick frequencies in one shared SI unit, with just enough decimal places
+ * to tell neighbours `step` Hz apart. Plain {@link fmtFreq} rounds 26.9/27.0/27.1 MHz all to
+ * "27 MHz"; deep in a zoom that hides the band's width, so the adaptive ruler uses this instead.
+ */
+export function fmtFreqTicks(values: number[], step: number): string[] {
+	if (values.length === 0) return [];
+	const peak = Math.max(...values.map((v) => Math.abs(v)));
+	const [name, scale] = FREQ_UNITS.find(([, s]) => peak >= s) ?? ['Hz', 1];
+	const decimals = Math.min(6, Math.max(0, -Math.floor(Math.log10(step / scale) + 1e-9)));
+	return values.map((v) => `${(v / scale).toFixed(decimals)} ${name}`);
+}
+
+/**
  * Format a wavelength (metres) with an SI-prefixed unit, e.g. `12 cm`, `550 nm`.
  * Returns `—` for non-finite or non-positive input.
  */

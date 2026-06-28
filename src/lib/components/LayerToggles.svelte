@@ -2,14 +2,31 @@
 	import { LAYERS } from '$lib/data/types';
 	import { layerCounts } from '$lib/spectrum/filter';
 	import { allocations } from '$lib/data/loader';
-	import { LAYER_LABELS, layers, toggleLayer } from '$lib/state/layers';
+	import { LAYER_LABELS, layers, toggleLayer, setAllLayers } from '$lib/state/layers';
 
 	// LOD detail-tiers are disabled for now, so counts reflect every allocation in the layer
 	// (max detail = 3). Restore per-zoom counts by taking a `lod` prop and passing it here.
 	let counts = $derived(layerCounts(allocations, 3));
+
+	let anyOn = $derived(LAYERS.some((l) => $layers[l]));
+	let allOn = $derived(LAYERS.every((l) => $layers[l]));
 </script>
 
-<div class="eyebrow">Content layers</div>
+<div class="head">
+	<div class="eyebrow">Content layers</div>
+	<button
+		type="button"
+		class="master"
+		class:on={anyOn}
+		role="switch"
+		aria-checked={allOn}
+		aria-label={anyOn ? 'Hide all content layers' : 'Show all content layers'}
+		title={anyOn ? 'Hide all' : 'Show all'}
+		onclick={() => setAllLayers(!anyOn)}
+	>
+		<span class="switch"><span class="knob"></span></span>
+	</button>
+</div>
 
 <div class="rows">
 	{#each LAYERS as id (id)}
@@ -31,13 +48,34 @@
 </div>
 
 <style>
+	.head {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		margin-bottom: 11px;
+	}
 	.eyebrow {
 		font-family: var(--font-mono);
 		font-size: 11px;
 		letter-spacing: 0.14em;
 		color: var(--faint);
 		text-transform: uppercase;
-		margin-bottom: 11px;
+	}
+	.master {
+		border: none;
+		background: transparent;
+		padding: 0;
+		cursor: pointer;
+		line-height: 0;
+	}
+	.master .switch {
+		background: var(--panelb);
+	}
+	.master.on .switch {
+		background: var(--ink);
+	}
+	.master.on .knob {
+		left: 15px;
 	}
 	.rows {
 		display: flex;

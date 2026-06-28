@@ -30,3 +30,8 @@ export function toggleLayer(id: LayerId): void {
 export function enableLayer(id: LayerId): void {
 	layers.update((s) => ({ ...s, [id]: true }));
 }
+
+/** Set every content layer at once — the master on/off switch. */
+export function setAllLayers(on: boolean): void {
+	layers.set(Object.fromEntries(LAYERS.map((l) => [l, on])) as LayerVisibility);
+}

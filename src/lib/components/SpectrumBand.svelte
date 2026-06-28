@@ -3,15 +3,14 @@
 <script lang="ts">
 	import { logPos, type FreqDomain } from '$lib/spectrum/scale';
 	import { ITU_BANDS, bandGradientStops } from '$lib/spectrum/bands';
-	import { axisOptions } from '$lib/state/axis';
 	import { PLOT } from './plot-layout';
 
 	let { width, domain }: { width: number; domain: FreqDomain } = $props();
 
 	const gradId = 'band-gradient';
-	let stops = $derived(
-		bandGradientStops(domain, { width, exaggerateVisible: !$axisOptions.accurateVisible })
-	);
+	// The rainbow is gently widened to a legible minimum when zoomed out and tapers to its true
+	// width as you zoom in; the axis ruler stays honest throughout, so this is always on.
+	let stops = $derived(bandGradientStops(domain, { width, exaggerateVisible: true }));
 	let bands = $derived(
 		ITU_BANDS.map((b) => {
 			const x = logPos(b.lo, domain) * width;

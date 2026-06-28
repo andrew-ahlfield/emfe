@@ -53,18 +53,38 @@
 }
 
 html[data-theme='light'] {
-	--bg: #ffffff;
-	--panel: #fbfbfa;
-	--panel2: #f4f4f1;
-	--panelb: #e6e6e1;
-	--ink: #191b21;
-	--sub: #5f6573;
-	--faint: #636a77; /* AA: ≥4.5:1 on bg/panel/chip for the small mono micro-labels */
-	--line: #ededea;
-	--chip: #f1f1ee;
-	--chipink: #3a4154;
-	--softshadow: 0 24px 60px rgba(30, 35, 60, 0.12);
-	--glow: 0.09;
+	/* Light mode is its own design, not an inverted dark mode: a warm paper surface where the
+	   spectrum is ink on the page. The desk is a hair darker than the cards so panels read as
+	   raised (light mode can use elevation shadows that dark mode can't), and the accent palette
+	   is deepened below — the dark-mode neons are too pale to carry on white. */
+	--bg: #f3efe7; /* warm paper desk */
+	--panel: #fffdf8; /* card, slightly brighter than the desk */
+	--panel2: #f6f2ea;
+	--panelb: #e4ddcf;
+	--ink: #20242c;
+	--sub: #5b616d;
+	--faint: #6a6f7b; /* AA: ≥4.5:1 on the warm surfaces for the small mono micro-labels */
+	--line: #e7e0d2;
+	--chip: #efe9dd;
+	--chipink: #353b48;
+	--softshadow: 0 18px 50px rgba(60, 50, 30, 0.14);
+	--glow: 0.06;
+
+	/* Deepened region palette — saturated enough to hold their own on a light page. */
+	--region-radio: #e23a5e;
+	--region-microwave: #d97216;
+	--region-infrared: #d8481f;
+	--region-visible: #2c9e46;
+	--region-uv: #6a44e0;
+	--region-xray: #1f6fe0;
+	--region-gamma: #ad34d8;
+
+	/* Deepened content-layer palette for legible dots/labels on the paper surface. */
+	--layer-consumer: #138374;
+	--layer-amateur: #ad34d8;
+	--layer-navigation: #2f6fe0;
+	--layer-gov: #c46a12;
+	--layer-science: #2c9e46;
 }
 
 * {
