@@ -83,20 +83,46 @@ export interface GradientStop {
  * always a lower and a higher frequency. The visible region renders as a true-colour rainbow
  * whose red/violet ends blend into infrared and ultraviolet.
  */
-export function bandGradientStops(domain: FreqDomain): GradientStop[] {
+export interface GradientOptions {
+	/**
+	 * When the visible band would be a sub-pixel sliver (zoomed out), widen its rainbow to a
+	 * legible minimum so you can actually see it — tapering to the true width as you zoom in.
+	 * Requires `width`. Off → the rainbow sits at its physically-accurate position always.
+	 */
+	exaggerateVisible?: boolean;
+	/** Plot width in px (needed to size the visible-band minimum). */
+	width?: number;
+}
+
+/** Minimum on-screen width (px) of the visible rainbow when exaggeration is enabled. */
+const MIN_VISIBLE_PX = 30;
+
+export function bandGradientStops(domain: FreqDomain, opts: GradientOptions = {}): GradientStop[] {
 	/** Fraction of each region's width handed to the boundary crossfade on each side. */
 	const BLEND = 0.3;
 	const stops: GradientStop[] = [];
 	const push = (offset: number, color: string, opacity: number) =>
 		stops.push({ offset: clamp01(offset), color, opacity });
 
+	const exaggerate = !!opts.exaggerateVisible && !!opts.width && opts.width > 0;
+
 	push(0, 'var(--region-radio)', 0); // transparent low-frequency end
 	REGIONS.forEach((r) => {
-		const lo = logPos(r.lo, domain);
-		const hi = logPos(r.hi, domain);
+		let lo = logPos(r.lo, domain);
+		let hi = logPos(r.hi, domain);
 		const w = hi - lo;
 		if (r.id === 'visible') {
-			SPECTRAL.forEach((c, i) => push(lo + (w * i) / (SPECTRAL.length - 1), c, 1));
+			if (exaggerate) {
+				// Grow the rainbow symmetrically about its true centre up to the minimum width;
+				// once the true width already exceeds it (zoomed in) this is a no-op.
+				const minHalf = MIN_VISIBLE_PX / opts.width! / 2;
+				const center = (lo + hi) / 2;
+				const half = Math.max((hi - lo) / 2, minHalf);
+				lo = center - half;
+				hi = center + half;
+			}
+			const vw = hi - lo;
+			SPECTRAL.forEach((c, i) => push(lo + (vw * i) / (SPECTRAL.length - 1), c, 1));
 			return;
 		}
 		// Solid core; the gaps to the neighbours' cores are where the gradient blends.

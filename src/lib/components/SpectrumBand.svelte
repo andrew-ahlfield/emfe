@@ -3,12 +3,15 @@
 <script lang="ts">
 	import { logPos, type FreqDomain } from '$lib/spectrum/scale';
 	import { ITU_BANDS, bandGradientStops } from '$lib/spectrum/bands';
+	import { axisOptions } from '$lib/state/axis';
 	import { PLOT } from './plot-layout';
 
 	let { width, domain }: { width: number; domain: FreqDomain } = $props();
 
 	const gradId = 'band-gradient';
-	let stops = $derived(bandGradientStops(domain));
+	let stops = $derived(
+		bandGradientStops(domain, { width, exaggerateVisible: !$axisOptions.accurateVisible })
+	);
 	let bands = $derived(
 		ITU_BANDS.map((b) => {
 			const x = logPos(b.lo, domain) * width;

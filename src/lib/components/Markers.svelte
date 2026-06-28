@@ -42,6 +42,8 @@
 	 */
 	function barOf(a: Allocation | null): { x0: number; x1: number; w: number } | null {
 		if (!a?.band) return null;
+		// The visible region IS the rainbow — don't box it; a small pin points to the spot.
+		if (a.region === 'visible') return null;
 		const x0 = logPos(a.band[0], domain) * width;
 		const x1 = logPos(a.band[1], domain) * width;
 		const w = x1 - x0;
@@ -138,24 +140,12 @@
 				width={bar.w}
 				height="10"
 				rx="2.5"
-				style={d.region === 'visible' ? '' : `fill: var(--layer-${d.layer})`}
-				fill={d.region === 'visible' ? 'transparent' : undefined}
+				style="fill: var(--layer-{d.layer})"
 				class="band-bar"
-				class:vis={d.region === 'visible'}
 				class:sel
 			/>
 		{:else if d.region === 'visible'}
-			<rect
-				x={d.x - 9}
-				y={bandMid - 3.5}
-				width="18"
-				height="7"
-				rx="2"
-				fill="transparent"
-				stroke="var(--panel)"
-				class="vis-dot"
-				class:sel
-			/>
+			<circle cx={d.x} cy={bandMid} r={sel ? 5 : 3.5} class="pin" class:sel />
 		{:else}
 			<circle
 				cx={d.x}
@@ -220,10 +210,8 @@
 					width={bar.w}
 					height="12"
 					rx="3"
-					style={item.alloc?.region === 'visible' ? '' : `fill: ${p.color}`}
-					fill={item.alloc?.region === 'visible' ? 'transparent' : undefined}
+					style="fill: {p.color}"
 					class="leaf-bar"
-					class:vis={item.alloc?.region === 'visible'}
 					class:sel
 				/>
 			{:else if item.alloc?.region !== 'visible'}
@@ -240,17 +228,7 @@
 					<text x={item.x} y={bandMid} class="license-icon" class:sel>{p.licenseIcon}</text>
 				{/if}
 			{:else}
-				<rect
-					x={item.x - 9}
-					y={bandMid - 4}
-					width="18"
-					height="8"
-					rx="2"
-					fill="transparent"
-					stroke="var(--panel)"
-					class="vis-dot"
-					class:sel
-				/>
+				<circle cx={item.x} cy={bandMid} r={sel ? 6 : 4} class="pin" class:sel />
 			{/if}
 			<text x={item.x} y={p.nameY} text-anchor="middle" class="name" data-mk={item.id}
 				>{item.label}</text
@@ -296,10 +274,6 @@
 		stroke-width: 1;
 		opacity: 0.92;
 	}
-	.band-bar.vis {
-		stroke: var(--panel);
-		stroke-width: 1.5;
-	}
 	.band-marker:hover .band-bar,
 	.band-marker:focus-visible .band-bar {
 		opacity: 1;
@@ -313,14 +287,22 @@
 		stroke: var(--panel);
 		stroke-width: 1.5;
 	}
-	.leaf-bar.vis {
-		stroke: var(--ink);
-	}
 	.leaf-bar.sel {
 		stroke: var(--ink);
 		filter: drop-shadow(0 0 6px currentColor);
 	}
-	.band-marker:focus-visible .vis-dot,
+	/* Visible-light pin: a small neutral marker that points to a spot on the rainbow without
+	   boxing over it (the rainbow already shows the colour). */
+	.pin {
+		fill: var(--panel);
+		stroke: var(--ink);
+		stroke-width: 1.5;
+	}
+	.pin.sel {
+		stroke-width: 2;
+		filter: drop-shadow(0 0 5px var(--ink));
+	}
+	.band-marker:focus-visible .pin,
 	.band-marker:focus-visible .band-dot {
 		stroke: var(--ink);
 	}
