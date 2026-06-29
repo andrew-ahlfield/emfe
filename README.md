@@ -36,8 +36,10 @@ _"Allocation, Assignment, and Use of Radio Frequencies"_):
 
 - **Application** _(top)_ — the recognizable thing that actually uses a band:
   FM radio, Wi-Fi, GPS, ADS-B. Markers ride on the spectrum gradient.
-- **Assignment** _(middle)_ — specific frequencies _designated_ for one job:
-  Marine Channel 16, the 121.5/243 MHz emergency guards, CB Channel 9.
+- **Assignment** _(middle)_ — who actually _holds_ a band nationally (Verizon,
+  AT&T, T-Mobile, Dish, SiriusXM, Globalstar, Iridium, GPS, Starlink…) plus the
+  single frequencies _designated_ for one job (Marine Channel 16, the 121.5/243 MHz
+  emergency guards, CB Channel 9).
 - **Allocation** _(bottom)_ — a continuous, **gap-free** ribbon of the radio
   _services_ each band is allocated to (FIXED, MOBILE, BROADCASTING, …), straight
   from the US Table of Frequency Allocations. This is what makes the chart honest:
