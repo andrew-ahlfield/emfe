@@ -13,6 +13,7 @@
 	import type { LayerId, LicenseRank } from '$lib/data/types';
 	import { select } from '$lib/state/selection';
 	import { jumpTo } from '$lib/state/view';
+	import { visibleGroups } from '$lib/state/visible';
 	import { PLOT } from './plot-layout';
 
 	let {
@@ -186,6 +187,9 @@
 	let visible = $derived(
 		visibleAllocations(allocations, 3, layers)
 			.filter((a) => a.tier !== 'assignment')
+			// Visible-light sub-filter: hide an optical entry whose group (laser/LED/gas/firework)
+			// is toggled off. Entries without an `optical` group are unaffected.
+			.filter((a) => !a.optical || $visibleGroups[a.optical])
 			.map((a) => (a.altLayer ? { ...a, layer: effectiveLayer(a, layers) } : a))
 	);
 

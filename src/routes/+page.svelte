@@ -27,6 +27,7 @@
 	import SubstrateInfo from '$lib/components/SubstrateInfo.svelte';
 	import LayerToggles from '$lib/components/LayerToggles.svelte';
 	import LicenseFilter from '$lib/components/LicenseFilter.svelte';
+	import VisibleFilter from '$lib/components/VisibleFilter.svelte';
 	import AllocationFilter from '$lib/components/AllocationFilter.svelte';
 	import AssignmentFilter from '$lib/components/AssignmentFilter.svelte';
 	import AxisOptions from '$lib/components/AxisOptions.svelte';
@@ -216,6 +217,9 @@
 		</div>
 		<div class="panel license-col">
 			<LicenseFilter />
+		</div>
+		<div class="panel visible-col">
+			<VisibleFilter />
 		</div>
 		<div class="panel allocation-col">
 			<AllocationFilter />
@@ -413,6 +417,10 @@
 		width: 236px;
 		flex-shrink: 0;
 	}
+	.visible-col {
+		width: 214px;
+		flex-shrink: 0;
+	}
 	.allocation-col {
 		width: 248px;
 		flex-shrink: 0;
@@ -465,6 +473,9 @@
 		}
 		.license-col {
 			width: 226px;
+		}
+		.visible-col {
+			width: 208px;
 		}
 		.allocation-col {
 			width: 244px;
