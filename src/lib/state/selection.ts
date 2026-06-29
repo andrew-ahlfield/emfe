@@ -8,6 +8,13 @@ import { allocations } from '$lib/data/loader';
 
 export const selection = writable<string | null>(null);
 
+/**
+ * Whether a selected gas/discharge is *isolating* its spectrum (dimming the other discharges'
+ * emission lines). Selecting a gas turns it on; clicking the empty background turns it off again
+ * — bringing every spectrum back while keeping the selected gas's info card open.
+ */
+export const gasIsolated = writable<boolean>(true);
+
 /** Sensible default shown before the user picks anything. */
 const DEFAULT_ID = 'wifi';
 

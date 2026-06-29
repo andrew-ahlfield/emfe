@@ -11,7 +11,7 @@
 	import { clampCenter, clampZoom } from '$lib/spectrum/zoom';
 	import { allocations } from '$lib/data/loader';
 	import type { LayerId, LicenseRank } from '$lib/data/types';
-	import { select } from '$lib/state/selection';
+	import { select, gasIsolated } from '$lib/state/selection';
 	import { jumpTo } from '$lib/state/view';
 	import { visibleGroups } from '$lib/state/visible';
 	import { PLOT } from './plot-layout';
@@ -66,7 +66,7 @@
 	 * ticks. Null when the selection isn't a line emitter (then nothing dims).
 	 */
 	let selectedGasId = $derived.by<string | null>(() => {
-		if (!selected) return null;
+		if (!$gasIsolated || !selected) return null;
 		const a = allocations.find((x) => x.id === selected);
 		return a?.lines && a.lines.length > 0 ? selected : null;
 	});
@@ -376,6 +376,20 @@
 	{@const col = fillOf(alloc, spectralColor(alloc.hz))}
 	{@const solid = alloc.optical === 'led' && alloc.emission !== 'white'}
 	{#if alloc.lines && alloc.lines.length > 0}
+		<!-- The selected discharge gets a padded envelope so its full range — including the faint
+		     edge lines at the very top and bottom — is easy to pick out. Drawn behind the ticks. -->
+		{#if sel && alloc.band}
+			{@const bx0 = logPos(alloc.band[0], domain) * width}
+			{@const bx1 = logPos(alloc.band[1], domain) * width}
+			<rect
+				x={bx0 - 6}
+				y={bandMid - 13}
+				width={bx1 - bx0 + 12}
+				height="26"
+				rx="4"
+				class="emission-box"
+			/>
+		{/if}
 		<!-- A discrete-line emitter (gas discharge / flame): one spectral tick per emission line. -->
 		{#each alloc.lines as ln, i (i)}
 			{@const lx = logPos(ln, domain) * width}
@@ -641,6 +655,13 @@
 	/* When one discharge is selected, the others fade so its spectrum stands out from the noise. */
 	.emission-line.dim {
 		opacity: 0.1;
+	}
+	/* Padded envelope around the selected discharge's lines — brackets its full range. */
+	.emission-box {
+		fill: color-mix(in srgb, var(--ink) 6%, transparent);
+		stroke: var(--sub);
+		stroke-width: 1;
+		opacity: 0.7;
 	}
 	.band-marker:focus-visible .band-dot {
 		stroke: var(--ink);

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
 	import { view, visibleDomain, resetView, undoView } from '$lib/state/view';
-	import { selection, selectedAllocation, clearSelection } from '$lib/state/selection';
+	import { selection, selectedAllocation, clearSelection, gasIsolated } from '$lib/state/selection';
 	import { layers } from '$lib/state/layers';
 	import { license } from '$lib/state/license';
 	import { theme } from '$lib/state/theme';
@@ -93,6 +93,22 @@
 		if ($selection) clearBand();
 	});
 
+	// Selecting a gas/discharge re-isolates its spectrum (dims the others).
+	$effect(() => {
+		const a = $selection && allocations.find((x) => x.id === $selection);
+		if (a && a.lines && a.lines.length > 0) gasIsolated.set(true);
+	});
+
+	// A click on empty space — not the info card, the controls dock, or an entry/button — brings
+	// every spectrum back (un-isolate) while leaving the selected gas's card open.
+	function onBackgroundClick(e: MouseEvent) {
+		const t = e.target;
+		if (t instanceof Element && t.closest('.drawer, .dock, .modal, [role="button"], button, a')) {
+			return;
+		}
+		gasIsolated.set(false);
+	}
+
 	// Ctrl/Cmd+Z reverses the last view jump (clicking a neighbourhood to frame it, or a reset).
 	function onKeydown(e: KeyboardEvent) {
 		if ((e.ctrlKey || e.metaKey) && !e.shiftKey && e.key.toLowerCase() === 'z') {
@@ -112,7 +128,7 @@
 	}
 </script>
 
-<svelte:window onpopstate={onPopState} onkeydown={onKeydown} />
+<svelte:window onpopstate={onPopState} onkeydown={onKeydown} onclick={onBackgroundClick} />
 
 <svelte:head>
 	<title>EM Frequency Explorer</title>

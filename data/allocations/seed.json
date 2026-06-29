@@ -1295,8 +1295,9 @@
 		"layer": "science",
 		"region": "infrared",
 		"minLod": 3,
-		"note": "Thermal infrared (≈30 THz) — heat lamps, night vision, TV remotes nearby.",
-		"source": "nasa-ems"
+		"note": "Thermal infrared (≈30 THz) — the glow of body heat and warm objects. This is what thermal cameras (FLIR / thermal imaging) and night-vision gear see, what heat lamps pour out, and the band a TV remote blinks in nearby.",
+		"source": "nasa-ems",
+		"altLayer": "consumer"
 	},
 	{
 		"id": "fiber",
@@ -1356,7 +1357,8 @@
 		"note": "532 nm green laser — pointers, rangefinders, and laser light shows. Unlike the red and blue diodes, this colour is synthesised: an 808 nm diode pumps a Nd:YVO₄ crystal lasing at 1064 nm, which a KTP crystal frequency-doubles (its second harmonic) to 532 nm. Cheap modules that skip the IR filter leak the invisible 1064 nm (and 808 nm) light — focusable and an eye hazard — which is why quality green lasers and laser-light projectors include an IR-blocking element.",
 		"source": "rp-photonics",
 		"emission": "spectral",
-		"optical": "laser"
+		"optical": "laser",
+		"altLayer": "consumer"
 	},
 	{
 		"id": "red-laser",
@@ -1369,7 +1371,8 @@
 		"note": "650 nm red laser — the classic laser-pointer and barcode scanner, and the pickup diode that reads DVDs. A direct-emission AlGaInP (aluminium gallium indium phosphide) diode: it makes red light straight from its semiconductor junction, so there are no harmonics to filter — just a couple of nm of thermal drift, which is why it reads as a narrow band rather than one line.",
 		"source": "rp-photonics",
 		"emission": "spectral",
-		"optical": "laser"
+		"optical": "laser",
+		"altLayer": "consumer"
 	},
 	{
 		"id": "blue-laser",
@@ -1382,7 +1385,8 @@
 		"note": "450 nm blue laser — laser projectors and cinema, plus high-power cutting and engraving diodes. A direct-emission InGaN (indium gallium nitride) diode — the gallium-nitride family Shuji Nakamura's Nobel-winning blue LED opened up — so, like the red diode, it emits its colour directly with no harmonics to filter.",
 		"source": "rp-photonics",
 		"emission": "spectral",
-		"optical": "laser"
+		"optical": "laser",
+		"altLayer": "consumer"
 	},
 	{
 		"id": "uva",
