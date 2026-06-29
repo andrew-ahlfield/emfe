@@ -34,20 +34,6 @@
 					"items": { "type": "number", "exclusiveMinimum": 0 },
 					"minItems": 1
 				},
-				"modes": {
-					"type": "array",
-					"items": {
-						"type": "object",
-						"additionalProperties": false,
-						"required": ["hz", "bw", "amp"],
-						"properties": {
-							"hz": { "type": "number", "exclusiveMinimum": 0 },
-							"bw": { "type": "number", "exclusiveMinimum": 0 },
-							"amp": { "type": "number", "exclusiveMinimum": 0 }
-						}
-					},
-					"minItems": 1
-				},
 				"layer": {
 					"enum": ["consumer", "amateur", "navigation", "gov", "science"]
 				},
@@ -64,7 +50,6 @@
 				"reqLicense": {
 					"enum": ["unlicensed", "technician", "general", "extra"]
 				},
-				"operator": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$" },
 				"designation": { "enum": ["distress", "calling"] },
 				"emission": { "enum": ["spectral", "white"] },
 				"optical": { "enum": ["laser", "led", "gas", "fireworks"] },

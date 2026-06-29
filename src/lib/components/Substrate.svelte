@@ -39,10 +39,10 @@
 	/** Hairline gap carved between adjacent tiles so the ribbon reads as crafted segments, not one
 	 *  hard brick wall — applied only to tiles wide enough to spare it. */
 	const TILE_GAP = 0.5;
-	/** ~px advance of one 9.5px mono glyph; the two label rows inside the strip. */
-	const CHAR_PX = 5.7;
+	/** ~px advance of one label glyph; one centred label row inside the (now shallow) strip. */
+	const CHAR_PX = 5;
 	const LABEL_GAP = 7;
-	const LANE_Y = [y + h / 2 - 6, y + h / 2 + 6];
+	const LANE_Y = [y + h / 2];
 
 	interface Tile {
 		key: string;
@@ -97,11 +97,11 @@
 	/**
 	 * Labels for the ribbon, packed into two rows so adjacent names never collide. Each band shows
 	 * its full leading service when it fits, an abbreviation when it's snug, and nothing when even
-	 * the abbreviation would spill across more than a neighbour. Greedy left→right over the two
-	 * lanes; a label that clears neither row is dropped (the colour + click still carry the band).
+	 * the abbreviation would spill across more than a neighbour. Greedy left→right over the single
+	 * row; a label that doesn't clear the previous one is dropped (the colour + click still carry it).
 	 */
 	let labels = $derived.by<Label[]>(() => {
-		const laneEnd = [-Infinity, -Infinity];
+		let laneEnd = -Infinity;
 		const out: Label[] = [];
 		for (const t of tiles) {
 			if (t.w < LABEL_MIN_PX || !t.label) continue;
@@ -114,16 +114,9 @@
 			const cx = t.x + t.w / 2;
 			const x0 = cx - textW / 2;
 			const x1 = cx + textW / 2;
-			let lane = -1;
-			for (let l = 0; l < 2; l++) {
-				if (x0 >= laneEnd[l] + LABEL_GAP) {
-					lane = l;
-					break;
-				}
-			}
-			if (lane === -1) continue;
-			laneEnd[lane] = x1;
-			out.push({ key: t.key, cx, text, lane });
+			if (x0 < laneEnd + LABEL_GAP) continue; // collides with the previous label → drop
+			laneEnd = x1;
+			out.push({ key: t.key, cx, text, lane: 0 });
 		}
 		return out;
 	});
@@ -244,19 +237,19 @@
 	.interactive:focus-visible {
 		outline: none;
 	}
-	/* Quiet caption: the app's body (sans) face, soft (not pure white), small, hairline outline — a
-	   label that whispers the service name rather than stamping it on like a mono sticker. */
+	/* Service caption: the app's body (sans) face, solid white knocked out with a full dark outline
+	   so it reads cleanly over any tile colour — not the faint grey it was. */
 	.svc-label {
 		font-family: var(--font-sans);
-		font-size: 9px;
-		letter-spacing: 0.04em;
-		fill: color-mix(in srgb, var(--ink) 72%, transparent);
+		font-size: 8.5px;
+		letter-spacing: 0.02em;
+		fill: #fff;
 		text-anchor: middle;
 		dominant-baseline: central;
 		pointer-events: none;
 		paint-order: stroke;
 		stroke: var(--marker-stroke);
-		stroke-width: 1.3px;
+		stroke-width: 2.6px;
 		text-transform: uppercase;
 	}
 </style>

@@ -73,21 +73,13 @@ export interface RawAllocation {
 	 */
 	segments?: [number, number][];
 	/**
-	 * Discrete spectral emission lines (Hz) — for a gas/discharge whose light is a set of sharp
-	 * lines rather than a continuous band (sodium 589 nm, the hydrogen Balmer series, a neon sign).
-	 * Rendered as one spectrally-coloured tick per line; `band` should span their extent and `hz`
-	 * sits on the dominant line.
+	 * Discrete spectral emission lines (Hz) — for a gas/discharge whose light is a set of sharp lines
+	 * rather than a continuous band (sodium 589 nm, the hydrogen Balmer series, a neon sign). Rendered
+	 * as one spectrally-coloured tick per line; `band` should span their extent and `hz` sits on the
+	 * dominant line. (A non-optical multi-mode signal — the Schumann resonances — instead lives in the
+	 * channel system as a resonance plan with real per-mode widths.)
 	 */
 	lines?: number[];
-	/**
-	 * Resonance / harmonic modes for a *non-quantized* multi-mode signal — a fundamental and its
-	 * overtones, like the Schumann cavity. Unlike {@link lines} (sharp quantum emission, coloured by
-	 * wavelength), each mode carries a real **bandwidth** `bw` (Hz, so the bars have honest widths)
-	 * and a relative **amplitude** `amp` (0–1, peak at the fundamental), and they're drawn in the
-	 * entry's *layer* colour — they aren't light, and the point is that they're broad, drifting
-	 * resonances. The first mode is the fundamental; `hz` should sit on it.
-	 */
-	modes?: { hz: number; bw: number; amp: number }[];
 	layer: LayerId;
 	/**
 	 * Optional second content layer this allocation also belongs to. It shows when *either* layer
@@ -105,12 +97,6 @@ export interface RawAllocation {
 	minLod: Lod;
 	/** Amateur license required to transmit, when applicable. */
 	reqLicense?: LicenseRank;
-	/**
-	 * Operator/licensee key for an `assignment`-tier holding (e.g. `verizon`, `tmobile`, `siriusxm`,
-	 * `gps`). Drives the colour + label of an operator band in the assignment lane. See
-	 * `spectrum/operators`. Approximate, national-level — not a per-market ULS record.
-	 */
-	operator?: string;
 	/**
 	 * For a *designated* assignment frequency (no operator), what job it's set aside for — drives how
 	 * its tick is drawn on the band: `distress` = emergency/guard, red; `calling` = a meeting

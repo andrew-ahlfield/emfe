@@ -69,32 +69,45 @@
 {#each plans as p (p.plan.id)}
 	{@const revealed = p.channels.filter((c) => c.revealed)}
 	{@const show = labelled(revealed)}
-	<!-- Service name only once the full grid is up; a lone emergency landmark stays uncaptioned
-	     (its red colour + number already read as "the emergency channel"). -->
-	{#if p.show}
+	<!-- Service name once the full grid is up (skipped for a resonance plan — its marker already
+	     names it — and for a lone emergency landmark, whose red tick already reads). -->
+	{#if p.show && !p.plan.tone}
 		{@const x0 = Math.max(revealed[0].x, 2)}
 		<text x={x0} y={bandTop - 17} class="ch-service">{p.plan.service} channels</text>
 	{/if}
 	{#each revealed as ch (ch.hz)}
 		{#if ch.x >= -2 && ch.x <= width + 2}
-			<line
-				x1={ch.x}
-				y1={bandTop - 6}
-				x2={ch.x}
-				y2={bandTop + 6}
-				class="ch-tick"
-				class:gmrs={ch.tag === 'gmrs'}
-				class:distress={ch.tag === 'distress'}
-			/>
-			{#if show.includes(ch.hz)}
-				<text
-					x={ch.x}
-					y={bandTop - 8}
-					text-anchor="middle"
-					class="ch-num"
+			{#if ch.barW != null}
+				<!-- A resonance mode: a bar of its real bandwidth, in the plan's tone. -->
+				<rect
+					x={ch.x - ch.barW / 2}
+					y={bandTop - 6}
+					width={Math.max(ch.barW, 2)}
+					height="12"
+					rx="2"
+					class="ch-bar"
+					style="fill: {p.plan.tone}"
+				/>
+			{:else}
+				<line
+					x1={ch.x}
+					y1={bandTop - 6}
+					x2={ch.x}
+					y2={bandTop + 6}
+					class="ch-tick"
 					class:gmrs={ch.tag === 'gmrs'}
-					class:distress={ch.tag === 'distress'}>{ch.n}</text
-				>
+					class:distress={ch.tag === 'distress'}
+				/>
+				{#if show.includes(ch.hz)}
+					<text
+						x={ch.x}
+						y={bandTop - 8}
+						text-anchor="middle"
+						class="ch-num"
+						class:gmrs={ch.tag === 'gmrs'}
+						class:distress={ch.tag === 'distress'}>{ch.n}</text
+					>
+				{/if}
 			{/if}
 		{/if}
 	{/each}
@@ -105,6 +118,12 @@
 		stroke: var(--marker-stroke);
 		stroke-width: 1;
 		opacity: 0.65;
+	}
+	/* A resonance mode bar (Schumann) — a real-width block in the plan's tone, hairline-outlined. */
+	.ch-bar {
+		stroke: var(--marker-stroke);
+		stroke-width: 0.75;
+		opacity: 0.85;
 	}
 	/* GMRS-licence-only channels (the repeater inputs) read in blue, distinct from both the grey
 	   licence-free ticks and the red emergency channel. */

@@ -49,9 +49,6 @@
 	 */
 	const emits = (a: Allocation | null): boolean =>
 		!!a && (a.emission != null || (a.lines?.length ?? 0) > 0);
-	/** A non-quantized multi-mode signal (a fundamental + overtones, e.g. the Schumann cavity):
-	 *  drawn as a row of layer-coloured bars, not spectral ticks — these aren't light. */
-	const hasModes = (a: Allocation | null): boolean => !!a && (a.modes?.length ?? 0) > 0;
 	/** Marker fill for an emitter: white for a broadband white LED, else the sampled spectral colour. */
 	const fillOf = (a: Allocation | null, fallback: string): string =>
 		a?.emission === 'white'
@@ -384,46 +381,6 @@
 	{/if}
 {/snippet}
 
-<!-- Non-quantized multi-mode signal (the Schumann cavity): a fundamental + overtones drawn as a
-     row of layer-coloured bars whose height rolls off with the mode (the fundamental is strongest),
-     linked by a faint baseline so they read as one resonance — not the sharp, equal spectral ticks
-     of a quantized emitter. The full story (and a scope trace) lives in the inspector. -->
-{#snippet modesShape(alloc: Allocation, sel: boolean)}
-	{@const col = `var(--layer-${alloc.layer})`}
-	{@const ms = alloc.modes ?? []}
-	{#if ms.length > 0 && alloc.band}
-		<!-- Transparent super-rectangle behind the modes (like the multi-line emitter's envelope), so
-		     the spread-out harmonics read as one signal. -->
-		{@const ex0 = logPos(alloc.band[0], domain) * width}
-		{@const ex1 = logPos(alloc.band[1], domain) * width}
-		<rect
-			x={ex0 - 2}
-			y={bandMid - 13}
-			width={ex1 - ex0 + 4}
-			height="26"
-			rx="4"
-			class="mode-envelope"
-		/>
-		<!-- One bar per mode at its *real* width (centre ± bw/2) and height ∝ amplitude. -->
-		{#each ms as m, i (i)}
-			{@const lo = logPos(m.hz - m.bw / 2, domain) * width}
-			{@const hi = logPos(m.hz + m.bw / 2, domain) * width}
-			{@const hh = (sel ? 11 : 9) * m.amp}
-			<rect
-				x={lo}
-				y={bandMid - hh}
-				width={Math.max(hi - lo, 2)}
-				height={hh * 2}
-				rx="1.3"
-				style="fill: {col}"
-				class="mode-bar"
-				class:sel
-				class:fundamental={i === 0}
-			/>
-		{/each}
-	{/if}
-{/snippet}
-
 <!-- Optical entry (laser / LED / emission line): drawn in the physical colour of its light. A
      real-bandwidth band shows as a translucent bracket so the spectrum gradient reads through it;
      a point shows as a small filled dot. Both carry a hairline outline so a same-coloured marker
@@ -524,9 +481,7 @@
 		onclick={() => select(d.id)}
 		onkeydown={(e) => onKey2(e, d.id)}
 	>
-		{#if hasModes(d.alloc)}
-			{@render modesShape(d.alloc, sel)}
-		{:else if emits(d.alloc)}
+		{#if emits(d.alloc)}
 			{@render opticalShape(d.alloc, bar, d.x, sel)}
 		{:else if bar}
 			{@render bandShape(d.alloc, bar, `var(--layer-${d.layer})`, 10, 2.5, 'band-bar', sel)}
@@ -595,9 +550,7 @@
 				? lineColorOf(item.alloc ?? null, p.color)
 				: 'var(--panelb)'}; stroke-width: {sel ? 2 : 1}"
 		/>
-		{#if hasModes(item.alloc ?? null)}
-			{@render modesShape(item.alloc!, sel)}
-		{:else if emits(item.alloc ?? null)}
+		{#if emits(item.alloc ?? null)}
 			{@render opticalShape(item.alloc!, bar, item.x, sel)}
 		{:else if bar}
 			{@render bandShape(item.alloc!, bar, p.color, 12, 3, 'leaf-bar', sel)}
@@ -708,27 +661,6 @@
 	.optical-bar.solid.sel,
 	.optical-dot.solid.sel {
 		opacity: 1;
-	}
-	/* Resonance modes (Schumann): layer-coloured bars at real widths, the fundamental emphasised,
-	   over a faint envelope. Deliberately unlike the spectral emission ticks — a wave, not a quantum. */
-	.mode-envelope {
-		fill: color-mix(in srgb, var(--ink) 6%, transparent);
-		stroke: var(--sub);
-		stroke-width: 1;
-		opacity: 0.55;
-	}
-	.mode-bar {
-		stroke: var(--marker-stroke);
-		stroke-width: 0.75;
-		opacity: 0.9;
-	}
-	.mode-bar.fundamental {
-		stroke-width: 1;
-		opacity: 1;
-	}
-	.mode-bar.sel {
-		opacity: 1;
-		filter: drop-shadow(0 0 4px currentColor);
 	}
 	/* A single emission line — a thin spectral spike, one per line of a discharge/flame spectrum. */
 	.emission-line {

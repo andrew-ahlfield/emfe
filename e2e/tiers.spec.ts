@@ -25,26 +25,19 @@ test('allocation substrate renders and its filters drive the ribbon', async ({ p
 	await expect(tiles).toHaveCount(0);
 });
 
-test('assignment tier rides the band, controlled by the content layers', async ({ page }) => {
-	await page.goto('/');
-	await page.waitForSelector('#explorer');
-
-	// Carrier/operator holdings show as bars over the band at any zoom.
-	const bars = page.locator('.assignments .op');
-	await expect.poll(() => bars.count()).toBeGreaterThan(0);
-
+test('designated frequencies ride the band on zoom, controlled by the content layers', async ({
+	page
+}) => {
 	// Designated single frequencies are a deep-zoom landmark — zoom onto 146.52 MHz (the 2 m
 	// calling frequency, log10 ≈ 8.166) and its tick appears.
 	await page.goto('/?z=1500&c=8.166');
 	await page.waitForSelector('#explorer');
-	await expect.poll(() => page.locator('.assignments .pin').count()).toBeGreaterThan(0);
+	const pins = page.locator('.assignments .pin');
+	await expect.poll(() => pins.count()).toBeGreaterThan(0);
 
-	// There's no separate assignment switch any more — hiding the content layers hides the tier.
-	await page.goto('/');
-	await page.waitForSelector('#explorer');
-	await expect.poll(() => bars.count()).toBeGreaterThan(0);
+	// There's no separate assignment switch — hiding the content layers hides them.
 	await page.locator('.layers-col .master').click();
-	await expect(bars).toHaveCount(0);
+	await expect(pins).toHaveCount(0);
 });
 
 test('clicking an allocation band opens an info card explaining the service', async ({ page }) => {

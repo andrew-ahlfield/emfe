@@ -21,6 +21,12 @@ export interface Channel {
 	 * {@link channelRevealPx}).
 	 */
 	tag?: 'gmrs' | 'distress';
+	/**
+	 * Bandwidth (Hz). A discrete channel has none and draws as a hairline tick; a *resonance* mode
+	 * (the Schumann harmonics) has a real width and draws as a bar that wide — same multi-signal
+	 * paradigm, honest width.
+	 */
+	bw?: number;
 }
 
 export interface ChannelPlan {
@@ -29,6 +35,9 @@ export interface ChannelPlan {
 	/** Short service name shown alongside the channels. */
 	service: string;
 	channels: readonly Channel[];
+	/** Override colour for the marks (CSS var), e.g. a resonance plan in its layer colour. Default
+	 *  is the neutral channel-tick grey. Also suppresses the "… channels" header. */
+	tone?: string;
 }
 
 const MHz = 1e6;
@@ -268,6 +277,22 @@ const HAM60: Channel[] = [
 	['5', 5.405]
 ].map(([n, mhz]) => ({ n: n as string, hz: (mhz as number) * MHz }));
 
+/**
+ * Schumann resonances — the Earth–ionosphere cavity's modes (Hz). Not channels but the *same*
+ * multi-signal paradigm as MURS/GMRS: a set of band marks revealed on zoom. Each carries a real
+ * bandwidth (low Q ≈ 4–6, so ~f/Q wide and widening up the series) so it draws as a bar that broad
+ * — resonances inherently have width, unlike a discrete channel.
+ */
+const SCHUMANN: Channel[] = (
+	[
+		['7.83', 7.83, 1.8],
+		['14.3', 14.3, 3.1],
+		['20.8', 20.8, 4.1],
+		['27.3', 27.3, 5.0],
+		['33.8', 33.8, 6.0]
+	] as [string, number, number][]
+).map(([n, hz, bw]) => ({ n, hz, bw }));
+
 export const CHANNEL_PLANS: readonly ChannelPlan[] = [
 	{ id: 'cb', service: 'CB', channels: CB },
 	{ id: 'frs', service: 'Walkie-talkie', channels: FRS },
@@ -280,7 +305,8 @@ export const CHANNEL_PLANS: readonly ChannelPlan[] = [
 	{ id: 'wifi6e', service: 'Wi-Fi 6 GHz', channels: WIFI6E },
 	{ id: 'marine-vhf', service: 'Marine VHF', channels: MARINE },
 	{ id: 'nws-wx', service: 'NOAA Weather', channels: WX },
-	{ id: 'ham60m', service: '60 m', channels: HAM60 }
+	{ id: 'ham60m', service: '60 m', channels: HAM60 },
+	{ id: 'schumann', service: 'Schumann', channels: SCHUMANN, tone: 'var(--layer-science)' }
 ];
 
 /** The plan for an allocation id, if it has a numbered channel plan. */
@@ -312,6 +338,8 @@ export interface PlacedChannel extends Channel {
 	x: number;
 	/** Revealed at the current zoom: in view AND the plan spans this channel's reveal threshold. */
 	revealed: boolean;
+	/** On-screen width (px) of a mode's real bandwidth — undefined for a hairline channel. */
+	barW?: number;
 }
 
 /**
@@ -333,6 +361,9 @@ export function placeChannels(
 	const channels = plan.channels.map((c, i) => ({
 		...c,
 		x: xs[i],
+		barW: c.bw
+			? (logPos(c.hz + c.bw / 2, domain) - logPos(c.hz - c.bw / 2, domain)) * width
+			: undefined,
 		revealed: inView && spanPx >= channelRevealPx(c)
 	}));
 	return { show: inView && spanPx >= CHANNEL_REVEAL_PX.full, spanPx, channels };

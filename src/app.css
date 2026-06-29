@@ -63,17 +63,6 @@
 	--svc-science: #25c2cc;
 	--svc-other: #7e8794;
 
-	/* Operator / licensee palette for the assignment tier — brand-leaning but tuned for contrast. */
-	--op-verizon: #ee0d2f;
-	--op-att: #00a8e0;
-	--op-tmobile: #e20074;
-	--op-dish: #f5871f;
-	--op-siriusxm: #7c4dff;
-	--op-globalstar: #18b27a;
-	--op-iridium: #8d99ae;
-	--op-gps: #c79a3a;
-	--op-starlink: #3fa7ff;
-
 	/* White-light emitter (white LED) — a true white bar rather than a single-wavelength tint. */
 	--emit-white: #f4f4f5;
 	/* Ionizing-threshold annotation — amber so it reads against the violet UV gradient it sits on. */
@@ -133,17 +122,6 @@ html[data-theme='light'] {
 	--svc-satellite: #9d4cc4;
 	--svc-science: #0e9aa6;
 	--svc-other: #6a7280;
-
-	/* Operator palette, deepened for the warm paper surface. */
-	--op-verizon: #cd0a26;
-	--op-att: #0a8bc2;
-	--op-tmobile: #c2005f;
-	--op-dish: #d9730f;
-	--op-siriusxm: #6a3fe0;
-	--op-globalstar: #0f9466;
-	--op-iridium: #6b7689;
-	--op-gps: #a87f25;
-	--op-starlink: #2b8fe0;
 
 	--emit-white: #fcfcfc;
 	--ionizing: #c98a16;

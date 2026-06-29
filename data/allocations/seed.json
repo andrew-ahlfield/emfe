@@ -4,33 +4,6 @@
 		"name": "Schumann resonance",
 		"hz": 7.83,
 		"band": [6.6, 36.8],
-		"modes": [
-			{
-				"hz": 7.83,
-				"bw": 1.8,
-				"amp": 1.0
-			},
-			{
-				"hz": 14.3,
-				"bw": 3.1,
-				"amp": 0.74
-			},
-			{
-				"hz": 20.8,
-				"bw": 4.1,
-				"amp": 0.56
-			},
-			{
-				"hz": 27.3,
-				"bw": 5.0,
-				"amp": 0.44
-			},
-			{
-				"hz": 33.8,
-				"bw": 6.0,
-				"amp": 0.35
-			}
-		],
 		"layer": "science",
 		"region": "radio",
 		"minLod": 1,
@@ -1595,6 +1568,72 @@
 		"region": "microwave",
 		"minLod": 2,
 		"note": "39 GHz millimetre-wave (Band n260) — high-band 5G shared among T-Mobile, AT&T and Verizon; huge bandwidth, very short reach.",
+		"source": "spectrum-holdings"
+	},
+	{
+		"id": "tmobile-600",
+		"name": "T-Mobile 600",
+		"hz": 634000000,
+		"band": [617000000, 652000000],
+		"layer": "consumer",
+		"region": "microwave",
+		"minLod": 2,
+		"note": "600 MHz (Band 71) — T-Mobile's nationwide low-band 5G 'Extended Range', won at the 2017 incentive auction. Low frequencies reach far and punch into buildings. Sits inside the wider 5G low-band allocation.",
+		"source": "spectrum-holdings"
+	},
+	{
+		"id": "att-700",
+		"name": "AT&T 700",
+		"hz": 737000000,
+		"band": [728000000, 746000000],
+		"layer": "consumer",
+		"region": "microwave",
+		"minLod": 2,
+		"note": "Lower 700 MHz (Bands 12/17) — AT&T's long-reach LTE/5G low band, a sub-block of the 700 MHz commercial band.",
+		"source": "spectrum-holdings"
+	},
+	{
+		"id": "verizon-700",
+		"name": "Verizon 700",
+		"hz": 751000000,
+		"band": [746000000, 757000000],
+		"layer": "consumer",
+		"region": "microwave",
+		"minLod": 2,
+		"note": "Upper 700 MHz C-block (Band 13) — Verizon's original nationwide LTE backbone; the 746–757 MHz downlink paired with a 776–787 MHz uplink, at the top of the commercial 700 MHz band.",
+		"source": "spectrum-holdings"
+	},
+	{
+		"id": "dish-aws4",
+		"name": "Dish AWS-4",
+		"hz": 2190000000,
+		"band": [2180000000, 2200000000],
+		"layer": "consumer",
+		"region": "microwave",
+		"minLod": 2,
+		"note": "AWS-4 (2 GHz) — Dish Network spectrum behind the Boost Mobile / Dish 5G build-out, at the top of the AWS cellular block.",
+		"source": "spectrum-holdings"
+	},
+	{
+		"id": "att-345",
+		"name": "AT&T 3.45 GHz",
+		"hz": 3500000000,
+		"band": [3450000000, 3550000000],
+		"layer": "consumer",
+		"region": "microwave",
+		"minLod": 2,
+		"note": "3.45 GHz — auctioned from federal radar in 2022; AT&T and Dish are major holders for mid-band 5G (the low end of the n77 band).",
+		"source": "spectrum-holdings"
+	},
+	{
+		"id": "verizon-cband",
+		"name": "Verizon C-band",
+		"hz": 3840000000,
+		"band": [3700000000, 3980000000],
+		"layer": "consumer",
+		"region": "microwave",
+		"minLod": 2,
+		"note": "C-band (3.7–3.98 GHz) — cleared from satellite in the 2021 C-band auction; Verizon's mid-band 5G Ultra Wideband, within the wider n77 band.",
 		"source": "spectrum-holdings"
 	}
 ]
