@@ -41,12 +41,23 @@
 	/** An opaque sub-band section at least this wide can seat its own class glyph, centred. */
 	const SECTION_GLYPH_PX = 13;
 
-	/** Optical regions colour their markers by the physical colour of the light, not the layer. */
-	const OPTICAL = new Set<Allocation['region']>(['infrared', 'visible', 'uv', 'xray', 'gamma']);
-	const isOptical = (a: Allocation | null): boolean => !!a && OPTICAL.has(a.region);
-	/** Marker colour: the sampled spectral colour for optical entries, else the given layer colour. */
-	const colorOf = (a: Allocation | null, fallback: string): string =>
-		isOptical(a) ? spectralColor(a!.hz) : fallback;
+	/**
+	 * An "emitter" colours itself by the physical colour of its light: a laser/LED (`emission`) or a
+	 * gas/discharge (`lines`). Everything else — including non-laser physical-science phenomena like
+	 * IR heat, UV bands and gamma sources — keeps its content-layer colour (science = green).
+	 */
+	const emits = (a: Allocation | null): boolean =>
+		!!a && (a.emission != null || (a.lines?.length ?? 0) > 0);
+	/** Marker fill for an emitter: white for a broadband white LED, else the sampled spectral colour. */
+	const fillOf = (a: Allocation | null, fallback: string): string =>
+		a?.emission === 'white'
+			? 'var(--emit-white)'
+			: a?.emission === 'spectral'
+				? spectralColor(a.hz)
+				: fallback;
+	/** Callout-line colour: spectral only for a colour-true emitter (a laser/LED); else layer colour. */
+	const lineColorOf = (a: Allocation | null, fallback: string): string =>
+		a?.emission === 'spectral' ? spectralColor(a.hz) : fallback;
 
 	interface IconPlacement {
 		glyph: string;
@@ -347,7 +358,7 @@
 	x: number,
 	sel: boolean
 )}
-	{@const col = spectralColor(alloc.hz)}
+	{@const col = fillOf(alloc, spectralColor(alloc.hz))}
 	{#if alloc.lines && alloc.lines.length > 0}
 		<!-- A discrete-line emitter (gas discharge / flame): one spectral tick per emission line. -->
 		{#each alloc.lines as ln, i (i)}
@@ -412,7 +423,7 @@
 		onclick={() => select(d.id)}
 		onkeydown={(e) => onKey2(e, d.id)}
 	>
-		{#if isOptical(d.alloc)}
+		{#if emits(d.alloc)}
 			{@render opticalShape(d.alloc, bar, d.x, sel)}
 		{:else if bar}
 			{@render bandShape(d.alloc, bar, `var(--layer-${d.layer})`, 10, 2.5, 'band-bar', sel)}
@@ -478,10 +489,10 @@
 			y2={bandMid}
 			class="line"
 			style="stroke: {sel
-				? colorOf(item.alloc ?? null, p.color)
+				? lineColorOf(item.alloc ?? null, p.color)
 				: 'var(--panelb)'}; stroke-width: {sel ? 2 : 1}"
 		/>
-		{#if isOptical(item.alloc ?? null)}
+		{#if emits(item.alloc ?? null)}
 			{@render opticalShape(item.alloc!, bar, item.x, sel)}
 		{:else if bar}
 			{@render bandShape(item.alloc!, bar, p.color, 12, 3, 'leaf-bar', sel)}

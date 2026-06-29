@@ -74,6 +74,9 @@
 	--op-gps: #c79a3a;
 	--op-starlink: #3fa7ff;
 
+	/* White-light emitter (white LED) — a true white bar rather than a single-wavelength tint. */
+	--emit-white: #f4f4f5;
+
 	/* Typography. Self-hosted via @fontsource-variable (see +layout.svelte).
 	   The "Variable" suffix is the family name the variable @font-face registers. */
 	--font-sans: 'Hanken Grotesk Variable', system-ui, sans-serif;
@@ -139,6 +142,8 @@ html[data-theme='light'] {
 	--op-iridium: #6b7689;
 	--op-gps: #a87f25;
 	--op-starlink: #2b8fe0;
+
+	--emit-white: #fcfcfc;
 }
 
 * {

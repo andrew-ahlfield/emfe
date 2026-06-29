@@ -150,16 +150,20 @@
 			color 0.15s;
 	}
 	.seg-btn.active {
-		background: var(--panelb);
+		/* background-color (not the shorthand) so it doesn't wipe the Federal hatch image below. */
+		background-color: var(--panelb);
 		color: var(--ink);
 	}
 	/* The Federal segment carries the same diagonal hatch as federal bands on the chart, so the
-	   government-spectrum cue is consistent between the control and the ribbon. */
+	   government-spectrum cue is consistent between the control and the ribbon. An even 6 px period
+	   with a soft 1 px line keeps the stroke uniform across the button (no aliasing fat lines). */
 	.seg-btn.fed {
 		background-image: repeating-linear-gradient(
 			135deg,
-			color-mix(in srgb, var(--ink) 22%, transparent) 0 1px,
-			transparent 1px 5px
+			color-mix(in srgb, var(--ink) 20%, transparent) 0,
+			color-mix(in srgb, var(--ink) 20%, transparent) 1px,
+			transparent 1px,
+			transparent 6px
 		);
 	}
 

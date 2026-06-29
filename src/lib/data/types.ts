@@ -21,6 +21,10 @@ export type LayerId = (typeof LAYERS)[number];
 export const TIERS = ['allocation', 'assignment', 'application'] as const;
 export type Tier = (typeof TIERS)[number];
 
+/** Visible-light sub-groups for the dedicated visible-light filter. */
+export const OPTICAL_GROUPS = ['laser', 'led', 'gas', 'fireworks'] as const;
+export type OpticalGroup = (typeof OPTICAL_GROUPS)[number];
+
 /** The seven great spectrum regions, low → high frequency. */
 export const REGIONS = [
 	'radio',
@@ -99,6 +103,18 @@ export interface RawAllocation {
 	 */
 	operator?: string;
 	note: string;
+	/**
+	 * How an optical entry is coloured. `spectral` = sampled from the physical colour of the light
+	 * (lasers, LEDs); `white` = a white broadband bar (white LED). Absent ⇒ the entry uses its
+	 * content-layer colour (so non-laser physical-science phenomena stay green). Gas/discharge
+	 * entries colour each {@link lines} tick spectrally regardless.
+	 */
+	emission?: 'spectral' | 'white';
+	/**
+	 * Visible-light sub-group, for the dedicated visible-light filter (laser / LED / gas glow /
+	 * firework). Entries without it aren't governed by that filter.
+	 */
+	optical?: OpticalGroup;
 	/** Source id (resolved to a {@link SourceRef} by the loader). */
 	source: string;
 	/** An extra, allocation-specific source surfaced only in the detail card (not the main list). */
