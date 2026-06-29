@@ -1453,12 +1453,17 @@
 	{
 		"id": "xray-xtal",
 		"name": "X-ray crystallography",
-		"hz": 1930000000000000000,
+		"hz": 1945949187420000000,
 		"layer": "science",
 		"region": "xray",
 		"minLod": 3,
-		"note": "Cu Kα X-rays (8 keV) — how we read the atomic structure of proteins and DNA.",
-		"source": "nasa-ems"
+		"note": "Copper Kα X-rays (~8.05 keV) — the workhorse of X-ray crystallography, ejecting an electron from copper's inner K shell. Not one line but a doublet: Kα₁ (8047.8 eV) and Kα₂ (8027.8 eV), ~20 eV apart in a 2:1 intensity ratio, each ~2.3 eV wide — the natural linewidth set by the femtosecond core-hole lifetime. Crystallographers fight that splitting with monochromators; zoom right in to resolve the two lines.",
+		"source": "nasa-ems",
+		"band": [1940629611620000000, 1946432785220000000],
+		"segments": [
+			[1940629611620000000, 1941596807220000000],
+			[1945465589620000000, 1946432785220000000]
+		]
 	},
 	{
 		"id": "xray",
@@ -1474,31 +1479,32 @@
 	{
 		"id": "tc99m",
 		"name": "Technetium-99m",
-		"hz": 34000000000000000000,
+		"hz": 33972745450000000000,
 		"layer": "science",
 		"region": "gamma",
 		"minLod": 2,
-		"note": "Technetium-99m (140 keV) — the workhorse isotope of nuclear-medicine SPECT imaging.",
+		"note": "Technetium-99m (140.5 keV) — the workhorse isotope of nuclear-medicine SPECT imaging. The nuclear transition is sharply defined, so the line is intrinsically razor-thin, far narrower than a pixel here. What a gamma camera actually records is ~10% wide (~14 keV) — but that width is the NaI detector's resolution, not the gamma ray. (Isotopic impurities wouldn't broaden it; they'd add their own separate lines.)",
 		"source": "nasa-ems"
 	},
 	{
 		"id": "pet",
 		"name": "PET annihilation",
-		"hz": 123000000000000000000,
+		"hz": 123559237900000000000,
 		"layer": "science",
 		"region": "gamma",
 		"minLod": 1,
-		"note": "Positron Emission Tomography (PET): an injected tracer's positron meets an electron and both vanish into two back-to-back 511 keV γ-rays — the scanner times the pair to pinpoint tumours.",
-		"source": "nasa-ems"
+		"note": "Positron–electron annihilation — a positron (from a PET tracer's β⁺ decay) meets an electron and both vanish into two 511 keV photons flying ~180° apart; the scanner catches the pair to pinpoint the decay. The line isn't razor-thin: the electron carries momentum, so it Doppler-broadens the peak to ~2–3 keV and tilts the photons a fraction of a degree off 180°. Materials scientists read that exact broadening — positron-annihilation spectroscopy — to map electron momentum and lattice defects.",
+		"source": "nasa-ems",
+		"band": [123256989275000000000, 123861486525000000000]
 	},
 	{
 		"id": "cs137",
 		"name": "Caesium-137",
-		"hz": 160000000000000000000,
+		"hz": 159998332130000000000,
 		"layer": "science",
 		"region": "gamma",
 		"minLod": 3,
-		"note": "Caesium-137 (662 keV) — calibration sources, food irradiation (\"cold pasteurisation\"), and a fallout tracer.",
+		"note": "Caesium-137 (661.7 keV) — the standard gamma line for calibrating detectors. Like other nuclear transitions it's intrinsically razor-sharp; a NaI scintillator measures it ~7% wide (~50 keV) and a cooled germanium (HPGe) detector ~0.2% (~1 keV). That spread is the instrument, not the line.",
 		"source": "nasa-ems"
 	},
 	{
