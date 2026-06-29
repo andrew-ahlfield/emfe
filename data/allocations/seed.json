@@ -1283,7 +1283,7 @@
 		"region": "infrared",
 		"minLod": 3,
 		"note": "CO₂ laser — industrial cutting & welding, laser surgery. Not a single line: it lases across a comb of rotational transitions spanning 9.2–10.8 µm (the 10.6 µm line is just the strongest).",
-		"source": "nasa-ems",
+		"source": "rp-photonics",
 		"emission": "spectral",
 		"optical": "laser"
 	},
@@ -1329,7 +1329,7 @@
 		"region": "infrared",
 		"minLod": 3,
 		"note": "Near-infrared (940 nm) — the invisible light a TV remote blinks. Also IR illuminators on security cameras, face-unlock dot projectors, and proximity sensors. The LED emission is genuinely broad (≈915–965 nm).",
-		"source": "nasa-ems",
+		"source": "rp-photonics",
 		"emission": "spectral",
 		"optical": "led"
 	},
@@ -1353,7 +1353,7 @@
 		"region": "visible",
 		"minLod": 3,
 		"note": "532 nm green laser — pointers, rangefinders, and laser light shows. Unlike the red and blue diodes, this colour is synthesised: an 808 nm diode pumps a Nd:YVO₄ crystal lasing at 1064 nm, which a KTP crystal frequency-doubles (its second harmonic) to 532 nm. Cheap modules that skip the IR filter leak the invisible 1064 nm (and 808 nm) light — focusable and an eye hazard — which is why quality green lasers and laser-light projectors include an IR-blocking element.",
-		"source": "nasa-ems",
+		"source": "rp-photonics",
 		"emission": "spectral",
 		"optical": "laser"
 	},
@@ -1366,7 +1366,7 @@
 		"region": "visible",
 		"minLod": 3,
 		"note": "650 nm red laser — the classic laser-pointer and barcode scanner, and the pickup diode that reads DVDs. A direct-emission AlGaInP (aluminium gallium indium phosphide) diode: it makes red light straight from its semiconductor junction, so there are no harmonics to filter — just a couple of nm of thermal drift, which is why it reads as a narrow band rather than one line.",
-		"source": "nasa-ems",
+		"source": "rp-photonics",
 		"emission": "spectral",
 		"optical": "laser"
 	},
@@ -1379,7 +1379,7 @@
 		"region": "visible",
 		"minLod": 3,
 		"note": "450 nm blue laser — laser projectors and cinema, plus high-power cutting and engraving diodes. A direct-emission InGaN (indium gallium nitride) diode — the gallium-nitride family Shuji Nakamura's Nobel-winning blue LED opened up — so, like the red diode, it emits its colour directly with no harmonics to filter.",
-		"source": "nasa-ems",
+		"source": "rp-photonics",
 		"emission": "spectral",
 		"optical": "laser"
 	},

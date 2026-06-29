@@ -28,5 +28,23 @@
 		"title": "FCC auctions & public carrier/operator spectrum holdings (approximate, national)",
 		"url": "https://www.fcc.gov/auctions",
 		"retrieved": "2026-06-29"
+	},
+	{
+		"id": "nist-asd",
+		"title": "NIST Atomic Spectra Database — emission lines",
+		"url": "https://www.nist.gov/pml/atomic-spectra-database",
+		"retrieved": "2026-06-29"
+	},
+	{
+		"id": "rp-photonics",
+		"title": "RP Photonics Encyclopedia — laser & LED sources",
+		"url": "https://www.rp-photonics.com/encyclopedia.html",
+		"retrieved": "2026-06-29"
+	},
+	{
+		"id": "fireworks-chem",
+		"title": "Compound Interest — The Chemistry of Fireworks",
+		"url": "https://www.compoundchem.com/2014/07/03/fireworkscolours/",
+		"retrieved": "2026-06-29"
 	}
 ]
