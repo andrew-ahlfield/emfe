@@ -1348,7 +1348,7 @@
 		"layer": "science",
 		"region": "visible",
 		"minLod": 3,
-		"note": "532 nm green laser — pointers, rangefinders, and laser light shows. Frequency-doubled Nd:YAG; consumer units hold ±1–2 nm.",
+		"note": "532 nm green laser — pointers, rangefinders, and laser light shows. Unlike the red and blue diodes, this colour is synthesised: an 808 nm diode pumps a Nd:YVO₄ crystal lasing at 1064 nm, which a KTP crystal frequency-doubles (its second harmonic) to 532 nm. Cheap modules that skip the IR filter leak the invisible 1064 nm (and 808 nm) light — focusable and an eye hazard — which is why quality green lasers and laser-light projectors include an IR-blocking element.",
 		"source": "nasa-ems"
 	},
 	{
@@ -1359,7 +1359,7 @@
 		"layer": "science",
 		"region": "visible",
 		"minLod": 3,
-		"note": "650 nm red laser — the classic laser-pointer, barcode-scanner, and DVD-pickup diode. Cheap edge-emitting diodes drift a couple of nm with temperature, so it reads as a narrow band, not a single line.",
+		"note": "650 nm red laser — the classic laser-pointer and barcode scanner, and the pickup diode that reads DVDs. A direct-emission AlGaInP (aluminium gallium indium phosphide) diode: it makes red light straight from its semiconductor junction, so there are no harmonics to filter — just a couple of nm of thermal drift, which is why it reads as a narrow band rather than one line.",
 		"source": "nasa-ems"
 	},
 	{
@@ -1370,7 +1370,7 @@
 		"layer": "science",
 		"region": "visible",
 		"minLod": 3,
-		"note": "450 nm blue laser — laser projectors and cinema, plus high-power cutting and engraving diodes. (The 405 nm \"violet\" Blu-ray diode sits just shortward of this.)",
+		"note": "450 nm blue laser — laser projectors and cinema, plus high-power cutting and engraving diodes. A direct-emission InGaN (indium gallium nitride) diode — the gallium-nitride family Shuji Nakamura's Nobel-winning blue LED opened up — so, like the red diode, it emits its colour directly with no harmonics to filter.",
 		"source": "nasa-ems"
 	},
 	{

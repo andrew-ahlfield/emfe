@@ -1,0 +1,121 @@
+[
+	{
+		"id": "cd-laser",
+		"name": "780 nm CD laser",
+		"hz": 3.8435e14,
+		"band": [3.819e14, 3.8683e14],
+		"layer": "science",
+		"altLayer": "consumer",
+		"region": "infrared",
+		"minLod": 3,
+		"note": "780 nm CD laser — the original near-infrared pickup diode that reads CDs (and the light in laser printers and early fibre links). A direct-emission AlGaAs (aluminium gallium arsenide) diode; your eye can't see it, but a phone camera can.",
+		"source": "nasa-ems"
+	},
+	{
+		"id": "ir-pump-808",
+		"name": "808 nm pump diode",
+		"hz": 3.7103e14,
+		"band": [3.6874e14, 3.7334e14],
+		"layer": "science",
+		"region": "infrared",
+		"minLod": 3,
+		"note": "808 nm pump diode — the invisible AlGaAs workhorse that optically pumps Nd:YAG / Nd:YVO₄ crystals (the first stage inside a green laser pointer) and drives many fibre and medical lasers.",
+		"source": "nasa-ems"
+	},
+	{
+		"id": "nd-1064",
+		"name": "1064 nm Nd:YAG",
+		"hz": 2.8176e14,
+		"band": [2.8071e14, 2.8283e14],
+		"layer": "science",
+		"region": "infrared",
+		"minLod": 3,
+		"note": "1064 nm Nd:YAG / Nd:YVO₄ — the invisible infrared line hiding behind the green laser pointer: frequency-doubling it yields 532 nm. On its own it does industrial marking and medical work (tattoo and hair removal).",
+		"source": "nasa-ems"
+	},
+	{
+		"id": "bluray-laser",
+		"name": "405 nm Blu-ray",
+		"hz": 7.4023e14,
+		"band": [7.3658e14, 7.4389e14],
+		"layer": "science",
+		"altLayer": "consumer",
+		"region": "visible",
+		"minLod": 3,
+		"note": "405 nm 'violet' Blu-ray laser — the short wavelength that focuses to a tighter spot, packing far more data onto a disc than DVD's 650 nm. A direct-emission GaN/InGaN diode (the blue-LED family) sitting right at the violet edge of vision, bordering the ultraviolet.",
+		"source": "nasa-ems"
+	},
+
+	{
+		"id": "led-red",
+		"name": "Red LED",
+		"hz": 4.7967e14,
+		"band": [4.7212e14, 4.8746e14],
+		"layer": "science",
+		"altLayer": "consumer",
+		"region": "visible",
+		"minLod": 3,
+		"note": "Red LED (~625 nm) — AlGaInP (aluminium gallium indium phosphide); the older, dimmer red was GaAsP. Unlike a laser an LED is incoherent and broad, emitting a ~20 nm spread rather than a single line, so it reads as a band.",
+		"source": "nasa-ems"
+	},
+	{
+		"id": "led-amber",
+		"name": "Amber LED",
+		"hz": 4.9552e14,
+		"band": [4.9147e14, 4.9965e14],
+		"layer": "science",
+		"altLayer": "consumer",
+		"region": "visible",
+		"minLod": 3,
+		"note": "Amber / orange LED (~605 nm) — AlGaInP. The colour of many indicator lamps and older traffic-signal and car turn lights.",
+		"source": "nasa-ems"
+	},
+	{
+		"id": "led-yellow",
+		"name": "Yellow LED",
+		"hz": 5.0812e14,
+		"band": [5.0385e14, 5.1247e14],
+		"layer": "science",
+		"altLayer": "consumer",
+		"region": "visible",
+		"minLod": 3,
+		"note": "Yellow LED (~590 nm) — AlGaInP (older parts GaAsP/GaP). A narrow gap between this and green is the historically hard 'green–yellow gap' for efficient LEDs.",
+		"source": "nasa-ems"
+	},
+	{
+		"id": "led-green",
+		"name": "Green LED",
+		"hz": 5.7103e14,
+		"band": [5.6036e14, 5.8212e14],
+		"layer": "science",
+		"altLayer": "consumer",
+		"region": "visible",
+		"minLod": 3,
+		"note": "Green LED (~525 nm) — InGaN (indium gallium nitride), the same nitride family as blue. The older 'yellow-green' LED was GaP at ~565 nm; true green only arrived with nitrides.",
+		"source": "nasa-ems"
+	},
+	{
+		"id": "led-blue",
+		"name": "Blue LED",
+		"hz": 6.3786e14,
+		"band": [6.2457e14, 6.5172e14],
+		"layer": "science",
+		"altLayer": "consumer",
+		"region": "visible",
+		"minLod": 3,
+		"note": "Blue LED (~470 nm) — InGaN/GaN. The breakthrough (Akasaki, Amano & Nakamura, 2014 Nobel) that made white LED lighting and full-colour displays possible.",
+		"source": "nasa-ems"
+	},
+	{
+		"id": "led-white",
+		"name": "White LED",
+		"hz": 5.4508e14,
+		"band": [4.4087e14, 6.662e14],
+		"layer": "science",
+		"altLayer": "consumer",
+		"region": "visible",
+		"minLod": 3,
+		"note": "White LED — not a colour at all but a broadband mix: a blue InGaN die (~450 nm) pumping a yellow Ce:YAG phosphor, whose two humps the eye blends into white. That's why it spans most of the visible band rather than sitting at one wavelength, and why cheap ones look harshly blue.",
+		"source": "nasa-ems"
+	}
+]
