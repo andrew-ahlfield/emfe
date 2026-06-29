@@ -22,7 +22,7 @@
 		"tier": "assignment",
 		"operator": "att",
 		"minLod": 2,
-		"note": "Lower 700 MHz — AT&T's long-reach LTE/5G low band.",
+		"note": "Lower 700 MHz — AT&T's long-reach LTE/5G low band, a sub-block of the wider 700 MHz LTE allocation.",
 		"source": "spectrum-holdings"
 	},
 	{
@@ -39,45 +39,6 @@
 		"source": "spectrum-holdings"
 	},
 	{
-		"id": "op-att-firstnet",
-		"name": "AT&T FirstNet",
-		"hz": 764000000,
-		"band": [758000000, 798000000],
-		"layer": "gov",
-		"region": "microwave",
-		"tier": "assignment",
-		"operator": "att",
-		"minLod": 2,
-		"note": "Band 14 (700 MHz) — FirstNet, the dedicated public-safety broadband network AT&T builds and operates for first responders. A full 20 MHz: the 758–768 MHz downlink paired with the 788–798 MHz uplink.",
-		"source": "spectrum-holdings"
-	},
-	{
-		"id": "op-gps-l1",
-		"name": "GPS L1",
-		"hz": 1574000000,
-		"band": [1563000000, 1587000000],
-		"layer": "navigation",
-		"region": "microwave",
-		"tier": "assignment",
-		"operator": "gps",
-		"minLod": 2,
-		"note": "1575.42 MHz GPS L1 — operated by the US Space Force; the civilian signal every phone, car and aircraft navigates by.",
-		"source": "spectrum-holdings"
-	},
-	{
-		"id": "op-iridium",
-		"name": "Iridium",
-		"hz": 1621000000,
-		"band": [1616000000, 1626500000],
-		"layer": "navigation",
-		"region": "microwave",
-		"tier": "assignment",
-		"operator": "iridium",
-		"minLod": 2,
-		"note": "1.6 GHz L-band — Iridium's 66-satellite constellation for satellite phones and the off-grid messaging some new phones and trackers use.",
-		"source": "spectrum-holdings"
-	},
-	{
 		"id": "op-dish-aws4",
 		"name": "Dish AWS-4",
 		"hz": 2190000000,
@@ -87,46 +48,7 @@
 		"tier": "assignment",
 		"operator": "dish",
 		"minLod": 2,
-		"note": "AWS-4 (2 GHz) — Dish Network spectrum behind the Boost Mobile / Dish 5G build-out.",
-		"source": "spectrum-holdings"
-	},
-	{
-		"id": "op-siriusxm",
-		"name": "SiriusXM",
-		"hz": 2333000000,
-		"band": [2320000000, 2345000000],
-		"layer": "consumer",
-		"region": "microwave",
-		"tier": "assignment",
-		"operator": "siriusxm",
-		"minLod": 2,
-		"note": "2.3 GHz SDARS — SiriusXM satellite radio, the sole licensee of this band.",
-		"source": "spectrum-holdings"
-	},
-	{
-		"id": "op-globalstar",
-		"name": "Globalstar n53",
-		"hz": 2489000000,
-		"band": [2483500000, 2495000000],
-		"layer": "navigation",
-		"region": "microwave",
-		"tier": "assignment",
-		"operator": "globalstar",
-		"minLod": 2,
-		"note": "Band n53 (2.4 GHz) — Globalstar; the spectrum licensed to Apple's iPhone Emergency SOS via satellite.",
-		"source": "spectrum-holdings"
-	},
-	{
-		"id": "op-tmobile-25",
-		"name": "T-Mobile 2.5 GHz",
-		"hz": 2593000000,
-		"band": [2496000000, 2690000000],
-		"layer": "consumer",
-		"region": "microwave",
-		"tier": "assignment",
-		"operator": "tmobile",
-		"minLod": 2,
-		"note": "2.5 GHz (Band 41) — T-Mobile's mid-band 5G workhorse, inherited from Sprint (originally Clearwire WiMAX).",
+		"note": "AWS-4 (2 GHz) — Dish Network spectrum behind the Boost Mobile / Dish 5G build-out; a slice at the top of the broader AWS cellular block.",
 		"source": "spectrum-holdings"
 	},
 	{
@@ -139,7 +61,7 @@
 		"tier": "assignment",
 		"operator": "att",
 		"minLod": 2,
-		"note": "3.45 GHz — auctioned from federal radar in 2022; AT&T and Dish are major holders for mid-band 5G.",
+		"note": "3.45 GHz — auctioned from federal radar in 2022; AT&T and Dish are major holders for mid-band 5G (the low end of the n77 band).",
 		"source": "spectrum-holdings"
 	},
 	{
@@ -152,59 +74,7 @@
 		"tier": "assignment",
 		"operator": "verizon",
 		"minLod": 2,
-		"note": "C-band (3.7–3.98 GHz) — cleared from satellite in the 2021 'C-band auction'; Verizon won the largest share for its mid-band 5G Ultra Wideband.",
-		"source": "spectrum-holdings"
-	},
-	{
-		"id": "op-dish-dbs",
-		"name": "Dish / DirecTV",
-		"hz": 12450000000,
-		"band": [12200000000, 12700000000],
-		"layer": "consumer",
-		"region": "microwave",
-		"tier": "assignment",
-		"operator": "dish",
-		"minLod": 2,
-		"note": "12.2–12.7 GHz DBS — direct-broadcast satellite TV (Dish Network and DirecTV), the little dish on the roof.",
-		"source": "spectrum-holdings"
-	},
-	{
-		"id": "op-starlink-up",
-		"name": "Starlink uplink",
-		"hz": 14260000000,
-		"band": [14000000000, 14500000000],
-		"layer": "gov",
-		"region": "microwave",
-		"tier": "assignment",
-		"operator": "starlink",
-		"minLod": 2,
-		"note": "14 GHz Ku-band uplink — SpaceX Starlink user terminals talking up to the satellites (the downlink shares 10.7–12.7 GHz).",
-		"source": "spectrum-holdings"
-	},
-	{
-		"id": "op-verizon-28",
-		"name": "Verizon 28 GHz",
-		"hz": 27900000000,
-		"band": [27500000000, 28350000000],
-		"layer": "consumer",
-		"region": "microwave",
-		"tier": "assignment",
-		"operator": "verizon",
-		"minLod": 2,
-		"note": "28 GHz millimetre-wave (n261) — Verizon's high-capacity 5G Ultra Wideband in stadiums and dense downtowns.",
-		"source": "spectrum-holdings"
-	},
-	{
-		"id": "op-tmobile-39",
-		"name": "39 GHz mmWave",
-		"hz": 39300000000,
-		"band": [38600000000, 40000000000],
-		"layer": "consumer",
-		"region": "microwave",
-		"tier": "assignment",
-		"operator": "tmobile",
-		"minLod": 2,
-		"note": "39 GHz millimetre-wave (n260) — high-band 5G shared among T-Mobile, AT&T and Verizon.",
+		"note": "C-band (3.7–3.98 GHz) — cleared from satellite in the 2021 'C-band auction'; Verizon won the largest share for its mid-band 5G Ultra Wideband (within the wider n77 band).",
 		"source": "spectrum-holdings"
 	}
 ]

@@ -215,19 +215,19 @@
 </g>
 
 <style>
-	/* The whole ribbon is a recessed foundation: desaturated so its per-service hues never compete
-	   with the vivid spectral band above, and held at low opacity so it reads as the floor the
-	   recognizable-application markers stand on. */
+	/* The ribbon is a recessed foundation: desaturated so its per-service hues never compete with the
+	   vivid spectral band above. It reads as a solid floor (not washed-out) — the rounded segments do
+	   the "quiet, crafted" work; transparency was dropping the contrast too far. */
 	.substrate {
-		filter: saturate(0.62);
+		filter: saturate(0.72);
 	}
 	.fill {
-		opacity: 0.3;
+		opacity: 0.9;
 	}
-	/* Federal (government) bands read dimmer still — restricted spectrum the public can't use. */
+	/* Federal (government) bands read dimmer — restricted spectrum the public can't use. */
 	.federal .fill,
 	.fill.federal {
-		opacity: 0.17;
+		opacity: 0.5;
 	}
 	/* …plus a faint diagonal hatch so the distinction is explicit, not just "a bit darker". */
 	.hatch {
@@ -244,11 +244,11 @@
 	.interactive:focus-visible {
 		outline: none;
 	}
-	/* Quiet caption: soft (not pure white), small, hairline outline — a label that whispers the
-	   service name rather than stamping it on like a sticker. */
+	/* Quiet caption: the app's body (sans) face, soft (not pure white), small, hairline outline — a
+	   label that whispers the service name rather than stamping it on like a mono sticker. */
 	.svc-label {
-		font-family: var(--font-mono);
-		font-size: 8.5px;
+		font-family: var(--font-sans);
+		font-size: 9px;
 		letter-spacing: 0.04em;
 		fill: color-mix(in srgb, var(--ink) 72%, transparent);
 		text-anchor: middle;

@@ -36,7 +36,16 @@
 				},
 				"modes": {
 					"type": "array",
-					"items": { "type": "number", "exclusiveMinimum": 0 },
+					"items": {
+						"type": "object",
+						"additionalProperties": false,
+						"required": ["hz", "bw", "amp"],
+						"properties": {
+							"hz": { "type": "number", "exclusiveMinimum": 0 },
+							"bw": { "type": "number", "exclusiveMinimum": 0 },
+							"amp": { "type": "number", "exclusiveMinimum": 0 }
+						}
+					},
 					"minItems": 1
 				},
 				"layer": {

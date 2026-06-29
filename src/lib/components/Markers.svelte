@@ -390,22 +390,29 @@
      of a quantized emitter. The full story (and a scope trace) lives in the inspector. -->
 {#snippet modesShape(alloc: Allocation, sel: boolean)}
 	{@const col = `var(--layer-${alloc.layer})`}
-	{@const xs = (alloc.modes ?? []).map((m) => logPos(m, domain) * width)}
-	{#if xs.length > 0}
-		<line
-			x1={Math.min(...xs)}
-			y1={bandMid}
-			x2={Math.max(...xs)}
-			y2={bandMid}
-			class="mode-base"
-			style="stroke: {col}"
+	{@const ms = alloc.modes ?? []}
+	{#if ms.length > 0 && alloc.band}
+		<!-- Transparent super-rectangle behind the modes (like the multi-line emitter's envelope), so
+		     the spread-out harmonics read as one signal. -->
+		{@const ex0 = logPos(alloc.band[0], domain) * width}
+		{@const ex1 = logPos(alloc.band[1], domain) * width}
+		<rect
+			x={ex0 - 2}
+			y={bandMid - 13}
+			width={ex1 - ex0 + 4}
+			height="26"
+			rx="4"
+			class="mode-envelope"
 		/>
-		{#each xs as mx, i (i)}
-			{@const hh = (sel ? 11 : 9) * (1 - i * 0.13)}
+		<!-- One bar per mode at its *real* width (centre ± bw/2) and height ∝ amplitude. -->
+		{#each ms as m, i (i)}
+			{@const lo = logPos(m.hz - m.bw / 2, domain) * width}
+			{@const hi = logPos(m.hz + m.bw / 2, domain) * width}
+			{@const hh = (sel ? 11 : 9) * m.amp}
 			<rect
-				x={mx - 1.5}
+				x={lo}
 				y={bandMid - hh}
-				width="3"
+				width={Math.max(hi - lo, 2)}
 				height={hh * 2}
 				rx="1.3"
 				style="fill: {col}"
@@ -702,11 +709,13 @@
 	.optical-dot.solid.sel {
 		opacity: 1;
 	}
-	/* Resonance modes (Schumann): layer-coloured bars, the fundamental emphasised, joined by a faint
-	   baseline. Deliberately unlike the spectral emission ticks — these are a wave, not a quantum. */
-	.mode-base {
+	/* Resonance modes (Schumann): layer-coloured bars at real widths, the fundamental emphasised,
+	   over a faint envelope. Deliberately unlike the spectral emission ticks — a wave, not a quantum. */
+	.mode-envelope {
+		fill: color-mix(in srgb, var(--ink) 6%, transparent);
+		stroke: var(--sub);
 		stroke-width: 1;
-		opacity: 0.3;
+		opacity: 0.55;
 	}
 	.mode-bar {
 		stroke: var(--marker-stroke);

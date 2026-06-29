@@ -3,13 +3,39 @@
 		"id": "schumann",
 		"name": "Schumann resonance",
 		"hz": 7.83,
-		"band": [7.4, 34.5],
-		"modes": [7.83, 14.3, 20.8, 27.3, 33.8],
+		"band": [6.6, 36.8],
+		"modes": [
+			{
+				"hz": 7.83,
+				"bw": 1.8,
+				"amp": 1.0
+			},
+			{
+				"hz": 14.3,
+				"bw": 3.1,
+				"amp": 0.74
+			},
+			{
+				"hz": 20.8,
+				"bw": 4.1,
+				"amp": 0.56
+			},
+			{
+				"hz": 27.3,
+				"bw": 5.0,
+				"amp": 0.44
+			},
+			{
+				"hz": 33.8,
+				"bw": 6.0,
+				"amp": 0.35
+			}
+		],
 		"layer": "science",
 		"region": "radio",
 		"minLod": 1,
-		"note": "The Earth–ionosphere cavity ringing near 7.83 Hz — the planet's natural EM heartbeat, struck by lightning some 50 times a second. It's a resonance, not a quantum: a fundamental plus a series of overtones (≈14.3, 20.8, 27.3, 33.8 Hz), each a broad bump that drifts and widens with the day/night ionosphere — nothing like the sharp, fixed lines of atomic emission.",
-		"source": "nasa-ems"
+		"note": "The Earth–ionosphere cavity ringing near 7.83 Hz — the planet's natural EM heartbeat, struck by lightning some 50 times a second. It's a resonance, not a quantum: a fundamental plus overtones (≈14.3, 20.8, 27.3, 33.8 Hz), each a broad bump (low Q ≈ 4–6, so a couple of Hz wide and widening with mode number) that drifts with the day/night ionosphere. The magnetic field is tiny — about a picotesla, strongest at the fundamental and falling off up the series — nothing like the sharp, fixed lines of atomic emission.",
+		"source": "schumann-ref"
 	},
 	{
 		"id": "powerline",
@@ -704,7 +730,7 @@
 		"layer": "gov",
 		"region": "microwave",
 		"minLod": 3,
-		"note": "FirstNet — nationwide public-safety LTE (Band 14, 700 MHz).",
+		"note": "FirstNet — nationwide public-safety LTE on Band 14 (700 MHz): a full 20 MHz, the 758–768 MHz downlink paired with 788–798 MHz uplink. AT&T builds and operates it for first responders, with priority and preemption over its commercial traffic.",
 		"source": "fcc-tofa"
 	},
 	{
@@ -870,7 +896,7 @@
 		"layer": "navigation",
 		"region": "microwave",
 		"minLod": 0,
-		"note": "GNSS positioning. Spread-spectrum, ~−130 dBm at the ground.",
+		"note": "GPS L1 at 1575.42 MHz, operated by the US Space Force — the civilian L1 C/A signal every phone, car and aircraft navigates by. Spread-spectrum and faint (~−130 dBm at the ground).",
 		"source": "fcc-tofa"
 	},
 	{
@@ -937,7 +963,7 @@
 		"layer": "consumer",
 		"region": "microwave",
 		"minLod": 3,
-		"note": "Satellite radio (SiriusXM) — S-band downlink, 2.32–2.345 GHz.",
+		"note": "Satellite radio (SiriusXM) — S-band downlink, 2.32–2.345 GHz; SiriusXM is the sole licensee of this band.",
 		"source": "fcc-tofa"
 	},
 	{
@@ -970,7 +996,7 @@
 		"layer": "consumer",
 		"region": "microwave",
 		"minLod": 3,
-		"note": "2.5 GHz 5G mid-band (n41) — a major capacity layer.",
+		"note": "2.5 GHz 5G mid-band (Band n41) — a major capacity layer, held nationally by T-Mobile (inherited from Sprint, originally Clearwire WiMAX).",
 		"source": "fcc-tofa"
 	},
 	{
@@ -1152,7 +1178,7 @@
 		"layer": "consumer",
 		"region": "microwave",
 		"minLod": 3,
-		"note": "Ku-band direct-broadcast satellite TV (12.2–12.7 GHz) — DirecTV / Dish.",
+		"note": "Ku-band direct-broadcast satellite TV (12.2–12.7 GHz) — the little dish on the roof, operated by DirecTV and Dish Network.",
 		"source": "fcc-tofa"
 	},
 	{
@@ -1217,7 +1243,7 @@
 		"layer": "consumer",
 		"region": "microwave",
 		"minLod": 3,
-		"note": "5G mmWave (n261, 28 GHz) — enormous capacity over a single city block.",
+		"note": "5G mmWave (Band n261, ~28 GHz) — enormous capacity over a single city block; Verizon holds the largest share for its 5G Ultra Wideband.",
 		"source": "fcc-tofa"
 	},
 	{
@@ -1537,5 +1563,38 @@
 		"minLod": 2,
 		"note": "High-energy cosmic γ-rays (~400 MeV) — light from pulsars, blazars and supernova remnants.",
 		"source": "nasa-ems"
+	},
+	{
+		"id": "iridium",
+		"name": "Iridium",
+		"hz": 1621000000,
+		"band": [1616000000, 1626500000],
+		"layer": "navigation",
+		"region": "microwave",
+		"minLod": 2,
+		"note": "1.6 GHz L-band — Iridium's 66-satellite constellation for satellite phones and the off-grid SOS / messaging some new phones and trackers use.",
+		"source": "spectrum-holdings"
+	},
+	{
+		"id": "globalstar",
+		"name": "Globalstar SOS",
+		"hz": 2489000000,
+		"band": [2483500000, 2495000000],
+		"layer": "navigation",
+		"region": "microwave",
+		"minLod": 2,
+		"note": "Band n53 (2.4 GHz) — Globalstar's satellite spectrum, licensed to Apple's iPhone Emergency SOS via satellite.",
+		"source": "spectrum-holdings"
+	},
+	{
+		"id": "mmwave-39",
+		"name": "39 GHz mmWave",
+		"hz": 39300000000,
+		"band": [38600000000, 40000000000],
+		"layer": "consumer",
+		"region": "microwave",
+		"minLod": 2,
+		"note": "39 GHz millimetre-wave (Band n260) — high-band 5G shared among T-Mobile, AT&T and Verizon; huge bandwidth, very short reach.",
+		"source": "spectrum-holdings"
 	}
 ]

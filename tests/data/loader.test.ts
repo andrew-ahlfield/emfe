@@ -36,6 +36,7 @@ describe('allocations loader', () => {
 			'nasa-ems',
 			'nist-asd',
 			'rp-photonics',
+			'schumann-ref',
 			'spectrum-holdings'
 		]);
 	});

@@ -7,7 +7,6 @@
 	import { theme } from '$lib/state/theme';
 	import { axisOptions } from '$lib/state/axis';
 	import { substrateView, substrateSelection, selectBand, clearBand } from '$lib/state/substrate';
-	import { assignmentView } from '$lib/state/assignment';
 	import { inspectorPinned } from '$lib/state/inspector';
 	import { encodeState, decodeState, discreteChanged, type DeepLinkSnapshot } from '$lib/state/url';
 	import { allocations } from '$lib/data/loader';
@@ -30,7 +29,6 @@
 	import LicenseFilter from '$lib/components/LicenseFilter.svelte';
 	import VisibleFilter from '$lib/components/VisibleFilter.svelte';
 	import AllocationFilter from '$lib/components/AllocationFilter.svelte';
-	import AssignmentFilter from '$lib/components/AssignmentFilter.svelte';
 	import AxisOptions from '$lib/components/AxisOptions.svelte';
 	import ThemeToggle from '$lib/components/ThemeToggle.svelte';
 	import SourcesModal from '$lib/components/SourcesModal.svelte';
@@ -192,14 +190,14 @@
 						<RegionLabels {width} domain={$visibleDomain} />
 						<IonizingMarker {width} domain={$visibleDomain} />
 						<Channels {width} domain={$visibleDomain} layers={$layers} />
-						{#if $assignmentView.show}
-							<AssignmentLane
-								{width}
-								domain={$visibleDomain}
-								layers={$layers}
-								selected={$selection}
-							/>
-						{/if}
+						<!-- Carrier holdings + designated frequencies ride the band; their visibility is
+						     driven by the content-layer toggles (no separate assignment switch). -->
+						<AssignmentLane
+							{width}
+							domain={$visibleDomain}
+							layers={$layers}
+							selected={$selection}
+						/>
 						<Substrate
 							{width}
 							domain={$visibleDomain}
@@ -241,9 +239,6 @@
 		</div>
 		<div class="panel allocation-col">
 			<AllocationFilter />
-		</div>
-		<div class="panel assignment-col">
-			<AssignmentFilter />
 		</div>
 		<div class="panel axis-col">
 			<AxisOptions />
@@ -443,10 +438,6 @@
 		width: 248px;
 		flex-shrink: 0;
 	}
-	.assignment-col {
-		width: 222px;
-		flex-shrink: 0;
-	}
 	.panel:last-child {
 		border-right: none;
 	}
@@ -497,9 +488,6 @@
 		}
 		.allocation-col {
 			width: 244px;
-		}
-		.assignment-col {
-			width: 216px;
 		}
 	}
 

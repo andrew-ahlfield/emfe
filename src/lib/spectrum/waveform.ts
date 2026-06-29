@@ -10,6 +10,13 @@
  * Pure module: no DOM, no Svelte, no app state (SPEC §Boundaries).
  */
 
+/** One resonance mode: centre frequency, bandwidth, and relative amplitude (peak at the fundamental). */
+export interface ResonanceMode {
+	hz: number;
+	bw: number;
+	amp: number;
+}
+
 export interface ScopeGeometry {
 	/** SVG path `d` for the waveform trace, within a [0,w] × [0,h] box. */
 	trace: string;
@@ -19,6 +26,8 @@ export interface ScopeGeometry {
 	vGrid: number[];
 	/** y positions of the interior horizontal graticule lines. */
 	hGrid: number[];
+	/** Time window shown across the full width, in seconds — for the x-axis unit label. */
+	durationS: number;
 }
 
 export interface ScopeOptions {
@@ -33,12 +42,13 @@ export interface ScopeOptions {
 }
 
 /**
- * Build the scope geometry for a set of resonance `modes` (Hz) within a `w`×`h` screen. The trace is
- * the normalized sum Σ aₖ·sin(2π fₖ t + φₖ) over a window of `cycles` of the fundamental, with the
- * overtones progressively weaker (so the fundamental dominates, as it does in the real cavity).
+ * Build the scope geometry for a set of resonance `modes` within a `w`×`h` screen. The trace is the
+ * normalized sum Σ ampₖ·sin(2π fₖ t + φₖ) over a window of `cycles` of the fundamental, using each
+ * mode's *real* relative amplitude — so the fundamental dominates and the waveform "bells down" the
+ * series, as the cavity actually does. Fixed phases keep it deterministic while the harmonics beat.
  */
 export function resonanceScope(
-	modes: number[],
+	modes: ResonanceMode[],
 	w: number,
 	h: number,
 	opts: ScopeOptions = {}
@@ -48,15 +58,12 @@ export function resonanceScope(
 	const vGrid = Array.from({ length: cols - 1 }, (_, i) => ((i + 1) * w) / cols);
 	const hGrid = Array.from({ length: rows - 1 }, (_, i) => ((i + 1) * h) / rows);
 
-	if (modes.length === 0) return { trace: '', midline, vGrid, hGrid };
+	if (modes.length === 0) return { trace: '', midline, vGrid, hGrid, durationS: 0 };
 
-	const f0 = Math.min(...modes);
+	const f0 = Math.min(...modes.map((m) => m.hz));
 	const dur = cycles / f0;
-	// Amplitude per mode: fundamental strongest, overtones roll off ~1/(1+0.85k). Fixed phases keep
-	// the trace deterministic while still letting the harmonics beat against one another.
-	const amps = modes.map((_, i) => 1 / (1 + 0.85 * i));
 	const phases = modes.map((_, i) => (i * 1.9) % (2 * Math.PI));
-	const norm = amps.reduce((s, a) => s + a, 0);
+	const norm = modes.reduce((s, m) => s + m.amp, 0);
 	const amplitudePx = h * 0.42;
 
 	const pts: string[] = [];
@@ -64,11 +71,11 @@ export function resonanceScope(
 		const t = (s / samples) * dur;
 		let y = 0;
 		for (let k = 0; k < modes.length; k++) {
-			y += amps[k] * Math.sin(2 * Math.PI * modes[k] * t + phases[k]);
+			y += modes[k].amp * Math.sin(2 * Math.PI * modes[k].hz * t + phases[k]);
 		}
 		const x = ((s / samples) * w).toFixed(1);
 		const yp = (midline - (y / norm) * amplitudePx).toFixed(1);
 		pts.push(`${x},${yp}`);
 	}
-	return { trace: `M ${pts.join(' L ')}`, midline, vGrid, hGrid };
+	return { trace: `M ${pts.join(' L ')}`, midline, vGrid, hGrid, durationS: dur };
 }

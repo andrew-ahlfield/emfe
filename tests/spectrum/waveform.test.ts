@@ -1,7 +1,13 @@
 import { describe, it, expect } from 'vitest';
-import { resonanceScope } from '$lib/spectrum/waveform';
+import { resonanceScope, type ResonanceMode } from '$lib/spectrum/waveform';
 
-const SCHUMANN = [7.83, 14.3, 20.8, 27.3, 33.8];
+const SCHUMANN: ResonanceMode[] = [
+	{ hz: 7.83, bw: 1.8, amp: 1.0 },
+	{ hz: 14.3, bw: 3.1, amp: 0.74 },
+	{ hz: 20.8, bw: 4.1, amp: 0.56 },
+	{ hz: 27.3, bw: 5.0, amp: 0.44 },
+	{ hz: 33.8, bw: 6.0, amp: 0.35 }
+];
 
 describe('resonanceScope', () => {
 	it('builds a centred graticule for the given divisions', () => {
@@ -23,6 +29,11 @@ describe('resonanceScope', () => {
 
 	it('is deterministic — same input, same path', () => {
 		expect(resonanceScope(SCHUMANN, 320, 112).trace).toBe(resonanceScope(SCHUMANN, 320, 112).trace);
+	});
+
+	it('reports the time window (≈3.5 cycles of the 7.83 Hz fundamental)', () => {
+		const s = resonanceScope(SCHUMANN, 320, 112, { cycles: 3.5 });
+		expect(s.durationS).toBeCloseTo(3.5 / 7.83, 3);
 	});
 
 	it('handles the empty case without throwing', () => {

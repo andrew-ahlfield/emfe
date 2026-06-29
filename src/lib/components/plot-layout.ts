@@ -13,7 +13,7 @@
  */
 export const PLOT = {
 	/** Total SVG height. */
-	height: 328,
+	height: 318,
 	/** Top of the marker stagger area. */
 	markerTop: 0,
 	/** Baseline for the always-visible region labels, just above the band. */
@@ -27,16 +27,17 @@ export const PLOT = {
 	opBarY: 142,
 	opBarH: 10,
 	/** Carrier name, just below the band. */
-	opLabelY: 189,
+	opLabelY: 188,
 	/** Designated single frequencies (guard / calling): a tick through the band, label below the
 	 *  carrier row so the two don't collide. */
-	desigLabelY: 203,
-	/** Allocation substrate ribbon — the gap-free §2.106 service-category bands. */
-	substrateY: 216,
+	desigLabelY: 200,
+	/** Allocation substrate ribbon — the gap-free §2.106 service-category bands. Scooted up to sit
+	 *  just under the band now that the assignment tier no longer needs its own lane. */
+	substrateY: 206,
 	substrateH: 28,
 	/** ITU band row. */
-	ituY: 252,
+	ituY: 242,
 	ituH: 14,
 	/** Axis baseline (ticks + labels hang below). */
-	axisY: 274
+	axisY: 264
 } as const;

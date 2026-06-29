@@ -80,13 +80,14 @@ export interface RawAllocation {
 	 */
 	lines?: number[];
 	/**
-	 * Resonance / harmonic mode frequencies (Hz) for a *non-quantized* multi-mode signal — a
-	 * fundamental and its overtones, like the Schumann cavity (7.83 Hz + ≈14.3/20.8/27.3/33.8 Hz).
-	 * Unlike {@link lines} (sharp quantum emission, coloured by wavelength), these are drawn as a row
-	 * of bars in the entry's *layer* colour — they aren't light, and the point is that they're broad,
-	 * drifting resonances. The first mode is the fundamental; `hz` should sit on it.
+	 * Resonance / harmonic modes for a *non-quantized* multi-mode signal — a fundamental and its
+	 * overtones, like the Schumann cavity. Unlike {@link lines} (sharp quantum emission, coloured by
+	 * wavelength), each mode carries a real **bandwidth** `bw` (Hz, so the bars have honest widths)
+	 * and a relative **amplitude** `amp` (0–1, peak at the fundamental), and they're drawn in the
+	 * entry's *layer* colour — they aren't light, and the point is that they're broad, drifting
+	 * resonances. The first mode is the fundamental; `hz` should sit on it.
 	 */
-	modes?: number[];
+	modes?: { hz: number; bw: number; amp: number }[];
 	layer: LayerId;
 	/**
 	 * Optional second content layer this allocation also belongs to. It shows when *either* layer

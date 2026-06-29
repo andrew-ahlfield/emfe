@@ -63,6 +63,7 @@
 			? resonanceScope(allocation.modes, SCOPE_W, SCOPE_H)
 			: null
 	);
+	let scopeMs = $derived(scope ? Math.round(scope.durationS * 1000) : 0);
 	let reqClass = $derived(allocation.reqLicense);
 	let segments = $derived(privilegeStrip(allocation.id, license));
 	/** Distinct licence classes present in this band, low → high, for the glyph key. */
@@ -124,10 +125,10 @@
 	{#if scope}
 		<figure class="scope">
 			<svg
-				viewBox="0 0 {SCOPE_W} {SCOPE_H}"
+				viewBox="-16 0 {SCOPE_W + 16} {SCOPE_H + 22}"
 				class="scope-svg"
 				role="img"
-				aria-label="Oscilloscope trace of the {allocation.name}: a continuous beating waveform, the sum of a fundamental and its overtones — not discrete lines."
+				aria-label="Oscilloscope trace of the {allocation.name}: a continuous beating waveform, the sum of a fundamental and its overtones — not discrete lines. Horizontal axis time, {scopeMs} milliseconds across; vertical axis magnetic-field amplitude."
 			>
 				<rect
 					class="scope-screen"
@@ -145,10 +146,21 @@
 				{/each}
 				<line x1="2" y1={scope.midline} x2={SCOPE_W - 2} y2={scope.midline} class="grid axis" />
 				<path d={scope.trace} class="trace" />
+				<!-- axis units -->
+				<text
+					x={-SCOPE_H / 2}
+					y="-6"
+					transform="rotate(-90)"
+					text-anchor="middle"
+					class="scope-axis">B-field (≈1 pT)</text
+				>
+				<text x="2" y={SCOPE_H + 13} class="scope-axis">0</text>
+				<text x={SCOPE_W / 2} y={SCOPE_H + 13} text-anchor="middle" class="scope-axis">time →</text>
+				<text x={SCOPE_W} y={SCOPE_H + 13} text-anchor="end" class="scope-axis">{scopeMs} ms</text>
 			</svg>
 			<figcaption class="scope-cap">
 				A resonance, not a quantum: the cavity rings at a fundamental ({fmtFreq(
-					allocation.modes![0]
+					allocation.modes![0].hz
 				)}) and its overtones at once, so the signal is one continuous, beating wave — broad and
 				drifting, unlike the sharp fixed lines of atomic emission.
 			</figcaption>
@@ -348,6 +360,11 @@
 		stroke-linejoin: round;
 		stroke-linecap: round;
 		filter: drop-shadow(0 0 2.5px var(--layer-science));
+	}
+	.scope-axis {
+		font-family: var(--font-mono);
+		font-size: 9px;
+		fill: var(--faint);
 	}
 	.scope-cap {
 		margin: 7px 0 0;
