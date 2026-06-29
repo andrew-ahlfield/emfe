@@ -47,10 +47,11 @@
 		"id": "wwvb",
 		"name": "WWVB clock",
 		"hz": 60000,
+		"band": [59998, 60002],
 		"layer": "consumer",
 		"region": "radio",
 		"minLod": 2,
-		"note": "WWVB 60 kHz time code — what 'atomic' wall clocks quietly sync to overnight.",
+		"note": "WWVB 60 kHz time code — what 'atomic' wall clocks quietly sync to overnight. The carrier itself is exact (locked to NIST's atomic clocks); the time code crawls out at 1 bit per second by dipping the carrier and flipping its phase, so the whole signal occupies only a couple of Hz.",
 		"source": "fcc-tofa"
 	},
 	{
@@ -429,7 +430,18 @@
 		"layer": "navigation",
 		"region": "radio",
 		"minLod": 3,
-		"note": "Marine VHF — ship-to-ship & coast-guard; channel 16 (156.8 MHz) is the distress call. The channels you tune sit at the bottom (156–157.45 MHz, the ship-transmit side). The duplex channels (mostly 24–28, 84–88) also have a coast-station transmit frequency 4.6 MHz higher, at 161.55–162.05 MHz — that's the upper cluster; the 157.45–161.55 MHz between is other VHF land-mobile, not marine.",
+		"note": "Marine VHF — ship-to-ship & coast-guard; channel 16 (156.8 MHz) is the distress call. The channels you tune sit at the bottom (156–157.45 MHz, the ship-transmit side). The duplex channels (mostly 24–28, 84–88) also have a coast-station transmit frequency 4.6 MHz higher, at 161.55–162.05 MHz — that's the upper cluster. The ~4 MHz between isn't empty: it's packed with private land-mobile, the AAR railroad road-channels, and studio-to-transmitter broadcast links — VHF is too valuable to waste.",
+		"source": "fcc-tofa"
+	},
+	{
+		"id": "railroad",
+		"name": "Railroad VHF",
+		"hz": 160800000,
+		"band": [160215000, 161565000],
+		"layer": "gov",
+		"region": "radio",
+		"minLod": 3,
+		"note": "AAR railroad VHF — 97 'road channels' (160.215–161.565 MHz) used across North America for train crews, dispatchers, and end-of-train telemetry. Sits in what looks like a gap in the marine band; it isn't.",
 		"source": "fcc-tofa"
 	},
 	{

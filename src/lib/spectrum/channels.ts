@@ -15,8 +15,11 @@ export interface Channel {
 	n: string;
 	/** Centre frequency, Hz. */
 	hz: number;
-	/** Marks a channel that needs a paid GMRS licence (the repeater inputs) — drawn distinctly. */
-	tag?: 'gmrs';
+	/**
+	 * Special styling: `gmrs` = needs a paid GMRS licence (the repeater inputs, drawn in purple);
+	 * `distress` = the emergency/calling channel (drawn in red).
+	 */
+	tag?: 'gmrs' | 'distress';
 }
 
 export interface ChannelPlan {
@@ -242,7 +245,11 @@ const MARINE: Channel[] = (
 		['28', 162.0],
 		['88', 162.025]
 	] as [string, number][]
-).map(([n, mhz]) => ({ n, hz: mhz * MHz }));
+).map(([n, mhz]) => ({
+	n,
+	hz: mhz * MHz,
+	...(n === '16' ? { tag: 'distress' as const } : {})
+}));
 
 /** 60 m amateur band — five fixed USB channels (the only ham band that's channelised). */
 const HAM60: Channel[] = [

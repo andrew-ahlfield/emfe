@@ -60,9 +60,10 @@
 				}
 			}
 		};
-		// Prefer the everyday channels; the GMRS-only repeater labels only fill the room left over,
-		// so a tight zoom shows 8–14 rather than R15–R22 on top of them.
-		place(onscreen.filter((c) => c.tag !== 'gmrs'));
+		// Priority: the distress/calling channel always wins, then the everyday channels, then the
+		// GMRS-only repeater labels fill whatever room is left.
+		place(onscreen.filter((c) => c.tag === 'distress'));
+		place(onscreen.filter((c) => c.tag === undefined));
 		place(onscreen.filter((c) => c.tag === 'gmrs'));
 		return keep;
 	}
@@ -82,6 +83,7 @@
 				y2={bandTop + 6}
 				class="ch-tick"
 				class:gmrs={ch.tag === 'gmrs'}
+				class:distress={ch.tag === 'distress'}
 			/>
 			{#if show.includes(ch.hz)}
 				<text
@@ -89,7 +91,8 @@
 					y={bandTop - 8}
 					text-anchor="middle"
 					class="ch-num"
-					class:gmrs={ch.tag === 'gmrs'}>{ch.n}</text
+					class:gmrs={ch.tag === 'gmrs'}
+					class:distress={ch.tag === 'distress'}>{ch.n}</text
 				>
 			{/if}
 		{/if}
@@ -115,6 +118,16 @@
 	.ch-num.gmrs {
 		fill: var(--layer-amateur);
 		font-weight: 600;
+	}
+	/* The distress / calling channel (marine 16) — red, so it stands out. */
+	.ch-tick.distress {
+		stroke: var(--spectral-red);
+		stroke-width: 1.5;
+		opacity: 1;
+	}
+	.ch-num.distress {
+		fill: var(--spectral-red);
+		font-weight: 700;
 	}
 	.ch-service {
 		font-family: var(--font-mono);
