@@ -37,8 +37,11 @@ test('licence selector dims when the amateur layer is off; a click turns the lay
 	await expect(group.getByRole('radio', { name: /General/ })).toBeChecked();
 });
 
-test('lowering the licence class hides amateur bands on the line', async ({ page }) => {
+test('lowering the licence class mutes amateur bands you can no longer transmit on', async ({
+	page
+}) => {
 	await page.goto('/');
+	await page.waitForSelector('#explorer'); // the SVG mounts only once it has a measured width
 	// Zoom into the HF amateur region.
 	await page.evaluate(() => {
 		const svg = document.querySelector('svg.zoomable')!;
@@ -57,13 +60,20 @@ test('lowering the licence class hides amateur bands on the line', async ({ page
 	});
 
 	const fortyM = page.locator('svg g.marker', { hasText: '40 m' });
-	await expect(fortyM).toBeVisible(); // default Extra → 40 m (a General/Tech band) shows
-
-	// Unlicensed can't transmit on 40 m → it disappears from the line.
-	await page.getByRole('radio', { name: /Unlicensed/ }).click();
-	await expect(fortyM).toHaveCount(0);
-
-	// Back to Extra → it returns.
-	await page.getByRole('radio', { name: /Amateur Extra/ }).click();
 	await expect(fortyM).toBeVisible();
+	// Default Extra → a solid, transmittable bar (no translucent envelope).
+	await expect(fortyM.locator('.leaf-bar')).toHaveCount(1);
+	await expect(fortyM.locator('.priv-envelope')).toHaveCount(0);
+
+	// Unlicensed can't transmit on 40 m → the band stays on the line (you may still listen) but
+	// goes translucent: the solid bar becomes a see-through envelope. (Licence never *removes* a
+	// band — see spectrum/filter.ts.)
+	await page.getByRole('radio', { name: /Unlicensed/ }).click();
+	await expect(fortyM).toBeVisible();
+	await expect(fortyM.locator('.leaf-bar')).toHaveCount(0);
+	await expect(fortyM.locator('.priv-envelope')).toHaveCount(1);
+
+	// Back to Extra → the solid transmittable bar returns.
+	await page.getByRole('radio', { name: /Amateur Extra/ }).click();
+	await expect(fortyM.locator('.leaf-bar')).toHaveCount(1);
 });

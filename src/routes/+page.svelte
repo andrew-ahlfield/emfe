@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
-	import { view, visibleDomain, resetView, undoView } from '$lib/state/view';
+	import { view, visibleDomain, resetView, undoView, jumpTo } from '$lib/state/view';
 	import { selection, selectedAllocation, clearSelection } from '$lib/state/selection';
 	import { layers } from '$lib/state/layers';
 	import { license } from '$lib/state/license';
@@ -11,7 +11,9 @@
 	import { inspectorPinned } from '$lib/state/inspector';
 	import { encodeState, decodeState, discreteChanged, type DeepLinkSnapshot } from '$lib/state/url';
 	import { allocations } from '$lib/data/loader';
-	import { FULL_DOMAIN } from '$lib/spectrum/scale';
+	import { FULL_DOMAIN, decades } from '$lib/spectrum/scale';
+	import { clampCenter, clampZoom } from '$lib/spectrum/zoom';
+	import type { ServiceAllocation } from '$lib/data/types';
 	import { fmtFreq } from '$lib/spectrum/format';
 	import { zoomable } from '$lib/actions/zoom';
 	import { PLOT } from '$lib/components/plot-layout';
@@ -83,6 +85,16 @@
 		history[method](history.state, '', url);
 		prev = snap;
 	});
+
+	// Clicking a substrate band frames it — and zooming in reveals its service label, so the same
+	// gesture answers "show me this" and "what is it". Mirrors the marker group-chip drill-in.
+	function frameBand(b: ServiceAllocation) {
+		const loE = Math.log10(b.lo);
+		const hiE = Math.log10(b.hi);
+		const span = Math.max(hiE - loE, 0.15) * 1.5; // pad so the band isn't edge-to-edge
+		const zoom = clampZoom(decades(FULL_DOMAIN) / span);
+		jumpTo({ centerExp: clampCenter((loE + hiE) / 2, FULL_DOMAIN, zoom), zoom });
+	}
 
 	// Ctrl/Cmd+Z reverses the last view jump (clicking a neighbourhood to frame it, or a reset).
 	function onKeydown(e: KeyboardEvent) {
@@ -180,6 +192,7 @@
 								domain={$visibleDomain}
 								off={$substrateView.off}
 								admin={$substrateView.admin}
+								onpick={frameBand}
 							/>
 						{/if}
 						<Axis
