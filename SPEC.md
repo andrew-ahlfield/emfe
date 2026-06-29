@@ -30,11 +30,11 @@ a novelty poster) has to show all three without conflating them. The federal reg
 organized this way — 47 CFR Part 2, Subpart B is literally titled _"Allocation, Assignment, and
 Use of Radio Frequencies."_ We adopt that exact framing as the product's spine:
 
-| Tier            | Question it answers                          | Example                                              | Source                              |
-| --------------- | -------------------------------------------- | ---------------------------------------------------- | ----------------------------------- |
-| **Allocation**  | What is this band legally _for_?             | 88–108 MHz → `BROADCASTING` (primary)                | FCC/NTIA Table of Allocations §2.106 |
-| **Assignment**  | Which specific frequencies are _designated_? | 121.5 MHz aircraft emergency; Marine Ch 16 distress  | FCC rule parts, channel plans       |
-| **Application** | What recognizable thing actually _uses_ it?  | FM radio, Wi-Fi, GPS, ADS-B                          | curated (the existing 134 entries)  |
+| Tier            | Question it answers                          | Example                                             | Source                               |
+| --------------- | -------------------------------------------- | --------------------------------------------------- | ------------------------------------ |
+| **Allocation**  | What is this band legally _for_?             | 88–108 MHz → `BROADCASTING` (primary)               | FCC/NTIA Table of Allocations §2.106 |
+| **Assignment**  | Which specific frequencies are _designated_? | 121.5 MHz aircraft emergency; Marine Ch 16 distress | FCC rule parts, channel plans        |
+| **Application** | What recognizable thing actually _uses_ it?  | FM radio, Wi-Fi, GPS, ADS-B                         | curated (the existing 134 entries)   |
 
 **Why this matters.** The chart's gaps were an artifact of only ever plotting tier 3
 (applications). The **allocation** table has no gaps — every band from 8.3 kHz to 275 GHz is
@@ -78,7 +78,8 @@ The dock makes the paradigm explicit by mirroring the three tiers left→right:
 - A `tier` discriminator is added to the allocation model; all existing entries default to
   `application` (we keep "application-first" — no aggressive reclassification of curated data).
 - The **allocation substrate** is a distinct data kind (`ServiceAllocation`: `lo`, `hi`,
-  `federal`, `primary[]`, `secondary[]`, `footnotes[]`) in `data/allocations/us-table.json`.
+  `federal`, `primary[]`, `secondary[]`, `footnotes[]`) in `data/allocation-table/us-table.json`
+  (its own directory so the application loader's `data/allocations/*.json` glob never picks it up).
 - Substrate data is **curated from §2.106 and verified against the FCC Online Table PDF**
   (`transition.fcc.gov/oet/spectrum/table/fcctable.pdf`, the column-ruled table — _not_ the wall
   poster). The eCFR API (`…/api/versioner/v1/full/{date}/title-47.xml?part=2&subpart=B`) is the

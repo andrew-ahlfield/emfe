@@ -16,6 +16,8 @@
 	import Axis from '$lib/components/Axis.svelte';
 	import Markers from '$lib/components/Markers.svelte';
 	import Channels from '$lib/components/Channels.svelte';
+	import Substrate from '$lib/components/Substrate.svelte';
+	import AssignmentLane from '$lib/components/AssignmentLane.svelte';
 	import RegionLabels from '$lib/components/RegionLabels.svelte';
 	import SpectrumBand from '$lib/components/SpectrumBand.svelte';
 	import Dock from '$lib/components/Dock.svelte';
@@ -160,6 +162,13 @@
 						/>
 						<RegionLabels {width} domain={$visibleDomain} />
 						<Channels {width} domain={$visibleDomain} layers={$layers} />
+						<AssignmentLane
+							{width}
+							domain={$visibleDomain}
+							layers={$layers}
+							selected={$selection}
+						/>
+						<Substrate {width} domain={$visibleDomain} />
 						<Axis
 							{width}
 							domain={$visibleDomain}

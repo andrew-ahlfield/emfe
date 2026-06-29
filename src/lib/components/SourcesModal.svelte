@@ -65,8 +65,10 @@
 			<p class="credit">
 				Code licensed under
 				<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
-				<a href="https://www.apache.org/licenses/LICENSE-2.0" target="_blank" rel="noreferrer noopener"
-					>Apache&nbsp;2.0</a
+				<a
+					href="https://www.apache.org/licenses/LICENSE-2.0"
+					target="_blank"
+					rel="noreferrer noopener">Apache&nbsp;2.0</a
 				>; allocation data under
 				<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
 				<a

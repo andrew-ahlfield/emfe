@@ -6,7 +6,7 @@ see falls somewhere along this line.
 
 EM Frequency Explorer (`emfe`) is an interactive, zoomable explorer for the
 electromagnetic spectrum — the "make the static NTIA/FCC frequency-allocation
-poster actually *fun* to explore" idea, taken end to end from below ELF
+poster actually _fun_ to explore" idea, taken end to end from below ELF
 (lightning, the magnetosphere) through radio, microwave, infrared, visible
 light, UV, X-ray, and gamma.
 

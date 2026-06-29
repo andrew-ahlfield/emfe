@@ -85,7 +85,9 @@ if (checkSchema(substrateValidator, substrate, 'us-table.json')) {
 		if (sorted[i].lo > sorted[i - 1].hi) {
 			errors.push(`invariant [substrate] gap between ${sorted[i - 1].hi} and ${sorted[i].lo} Hz`);
 		} else if (sorted[i].lo < sorted[i - 1].hi) {
-			errors.push(`invariant [substrate] overlap between ${sorted[i - 1].hi} and ${sorted[i].lo} Hz`);
+			errors.push(
+				`invariant [substrate] overlap between ${sorted[i - 1].hi} and ${sorted[i].lo} Hz`
+			);
 		}
 	}
 }

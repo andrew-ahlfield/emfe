@@ -163,12 +163,13 @@
 		return licenseRank(license) < licenseRank(a.reqLicense);
 	}
 
-	// Filter to the visible set, then recolour dual-layer entries (e.g. UV-A) to whichever of their
-	// two layers is currently on — physical-science preferred — before grouping reads `.layer`.
+	// Filter to the visible set (application tier only — assignments ride the middle lane and the
+	// substrate is the bottom tier), then recolour dual-layer entries (e.g. UV-A) to whichever of
+	// their two layers is currently on — physical-science preferred — before grouping reads `.layer`.
 	let visible = $derived(
-		visibleAllocations(allocations, 3, layers).map((a) =>
-			a.altLayer ? { ...a, layer: effectiveLayer(a, layers) } : a
-		)
+		visibleAllocations(allocations, 3, layers)
+			.filter((a) => a.tier !== 'assignment')
+			.map((a) => (a.altLayer ? { ...a, layer: effectiveLayer(a, layers) } : a))
 	);
 
 	let layout = $derived(layoutSpectrum(visible, domain, width, fmtFreq, { lanes: LANE_Y.length }));

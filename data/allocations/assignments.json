@@ -1,0 +1,63 @@
+[
+	{
+		"id": "cb-ch9",
+		"name": "CB Ch 9",
+		"hz": 27065000,
+		"band": [27060000, 27070000],
+		"layer": "consumer",
+		"region": "radio",
+		"tier": "assignment",
+		"minLod": 2,
+		"note": "Citizens Band Channel 9 — designated for emergency communications and traveler assistance.",
+		"source": "fcc-tofa"
+	},
+	{
+		"id": "guard-vhf",
+		"name": "121.5 guard",
+		"hz": 121500000,
+		"band": [121475000, 121525000],
+		"layer": "navigation",
+		"region": "radio",
+		"tier": "assignment",
+		"minLod": 2,
+		"note": "121.5 MHz — the international aeronautical emergency (VHF 'guard') frequency, monitored by ATC and aircraft worldwide.",
+		"source": "fcc-tofa"
+	},
+	{
+		"id": "ham-2m-call",
+		"name": "2 m calling",
+		"hz": 146520000,
+		"band": [146515000, 146525000],
+		"layer": "amateur",
+		"region": "radio",
+		"tier": "assignment",
+		"minLod": 2,
+		"reqLicense": "technician",
+		"note": "146.52 MHz — the 2 m national FM simplex calling frequency: where hams meet before moving off-channel.",
+		"source": "fcc-part97"
+	},
+	{
+		"id": "marine-ch16",
+		"name": "Marine Ch 16",
+		"hz": 156800000,
+		"band": [156787500, 156812500],
+		"layer": "navigation",
+		"region": "radio",
+		"tier": "assignment",
+		"minLod": 2,
+		"note": "156.8 MHz — VHF Marine Channel 16, the international distress, safety and calling channel every vessel monitors.",
+		"source": "fcc-tofa"
+	},
+	{
+		"id": "guard-uhf",
+		"name": "243.0 guard",
+		"hz": 243000000,
+		"band": [242975000, 243025000],
+		"layer": "gov",
+		"region": "radio",
+		"tier": "assignment",
+		"minLod": 2,
+		"note": "243.0 MHz — the military UHF emergency ('guard') frequency, the NATO counterpart to civil 121.5.",
+		"source": "fcc-tofa"
+	}
+]
