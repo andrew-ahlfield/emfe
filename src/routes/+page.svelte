@@ -21,6 +21,7 @@
 	import Substrate from '$lib/components/Substrate.svelte';
 	import AssignmentLane from '$lib/components/AssignmentLane.svelte';
 	import RegionLabels from '$lib/components/RegionLabels.svelte';
+	import IonizingMarker from '$lib/components/IonizingMarker.svelte';
 	import SpectrumBand from '$lib/components/SpectrumBand.svelte';
 	import Dock from '$lib/components/Dock.svelte';
 	import InspectorDrawer from '$lib/components/InspectorDrawer.svelte';
@@ -173,6 +174,7 @@
 							license={$license}
 						/>
 						<RegionLabels {width} domain={$visibleDomain} />
+						<IonizingMarker {width} domain={$visibleDomain} />
 						<Channels {width} domain={$visibleDomain} layers={$layers} />
 						{#if $assignmentView.show}
 							<AssignmentLane
