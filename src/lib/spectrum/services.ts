@@ -10,6 +10,11 @@
  * Pure module: no DOM, no Svelte, no app state. Colours are `var(--svc-*)` strings only.
  */
 
+/**
+ * The user-facing service categories (one chip + colour each). `other` is intentionally absent:
+ * every real §2.106 service maps to one of these ten, so `other` survives only as an invisible
+ * type-level fallback for {@link serviceCategory} (never shown as a filter).
+ */
 export const SERVICE_CATEGORIES = [
 	'broadcasting',
 	'mobile',
@@ -20,10 +25,9 @@ export const SERVICE_CATEGORIES = [
 	'radionavigation',
 	'radiolocation',
 	'satellite',
-	'science',
-	'other'
+	'science'
 ] as const;
-export type ServiceCategory = (typeof SERVICE_CATEGORIES)[number];
+export type ServiceCategory = (typeof SERVICE_CATEGORIES)[number] | 'other';
 
 /** Human label per category, for the legend / control panel. */
 export const SERVICE_LABELS: Record<ServiceCategory, string> = {
@@ -34,7 +38,7 @@ export const SERVICE_LABELS: Record<ServiceCategory, string> = {
 	aeronautical: 'Aeronautical',
 	maritime: 'Maritime',
 	radionavigation: 'Radionavigation',
-	radiolocation: 'Radiolocation (radar)',
+	radiolocation: 'Radiolocation',
 	satellite: 'Satellite',
 	science: 'Science & passive',
 	other: 'Other'
@@ -74,4 +78,42 @@ export function serviceCategory(name: string): ServiceCategory {
 export function bandCategory(band: { primary: string[]; secondary?: string[] }): ServiceCategory {
 	const lead = band.primary[0] ?? band.secondary?.[0];
 	return lead ? serviceCategory(lead) : 'other';
+}
+
+// Compact forms for the on-ribbon label when a band is too narrow for the full service name.
+// Longest/most-specific patterns first.
+const ABBREVIATIONS: [RegExp, string][] = [
+	[/STANDARD FREQUENCY AND TIME SIGNAL/, 'TIME SIGNAL'],
+	[/AERONAUTICAL RADIONAVIGATION/, 'AERO RNAV'],
+	[/AERONAUTICAL MOBILE/, 'AERO MOBILE'],
+	[/MARITIME RADIONAVIGATION/, 'MAR RNAV'],
+	[/MARITIME MOBILE/, 'MAR MOBILE'],
+	[/RADIONAVIGATION-SATELLITE/, 'RNSS'],
+	[/RADIODETERMINATION-SATELLITE/, 'RDSS'],
+	[/RADIONAVIGATION/, 'RADIONAV'],
+	[/RADIOLOCATION/, 'RADIOLOC'],
+	[/BROADCASTING-SATELLITE/, 'BCAST-SAT'],
+	[/BROADCASTING/, 'BROADCAST'],
+	[/EARTH EXPLORATION-SATELLITE/, 'EESS'],
+	[/SPACE RESEARCH/, 'SPACE RES'],
+	[/RADIO ASTRONOMY/, 'RADIO ASTR'],
+	[/METEOROLOGICAL-SATELLITE/, 'MET-SAT'],
+	[/METEOROLOGICAL AIDS/, 'MET AIDS'],
+	[/FIXED-SATELLITE/, 'FIXED-SAT'],
+	[/MOBILE-SATELLITE/, 'MOBILE-SAT'],
+	[/INTER-SATELLITE/, 'INTER-SAT'],
+	[/AMATEUR-SATELLITE/, 'HAM-SAT'],
+	[/AMATEUR/, 'AMATEUR']
+];
+
+/**
+ * A compact form of a service name for a narrow ribbon band (e.g. `AERONAUTICAL RADIONAVIGATION`
+ * → `AERO RNAV`). Falls back to the cleaned (parenthetical-stripped) name when no rule matches —
+ * short names like `FIXED` / `MOBILE` are already as short as they get.
+ */
+export function abbreviateService(name: string): string {
+	const clean = name.replace(/\s*\(.*$/, '').trim();
+	const u = clean.toUpperCase();
+	for (const [re, short] of ABBREVIATIONS) if (re.test(u)) return short;
+	return clean;
 }

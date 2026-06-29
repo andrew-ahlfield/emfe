@@ -2,19 +2,22 @@
 	import { SERVICE_CATEGORIES, SERVICE_LABELS, serviceColorVar } from '$lib/spectrum/services';
 	import {
 		substrateView,
-		toggleSubstrate,
+		setAllCategories,
 		setAdmin,
 		toggleCategory,
 		type Admin
 	} from '$lib/state/substrate';
 
+	// "All" sits in the middle (SPEC review): civilian ↔ both ↔ government.
 	const ADMINS: { id: Admin; label: string; title: string }[] = [
-		{ id: 'all', label: 'All', title: 'Both Federal and Non-Federal allocations' },
 		{ id: 'non-federal', label: 'Civilian', title: 'Non-Federal (FCC) allocations only' },
+		{ id: 'all', label: 'All', title: 'Both Federal and Non-Federal allocations' },
 		{ id: 'federal', label: 'Federal', title: 'Federal (government) allocations only' }
 	];
 
-	let on = $derived($substrateView.show);
+	// The master switch is a quick reset: on = at least one category shown; clicking flips every
+	// category on or off at once.
+	let anyOn = $derived($substrateView.off.size < SERVICE_CATEGORIES.length);
 </script>
 
 <div class="head">
@@ -22,23 +25,24 @@
 	<button
 		type="button"
 		class="master"
-		class:on
+		class:on={anyOn}
 		role="switch"
-		aria-checked={on}
-		aria-label={on ? 'Hide the allocation substrate' : 'Show the allocation substrate'}
-		title={on ? 'Hide substrate' : 'Show substrate'}
-		onclick={toggleSubstrate}
+		aria-checked={anyOn}
+		aria-label={anyOn ? 'Hide all service categories' : 'Show all service categories'}
+		title={anyOn ? 'Hide all' : 'Show all'}
+		onclick={() => setAllCategories(!anyOn)}
 	>
 		<span class="switch"><span class="knob"></span></span>
 	</button>
 </div>
 
-<div class="seg" role="group" aria-label="Administration filter" class:dim={!on}>
+<div class="seg" role="group" aria-label="Administration filter" class:dim={!anyOn}>
 	{#each ADMINS as a (a.id)}
 		<button
 			type="button"
 			class="seg-btn"
 			class:active={$substrateView.admin === a.id}
+			class:fed={a.id === 'federal'}
 			title={a.title}
 			aria-pressed={$substrateView.admin === a.id}
 			onclick={() => setAdmin(a.id)}
@@ -48,7 +52,7 @@
 	{/each}
 </div>
 
-<div class="chips" class:dim={!on}>
+<div class="chips" class:dim={!anyOn}>
 	{#each SERVICE_CATEGORIES as c (c)}
 		{@const hidden = $substrateView.off.has(c)}
 		<button
@@ -148,6 +152,15 @@
 	.seg-btn.active {
 		background: var(--panelb);
 		color: var(--ink);
+	}
+	/* The Federal segment carries the same diagonal hatch as federal bands on the chart, so the
+	   government-spectrum cue is consistent between the control and the ribbon. */
+	.seg-btn.fed {
+		background-image: repeating-linear-gradient(
+			45deg,
+			color-mix(in srgb, var(--ink) 22%, transparent) 0 1px,
+			transparent 1px 5px
+		);
 	}
 
 	.chips {

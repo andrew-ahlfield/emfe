@@ -186,15 +186,13 @@
 								selected={$selection}
 							/>
 						{/if}
-						{#if $substrateView.show}
-							<Substrate
-								{width}
-								domain={$visibleDomain}
-								off={$substrateView.off}
-								admin={$substrateView.admin}
-								onpick={frameBand}
-							/>
-						{/if}
+						<Substrate
+							{width}
+							domain={$visibleDomain}
+							off={$substrateView.off}
+							admin={$substrateView.admin}
+							onpick={frameBand}
+						/>
 						<Axis
 							{width}
 							domain={$visibleDomain}

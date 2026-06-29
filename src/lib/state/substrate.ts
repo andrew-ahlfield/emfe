@@ -1,30 +1,24 @@
 /**
  * Allocation-substrate view state (the bottom tier — SPEC §The three tiers).
  *
- * Defaults: shown, both administrations, every service category on. `off` holds the *hidden*
- * categories so a pristine state is the empty set (and deep-links stay short if wired later).
+ * Defaults: both administrations, every service category on. `off` holds the *hidden* categories
+ * so a pristine state is the empty set. The control panel's master switch is a quick
+ * select-all/none over the categories (turn the whole ribbon on or off, resetting any picks).
  */
 
 import { writable } from 'svelte/store';
-import type { ServiceCategory } from '$lib/spectrum/services';
+import { SERVICE_CATEGORIES, type ServiceCategory } from '$lib/spectrum/services';
 
 /** Which side of the §2.106 table to show: both, civilian (Non-Federal), or government (Federal). */
 export type Admin = 'all' | 'non-federal' | 'federal';
 
 export interface SubstrateView {
-	/** Whether the substrate ribbon is drawn at all. */
-	show: boolean;
 	admin: Admin;
-	/** Hidden service categories (empty = all shown). */
+	/** Hidden service categories (empty = all shown; full = ribbon hidden). */
 	off: Set<ServiceCategory>;
 }
 
-export const substrateView = writable<SubstrateView>({ show: true, admin: 'all', off: new Set() });
-
-/** Show/hide the whole substrate tier. */
-export function toggleSubstrate(): void {
-	substrateView.update((s) => ({ ...s, show: !s.show }));
-}
+export const substrateView = writable<SubstrateView>({ admin: 'all', off: new Set() });
 
 /** Pick the administration filter. */
 export function setAdmin(admin: Admin): void {
@@ -39,4 +33,12 @@ export function toggleCategory(c: ServiceCategory): void {
 		else off.add(c);
 		return { ...s, off };
 	});
+}
+
+/** Master reset: turn every category on (empty `off`) or off (all hidden). */
+export function setAllCategories(on: boolean): void {
+	substrateView.update((s) => ({
+		...s,
+		off: on ? new Set() : new Set<ServiceCategory>(SERVICE_CATEGORIES)
+	}));
 }
