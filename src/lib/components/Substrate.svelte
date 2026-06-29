@@ -10,14 +10,14 @@
 	let {
 		width,
 		domain,
-		categories = null,
+		off = new Set(),
 		admin = 'all',
 		onpick
 	}: {
 		width: number;
 		domain: FreqDomain;
-		/** When set, only these service categories are shown (control-panel filter). */
-		categories?: Set<ServiceCategory> | null;
+		/** Hidden service categories (control-panel filter); empty = all shown. */
+		off?: Set<ServiceCategory>;
 		/** Administration filter: both, or only one side of the §2.106 table. */
 		admin?: 'all' | 'federal' | 'non-federal';
 		/** Click handler — surfaces a band to the inspector. */
@@ -53,7 +53,7 @@
 			if (admin === 'federal' && !b.federal) continue;
 			if (admin === 'non-federal' && b.federal) continue;
 			const cat = bandCategory(b);
-			if (categories && !categories.has(cat)) continue;
+			if (off.has(cat)) continue;
 			const x0 = logPos(b.lo, domain) * width;
 			const x1 = logPos(b.hi, domain) * width;
 			if (x1 < 0 || x0 > width) continue;

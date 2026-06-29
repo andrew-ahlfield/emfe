@@ -6,6 +6,8 @@
 	import { license } from '$lib/state/license';
 	import { theme } from '$lib/state/theme';
 	import { axisOptions } from '$lib/state/axis';
+	import { substrateView } from '$lib/state/substrate';
+	import { assignmentView } from '$lib/state/assignment';
 	import { inspectorPinned } from '$lib/state/inspector';
 	import { encodeState, decodeState, discreteChanged, type DeepLinkSnapshot } from '$lib/state/url';
 	import { allocations } from '$lib/data/loader';
@@ -24,6 +26,8 @@
 	import InspectorDrawer from '$lib/components/InspectorDrawer.svelte';
 	import LayerToggles from '$lib/components/LayerToggles.svelte';
 	import LicenseFilter from '$lib/components/LicenseFilter.svelte';
+	import AllocationFilter from '$lib/components/AllocationFilter.svelte';
+	import AssignmentFilter from '$lib/components/AssignmentFilter.svelte';
 	import AxisOptions from '$lib/components/AxisOptions.svelte';
 	import ThemeToggle from '$lib/components/ThemeToggle.svelte';
 	import SourcesModal from '$lib/components/SourcesModal.svelte';
@@ -162,13 +166,22 @@
 						/>
 						<RegionLabels {width} domain={$visibleDomain} />
 						<Channels {width} domain={$visibleDomain} layers={$layers} />
-						<AssignmentLane
-							{width}
-							domain={$visibleDomain}
-							layers={$layers}
-							selected={$selection}
-						/>
-						<Substrate {width} domain={$visibleDomain} />
+						{#if $assignmentView.show}
+							<AssignmentLane
+								{width}
+								domain={$visibleDomain}
+								layers={$layers}
+								selected={$selection}
+							/>
+						{/if}
+						{#if $substrateView.show}
+							<Substrate
+								{width}
+								domain={$visibleDomain}
+								off={$substrateView.off}
+								admin={$substrateView.admin}
+							/>
+						{/if}
 						<Axis
 							{width}
 							domain={$visibleDomain}
@@ -194,6 +207,12 @@
 		</div>
 		<div class="panel license-col">
 			<LicenseFilter />
+		</div>
+		<div class="panel allocation-col">
+			<AllocationFilter />
+		</div>
+		<div class="panel assignment-col">
+			<AssignmentFilter />
 		</div>
 		<div class="panel axis-col">
 			<AxisOptions />
@@ -383,6 +402,14 @@
 		width: 236px;
 		flex-shrink: 0;
 	}
+	.allocation-col {
+		width: 248px;
+		flex-shrink: 0;
+	}
+	.assignment-col {
+		width: 222px;
+		flex-shrink: 0;
+	}
 	.panel:last-child {
 		border-right: none;
 	}
@@ -427,6 +454,12 @@
 		}
 		.license-col {
 			width: 226px;
+		}
+		.allocation-col {
+			width: 244px;
+		}
+		.assignment-col {
+			width: 216px;
 		}
 	}
 
