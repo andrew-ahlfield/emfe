@@ -35,3 +35,19 @@ test('assignment lane shows designated frequencies and toggles off', async ({ pa
 	await page.locator('.assignment-col .master').click();
 	await expect(pins).toHaveCount(0);
 });
+
+test('clicking an allocation band opens an info card explaining the service', async ({ page }) => {
+	// Zoom into VHF/UHF so bands are wide enough to be clickable.
+	await page.goto('/?z=22&c=8.12');
+	await page.waitForSelector('#explorer');
+
+	await page.locator('.substrate .tile.interactive').first().click();
+	const card = page.getByRole('dialog', { name: 'Allocation details' });
+	await expect(card).toBeVisible();
+	await expect(card.getByText('Allocated to')).toBeVisible();
+	await expect(card.getByText('What this means')).toBeVisible();
+
+	// Esc closes it.
+	await page.keyboard.press('Escape');
+	await expect(card).toBeHidden();
+});

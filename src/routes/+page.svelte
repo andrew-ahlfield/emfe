@@ -1,19 +1,17 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
-	import { view, visibleDomain, resetView, undoView, jumpTo } from '$lib/state/view';
+	import { view, visibleDomain, resetView, undoView } from '$lib/state/view';
 	import { selection, selectedAllocation, clearSelection } from '$lib/state/selection';
 	import { layers } from '$lib/state/layers';
 	import { license } from '$lib/state/license';
 	import { theme } from '$lib/state/theme';
 	import { axisOptions } from '$lib/state/axis';
-	import { substrateView } from '$lib/state/substrate';
+	import { substrateView, substrateSelection, selectBand, clearBand } from '$lib/state/substrate';
 	import { assignmentView } from '$lib/state/assignment';
 	import { inspectorPinned } from '$lib/state/inspector';
 	import { encodeState, decodeState, discreteChanged, type DeepLinkSnapshot } from '$lib/state/url';
 	import { allocations } from '$lib/data/loader';
-	import { FULL_DOMAIN, decades } from '$lib/spectrum/scale';
-	import { clampCenter, clampZoom } from '$lib/spectrum/zoom';
-	import type { ServiceAllocation } from '$lib/data/types';
+	import { FULL_DOMAIN } from '$lib/spectrum/scale';
 	import { fmtFreq } from '$lib/spectrum/format';
 	import { zoomable } from '$lib/actions/zoom';
 	import { PLOT } from '$lib/components/plot-layout';
@@ -26,6 +24,7 @@
 	import SpectrumBand from '$lib/components/SpectrumBand.svelte';
 	import Dock from '$lib/components/Dock.svelte';
 	import InspectorDrawer from '$lib/components/InspectorDrawer.svelte';
+	import SubstrateInfo from '$lib/components/SubstrateInfo.svelte';
 	import LayerToggles from '$lib/components/LayerToggles.svelte';
 	import LicenseFilter from '$lib/components/LicenseFilter.svelte';
 	import AllocationFilter from '$lib/components/AllocationFilter.svelte';
@@ -86,15 +85,11 @@
 		prev = snap;
 	});
 
-	// Clicking a substrate band frames it — and zooming in reveals its service label, so the same
-	// gesture answers "show me this" and "what is it". Mirrors the marker group-chip drill-in.
-	function frameBand(b: ServiceAllocation) {
-		const loE = Math.log10(b.lo);
-		const hiE = Math.log10(b.hi);
-		const span = Math.max(hiE - loE, 0.15) * 1.5; // pad so the band isn't edge-to-edge
-		const zoom = clampZoom(decades(FULL_DOMAIN) / span);
-		jumpTo({ centerExp: clampCenter((loE + hiE) / 2, FULL_DOMAIN, zoom), zoom });
-	}
+	// The marker inspector and the substrate info card are both right-hand sheets — only one shows
+	// at a time. Selecting a marker closes the band card; picking a band (below) closes the marker.
+	$effect(() => {
+		if ($selection) clearBand();
+	});
 
 	// Ctrl/Cmd+Z reverses the last view jump (clicking a neighbourhood to frame it, or a reset).
 	function onKeydown(e: KeyboardEvent) {
@@ -191,7 +186,10 @@
 							domain={$visibleDomain}
 							off={$substrateView.off}
 							admin={$substrateView.admin}
-							onpick={frameBand}
+							onpick={(b) => {
+								clearSelection();
+								selectBand(b);
+							}}
 						/>
 						<Axis
 							{width}
@@ -243,6 +241,8 @@
 			inspectorPinned.set(false);
 		}}
 	/>
+
+	<SubstrateInfo band={$substrateSelection} onclose={clearBand} />
 </div>
 
 <style>

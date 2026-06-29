@@ -8,6 +8,7 @@
 
 import { writable } from 'svelte/store';
 import { SERVICE_CATEGORIES, type ServiceCategory } from '$lib/spectrum/services';
+import type { ServiceAllocation } from '$lib/data/types';
 
 /** Which side of the §2.106 table to show: both, civilian (Non-Federal), or government (Federal). */
 export type Admin = 'all' | 'non-federal' | 'federal';
@@ -41,4 +42,14 @@ export function setAllCategories(on: boolean): void {
 		...s,
 		off: on ? new Set() : new Set<ServiceCategory>(SERVICE_CATEGORIES)
 	}));
+}
+
+/** The substrate band whose info card is open (null = closed). */
+export const substrateSelection = writable<ServiceAllocation | null>(null);
+
+export function selectBand(b: ServiceAllocation): void {
+	substrateSelection.set(b);
+}
+export function clearBand(): void {
+	substrateSelection.set(null);
 }
