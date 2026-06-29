@@ -16,8 +16,9 @@ export interface Channel {
 	/** Centre frequency, Hz. */
 	hz: number;
 	/**
-	 * Special styling: `gmrs` = needs a paid GMRS licence (the repeater inputs, drawn in purple);
-	 * `distress` = the emergency/calling channel (drawn in red).
+	 * Special styling: `gmrs` = needs a paid GMRS licence (the repeater inputs, drawn in blue);
+	 * `distress` = the emergency/calling channel (drawn in red, and promoted to reveal earlier — see
+	 * {@link channelRevealPx}).
 	 */
 	tag?: 'gmrs' | 'distress';
 }
@@ -32,49 +33,56 @@ export interface ChannelPlan {
 
 const MHz = 1e6;
 
-/** US CB — 40 channels, 26.965–27.405 MHz (note the historic 23/24/25 ordering). */
-const CB: Channel[] = [
-	['1', 26.965],
-	['2', 26.975],
-	['3', 26.985],
-	['4', 27.005],
-	['5', 27.015],
-	['6', 27.025],
-	['7', 27.035],
-	['8', 27.055],
-	['9', 27.065],
-	['10', 27.075],
-	['11', 27.085],
-	['12', 27.105],
-	['13', 27.115],
-	['14', 27.125],
-	['15', 27.135],
-	['16', 27.155],
-	['17', 27.165],
-	['18', 27.175],
-	['19', 27.185],
-	['20', 27.205],
-	['21', 27.215],
-	['22', 27.225],
-	['23', 27.255],
-	['24', 27.235],
-	['25', 27.245],
-	['26', 27.265],
-	['27', 27.275],
-	['28', 27.285],
-	['29', 27.295],
-	['30', 27.305],
-	['31', 27.315],
-	['32', 27.325],
-	['33', 27.335],
-	['34', 27.345],
-	['35', 27.355],
-	['36', 27.365],
-	['37', 27.375],
-	['38', 27.385],
-	['39', 27.395],
-	['40', 27.405]
-].map(([n, mhz]) => ({ n: n as string, hz: (mhz as number) * MHz }));
+/** US CB — 40 channels, 26.965–27.405 MHz (note the historic 23/24/25 ordering). Channel 9 is the
+ *  designated emergency/traveller-assistance channel, so it's drawn red like Marine 16. */
+const CB: Channel[] = (
+	[
+		['1', 26.965],
+		['2', 26.975],
+		['3', 26.985],
+		['4', 27.005],
+		['5', 27.015],
+		['6', 27.025],
+		['7', 27.035],
+		['8', 27.055],
+		['9', 27.065],
+		['10', 27.075],
+		['11', 27.085],
+		['12', 27.105],
+		['13', 27.115],
+		['14', 27.125],
+		['15', 27.135],
+		['16', 27.155],
+		['17', 27.165],
+		['18', 27.175],
+		['19', 27.185],
+		['20', 27.205],
+		['21', 27.215],
+		['22', 27.225],
+		['23', 27.255],
+		['24', 27.235],
+		['25', 27.245],
+		['26', 27.265],
+		['27', 27.275],
+		['28', 27.285],
+		['29', 27.295],
+		['30', 27.305],
+		['31', 27.315],
+		['32', 27.325],
+		['33', 27.335],
+		['34', 27.345],
+		['35', 27.355],
+		['36', 27.365],
+		['37', 27.375],
+		['38', 27.385],
+		['39', 27.395],
+		['40', 27.405]
+	] as [string, number][]
+).map(([n, mhz]) => ({
+	n,
+	hz: mhz * MHz,
+	...(n === '9' ? { tag: 'distress' as const } : {})
+}));
 
 /**
  * FRS/GMRS walkie-talkie channels. The 22 shared FRS channels (license-free) span the 462 group
@@ -280,28 +288,52 @@ export function planFor(id: string): ChannelPlan | undefined {
 	return CHANNEL_PLANS.find((p) => p.id === id);
 }
 
-/** A channel positioned for the current view. */
+/**
+ * Per-channel level-of-detail, expressed as the on-screen plan span (px) a channel needs before it
+ * surfaces. The dense numbered grid (`full`) only appears once the plan spans a comfortable slice
+ * of the screen, so the numbers have room and don't collide. A `landmark` — the single emergency /
+ * calling channel — is just one line, so it's promoted to appear far earlier, as soon as its band
+ * is a recognizable bar rather than a sliver. Tune both here; everything downstream reads them.
+ */
+export const CHANNEL_REVEAL_PX = { landmark: 16, full: 160 } as const;
+
+/**
+ * The plan span (px) at which a given channel reveals — a generalisation of the old plan-wide
+ * threshold. Emergency/calling channels (`distress`) are landmarks and surface early; every other
+ * channel waits for the full grid. Keyed off the channel's `tag` so the rule is data-driven and
+ * extends cleanly to any future promoted channel class.
+ */
+export function channelRevealPx(c: Channel): number {
+	return c.tag === 'distress' ? CHANNEL_REVEAL_PX.landmark : CHANNEL_REVEAL_PX.full;
+}
+
+/** A channel positioned for the current view, with whether this zoom reveals it. */
 export interface PlacedChannel extends Channel {
 	x: number;
+	/** Revealed at the current zoom: in view AND the plan spans this channel's reveal threshold. */
+	revealed: boolean;
 }
 
 /**
- * Channels of a plan positioned for a view, plus whether the plan is zoomed-in enough to be worth
- * drawing. We only reveal channels once the whole plan spans a comfortable slice of the screen, so
- * they emerge as a genuine deeper tier (not clutter at low zoom).
+ * Channels of a plan positioned for a view. Each channel carries its own `revealed` flag (see
+ * {@link channelRevealPx}), so a promoted landmark can show before the rest of the grid does;
+ * `show` stays the plan-wide "full grid is up" signal (used for the service-name header).
  */
 export function placeChannels(
 	plan: ChannelPlan,
 	domain: FreqDomain,
-	width: number,
-	minSpanPx = 160
+	width: number
 ): { show: boolean; spanPx: number; channels: PlacedChannel[] } {
 	const xs = plan.channels.map((c) => logPos(c.hz, domain) * width);
 	const minX = Math.min(...xs);
 	const maxX = Math.max(...xs);
 	const spanPx = maxX - minX;
-	// In view (its extent overlaps the plot) AND zoomed in enough that the channels are spread out.
+	// In view (its extent overlaps the plot) at all — per-channel reveal then gates by zoom depth.
 	const inView = maxX > 0 && minX < width;
-	const channels = plan.channels.map((c, i) => ({ ...c, x: xs[i] }));
-	return { show: inView && spanPx >= minSpanPx, spanPx, channels };
+	const channels = plan.channels.map((c, i) => ({
+		...c,
+		x: xs[i],
+		revealed: inView && spanPx >= channelRevealPx(c)
+	}));
+	return { show: inView && spanPx >= CHANNEL_REVEAL_PX.full, spanPx, channels };
 }

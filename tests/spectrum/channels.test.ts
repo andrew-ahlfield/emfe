@@ -48,11 +48,27 @@ describe('CHANNEL_PLANS', () => {
 describe('placeChannels', () => {
 	it('hides channels at full-spectrum zoom and shows them when zoomed in', () => {
 		const cb = planFor('cb')!;
-		expect(placeChannels(cb, FULL_DOMAIN, 1000).show).toBe(false);
+		const full = placeChannels(cb, FULL_DOMAIN, 1000);
+		expect(full.show).toBe(false);
+		expect(full.channels.every((c) => !c.revealed)).toBe(true);
 		// A window tightly around the CB band makes the plan span most of the width.
 		const tight = { minExp: Math.log10(26.9e6), maxExp: Math.log10(27.5e6) };
 		const placed = placeChannels(cb, tight, 1000);
 		expect(placed.show).toBe(true);
 		expect(placed.channels).toHaveLength(40);
+		expect(placed.channels.every((c) => c.revealed)).toBe(true);
+	});
+
+	it('promotes the emergency channel: its red tick reveals before the full grid does', () => {
+		const cb = planFor('cb')!;
+		// A mid zoom where the CB band spans ~50px — past the landmark threshold (16) but well
+		// short of the full-grid one (160), so only channel 9 should be revealed.
+		const mid = { minExp: 7.398, maxExp: 7.538 };
+		const placed = placeChannels(cb, mid, 1000);
+		expect(placed.show).toBe(false);
+		const revealed = placed.channels.filter((c) => c.revealed);
+		expect(revealed).toHaveLength(1);
+		expect(revealed[0].n).toBe('9');
+		expect(revealed[0].tag).toBe('distress');
 	});
 });

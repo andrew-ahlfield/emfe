@@ -12,7 +12,15 @@
  */
 
 import { logPos, niceTicks, type FreqDomain } from './scale';
-import { fmtFreq, fmtFreqTicks, fmtPhotonEv, fmtWavelengthOf, sciParts } from './format';
+import {
+	fmtEvTicks,
+	fmtFreq,
+	fmtFreqTicks,
+	fmtLambdaTicks,
+	fmtPhotonEv,
+	fmtWavelengthOf,
+	sciParts
+} from './format';
 
 export interface AxisTick {
 	id: string;
@@ -54,6 +62,10 @@ export function axisTicks(domain: FreqDomain, width: number): AxisTick[] {
 		const values = niceTicks(lo, hi);
 		const step = values.length > 1 ? values[1] - values[0] : values[0] || 1;
 		const labels = fmtFreqTicks(values, step);
+		// Wavelength and energy gain a digit too at this zoom: plain per-value formatting would round
+		// every tick to the same "11 m" / "2 eV"; these share a unit and add just enough decimals.
+		const lambdas = fmtLambdaTicks(values);
+		const evs = fmtEvTicks(values);
 		const out: AxisTick[] = values
 			.map((hz, i): AxisTick => {
 				const sci = sciParts(hz, step);
@@ -65,8 +77,8 @@ export function axisTicks(domain: FreqDomain, width: number): AxisTick[] {
 					plain: labels[i],
 					mant: sci.mant,
 					sexp: sci.exp,
-					lambda: fmtWavelengthOf(hz),
-					ev: fmtPhotonEv(hz)
+					lambda: lambdas[i],
+					ev: evs[i]
 				};
 			})
 			.filter((t) => t.x >= 0 && t.x <= width);

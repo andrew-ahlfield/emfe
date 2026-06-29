@@ -207,10 +207,15 @@
 		color: var(--sub);
 	}
 	.credit {
-		margin: 0 0 8px;
+		margin: 0 0 2px;
 		font-size: 12.5px;
 		line-height: 1.5;
 		color: var(--sub);
+	}
+	/* The licensing line that follows the copyright reads as one block with it (no gap). The
+	   Claude-Code build note that follows gets a little air to set it apart. */
+	.credit + .credit:last-child {
+		margin-top: 8px;
 	}
 	.credit:last-child {
 		margin-bottom: 0;

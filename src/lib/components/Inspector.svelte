@@ -2,6 +2,7 @@
 	import { licenseRank, type Allocation, type LicenseRank } from '$lib/data/types';
 	import { REGIONS } from '$lib/spectrum/bands';
 	import { fmtFreq, fmtPhotonEv, fmtWavelengthOf } from '$lib/spectrum/format';
+	import { resonanceScope } from '$lib/spectrum/waveform';
 	import { axisOptions } from '$lib/state/axis';
 	import {
 		LICENSE_ICON,
@@ -51,6 +52,16 @@
 
 	let bandText = $derived(
 		allocation.band ? `${fmtFreq(allocation.band[0])} – ${fmtFreq(allocation.band[1])}` : ''
+	);
+
+	// Oscilloscope trace for a non-quantized multi-mode signal (the Schumann resonance): the summed
+	// waveform, drawn so the reader sees a continuous wave rather than discrete lines.
+	const SCOPE_W = 320;
+	const SCOPE_H = 112;
+	let scope = $derived(
+		allocation.modes && allocation.modes.length > 1
+			? resonanceScope(allocation.modes, SCOPE_W, SCOPE_H)
+			: null
 	);
 	let reqClass = $derived(allocation.reqLicense);
 	let segments = $derived(privilegeStrip(allocation.id, license));
@@ -109,6 +120,40 @@
 	{/if}
 
 	<p class="note">{allocation.note}</p>
+
+	{#if scope}
+		<figure class="scope">
+			<svg
+				viewBox="0 0 {SCOPE_W} {SCOPE_H}"
+				class="scope-svg"
+				role="img"
+				aria-label="Oscilloscope trace of the {allocation.name}: a continuous beating waveform, the sum of a fundamental and its overtones — not discrete lines."
+			>
+				<rect
+					class="scope-screen"
+					x="0.5"
+					y="0.5"
+					width={SCOPE_W - 1}
+					height={SCOPE_H - 1}
+					rx="6"
+				/>
+				{#each scope.vGrid as gx (gx)}
+					<line x1={gx} y1="2" x2={gx} y2={SCOPE_H - 2} class="grid" />
+				{/each}
+				{#each scope.hGrid as gy (gy)}
+					<line x1="2" y1={gy} x2={SCOPE_W - 2} y2={gy} class="grid" />
+				{/each}
+				<line x1="2" y1={scope.midline} x2={SCOPE_W - 2} y2={scope.midline} class="grid axis" />
+				<path d={scope.trace} class="trace" />
+			</svg>
+			<figcaption class="scope-cap">
+				A resonance, not a quantum: the cavity rings at a fundamental ({fmtFreq(
+					allocation.modes![0]
+				)}) and its overtones at once, so the signal is one continuous, beating wave — broad and
+				drifting, unlike the sharp fixed lines of atomic emission.
+			</figcaption>
+		</figure>
+	{/if}
 
 	{#if learnMore}
 		<!-- External explainer (absolute https), not an internal SvelteKit route. -->
@@ -271,6 +316,45 @@
 		font-size: 12.5px;
 		line-height: 1.5;
 		color: var(--sub);
+	}
+	/* Native-SVG oscilloscope: a dark phosphor screen with a faint graticule and a glowing green
+	   trace — the literal waveform of the summed modes, so "continuous wave, not discrete lines"
+	   reads at a glance. The screen stays dark in both themes (it's a device screen). */
+	.scope {
+		margin: 0 0 14px;
+	}
+	.scope-svg {
+		display: block;
+		width: 100%;
+		height: auto;
+	}
+	.scope-screen {
+		fill: #0a0f0c;
+		stroke: var(--line);
+		stroke-width: 1;
+	}
+	.grid {
+		stroke: var(--layer-science);
+		stroke-width: 0.5;
+		opacity: 0.16;
+	}
+	.grid.axis {
+		opacity: 0.3;
+	}
+	.trace {
+		fill: none;
+		stroke: var(--layer-science);
+		stroke-width: 1.6;
+		stroke-linejoin: round;
+		stroke-linecap: round;
+		filter: drop-shadow(0 0 2.5px var(--layer-science));
+	}
+	.scope-cap {
+		margin: 7px 0 0;
+		font-family: var(--font-sans);
+		font-size: 11.5px;
+		line-height: 1.45;
+		color: var(--faint);
 	}
 	.learn-more {
 		display: inline-block;

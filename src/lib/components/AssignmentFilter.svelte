@@ -21,13 +21,13 @@
 </div>
 
 <p class="blurb">
-	Who actually <em>holds</em> a band nationally — carriers and satellite operators — plus the single
-	frequencies <em>designated</em> for one job (distress, calling, emergency).
+	Who <em>holds</em> a band nationally — carriers and satellite operators, drawn over their band —
+	plus single frequencies <em>designated</em> for one job (red = emergency).
 </p>
 <ul class="legend" class:dim={!on}>
 	<li>Verizon · AT&amp;T · T-Mobile · Dish</li>
 	<li>SiriusXM · Globalstar · Iridium · GPS · Starlink</li>
-	<li>Marine Ch 16 · 121.5 guard · CB Ch 9</li>
+	<li>121.5 / 243.0 guard · 146.52 &amp; ham calling</li>
 </ul>
 
 <style>

@@ -25,15 +25,26 @@ test('allocation substrate renders and its filters drive the ribbon', async ({ p
 	await expect(tiles).toHaveCount(0);
 });
 
-test('assignment lane shows designated frequencies and toggles off', async ({ page }) => {
+test('assignment tier rides the band: carrier bars always, designated ticks on zoom', async ({
+	page
+}) => {
 	await page.goto('/');
 	await page.waitForSelector('#explorer');
 
-	const pins = page.locator('.assignments .pin');
-	await expect.poll(() => pins.count()).toBeGreaterThan(0);
+	// Carrier/operator holdings show as bars over the band at any zoom.
+	const bars = page.locator('.assignments .op');
+	await expect.poll(() => bars.count()).toBeGreaterThan(0);
 
+	// Designated single frequencies are a deep-zoom landmark — zoom onto 146.52 MHz (the 2 m
+	// calling frequency, log10 ≈ 8.166) and its tick appears.
+	await page.goto('/?z=1500&c=8.166');
+	await page.waitForSelector('#explorer');
+	const ticks = page.locator('.assignments .pin');
+	await expect.poll(() => ticks.count()).toBeGreaterThan(0);
+
+	// The master switch hides the whole tier.
 	await page.locator('.assignment-col .master').click();
-	await expect(pins).toHaveCount(0);
+	await expect(page.locator('.assignments .op')).toHaveCount(0);
 });
 
 test('clicking an allocation band opens an info card explaining the service', async ({ page }) => {

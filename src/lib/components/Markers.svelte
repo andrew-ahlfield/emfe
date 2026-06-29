@@ -49,6 +49,9 @@
 	 */
 	const emits = (a: Allocation | null): boolean =>
 		!!a && (a.emission != null || (a.lines?.length ?? 0) > 0);
+	/** A non-quantized multi-mode signal (a fundamental + overtones, e.g. the Schumann cavity):
+	 *  drawn as a row of layer-coloured bars, not spectral ticks — these aren't light. */
+	const hasModes = (a: Allocation | null): boolean => !!a && (a.modes?.length ?? 0) > 0;
 	/** Marker fill for an emitter: white for a broadband white LED, else the sampled spectral colour. */
 	const fillOf = (a: Allocation | null, fallback: string): string =>
 		a?.emission === 'white'
@@ -92,12 +95,29 @@
 	): IconPlacement[] {
 		if (!a?.reqLicense) return [];
 
-		// Sub-banded band with real width: a glyph on each opaque section, centred on it.
+		// Sub-banded band with real width: a glyph on each opaque section, centred on it. Adjacent
+		// enabled sub-bands of the *same* class are merged into one run first, so a band split only
+		// by operating mode (10 m: Technician 28.0–28.3 data + 28.3–28.5 phone) shows a single "T",
+		// not one per mode — the class is contiguous even though the mode isn't (the mode split still
+		// lives in the inspector strip).
 		if (bar && hasPrivilegePlan(a.id)) {
 			const enabled = privilegeBands(a.id, license).filter((b) => b.enabled);
-			if (enabled.length > 0) {
+			const runs: {
+				loHz: number;
+				hiHz: number;
+				minLicense: (typeof enabled)[number]['minLicense'];
+			}[] = [];
+			for (const b of enabled) {
+				const last = runs[runs.length - 1];
+				if (last && last.minLicense === b.minLicense && Math.abs(b.loHz - last.hiHz) < 1) {
+					last.hiHz = b.hiHz;
+				} else {
+					runs.push({ loHz: b.loHz, hiHz: b.hiHz, minLicense: b.minLicense });
+				}
+			}
+			if (runs.length > 0) {
 				const out: IconPlacement[] = [];
-				for (const b of enabled) {
+				for (const b of runs) {
 					const x0 = logPos(b.loHz, domain) * width;
 					const x1 = logPos(b.hiHz, domain) * width;
 					if (x1 - x0 >= SECTION_GLYPH_PX) {
@@ -364,6 +384,39 @@
 	{/if}
 {/snippet}
 
+<!-- Non-quantized multi-mode signal (the Schumann cavity): a fundamental + overtones drawn as a
+     row of layer-coloured bars whose height rolls off with the mode (the fundamental is strongest),
+     linked by a faint baseline so they read as one resonance — not the sharp, equal spectral ticks
+     of a quantized emitter. The full story (and a scope trace) lives in the inspector. -->
+{#snippet modesShape(alloc: Allocation, sel: boolean)}
+	{@const col = `var(--layer-${alloc.layer})`}
+	{@const xs = (alloc.modes ?? []).map((m) => logPos(m, domain) * width)}
+	{#if xs.length > 0}
+		<line
+			x1={Math.min(...xs)}
+			y1={bandMid}
+			x2={Math.max(...xs)}
+			y2={bandMid}
+			class="mode-base"
+			style="stroke: {col}"
+		/>
+		{#each xs as mx, i (i)}
+			{@const hh = (sel ? 11 : 9) * (1 - i * 0.13)}
+			<rect
+				x={mx - 1.5}
+				y={bandMid - hh}
+				width="3"
+				height={hh * 2}
+				rx="1.3"
+				style="fill: {col}"
+				class="mode-bar"
+				class:sel
+				class:fundamental={i === 0}
+			/>
+		{/each}
+	{/if}
+{/snippet}
+
 <!-- Optical entry (laser / LED / emission line): drawn in the physical colour of its light. A
      real-bandwidth band shows as a translucent bracket so the spectrum gradient reads through it;
      a point shows as a small filled dot. Both carry a hairline outline so a same-coloured marker
@@ -464,7 +517,9 @@
 		onclick={() => select(d.id)}
 		onkeydown={(e) => onKey2(e, d.id)}
 	>
-		{#if emits(d.alloc)}
+		{#if hasModes(d.alloc)}
+			{@render modesShape(d.alloc, sel)}
+		{:else if emits(d.alloc)}
 			{@render opticalShape(d.alloc, bar, d.x, sel)}
 		{:else if bar}
 			{@render bandShape(d.alloc, bar, `var(--layer-${d.layer})`, 10, 2.5, 'band-bar', sel)}
@@ -533,7 +588,9 @@
 				? lineColorOf(item.alloc ?? null, p.color)
 				: 'var(--panelb)'}; stroke-width: {sel ? 2 : 1}"
 		/>
-		{#if emits(item.alloc ?? null)}
+		{#if hasModes(item.alloc ?? null)}
+			{@render modesShape(item.alloc!, sel)}
+		{:else if emits(item.alloc ?? null)}
 			{@render opticalShape(item.alloc!, bar, item.x, sel)}
 		{:else if bar}
 			{@render bandShape(item.alloc!, bar, p.color, 12, 3, 'leaf-bar', sel)}
@@ -644,6 +701,25 @@
 	.optical-bar.solid.sel,
 	.optical-dot.solid.sel {
 		opacity: 1;
+	}
+	/* Resonance modes (Schumann): layer-coloured bars, the fundamental emphasised, joined by a faint
+	   baseline. Deliberately unlike the spectral emission ticks — these are a wave, not a quantum. */
+	.mode-base {
+		stroke-width: 1;
+		opacity: 0.3;
+	}
+	.mode-bar {
+		stroke: var(--marker-stroke);
+		stroke-width: 0.75;
+		opacity: 0.9;
+	}
+	.mode-bar.fundamental {
+		stroke-width: 1;
+		opacity: 1;
+	}
+	.mode-bar.sel {
+		opacity: 1;
+		filter: drop-shadow(0 0 4px currentColor);
 	}
 	/* A single emission line — a thin spectral spike, one per line of a discharge/flame spectrum. */
 	.emission-line {

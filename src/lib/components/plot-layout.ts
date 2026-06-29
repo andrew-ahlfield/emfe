@@ -5,8 +5,9 @@
  *
  * Vertical stack, top → bottom (SPEC §The three tiers):
  *   application markers (labels + dots/bars on the gradient)   ← recognizable uses, top tier
- *   region labels + the continuous spectrum gradient band      ← the physical reference
- *   assignment lane (pins + labels)                            ← specific designated frequencies
+ *   region labels + the continuous spectrum gradient band      ← the physical reference, and the
+ *     assignment tier now rides *on* this band: carrier holdings as translucent bars over their
+ *     superset application band, designated single frequencies as ticks through it
  *   allocation substrate ribbon                                ← gap-free service-category bands
  *   ITU band row + frequency axis                              ← the ruler and its coarse context
  */
@@ -20,11 +21,16 @@ export const PLOT = {
 	/** The continuous gradient band (application markers ride on its mid-line). */
 	bandY: 118,
 	bandH: 58,
-	/** Assignment lane — specific designated frequencies (Marine Ch 16, 121.5 MHz, …). */
-	assignY: 184,
-	assignH: 14,
-	/** Baseline for an assignment's label, between its pin strip and the substrate. */
-	assignLabelY: 208,
+	/** Carrier/operator holdings: a bar on the band mid-line, sitting *in front of and within* the
+	 *  superset application bar it overlaps (slightly shorter, so the superset frames it top/bottom).
+	 *  bandMid = bandY + bandH/2 = 147; this is centred on it. */
+	opBarY: 142,
+	opBarH: 10,
+	/** Carrier name, just below the band. */
+	opLabelY: 189,
+	/** Designated single frequencies (guard / calling): a tick through the band, label below the
+	 *  carrier row so the two don't collide. */
+	desigLabelY: 203,
 	/** Allocation substrate ribbon — the gap-free §2.106 service-category bands. */
 	substrateY: 216,
 	substrateH: 28,

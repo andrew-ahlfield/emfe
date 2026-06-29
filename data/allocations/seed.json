@@ -3,11 +3,12 @@
 		"id": "schumann",
 		"name": "Schumann resonance",
 		"hz": 7.83,
-		"band": [7.5, 8.3],
+		"band": [7.4, 34.5],
+		"modes": [7.83, 14.3, 20.8, 27.3, 33.8],
 		"layer": "science",
 		"region": "radio",
 		"minLod": 1,
-		"note": "The Earth–ionosphere cavity ringing near 7.83 Hz — the planet's natural EM heartbeat. The fundamental drifts and broadens with the day/night ionosphere (≈7.5–8.3 Hz); higher modes ring at 14, 20, 27 Hz.",
+		"note": "The Earth–ionosphere cavity ringing near 7.83 Hz — the planet's natural EM heartbeat, struck by lightning some 50 times a second. It's a resonance, not a quantum: a fundamental plus a series of overtones (≈14.3, 20.8, 27.3, 33.8 Hz), each a broad bump that drifts and widens with the day/night ionosphere — nothing like the sharp, fixed lines of atomic emission.",
 		"source": "nasa-ems"
 	},
 	{
@@ -349,7 +350,7 @@
 		"region": "radio",
 		"minLod": 2,
 		"reqLicense": "unlicensed",
-		"note": "Citizens Band — license-free voice, 40 channels, 4 W.",
+		"note": "Citizens Band — license-free voice, 40 channels, 4 W. Channel 9 (27.065 MHz) is reserved nationwide for emergencies and traveller assistance — the red tick when you zoom in.",
 		"source": "fcc-part97"
 	},
 	{
@@ -688,11 +689,11 @@
 		"id": "cell-700",
 		"name": "700 MHz LTE",
 		"hz": 700000000,
-		"band": [698000000, 746000000],
+		"band": [698000000, 758000000],
 		"layer": "consumer",
 		"region": "microwave",
 		"minLod": 3,
-		"note": "700 MHz LTE (Bands 12/13) — strong coverage and building penetration.",
+		"note": "Commercial 700 MHz LTE/5G — Lower 700 (Bands 12/17, AT&T) plus the Upper-700 C block (Band 13, Verizon) up to 758 MHz, where public-safety FirstNet begins. Low frequencies give strong coverage and building penetration.",
 		"source": "fcc-tofa"
 	},
 	{
@@ -737,7 +738,7 @@
 		"region": "microwave",
 		"minLod": 3,
 		"reqLicense": "technician",
-		"note": "33 cm — shared with the 915 MHz ISM band; all modes for Technician and up.",
+		"note": "33 cm (902–928 MHz) — amateur is *secondary* here. You share the 915 MHz ISM band (LoRa, smart meters, Z-Wave, cordless phones) and must accept their interference, and you must not interfere with the primary federal radar and Location & Monitoring Service. New ham: listen first, expect a high noise floor, and favour weak-signal/digital modes away from the busy band centre. All modes for Technician and up.",
 		"source": "fcc-part97"
 	},
 	{
@@ -925,7 +926,7 @@
 		"region": "microwave",
 		"minLod": 3,
 		"reqLicense": "technician",
-		"note": "13 cm (2.3 GHz) — weak-signal and ATV; shared with Wi-Fi and ISM.",
+		"note": "13 cm (2.3 GHz) — weak-signal and ATV. Amateur is secondary and shares its upper end with the 2.4 GHz Wi-Fi/Bluetooth ISM band: accept their interference and don't cause it. Technician and up.",
 		"source": "fcc-part97"
 	},
 	{
@@ -1080,7 +1081,7 @@
 		"region": "microwave",
 		"minLod": 3,
 		"reqLicense": "technician",
-		"note": "5 cm (5.7 GHz) — microwave weak-signal and amateur TV.",
+		"note": "5 cm (5.7 GHz) — microwave weak-signal and amateur TV. Secondary again, sharing the 5.8 GHz ISM / U-NII band with Wi-Fi and cordless gear: listen first and accept their interference. Technician and up.",
 		"source": "fcc-part97"
 	},
 	{
@@ -1271,7 +1272,7 @@
 		"layer": "science",
 		"region": "infrared",
 		"minLod": 3,
-		"note": "Terahertz 'T-rays' (1 THz) — airport body scanners and the band science learned to use last.",
+		"note": "Terahertz 'T-rays' (~0.1–10 THz) — the band between microwaves and infrared that science learned to use last. T-ray imagers see through clothing, plastic, paper and packaging without ionising what they scan, so they show up in security body scanners and in non-destructive inspection of mail, art, pharmaceuticals and semiconductors.",
 		"source": "nasa-ems"
 	},
 	{

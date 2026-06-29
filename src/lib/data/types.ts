@@ -79,6 +79,14 @@ export interface RawAllocation {
 	 * sits on the dominant line.
 	 */
 	lines?: number[];
+	/**
+	 * Resonance / harmonic mode frequencies (Hz) for a *non-quantized* multi-mode signal — a
+	 * fundamental and its overtones, like the Schumann cavity (7.83 Hz + ≈14.3/20.8/27.3/33.8 Hz).
+	 * Unlike {@link lines} (sharp quantum emission, coloured by wavelength), these are drawn as a row
+	 * of bars in the entry's *layer* colour — they aren't light, and the point is that they're broad,
+	 * drifting resonances. The first mode is the fundamental; `hz` should sit on it.
+	 */
+	modes?: number[];
 	layer: LayerId;
 	/**
 	 * Optional second content layer this allocation also belongs to. It shows when *either* layer
@@ -102,6 +110,12 @@ export interface RawAllocation {
 	 * `spectrum/operators`. Approximate, national-level — not a per-market ULS record.
 	 */
 	operator?: string;
+	/**
+	 * For a *designated* assignment frequency (no operator), what job it's set aside for — drives how
+	 * its tick is drawn on the band: `distress` = emergency/guard, red; `calling` = a meeting
+	 * frequency, in its layer colour. Absent ⇒ not a designated single frequency.
+	 */
+	designation?: 'distress' | 'calling';
 	note: string;
 	/**
 	 * How an optical entry is coloured. `spectral` = sampled from the physical colour of the light

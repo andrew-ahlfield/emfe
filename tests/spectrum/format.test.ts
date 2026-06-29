@@ -1,9 +1,12 @@
 import { describe, it, expect } from 'vitest';
 import {
+	fmtEvTicks,
 	fmtExp,
 	fmtFreq,
+	fmtFreqShort,
 	fmtFreqTicks,
 	fmtLambda,
+	fmtLambdaTicks,
 	fmtPhotonEv,
 	fmtWavelengthOf,
 	toSuperscript
@@ -37,6 +40,34 @@ describe('fmtFreqTicks', () => {
 
 	it('shares one unit across all ticks', () => {
 		expect(fmtFreqTicks([2.4e9, 2.45e9, 2.5e9], 0.05e9).every((s) => s.endsWith('GHz'))).toBe(true);
+	});
+});
+
+describe('fmtFreqShort', () => {
+	it('keeps the exact value where fmtFreq would round it away', () => {
+		expect(fmtFreqShort(146520000)).toBe('146.52 MHz'); // fmtFreq → "147 MHz"
+		expect(fmtFreqShort(121500000)).toBe('121.5 MHz');
+		expect(fmtFreqShort(52525000)).toBe('52.525 MHz');
+	});
+	it('trims trailing zeros to a clean integer when exact', () => {
+		expect(fmtFreqShort(243000000)).toBe('243 MHz');
+		expect(fmtFreqShort(446000000)).toBe('446 MHz');
+	});
+});
+
+describe('fmtLambdaTicks / fmtEvTicks', () => {
+	it('add a digit so zoomed-in neighbours stay distinct (λ)', () => {
+		// A tight window near 27 MHz: plain fmtWavelengthOf rounds every tick to "11 m".
+		const out = fmtLambdaTicks([26.9e6, 27.0e6, 27.1e6, 27.2e6]);
+		expect(new Set(out).size).toBe(4);
+		expect(out.every((s) => s.endsWith(' m'))).toBe(true);
+	});
+	it('add a digit so zoomed-in neighbours stay distinct (eV)', () => {
+		const out = fmtEvTicks([26.9e6, 27.0e6, 27.1e6, 27.2e6]);
+		expect(new Set(out).size).toBe(4);
+	});
+	it('stay coarse (no needless decimals) when ticks are far apart', () => {
+		expect(fmtLambdaTicks([1e6, 1e7, 1e8])).toEqual(['300 m', '30 m', '3 m']);
 	});
 });
 

@@ -33,8 +33,12 @@
 	const h = PLOT.substrateH;
 	/** Below this on-screen width a band is a plain tile — no hover target, no label (a11y). */
 	const INTERACT_MIN_PX = 4;
-	/** A band narrower than this never attempts a label (a hairline can't carry text). */
-	const LABEL_MIN_PX = 26;
+	/** Only comfortably-wide bands carry a caption now — the ribbon is a quiet floor, so it stays
+	 *  sparsely labelled (the full per-service key lives in the Allocation control panel). */
+	const LABEL_MIN_PX = 46;
+	/** Hairline gap carved between adjacent tiles so the ribbon reads as crafted segments, not one
+	 *  hard brick wall — applied only to tiles wide enough to spare it. */
+	const TILE_GAP = 0.5;
 	/** ~px advance of one 9.5px mono glyph; the two label rows inside the strip. */
 	const CHAR_PX = 5.7;
 	const LABEL_GAP = 7;
@@ -145,7 +149,7 @@
 		patternUnits="userSpaceOnUse"
 		patternTransform="rotate(45)"
 	>
-		<line x1="0" y1="0" x2="0" y2="6" stroke="var(--ink)" stroke-width="1.1" stroke-opacity="0.2" />
+		<line x1="0" y1="0" x2="0" y2="6" stroke="var(--ink)" stroke-width="1" stroke-opacity="0.12" />
 	</pattern>
 </defs>
 
@@ -155,6 +159,8 @@
 <g class="substrate" aria-label="Allocation substrate — US Table of Frequency Allocations">
 	{#each tiles as t (t.key)}
 		{#if t.w >= INTERACT_MIN_PX}
+			{@const gap = t.w >= 3 ? TILE_GAP : 0}
+			{@const rx = t.w >= 6 ? 2.5 : 1}
 			<g
 				class="tile interactive"
 				class:federal={t.federal}
@@ -166,9 +172,25 @@
 				onkeydown={(e) => onKey(e, t.band)}
 			>
 				<title>{t.band.primary.join(' · ')}{t.federal ? '  [Federal]' : ''}</title>
-				<rect x={t.x} {y} width={t.w} height={h} style="fill: {t.color}" class="fill" />
+				<rect
+					x={t.x + gap}
+					{y}
+					width={Math.max(t.w - 2 * gap, 0.6)}
+					height={h}
+					{rx}
+					style="fill: {t.color}"
+					class="fill"
+				/>
 				{#if t.federal}
-					<rect x={t.x} {y} width={t.w} height={h} fill="url(#fed-hatch)" class="hatch" />
+					<rect
+						x={t.x + gap}
+						{y}
+						width={Math.max(t.w - 2 * gap, 0.6)}
+						height={h}
+						{rx}
+						fill="url(#fed-hatch)"
+						class="hatch"
+					/>
 				{/if}
 			</g>
 		{:else}
@@ -193,39 +215,48 @@
 </g>
 
 <style>
-	.fill {
-		opacity: 0.6;
+	/* The whole ribbon is a recessed foundation: desaturated so its per-service hues never compete
+	   with the vivid spectral band above, and held at low opacity so it reads as the floor the
+	   recognizable-application markers stand on. */
+	.substrate {
+		filter: saturate(0.62);
 	}
-	/* Federal (government) bands read dimmer — restricted spectrum the public can't use. */
+	.fill {
+		opacity: 0.3;
+	}
+	/* Federal (government) bands read dimmer still — restricted spectrum the public can't use. */
 	.federal .fill,
 	.fill.federal {
-		opacity: 0.34;
+		opacity: 0.17;
 	}
-	/* …plus a diagonal hatch so the distinction is explicit, not just "a bit darker". */
+	/* …plus a faint diagonal hatch so the distinction is explicit, not just "a bit darker". */
 	.hatch {
 		pointer-events: none;
 	}
 	.interactive {
 		cursor: pointer;
 	}
+	/* Hover/focus lifts the band out of the floor so the interaction still reads clearly. */
 	.interactive:hover .fill,
 	.interactive:focus-visible .fill {
-		opacity: 0.92;
+		opacity: 0.82;
 	}
 	.interactive:focus-visible {
 		outline: none;
 	}
+	/* Quiet caption: soft (not pure white), small, hairline outline — a label that whispers the
+	   service name rather than stamping it on like a sticker. */
 	.svc-label {
 		font-family: var(--font-mono);
-		font-size: 9.5px;
-		letter-spacing: 0.03em;
-		fill: #fff;
+		font-size: 8.5px;
+		letter-spacing: 0.04em;
+		fill: color-mix(in srgb, var(--ink) 72%, transparent);
 		text-anchor: middle;
 		dominant-baseline: central;
 		pointer-events: none;
 		paint-order: stroke;
 		stroke: var(--marker-stroke);
-		stroke-width: 2.4px;
+		stroke-width: 1.3px;
 		text-transform: uppercase;
 	}
 </style>

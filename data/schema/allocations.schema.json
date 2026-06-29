@@ -34,6 +34,11 @@
 					"items": { "type": "number", "exclusiveMinimum": 0 },
 					"minItems": 1
 				},
+				"modes": {
+					"type": "array",
+					"items": { "type": "number", "exclusiveMinimum": 0 },
+					"minItems": 1
+				},
 				"layer": {
 					"enum": ["consumer", "amateur", "navigation", "gov", "science"]
 				},
@@ -51,6 +56,7 @@
 					"enum": ["unlicensed", "technician", "general", "extra"]
 				},
 				"operator": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$" },
+				"designation": { "enum": ["distress", "calling"] },
 				"emission": { "enum": ["spectral", "white"] },
 				"optical": { "enum": ["laser", "led", "gas", "fireworks"] },
 				"note": { "type": "string", "minLength": 1 },

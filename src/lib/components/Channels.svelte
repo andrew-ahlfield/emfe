@@ -26,12 +26,13 @@
 	// rule as the markers. (Channelised services are licence-free, so the licence never gates them.)
 	let visibleIds = $derived(new Set(visibleAllocations(allocations, 3, layers).map((a) => a.id)));
 
-	// Reveal a plan's channels only once it spans a comfortable slice of the screen — they emerge
-	// as a genuine deeper tier rather than cluttering the low-zoom view.
+	// Place every in-view plan; keep it if at least one channel is revealed at this zoom. The dense
+	// grid emerges as a deeper tier, but a promoted landmark (the emergency channel) can light up
+	// well before that — so a plan may render with just its single red tick showing.
 	let plans = $derived(
 		CHANNEL_PLANS.filter((p) => visibleIds.has(p.id))
 			.map((p) => ({ plan: p, ...placeChannels(p, domain, width) }))
-			.filter((p) => p.show)
+			.filter((p) => p.channels.some((c) => c.revealed))
 	);
 
 	/**
@@ -66,11 +67,15 @@
 </script>
 
 {#each plans as p (p.plan.id)}
-	{@const show = labelled(p.channels)}
-	<!-- Service name at the start of the plan's on-screen extent. -->
-	{@const x0 = Math.max(p.channels[0].x, 2)}
-	<text x={x0} y={bandTop - 17} class="ch-service">{p.plan.service} channels</text>
-	{#each p.channels as ch (ch.hz)}
+	{@const revealed = p.channels.filter((c) => c.revealed)}
+	{@const show = labelled(revealed)}
+	<!-- Service name only once the full grid is up; a lone emergency landmark stays uncaptioned
+	     (its red colour + number already read as "the emergency channel"). -->
+	{#if p.show}
+		{@const x0 = Math.max(revealed[0].x, 2)}
+		<text x={x0} y={bandTop - 17} class="ch-service">{p.plan.service} channels</text>
+	{/if}
+	{#each revealed as ch (ch.hz)}
 		{#if ch.x >= -2 && ch.x <= width + 2}
 			<line
 				x1={ch.x}
@@ -101,9 +106,10 @@
 		stroke-width: 1;
 		opacity: 0.65;
 	}
-	/* GMRS-licence-only channels (the repeater inputs) read in the amateur/licence colour. */
+	/* GMRS-licence-only channels (the repeater inputs) read in blue, distinct from both the grey
+	   licence-free ticks and the red emergency channel. */
 	.ch-tick.gmrs {
-		stroke: var(--layer-amateur);
+		stroke: var(--layer-navigation);
 		opacity: 0.9;
 	}
 	.ch-num {
@@ -112,7 +118,7 @@
 		fill: var(--sub);
 	}
 	.ch-num.gmrs {
-		fill: var(--layer-amateur);
+		fill: var(--layer-navigation);
 		font-weight: 600;
 	}
 	/* The distress / calling channel (marine 16) — red, so it stands out. */

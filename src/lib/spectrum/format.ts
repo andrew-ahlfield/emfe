@@ -81,6 +81,21 @@ export function fmtFreq(hz: number): string {
 }
 
 /**
+ * Format a frequency to its exact value in the natural SI unit, keeping up to three decimals and
+ * trimming trailing zeros — for a precise designation label like `146.52 MHz` or `121.5 MHz` that
+ * {@link fmtFreq}'s "round ≥10 to an integer" tidying would otherwise mangle to `147 MHz`.
+ */
+export function fmtFreqShort(hz: number): string {
+	for (const [name, scale] of FREQ_UNITS) {
+		if (hz >= scale) {
+			const s = (hz / scale).toFixed(3).replace(/\.?0+$/, '');
+			return `${s} ${name}`;
+		}
+	}
+	return `${hz} Hz`;
+}
+
+/**
  * Mantissa + exponent for scientific-notation tick labels, e.g. `5×10⁶ Hz`. `step` (the spacing
  * to the next tick) sets how many mantissa decimals are needed to keep neighbours distinct, so
  * 2.6/2.7/2.8 ×10⁷ don't all collapse to 3×10⁷.
@@ -105,6 +120,50 @@ export function fmtFreqTicks(values: number[], step: number): string[] {
 	const [name, scale] = FREQ_UNITS.find(([, s]) => peak >= s) ?? ['Hz', 1];
 	const decimals = Math.min(6, Math.max(0, -Math.floor(Math.log10(step / scale) + 1e-9)));
 	return values.map((v) => `${(v / scale).toFixed(decimals)} ${name}`);
+}
+
+/**
+ * Format a list of values onto one shared unit from `units`, with just enough decimals that no two
+ * neighbours collapse to the same printed number. The deciding step is the smallest gap between
+ * adjacent values (the array need not be sorted); the shared `maxDecimals` cap keeps things sane.
+ */
+function fmtLadderTicks(
+	values: number[],
+	units: ReadonlyArray<readonly [string, number]>,
+	maxDecimals = 4
+): string[] {
+	if (values.length === 0) return [];
+	const peak = Math.max(...values.map((v) => Math.abs(v)));
+	const [name, scale] = units.find(([, s]) => peak >= s) ?? ['', 1];
+	const sorted = [...values].sort((a, b) => a - b);
+	let step = Infinity;
+	for (let i = 1; i < sorted.length; i++) {
+		const d = sorted[i] - sorted[i - 1];
+		if (d > 0) step = Math.min(step, d);
+	}
+	if (!Number.isFinite(step) || step <= 0) step = peak;
+	const decimals = Math.min(maxDecimals, Math.max(0, -Math.floor(Math.log10(step / scale) + 1e-9)));
+	return values.map((v) => `${(v / scale).toFixed(decimals)} ${name}`);
+}
+
+/**
+ * Wavelength labels for a set of axis-tick frequencies, sharing one unit and carrying enough
+ * decimals to stay distinct. Deep in a zoom, plain {@link fmtWavelengthOf} rounds every tick to the
+ * same "11 m" / "12 cm"; this gains the digit needed to read the window's true span.
+ */
+export function fmtLambdaTicks(values: number[]): string[] {
+	return fmtLadderTicks(values.map(freqToWavelength), LAMBDA_UNITS);
+}
+
+/**
+ * Photon-energy (E = hν) labels for a set of axis-tick frequencies, with adaptive decimals — the
+ * eV counterpart to {@link fmtLambdaTicks}, so a zoomed-in ruler doesn't print "2 eV" on every tick.
+ */
+export function fmtEvTicks(values: number[]): string[] {
+	return fmtLadderTicks(
+		values.map((hz) => PLANCK_EV * hz),
+		ENERGY_UNITS
+	);
 }
 
 /**
