@@ -224,11 +224,12 @@ export function layoutSpectrum(
 		if (a.band) {
 			loX = xOf(a.band[0]);
 			hiX = xOf(a.band[1]);
-			// When the band overlaps the viewport, anchor the label over its on-screen slice
-			// (clamped to the edges), the way group chips do — so the label and bar stay visible
-			// even once the centre frequency scrolls off. Otherwise keep the (off-screen) centre,
-			// and lane placement drops the label as before.
-			if (hiX > 0 && loX < width) {
+			// Anchor the label over its on-screen slice ONLY when that slice is wide enough to host
+			// the label — so a genuinely wide band keeps its label as its centre scrolls off. A narrow
+			// band keeps its centre x and lets the label drop near an edge; pinning a point-wide band's
+			// label to the edge made it appear to "slide" while the bar panned underneath it.
+			const onScreenW = Math.min(hiX, width) - Math.max(loX, 0);
+			if (hiX > 0 && loX < width && onScreenW >= labelW) {
 				const half = labelW / 2;
 				const sliceCenter = (Math.max(loX, 0) + Math.min(hiX, width)) / 2;
 				x = Math.min(Math.max(sliceCenter, half + 2), width - half - 2);

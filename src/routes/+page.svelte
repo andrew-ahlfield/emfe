@@ -18,7 +18,6 @@
 	import Markers from '$lib/components/Markers.svelte';
 	import Channels from '$lib/components/Channels.svelte';
 	import Substrate from '$lib/components/Substrate.svelte';
-	import AssignmentLane from '$lib/components/AssignmentLane.svelte';
 	import RegionLabels from '$lib/components/RegionLabels.svelte';
 	import IonizingMarker from '$lib/components/IonizingMarker.svelte';
 	import SpectrumBand from '$lib/components/SpectrumBand.svelte';
@@ -190,14 +189,6 @@
 						<RegionLabels {width} domain={$visibleDomain} />
 						<IonizingMarker {width} domain={$visibleDomain} />
 						<Channels {width} domain={$visibleDomain} layers={$layers} />
-						<!-- Carrier holdings + designated frequencies ride the band; their visibility is
-						     driven by the content-layer toggles (no separate assignment switch). -->
-						<AssignmentLane
-							{width}
-							domain={$visibleDomain}
-							layers={$layers}
-							selected={$selection}
-						/>
 						<Substrate
 							{width}
 							domain={$visibleDomain}

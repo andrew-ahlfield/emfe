@@ -373,7 +373,7 @@
 		"region": "radio",
 		"minLod": 2,
 		"reqLicense": "technician",
-		"note": "6 m 'Magic Band' — sporadic-E surprises; all modes for Technician and up.",
+		"note": "6 m 'Magic Band' — sporadic-E surprises; all modes for Technician and up. The marked tick at 52.525 MHz is the national FM simplex calling frequency, the first place to listen when the band opens up.",
 		"source": "fcc-part97"
 	},
 	{
@@ -432,7 +432,7 @@
 		"layer": "navigation",
 		"region": "radio",
 		"minLod": 2,
-		"note": "VHF airband — air-traffic-control voice, 118–137 MHz AM.",
+		"note": "VHF airband — air-traffic-control voice, 118–137 MHz AM. The red tick at 121.5 MHz is 'guard', the international aeronautical emergency frequency, monitored by ATC and aircraft worldwide.",
 		"source": "fcc-tofa"
 	},
 	{
@@ -455,7 +455,7 @@
 		"region": "radio",
 		"minLod": 3,
 		"reqLicense": "technician",
-		"note": "Local repeater / simplex band. Technician class and up.",
+		"note": "Local repeater / simplex band, Technician class and up. The marked tick at 146.52 MHz is the national FM simplex calling frequency — where hams meet before moving off-channel.",
 		"source": "fcc-part97"
 	},
 	{
@@ -564,7 +564,7 @@
 		"region": "radio",
 		"minLod": 3,
 		"reqLicense": "technician",
-		"note": "1.25 m (222 MHz) — FM repeaters and weak-signal work, all modes.",
+		"note": "1.25 m (222 MHz) — FM repeaters and weak-signal work, all modes. The marked tick at 223.5 MHz is the national FM simplex calling frequency.",
 		"source": "fcc-part97"
 	},
 	{
@@ -586,7 +586,7 @@
 		"layer": "gov",
 		"region": "microwave",
 		"minLod": 3,
-		"note": "Military UHF aircraft & satellite comms — 225–400 MHz.",
+		"note": "Military UHF aircraft & satellite comms, 225–400 MHz. The red tick at 243.0 MHz is the military emergency ('guard') frequency — the NATO counterpart to civil 121.5.",
 		"source": "fcc-tofa"
 	},
 	{
@@ -631,7 +631,7 @@
 		"region": "microwave",
 		"minLod": 2,
 		"reqLicense": "technician",
-		"note": "70 cm (440 MHz) — repeaters, satellites, and fast-scan TV.",
+		"note": "70 cm (440 MHz) — repeaters, satellites, and fast-scan TV. The marked tick at 446.0 MHz is the national FM simplex calling frequency.",
 		"source": "fcc-part97"
 	},
 	{
@@ -1261,7 +1261,8 @@
 		"region": "microwave",
 		"minLod": 2,
 		"note": "The 2.7 K afterglow of the Big Bang — its blackbody spectrum peaks near 160 GHz.",
-		"source": "nasa-ems"
+		"source": "nasa-ems",
+		"altLayer": "consumer"
 	},
 	{
 		"id": "thz",
@@ -1357,8 +1358,7 @@
 		"note": "532 nm green laser — pointers, rangefinders, and laser light shows. Unlike the red and blue diodes, this colour is synthesised: an 808 nm diode pumps a Nd:YVO₄ crystal lasing at 1064 nm, which a KTP crystal frequency-doubles (its second harmonic) to 532 nm. Cheap modules that skip the IR filter leak the invisible 1064 nm (and 808 nm) light — focusable and an eye hazard — which is why quality green lasers and laser-light projectors include an IR-blocking element.",
 		"source": "rp-photonics",
 		"emission": "spectral",
-		"optical": "laser",
-		"altLayer": "consumer"
+		"optical": "laser"
 	},
 	{
 		"id": "red-laser",
@@ -1371,8 +1371,7 @@
 		"note": "650 nm red laser — the classic laser-pointer and barcode scanner, and the pickup diode that reads DVDs. A direct-emission AlGaInP (aluminium gallium indium phosphide) diode: it makes red light straight from its semiconductor junction, so there are no harmonics to filter — just a couple of nm of thermal drift, which is why it reads as a narrow band rather than one line.",
 		"source": "rp-photonics",
 		"emission": "spectral",
-		"optical": "laser",
-		"altLayer": "consumer"
+		"optical": "laser"
 	},
 	{
 		"id": "blue-laser",
@@ -1385,8 +1384,7 @@
 		"note": "450 nm blue laser — laser projectors and cinema, plus high-power cutting and engraving diodes. A direct-emission InGaN (indium gallium nitride) diode — the gallium-nitride family Shuji Nakamura's Nobel-winning blue LED opened up — so, like the red diode, it emits its colour directly with no harmonics to filter.",
 		"source": "rp-photonics",
 		"emission": "spectral",
-		"optical": "laser",
-		"altLayer": "consumer"
+		"optical": "laser"
 	},
 	{
 		"id": "uva",
@@ -1478,7 +1476,8 @@
 		"region": "xray",
 		"minLod": 0,
 		"note": "Diagnostic radiography & CT (≈3 EHz). Ionising; tightly dose-controlled. Handheld XRF analysers (\"metal guns\") fire X-rays from this same band (≈10–50 keV) to read which elements an alloy or rock is made of.",
-		"source": "nasa-ems"
+		"source": "nasa-ems",
+		"altLayer": "consumer"
 	},
 	{
 		"id": "tc99m",

@@ -50,7 +50,6 @@
 				"reqLicense": {
 					"enum": ["unlicensed", "technician", "general", "extra"]
 				},
-				"designation": { "enum": ["distress", "calling"] },
 				"emission": { "enum": ["spectral", "white"] },
 				"optical": { "enum": ["laser", "led", "gas", "fireworks"] },
 				"note": { "type": "string", "minLength": 1 },

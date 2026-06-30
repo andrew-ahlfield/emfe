@@ -2,12 +2,13 @@
 
 <script lang="ts">
 	import { logPos, type FreqDomain, FULL_DOMAIN, decades } from '$lib/spectrum/scale';
-	import { visibleAllocations } from '$lib/spectrum/filter';
+	import { visibleAllocations, effectiveLayer } from '$lib/spectrum/filter';
 	import { layoutSpectrum, type PlacedItem } from '$lib/spectrum/grouping';
 	import { licenseRank, type Allocation } from '$lib/data/types';
 	import { fmtFreq } from '$lib/spectrum/format';
 	import { spectralColor } from '$lib/spectrum/color';
 	import { LICENSE_ICON, privilegeBands, hasPrivilegePlan } from '$lib/spectrum/license';
+	import { planFor, CHANNEL_REVEAL_PX } from '$lib/spectrum/channels';
 	import { clampCenter, clampZoom } from '$lib/spectrum/zoom';
 	import { allocations } from '$lib/data/loader';
 	import type { LayerId, LicenseRank } from '$lib/data/types';
@@ -49,6 +50,11 @@
 	 */
 	const emits = (a: Allocation | null): boolean =>
 		!!a && (a.emission != null || (a.lines?.length ?? 0) > 0);
+	/** A resonance entry (Schumann) whose modes are *revealed* at this zoom (its band wide enough on
+	 *  screen): then its own bar becomes a translucent envelope behind the mode width-bars. When the
+	 *  modes aren't up yet (zoomed out) it stays an ordinary opaque bar. */
+	const showsModes = (a: Allocation | null, bar: { w: number } | null): boolean =>
+		!!a && bar != null && bar.w >= CHANNEL_REVEAL_PX.full && planFor(a.id)?.tone != null;
 	/** Marker fill for an emitter: white for a broadband white LED, else the sampled spectral colour. */
 	const fillOf = (a: Allocation | null, fallback: string): string =>
 		a?.emission === 'white'
@@ -209,11 +215,17 @@
 		return licenseRank(license) < licenseRank(a.reqLicense);
 	}
 
-	// Filter to the visible set (application tier only — assignments ride the middle lane and the
-	// substrate is the bottom tier). A dual-layer entry (e.g. IR heat or a laser, science + consumer)
-	// keeps its *own* identity colour — its primary layer, or its sampled spectral colour for an
-	// emitter — even when it's the alt (consumer) layer that's currently showing it. Dual-licensing
-	// governs visibility, not colour.
+	/**
+	 * The colour var for a non-emitter marker: its *effective* layer — the primary when that layer is
+	 * on, else the alt layer that's currently showing it. So a dual-licensed entry (IR heat, medical
+	 * X-ray) reads as everyday teal when only the consumer layer is on, not stuck on its physics green.
+	 * (Emitters — lasers/LEDs/discharges — ignore this and sample their physical colour.)
+	 */
+	const layerColor = (a: Allocation | null): string =>
+		a ? `var(--layer-${effectiveLayer(a, layers)})` : 'var(--layer-science)';
+
+	// Filter to the visible set (application tier only — the substrate is the bottom tier, designated
+	// frequencies ride the band as channel ticks). A dual-layer entry shows when *either* layer is on.
 	let visible = $derived(
 		visibleAllocations(allocations, 3, layers)
 			.filter((a) => a.tier !== 'assignment')
@@ -227,12 +239,13 @@
 	/** Geometry for one placed label (leaf or group), resolved against its lane. */
 	function place(item: PlacedItem) {
 		const top = LANE_Y[item.lane];
+		// Leaves colour by their effective layer (dual-licence aware); a group keeps its dominant layer.
 		return {
 			item,
 			nameY: top + 11,
 			subY: top + 22,
 			lineTop: top + 28,
-			color: `var(--layer-${item.layer})`
+			color: item.alloc ? layerColor(item.alloc) : `var(--layer-${item.layer})`
 		};
 	}
 
@@ -305,6 +318,20 @@
 		<stop offset="1" stop-color="var(--spectral-violet)" />
 	</linearGradient>
 </defs>
+
+<!-- A resonance entry's bar (Schumann): a translucent envelope spanning the band, so the opaque
+     mode width-bars its channel plan draws on the mid-line read as the signal, the band behind. -->
+{#snippet resonanceEnvelope(bar: { x0: number; w: number }, color: string)}
+	<rect
+		x={bar.x0}
+		y={bandMid - 7}
+		width={bar.w}
+		height="14"
+		rx="3"
+		style="fill: {color}"
+		class="resonance-env"
+	/>
+{/snippet}
 
 <!-- The real-bandwidth rect(s) for one allocation, shared by the dot and labelled-leaf layers.
      A band with a sub-band privilege plan draws a transparent full-band envelope with the held
@@ -483,14 +510,16 @@
 	>
 		{#if emits(d.alloc)}
 			{@render opticalShape(d.alloc, bar, d.x, sel)}
+		{:else if showsModes(d.alloc, bar)}
+			{@render resonanceEnvelope(bar!, layerColor(d.alloc))}
 		{:else if bar}
-			{@render bandShape(d.alloc, bar, `var(--layer-${d.layer})`, 10, 2.5, 'band-bar', sel)}
+			{@render bandShape(d.alloc, bar, layerColor(d.alloc), 10, 2.5, 'band-bar', sel)}
 		{:else}
 			<circle
 				cx={d.x}
 				cy={bandMid}
 				r={sel ? 5 : 3}
-				style="fill: var(--layer-{d.layer})"
+				style="fill: {layerColor(d.alloc)}"
 				class="band-dot"
 				class:sel
 				class:muted={mutedAmateur(d.alloc)}
@@ -552,6 +581,8 @@
 		/>
 		{#if emits(item.alloc ?? null)}
 			{@render opticalShape(item.alloc!, bar, item.x, sel)}
+		{:else if showsModes(item.alloc ?? null, bar)}
+			{@render resonanceEnvelope(bar!, p.color)}
 		{:else if bar}
 			{@render bandShape(item.alloc!, bar, p.color, 12, 3, 'leaf-bar', sel)}
 		{:else}
@@ -711,6 +742,12 @@
 	   it. At a class with no privilege here, this outline is all that shows. */
 	.priv-envelope {
 		opacity: 0.36;
+		stroke: var(--marker-stroke);
+		stroke-width: 1;
+	}
+	/* A resonance entry's translucent envelope (the band behind the mode width-bars). */
+	.resonance-env {
+		opacity: 0.3;
 		stroke: var(--marker-stroke);
 		stroke-width: 1;
 	}

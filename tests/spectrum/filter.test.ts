@@ -47,14 +47,20 @@ describe('allocationsAtLod', () => {
 });
 
 describe('visibleAllocations', () => {
-	it('is the LOD set intersected with the enabled content layers', () => {
+	it('is the LOD set intersected with the enabled content layers (either layer of a dual entry)', () => {
 		const atLod = allocationsAtLod(allocations, 2);
 		expect(visibleAllocations(allocations, 2, allLayersOn)).toHaveLength(atLod.length);
 
 		const noScience = { ...allLayersOn, science: false };
+		// An entry shows if its primary OR alt layer is enabled — so a dual science+consumer entry
+		// (medical X-ray) stays when science is off but consumer is on.
+		const shows = (a: Allocation) =>
+			noScience[a.layer] || (a.altLayer != null && noScience[a.altLayer]);
 		const got = visibleAllocations(allocations, 2, noScience);
-		expect(got).toHaveLength(atLod.filter((a) => a.layer !== 'science').length);
-		expect(got.every((a) => a.layer !== 'science')).toBe(true);
+		expect(got).toHaveLength(atLod.filter(shows).length);
+		expect(got.every(shows)).toBe(true);
+		expect(got.some((a) => a.layer === 'science' && a.altLayer === 'consumer')).toBe(true);
+		expect(got.some((a) => a.layer === 'science' && a.altLayer == null)).toBe(false);
 	});
 
 	it('never removes amateur bands — the held licence only mutes them in the markers', () => {
@@ -81,13 +87,14 @@ describe('visibleAllocations', () => {
 });
 
 describe('layerCounts', () => {
-	it('tallies allocations per layer at a LOD, ignoring toggles', () => {
+	it('tallies allocations per layer at a LOD, counting both layers of a dual entry', () => {
 		const counts = layerCounts(allocations, 2);
 		const atLod = allocationsAtLod(allocations, 2);
+		const dualCount = atLod.filter((a) => a.altLayer != null).length;
 		const total = Object.values(counts).reduce((a, b) => a + b, 0);
-		expect(total).toBe(atLod.length);
+		expect(total).toBe(atLod.length + dualCount);
 		for (const l of LAYERS) {
-			expect(counts[l]).toBe(atLod.filter((a) => a.layer === l).length);
+			expect(counts[l]).toBe(atLod.filter((a) => a.layer === l || a.altLayer === l).length);
 		}
 	});
 });

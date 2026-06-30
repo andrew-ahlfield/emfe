@@ -25,19 +25,19 @@ test('allocation substrate renders and its filters drive the ribbon', async ({ p
 	await expect(tiles).toHaveCount(0);
 });
 
-test('designated frequencies ride the band on zoom, controlled by the content layers', async ({
+test('a calling frequency shows as a channel tick on its band, gated by the content layers', async ({
 	page
 }) => {
-	// Designated single frequencies are a deep-zoom landmark — zoom onto 146.52 MHz (the 2 m
-	// calling frequency, log10 ≈ 8.166) and its tick appears.
-	await page.goto('/?z=1500&c=8.166');
+	// Designated frequencies are channel ticks on their host band — zoom onto the 2 m band so its
+	// 146.52 MHz calling tick (amateur purple) reveals.
+	await page.goto('/?z=2500&c=8.167');
 	await page.waitForSelector('#explorer');
-	const pins = page.locator('.assignments .pin');
-	await expect.poll(() => pins.count()).toBeGreaterThan(0);
+	const calling = page.locator('line.ch-tick.calling');
+	await expect.poll(() => calling.count()).toBeGreaterThan(0);
 
-	// There's no separate assignment switch — hiding the content layers hides them.
+	// It follows the amateur content layer — hiding all layers hides it.
 	await page.locator('.layers-col .master').click();
-	await expect(pins).toHaveCount(0);
+	await expect(calling).toHaveCount(0);
 });
 
 test('clicking an allocation band opens an info card explaining the service', async ({ page }) => {

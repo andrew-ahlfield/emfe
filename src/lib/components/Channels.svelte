@@ -19,30 +19,37 @@
 	} = $props();
 
 	const bandTop = PLOT.bandY;
+	const bandMid = PLOT.bandY + PLOT.bandH / 2;
 	/** Minimum gap (px) between two printed channel numbers — keeps labels from overlapping. */
 	const LABEL_GAP = 16;
+
+	/** The host band [lo,hi] for each plan's allocation — gates the reveal and is needed for the
+	 *  single-tick guard/calling plans (whose own channel-extent is zero). */
+	const bandById = new Map(allocations.filter((a) => a.band).map((a) => [a.id, a.band!]));
 
 	// Channels follow their allocation's visibility: shown once the content layer is on — the same
 	// rule as the markers. (Channelised services are licence-free, so the licence never gates them.)
 	let visibleIds = $derived(new Set(visibleAllocations(allocations, 3, layers).map((a) => a.id)));
 
 	// Place every in-view plan; keep it if at least one channel is revealed at this zoom. The dense
-	// grid emerges as a deeper tier, but a promoted landmark (the emergency channel) can light up
-	// well before that — so a plan may render with just its single red tick showing.
+	// grid emerges as a deeper tier, but a promoted landmark (an emergency / guard / calling tick)
+	// can light up well before that — so a plan may render with just its single tick showing.
 	let plans = $derived(
-		CHANNEL_PLANS.filter((p) => visibleIds.has(p.id))
-			.map((p) => ({ plan: p, ...placeChannels(p, domain, width) }))
+		CHANNEL_PLANS.filter((p) => visibleIds.has(p.id) && bandById.has(p.id))
+			.map((p) => ({ plan: p, ...placeChannels(p, bandById.get(p.id)!, domain, width) }))
 			.filter((p) => p.channels.some((c) => c.revealed))
 	);
 
+	/** Whether a plan has any ordinary "grid" channels (so its "… channels" header makes sense) —
+	 *  a plan that's only landmark ticks (guard/calling) is named by its band's own marker instead. */
+	const hasGrid = (channels: PlacedChannel[]) =>
+		channels.some((c) => c.tag !== 'distress' && c.tag !== 'calling');
+
 	/**
 	 * Greedy left-to-right labelling: walk the channels in screen order and print a number only
-	 * when it clears the last printed one by `LABEL_GAP`. Sparse when zoomed out, every channel
-	 * when zoomed in — and correct even when channel numbers run out of frequency order (e.g. the
-	 * interleaved 15/1/16/2 walkie-talkie channels). Returns the channel numbers to label.
+	 * when it clears the last printed one by `LABEL_GAP`. Identity key is the unique Hz (a marine
+	 * duplex channel repeats its number across two frequencies). Returns the channel Hz to label.
 	 */
-	// Identity key — a channel number can repeat within a plan (a marine duplex channel has both a
-	// ship and a coast frequency), so we track which channels are labelled by their unique Hz.
 	function labelled(channels: PlacedChannel[]): number[] {
 		const onscreen = channels
 			.filter((c) => c.x >= 12 && c.x <= width - 12)
@@ -57,9 +64,9 @@
 				}
 			}
 		};
-		// Priority: the distress/calling channel always wins, then the everyday channels, then the
+		// Priority: the distress + calling landmarks win, then the everyday channels, then the
 		// GMRS-only repeater labels fill whatever room is left.
-		place(onscreen.filter((c) => c.tag === 'distress'));
+		place(onscreen.filter((c) => c.tag === 'distress' || c.tag === 'calling'));
 		place(onscreen.filter((c) => c.tag === undefined));
 		place(onscreen.filter((c) => c.tag === 'gmrs'));
 		return keep;
@@ -69,21 +76,22 @@
 {#each plans as p (p.plan.id)}
 	{@const revealed = p.channels.filter((c) => c.revealed)}
 	{@const show = labelled(revealed)}
-	<!-- Service name once the full grid is up (skipped for a resonance plan — its marker already
-	     names it — and for a lone emergency landmark, whose red tick already reads). -->
-	{#if p.show && !p.plan.tone}
+	<!-- Service name once the full grid is up — skipped for a resonance plan and for landmark-only
+	     plans (guard/calling), whose host band's own marker already names them. -->
+	{#if p.show && !p.plan.tone && hasGrid(revealed)}
 		{@const x0 = Math.max(revealed[0].x, 2)}
 		<text x={x0} y={bandTop - 17} class="ch-service">{p.plan.service} channels</text>
 	{/if}
 	{#each revealed as ch (ch.hz)}
 		{#if ch.x >= -2 && ch.x <= width + 2}
 			{#if ch.barW != null}
-				<!-- A resonance mode: a bar of its real bandwidth, in the plan's tone. -->
+				<!-- A resonance mode: a bar of its real bandwidth, on the band mid-line, in the plan's
+				     tone (sits within the translucent envelope its marker draws). -->
 				<rect
 					x={ch.x - ch.barW / 2}
-					y={bandTop - 6}
+					y={bandMid - 7}
 					width={Math.max(ch.barW, 2)}
-					height="12"
+					height="14"
 					rx="2"
 					class="ch-bar"
 					style="fill: {p.plan.tone}"
@@ -97,6 +105,7 @@
 					class="ch-tick"
 					class:gmrs={ch.tag === 'gmrs'}
 					class:distress={ch.tag === 'distress'}
+					class:calling={ch.tag === 'calling'}
 				/>
 				{#if show.includes(ch.hz)}
 					<text
@@ -105,7 +114,8 @@
 						text-anchor="middle"
 						class="ch-num"
 						class:gmrs={ch.tag === 'gmrs'}
-						class:distress={ch.tag === 'distress'}>{ch.n}</text
+						class:distress={ch.tag === 'distress'}
+						class:calling={ch.tag === 'calling'}>{ch.n}</text
 					>
 				{/if}
 			{/if}
@@ -123,7 +133,7 @@
 	.ch-bar {
 		stroke: var(--marker-stroke);
 		stroke-width: 0.75;
-		opacity: 0.85;
+		opacity: 0.92;
 	}
 	/* GMRS-licence-only channels (the repeater inputs) read in blue, distinct from both the grey
 	   licence-free ticks and the red emergency channel. */
@@ -140,7 +150,7 @@
 		fill: var(--layer-navigation);
 		font-weight: 600;
 	}
-	/* The distress / calling channel (marine 16) — red, so it stands out. */
+	/* Distress / guard channel (Marine 16, CB 9, the aero/military guards) — red, so it stands out. */
 	.ch-tick.distress {
 		stroke: var(--spectral-red);
 		stroke-width: 1.5;
@@ -149,6 +159,16 @@
 	.ch-num.distress {
 		fill: var(--spectral-red);
 		font-weight: 700;
+	}
+	/* Calling frequency (the ham FM national calling channels) — amateur purple. */
+	.ch-tick.calling {
+		stroke: var(--layer-amateur);
+		stroke-width: 1.5;
+		opacity: 1;
+	}
+	.ch-num.calling {
+		fill: var(--layer-amateur);
+		font-weight: 600;
 	}
 	.ch-service {
 		font-family: var(--font-mono);

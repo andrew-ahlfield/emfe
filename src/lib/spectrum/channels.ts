@@ -17,10 +17,11 @@ export interface Channel {
 	hz: number;
 	/**
 	 * Special styling: `gmrs` = needs a paid GMRS licence (the repeater inputs, drawn in blue);
-	 * `distress` = the emergency/calling channel (drawn in red, and promoted to reveal earlier — see
-	 * {@link channelRevealPx}).
+	 * `distress` = an emergency/guard channel (red); `calling` = a designated calling frequency
+	 * (amateur purple). `distress`/`calling` are single landmarks promoted to reveal early — see
+	 * {@link channelRevealPx}.
 	 */
-	tag?: 'gmrs' | 'distress';
+	tag?: 'gmrs' | 'distress' | 'calling';
 	/**
 	 * Bandwidth (Hz). A discrete channel has none and draws as a hairline tick; a *resonance* mode
 	 * (the Schumann harmonics) has a real width and draws as a bar that wide — same multi-signal
@@ -293,6 +294,14 @@ const SCHUMANN: Channel[] = (
 	] as [string, number, number][]
 ).map(([n, hz, bw]) => ({ n, hz, bw }));
 
+/**
+ * Designated single frequencies — the aeronautical/military emergency ('guard') frequencies and the
+ * ham FM national calling frequencies. Each is one tick above its band (red for a guard, amateur
+ * purple for a calling freq), like CB Channel 9; the full story lives on the band's own info card.
+ */
+const guard = (n: string, mhz: number): Channel => ({ n, hz: mhz * MHz, tag: 'distress' });
+const calling = (n: string, mhz: number): Channel => ({ n, hz: mhz * MHz, tag: 'calling' });
+
 export const CHANNEL_PLANS: readonly ChannelPlan[] = [
 	{ id: 'cb', service: 'CB', channels: CB },
 	{ id: 'frs', service: 'Walkie-talkie', channels: FRS },
@@ -306,7 +315,14 @@ export const CHANNEL_PLANS: readonly ChannelPlan[] = [
 	{ id: 'marine-vhf', service: 'Marine VHF', channels: MARINE },
 	{ id: 'nws-wx', service: 'NOAA Weather', channels: WX },
 	{ id: 'ham60m', service: '60 m', channels: HAM60 },
-	{ id: 'schumann', service: 'Schumann', channels: SCHUMANN, tone: 'var(--layer-science)' }
+	{ id: 'schumann', service: 'Schumann', channels: SCHUMANN, tone: 'var(--layer-science)' },
+	// Designated guard / calling frequencies, as single ticks on their host band.
+	{ id: 'airband', service: 'Air-band', channels: [guard('121.5', 121.5)] },
+	{ id: 'milair', service: 'Military UHF', channels: [guard('243', 243)] },
+	{ id: '2m', service: '2 m', channels: [calling('146.52', 146.52)] },
+	{ id: 'ham6m', service: '6 m', channels: [calling('52.525', 52.525)] },
+	{ id: 'ham125cm', service: '1.25 m', channels: [calling('223.5', 223.5)] },
+	{ id: 'ham70cm', service: '70 cm', channels: [calling('446', 446)] }
 ];
 
 /** The plan for an allocation id, if it has a numbered channel plan. */
@@ -324,47 +340,48 @@ export function planFor(id: string): ChannelPlan | undefined {
 export const CHANNEL_REVEAL_PX = { landmark: 16, full: 160 } as const;
 
 /**
- * The plan span (px) at which a given channel reveals — a generalisation of the old plan-wide
- * threshold. Emergency/calling channels (`distress`) are landmarks and surface early; every other
- * channel waits for the full grid. Keyed off the channel's `tag` so the rule is data-driven and
- * extends cleanly to any future promoted channel class.
+ * The on-screen band width (px) at which a given channel reveals — a generalisation of the old
+ * plan-wide threshold. A single emergency/guard/calling landmark surfaces early (as soon as its band
+ * is a recognizable bar); every other channel waits for the full grid. Keyed off the channel's `tag`.
  */
 export function channelRevealPx(c: Channel): number {
-	return c.tag === 'distress' ? CHANNEL_REVEAL_PX.landmark : CHANNEL_REVEAL_PX.full;
+	return c.tag === 'distress' || c.tag === 'calling'
+		? CHANNEL_REVEAL_PX.landmark
+		: CHANNEL_REVEAL_PX.full;
 }
 
 /** A channel positioned for the current view, with whether this zoom reveals it. */
 export interface PlacedChannel extends Channel {
 	x: number;
-	/** Revealed at the current zoom: in view AND the plan spans this channel's reveal threshold. */
+	/** Revealed at the current zoom: in view AND the parent band is wide enough on screen. */
 	revealed: boolean;
 	/** On-screen width (px) of a mode's real bandwidth — undefined for a hairline channel. */
 	barW?: number;
 }
 
 /**
- * Channels of a plan positioned for a view. Each channel carries its own `revealed` flag (see
- * {@link channelRevealPx}), so a promoted landmark can show before the rest of the grid does;
- * `show` stays the plan-wide "full grid is up" signal (used for the service-name header).
+ * Channels of a plan positioned for a view, gated by the parent `band`'s on-screen width (so a
+ * single-tick plan — a guard or calling frequency — reveals just like a dense grid does, rather than
+ * never, since its channel-extent is zero). Each channel carries its own `revealed` flag (a promoted
+ * landmark can show before the full grid); `show` is the plan-wide "full grid is up" signal.
  */
 export function placeChannels(
 	plan: ChannelPlan,
+	band: readonly [number, number],
 	domain: FreqDomain,
 	width: number
-): { show: boolean; spanPx: number; channels: PlacedChannel[] } {
-	const xs = plan.channels.map((c) => logPos(c.hz, domain) * width);
-	const minX = Math.min(...xs);
-	const maxX = Math.max(...xs);
-	const spanPx = maxX - minX;
-	// In view (its extent overlaps the plot) at all — per-channel reveal then gates by zoom depth.
-	const inView = maxX > 0 && minX < width;
-	const channels = plan.channels.map((c, i) => ({
+): { show: boolean; bandPx: number; channels: PlacedChannel[] } {
+	const bandLoX = logPos(band[0], domain) * width;
+	const bandHiX = logPos(band[1], domain) * width;
+	const bandPx = bandHiX - bandLoX;
+	const inView = bandHiX > 0 && bandLoX < width;
+	const channels = plan.channels.map((c) => ({
 		...c,
-		x: xs[i],
+		x: logPos(c.hz, domain) * width,
 		barW: c.bw
 			? (logPos(c.hz + c.bw / 2, domain) - logPos(c.hz - c.bw / 2, domain)) * width
 			: undefined,
-		revealed: inView && spanPx >= channelRevealPx(c)
+		revealed: inView && bandPx >= channelRevealPx(c)
 	}));
-	return { show: inView && spanPx >= CHANNEL_REVEAL_PX.full, spanPx, channels };
+	return { show: inView && bandPx >= CHANNEL_REVEAL_PX.full, bandPx, channels };
 }

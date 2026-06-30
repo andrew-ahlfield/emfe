@@ -46,29 +46,41 @@ describe('CHANNEL_PLANS', () => {
 });
 
 describe('placeChannels', () => {
+	const cb = planFor('cb')!;
+	const cbBand = byId.get('cb')!.band as [number, number];
+
 	it('hides channels at full-spectrum zoom and shows them when zoomed in', () => {
-		const cb = planFor('cb')!;
-		const full = placeChannels(cb, FULL_DOMAIN, 1000);
+		const full = placeChannels(cb, cbBand, FULL_DOMAIN, 1000);
 		expect(full.show).toBe(false);
 		expect(full.channels.every((c) => !c.revealed)).toBe(true);
-		// A window tightly around the CB band makes the plan span most of the width.
+		// A window tightly around the CB band makes its band span most of the width.
 		const tight = { minExp: Math.log10(26.9e6), maxExp: Math.log10(27.5e6) };
-		const placed = placeChannels(cb, tight, 1000);
+		const placed = placeChannels(cb, cbBand, tight, 1000);
 		expect(placed.show).toBe(true);
 		expect(placed.channels).toHaveLength(40);
 		expect(placed.channels.every((c) => c.revealed)).toBe(true);
 	});
 
 	it('promotes the emergency channel: its red tick reveals before the full grid does', () => {
-		const cb = planFor('cb')!;
 		// A mid zoom where the CB band spans ~50px — past the landmark threshold (16) but well
 		// short of the full-grid one (160), so only channel 9 should be revealed.
 		const mid = { minExp: 7.398, maxExp: 7.538 };
-		const placed = placeChannels(cb, mid, 1000);
+		const placed = placeChannels(cb, cbBand, mid, 1000);
 		expect(placed.show).toBe(false);
 		const revealed = placed.channels.filter((c) => c.revealed);
 		expect(revealed).toHaveLength(1);
 		expect(revealed[0].n).toBe('9');
 		expect(revealed[0].tag).toBe('distress');
+	});
+
+	it('reveals a single-tick guard plan by its band width (not its zero channel-extent)', () => {
+		const airband = planFor('airband')!;
+		const band = byId.get('airband')!.band as [number, number];
+		// Zoom so the airband (118–137 MHz) is a comfortable bar — the lone 121.5 guard tick reveals.
+		const tight = { minExp: Math.log10(110e6), maxExp: Math.log10(145e6) };
+		const placed = placeChannels(airband, band, tight, 1000);
+		expect(placed.channels).toHaveLength(1);
+		expect(placed.channels[0].revealed).toBe(true);
+		expect(placed.channels[0].tag).toBe('distress');
 	});
 });

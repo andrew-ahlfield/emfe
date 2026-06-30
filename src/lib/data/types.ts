@@ -97,12 +97,6 @@ export interface RawAllocation {
 	minLod: Lod;
 	/** Amateur license required to transmit, when applicable. */
 	reqLicense?: LicenseRank;
-	/**
-	 * For a *designated* assignment frequency (no operator), what job it's set aside for — drives how
-	 * its tick is drawn on the band: `distress` = emergency/guard, red; `calling` = a meeting
-	 * frequency, in its layer colour. Absent ⇒ not a designated single frequency.
-	 */
-	designation?: 'distress' | 'calling';
 	note: string;
 	/**
 	 * How an optical entry is coloured. `spectral` = sampled from the physical colour of the light

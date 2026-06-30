@@ -13,7 +13,7 @@
  */
 export const PLOT = {
 	/** Total SVG height. */
-	height: 292,
+	height: 280,
 	/** Top of the marker stagger area. */
 	markerTop: 0,
 	/** Baseline for the always-visible region labels, just above the band. */
@@ -21,15 +21,14 @@ export const PLOT = {
 	/** The continuous gradient band (application markers ride on its mid-line). */
 	bandY: 118,
 	bandH: 58,
-	/** Designated single frequencies (guard / calling): a tick through the band, label just below. */
-	desigLabelY: 188,
 	/** Allocation substrate ribbon — the gap-free §2.106 service-category bands. A shallow recessed
-	 *  floor (half its former height) sitting just under the band. */
-	substrateY: 196,
+	 *  floor sitting just under the band (designated frequencies now ride above the band as ticks,
+	 *  so nothing sits between the band and this ribbon). */
+	substrateY: 184,
 	substrateH: 14,
 	/** ITU band row. */
-	ituY: 216,
+	ituY: 204,
 	ituH: 14,
 	/** Axis baseline (ticks + labels hang below). */
-	axisY: 238
+	axisY: 226
 } as const;
