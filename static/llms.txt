@@ -1,0 +1,45 @@
+# EM Frequency Explorer
+
+> An interactive, zoomable explorer for the electromagnetic spectrum — from below
+> ELF through radio, microwave, infrared, visible light, ultraviolet, X-ray and
+> gamma, all on one continuous logarithmic frequency axis. Shows U.S. (FCC)
+> frequency allocations and amateur-radio licence classes. Free, open-source,
+> runs in the browser. Built and published by Exagrow (https://exagrow.com/).
+
+Live: https://emfe.exagrow.com/
+Source: https://github.com/wajeemba/emfe (Apache-2.0)
+
+## What it does
+
+A single continuous view of the entire electromagnetic spectrum on a logarithmic
+frequency (hertz) axis. You can:
+
+- Zoom and pan from mains hum (~60 Hz) up to gamma rays (~10^20 Hz).
+- Toggle "content layers" that group allocations by audience:
+  consumer/everyday, amateur radio, navigation/aviation, government/satellite,
+  and physical science.
+- Filter by amateur-radio operator licence class (FCC 47 CFR §97).
+- Inspect any band for its allocation, services, and licensing.
+- Deep-link any view via the URL query string (zoom, centre, layers, licence,
+  theme, selection) — shared links reproduce the exact view.
+
+## Underlying data
+
+U.S. electromagnetic-spectrum allocations and licence classes, derived from the
+FCC tables, presented on a continuous logarithmic axis. Allocations are bundled
+with the app (committed JSON snapshots); live FCC data is used when available and
+falls back to the snapshot otherwise.
+
+## Common questions
+
+- **What is this for?** Understanding what occupies each part of the EM spectrum
+  — what we broadcast on, navigate by, and see — in one continuous picture.
+- **Whose allocations are shown?** The United States (FCC), including amateur
+  licence classes.
+- **Is it free?** Yes — free to use and open-source (Apache-2.0).
+- **Who made it?** Exagrow (https://exagrow.com/), an AI consulting and systems
+  firm in the Minneapolis–St. Paul area.
+
+## Related
+
+- Exagrow (publisher): https://exagrow.com/
