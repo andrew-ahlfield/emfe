@@ -1,15 +1,15 @@
 <script lang="ts">
-	import type { Family } from '$lib/spectrum/grouping';
+	import type { Neighbourhood } from '$lib/spectrum/grouping';
 	import { allocations } from '$lib/data/loader';
 	import { fmtFreq } from '$lib/spectrum/format';
 
-	let { family, onclose }: { family: Family | null; onclose: () => void } = $props();
+	let { group, onclose }: { group: Neighbourhood | null; onclose: () => void } = $props();
 
-	let open = $derived(family !== null);
+	let open = $derived(group !== null);
 
 	// How many charted signals fall inside this neighbourhood — a feel for how busy the band is.
 	let count = $derived(
-		family ? allocations.filter((a) => a.hz >= family!.lo && a.hz < family!.hi).length : 0
+		group ? allocations.filter((a) => a.hz >= group!.lo && a.hz < group!.hi).length : 0
 	);
 
 	function onKey(e: KeyboardEvent) {
@@ -27,21 +27,21 @@
 	inert={!open}
 >
 	<button type="button" class="close" onclick={onclose} aria-label="Close details">×</button>
-	{#if family}
+	{#if group}
 		<div class="content">
 			<div class="eyebrow">Spectrum neighbourhood</div>
-			<h2>{family.short}</h2>
-			{#if family.name !== family.short}
-				<p class="expand">{family.name}</p>
+			<h2>{group.short}</h2>
+			{#if group.name !== group.short}
+				<p class="expand">{group.name}</p>
 			{/if}
 
 			<div class="meta">
-				<span class="range">{fmtFreq(family.lo)} – {fmtFreq(family.hi)}</span>
+				<span class="range">{fmtFreq(group.lo)} – {fmtFreq(group.hi)}</span>
 				<span class="sep" aria-hidden="true">·</span>
 				<span>{count} signals charted</span>
 			</div>
 
-			<p class="blurb">{family.blurb}</p>
+			<p class="blurb">{group.blurb}</p>
 		</div>
 	{/if}
 </div>

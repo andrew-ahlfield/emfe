@@ -8,12 +8,12 @@
  */
 
 import { writable } from 'svelte/store';
-import type { Family } from '$lib/spectrum/grouping';
+import type { Neighbourhood } from '$lib/spectrum/grouping';
 
-export const groupSelection = writable<Family | null>(null);
+export const groupSelection = writable<Neighbourhood | null>(null);
 
-export function selectGroup(f: Family): void {
-	groupSelection.set(f);
+export function selectGroup(n: Neighbourhood): void {
+	groupSelection.set(n);
 }
 export function clearGroup(): void {
 	groupSelection.set(null);

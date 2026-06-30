@@ -358,7 +358,7 @@
 
 	<SubstrateInfo band={$substrateSelection} onclose={clearBand} />
 
-	<GroupInfo family={$groupSelection} onclose={clearGroup} />
+	<GroupInfo group={$groupSelection} onclose={clearGroup} />
 </div>
 
 <style>

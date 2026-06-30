@@ -18,6 +18,7 @@
  */
 
 import { logPos, type FreqDomain } from './scale';
+import { REGIONS } from './bands';
 import type { Allocation, LayerId } from '$lib/data/types';
 
 /** A contiguous-frequency "neighbourhood" of the spectrum. `hi` is exclusive. */
@@ -213,6 +214,51 @@ export function familyOf(hz: number): Family | undefined {
 	return FAMILIES.find((f) => hz >= f.lo && hz < f.hi);
 }
 
+/**
+ * A clickable spectrum "neighbourhood" for the info card — either a {@link Family} or a whole
+ * region (the coarse umbrella shown at low zoom when a region's families are too compressed to
+ * stand on their own). `Family` already supplies these fields; regions add the same shape.
+ */
+export interface Neighbourhood {
+	id: string;
+	short: string;
+	name: string;
+	blurb: string;
+	lo: number;
+	hi: number;
+}
+
+/**
+ * Region-level umbrellas for the multi-family regions. The optical regions (infrared … gamma) are
+ * one-to-one with a family, so they reuse that family's own card; only radio and microwave need a
+ * coarser explainer for when their many sub-bands collapse together at low zoom.
+ */
+export const REGION_GROUPS: Record<string, Neighbourhood> = {
+	radio: {
+		id: 'radio',
+		short: 'Radio',
+		name: 'Radio waves',
+		blurb:
+			'The long-wavelength end we broadcast and communicate with — the power-grid hum and submarine signalling up through AM/FM, broadcast television, and aviation, marine and two-way radio. Zoom in for the ELF, VLF/LF, MF/HF and VHF neighbourhoods.',
+		lo: 1,
+		hi: 3e8
+	},
+	microwave: {
+		id: 'microwave',
+		short: 'Microwave',
+		name: 'Microwaves',
+		blurb:
+			'Centimetre-to-millimetre waves that carry most modern wireless: Wi-Fi and Bluetooth, mobile phones, GPS, radar and satellite links — and microwave ovens. Zoom in for the UHF, L-, S-, C-, X/Ku- and K-band neighbourhoods up to EHF.',
+		lo: 3e8,
+		hi: 3e11
+	}
+};
+
+/** The umbrella neighbourhood for a region: its dedicated region group, else its sole family. */
+function regionNeighbourhood(region: { id: string; lo: number; hi: number }): Neighbourhood | undefined {
+	return REGION_GROUPS[region.id] ?? FAMILIES.find((f) => f.lo >= region.lo && f.hi <= region.hi);
+}
+
 // ── Layout ───────────────────────────────────────────────────────────────────────────────
 
 /** A positioned thing to draw above the band: an expanded leaf or a collapsed group chip. */
@@ -240,6 +286,8 @@ export interface PlacedItem {
 	alloc: Allocation | null;
 	/** The member allocations, when this is a group. */
 	members: readonly Allocation[];
+	/** The neighbourhood a group resolves to for its info card (family or region). */
+	info?: Neighbourhood;
 }
 
 /** A dot drawn on the band for every visible allocation, independent of label grouping. */
@@ -334,8 +382,9 @@ export function layoutSpectrum(
 		.filter((d) => onScreen(d.alloc));
 
 	// Bucket the visible allocations into families, preserving frequency order.
+	const sorted = [...visible].sort((p, q) => p.hz - q.hz);
 	const byFamily = new Map<string, Allocation[]>();
-	for (const a of [...visible].sort((p, q) => p.hz - q.hz)) {
+	for (const a of sorted) {
 		const f = familyOf(a.hz);
 		if (!f) continue;
 		const arr = byFamily.get(f.id);
@@ -355,7 +404,7 @@ export function layoutSpectrum(
 		return [...tally.entries()].sort((a, b) => b[1] - a[1])[0][0];
 	};
 
-	const pushLeaf = (a: Allocation) => {
+	const leafCandidate = (a: Allocation): Candidate => {
 		const freq = fmtFreq(a.hz);
 		const labelW = leafLabelWidth(a, freq);
 		const centerX = xOf(a.hz);
@@ -376,7 +425,7 @@ export function layoutSpectrum(
 				x = Math.min(Math.max(sliceCenter, half + 2), width - half - 2);
 			}
 		}
-		candidates.push({
+		return {
 			kind: 'leaf',
 			id: a.id,
 			label: a.name,
@@ -390,57 +439,84 @@ export function layoutSpectrum(
 			alloc: a,
 			members: [a],
 			width: labelW
-		});
+		};
 	};
 
-	for (const fam of FAMILIES) {
-		const members = byFamily.get(fam.id);
-		if (!members || members.length === 0) continue;
+	/** A collapsed-neighbourhood chip over [loX,hiX], for a family or a whole region. */
+	const groupCandidate = (
+		info: Neighbourhood,
+		members: Allocation[],
+		loX: number,
+		hiX: number
+	): Candidate => ({
+		kind: 'group',
+		id: `grp-${info.id}`,
+		label: info.short,
+		sublabel: `${members.length} signals`,
+		aria: `${info.name}, ${members.length} signals`,
+		// Centre the chip over the *visible* slice so a wide, half-off-screen neighbourhood still
+		// labels itself where you can see it.
+		x: (Math.max(loX, 0) + Math.min(hiX, width)) / 2,
+		loX,
+		hiX,
+		count: members.length,
+		layer: dominantLayer(members),
+		alloc: null,
+		members,
+		info,
+		width: groupLabelWidth(info.short, members.length)
+	});
 
-		if (members.length === 1) {
-			pushLeaf(members[0]);
-			continue;
-		}
-
+	/** A family's representation at this zoom: expanded leaves, one chip, or nothing (too small). */
+	const familyCandidates = (fam: Family, members: Allocation[]): Candidate[] => {
+		if (members.length === 1) return [leafCandidate(members[0])];
 		// Member extent drives the *expand* decision (do the members have room?);
 		// the family's true extent drives the chip + span bar (neighbourhoods tile honestly).
-		const memLoX = xOf(members[0].hz);
-		const memHiX = xOf(members[members.length - 1].hz);
-		const memSpanPx = memHiX - memLoX;
-		const loX = xOf(fam.lo);
-		const hiX = xOf(fam.hi);
-		const famSpanPx = hiX - loX;
-
-		// Enough room for a fraction of the members' labels → expand to leaves (lane-packing
-		// shows as many as fit; the rest stay as bare dots and emerge on further zoom).
+		const memSpanPx = xOf(members[members.length - 1].hz) - xOf(members[0].hz);
+		const famSpanPx = xOf(fam.hi) - xOf(fam.lo);
 		if (memSpanPx >= members.length * opt.leafSlotPx * opt.expandFill) {
-			for (const m of members) pushLeaf(m);
-			continue;
+			return members.map(leafCandidate);
 		}
-
-		// A visible-but-tight neighbourhood → one group chip over the family's real bandwidth.
 		if (famSpanPx >= opt.minFamilyPx) {
-			const layer = dominantLayer(members);
-			candidates.push({
-				kind: 'group',
-				id: `grp-${fam.id}`,
-				label: fam.short,
-				sublabel: `${members.length} signals`,
-				aria: `${fam.label}, ${members.length} signals`,
-				// Centre the chip over the *visible* slice so a wide, half-off-screen
-				// neighbourhood still labels itself where you can see it.
-				x: (Math.max(loX, 0) + Math.min(hiX, width)) / 2,
-				loX,
-				hiX,
-				count: members.length,
-				layer,
-				alloc: null,
-				members,
-				width: groupLabelWidth(fam.short, members.length)
-			});
-			continue;
+			return [groupCandidate(fam, members, xOf(fam.lo), xOf(fam.hi))];
 		}
-		// else: too small for a label — its dots still render via `dots`.
+		return [];
+	};
+
+	// Pass A — per region, choose the finest representation that *covers* it: its families when they
+	// fill enough of the region's on-screen width, otherwise a single region umbrella. This is the
+	// Region → Family → Leaf semantic-zoom hierarchy: at the widest zoom the dense microwave/optical
+	// regions show one umbrella each (no gaps); zoom in and they dissolve into families, then leaves.
+	const COVERAGE_MIN = 0.6;
+	for (const region of REGIONS) {
+		const regionMembers = sorted.filter((a) => a.hz >= region.lo && a.hz < region.hi);
+		if (regionMembers.length === 0) continue;
+
+		const regionVis0 = Math.max(xOf(region.lo), 0);
+		const regionVis1 = Math.min(xOf(region.hi), width);
+		const regionVisPx = regionVis1 - regionVis0;
+
+		// Build the family-level representation and measure how much of the visible region it covers.
+		const familyCands: Candidate[] = [];
+		let coveredPx = 0;
+		for (const fam of FAMILIES) {
+			if (fam.lo < region.lo || fam.hi > region.hi) continue; // family not in this region
+			const members = byFamily.get(fam.id);
+			if (!members || members.length === 0) continue;
+			const cands = familyCandidates(fam, members);
+			if (cands.length === 0) continue;
+			familyCands.push(...cands);
+			coveredPx += Math.max(0, Math.min(xOf(fam.hi), regionVis1) - Math.max(xOf(fam.lo), regionVis0));
+		}
+		const covered = regionVisPx > 0 ? coveredPx / regionVisPx : 0;
+
+		const umbrella = regionNeighbourhood(region);
+		if ((familyCands.length > 0 && covered >= COVERAGE_MIN) || !umbrella) {
+			candidates.push(...familyCands);
+		} else {
+			// Families too compressed to stand alone → one umbrella over the whole region.
+			candidates.push(groupCandidate(umbrella, regionMembers, xOf(region.lo), xOf(region.hi)));
+		}
 	}
 
 	// Pass B — greedy lane assignment, left → right. Each candidate takes the lowest lane whose

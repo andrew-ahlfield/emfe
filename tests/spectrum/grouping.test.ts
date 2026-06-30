@@ -91,6 +91,37 @@ describe('layoutSpectrum — group-up', () => {
 	});
 });
 
+describe('layoutSpectrum — region hierarchy', () => {
+	const W = 1440;
+	// Populate every microwave sub-band (UHF…EHF) so the region is genuinely busy.
+	const microwave: Allocation[] = [];
+	let m = 0;
+	for (const f of FAMILIES.filter((f) => f.lo >= 3e8 && f.hi <= 3e11)) {
+		for (let k = 1; k <= 6; k++) {
+			const hz = f.lo * (f.hi / f.lo) ** (k / 7);
+			microwave.push(alloc(`m${m++}`, hz, { region: 'microwave' }));
+		}
+	}
+
+	it('shows one region umbrella at the widest zoom (no per-family gaps)', () => {
+		const { items } = layoutSpectrum(microwave, FULL_DOMAIN, W, fmt);
+		const groups = items.filter((i) => i.kind === 'group');
+		// The whole region collapses to a single "Microwave" umbrella…
+		expect(groups.some((g) => g.id === 'grp-microwave')).toBe(true);
+		expect(groups.find((g) => g.id === 'grp-microwave')!.info?.id).toBe('microwave');
+		// …not the individual sub-band chips yet.
+		expect(items.some((i) => i.id === 'grp-uhf' || i.id === 'grp-ehf')).toBe(false);
+	});
+
+	it('dissolves the umbrella into families when zoomed into the region', () => {
+		const dom: FreqDomain = { minExp: 7.7, maxExp: 11.7 };
+		const { items } = layoutSpectrum(microwave, dom, W, fmt);
+		expect(items.some((i) => i.id === 'grp-microwave')).toBe(false);
+		// Several finer neighbourhoods now stand on their own.
+		expect(items.length).toBeGreaterThanOrEqual(3);
+	});
+});
+
 describe('layoutSpectrum — no overlaps (invariant)', () => {
 	const W = 1440;
 

@@ -3,7 +3,7 @@
 <script lang="ts">
 	import { logPos, type FreqDomain } from '$lib/spectrum/scale';
 	import { visibleAllocations, effectiveLayer } from '$lib/spectrum/filter';
-	import { layoutSpectrum, familyById, type PlacedItem } from '$lib/spectrum/grouping';
+	import { layoutSpectrum, type PlacedItem } from '$lib/spectrum/grouping';
 	import { licenseRank, type Allocation } from '$lib/data/types';
 	import { fmtFreq } from '$lib/spectrum/format';
 	import { spectralColor } from '$lib/spectrum/color';
@@ -34,31 +34,39 @@
 	const LANE_Y = [6, 33, 60];
 	/** Callout dots sit on the vertical centre line of the coloured band. */
 	const bandMid = PLOT.bandY + PLOT.bandH / 2;
-	/** A neighbourhood (collapsed family) is annotated by a flat bracket floating in the gap above the
+	/** A neighbourhood (collapsed family) is annotated by a bracket floating in the gap above the
 	 *  band — never touching it — rather than a translucent bar laid over the gradient. That leaves
 	 *  the gradient and the member dots uncovered, so the bracket reads as a grouping annotation, not
-	 *  another data bar. A straight horizontal line marks the extent; its rounded ends turn down
-	 *  toward the band, and the chip's connector meets its centre. */
-	const GROUP_BRACKET_Y = PLOT.bandY - 11;
+	 *  another data bar. The arms are straight (no S bend); a small centre point rises to meet the
+	 *  chip's connector, and the rounded ends turn down toward the band. */
+	const GROUP_BRACKET_Y = PLOT.bandY - 10;
 	/** How far the bracket's rounded ends turn down toward the band. */
-	const GROUP_BRACKET_DROP = 5;
+	const GROUP_BRACKET_DROP = 4;
+	/** How far the centre point rises above the arms (the brace's middle tip). */
+	const GROUP_BRACKET_NUB = 5;
 	/** Inset each bracket's ends from the family extent, so adjacent brackets show a small gap. */
 	const GROUP_BRACKET_INSET = 4;
-	/** Corner radius where the horizontal line turns down into its end-caps. */
+	/** Corner radius where the arms turn down into the end-caps. */
 	const GROUP_BRACKET_R = 3;
 
 	/**
-	 * SVG path for a flat bracket spanning x=`lo`…`hi`: a straight horizontal line at
-	 * {@link GROUP_BRACKET_Y} whose rounded ends turn down toward the band. Ends are inset so
-	 * neighbouring brackets don't touch.
+	 * SVG path for a bracket spanning x=`lo`…`hi`: straight horizontal arms at {@link GROUP_BRACKET_Y}
+	 * that rise to a small centre point, with rounded ends turning down toward the band. Ends are
+	 * inset so neighbouring brackets don't touch.
 	 */
 	function groupBracket(lo: number, hi: number): string {
 		const left = lo + GROUP_BRACKET_INSET;
 		const right = hi - GROUP_BRACKET_INSET;
 		const y = GROUP_BRACKET_Y;
 		const cap = y + GROUP_BRACKET_DROP;
+		const cx = (left + right) / 2;
+		const ny = y - GROUP_BRACKET_NUB; // centre point
 		const r = Math.min(GROUP_BRACKET_R, (right - left) / 2 - 0.5);
-		return `M${left} ${cap} Q${left} ${y} ${left + r} ${y} L${right - r} ${y} Q${right} ${y} ${right} ${cap}`;
+		const nubHalf = Math.min(4, (right - left) / 2 - r - 0.5);
+		return (
+			`M${left} ${cap} Q${left} ${y} ${left + r} ${y} L${cx - nubHalf} ${y} ` +
+			`L${cx} ${ny} L${cx + nubHalf} ${y} L${right - r} ${y} Q${right} ${y} ${right} ${cap}`
+		);
 	}
 	/** A real-bandwidth bar replaces the dot once the allocation's band is at least this wide. */
 	const MIN_BAR_PX = 7;
@@ -301,12 +309,11 @@
 			.sort((a, b) => barWidth(b.alloc) - barWidth(a.alloc))
 	);
 
-	/** Click a group brace/chip → open its info card (what the band name means + typical uses).
-	 *  A stale `grp-<id>` with no matching family simply does nothing. */
+	/** Click a group brace/chip → open its info card (what the neighbourhood's name means + typical
+	 *  uses). The group carries its own resolved neighbourhood (family or region umbrella). */
 	function activate(item: PlacedItem) {
 		if (item.kind === 'group') {
-			const fam = familyById(item.id.replace(/^grp-/, ''));
-			if (fam) selectGroup(fam);
+			if (item.info) selectGroup(item.info);
 		} else select(item.id);
 	}
 
@@ -503,9 +510,9 @@
 		<!-- Transparent hit target spanning the bracket down to the band, for the click affordance. -->
 		<rect
 			x={lo}
-			y={GROUP_BRACKET_Y - 2}
+			y={GROUP_BRACKET_Y - GROUP_BRACKET_NUB - 2}
 			width={Math.max(hi - lo, 2)}
-			height={PLOT.bandY - GROUP_BRACKET_Y + 2}
+			height={PLOT.bandY - GROUP_BRACKET_Y + GROUP_BRACKET_NUB + 2}
 			class="bracket-hit"
 		/>
 		<path d={groupBracket(lo, hi)} class="bracket" />
@@ -564,7 +571,13 @@
 		onclick={() => activate(item)}
 		onkeydown={(e) => onKey(e, item)}
 	>
-		<line x1={item.x} y1={p.lineTop} x2={item.x} y2={GROUP_BRACKET_Y} class="line group-line" />
+		<line
+			x1={item.x}
+			y1={p.lineTop}
+			x2={item.x}
+			y2={GROUP_BRACKET_Y - GROUP_BRACKET_NUB}
+			class="line group-line"
+		/>
 		<text x={item.x} y={p.nameY} text-anchor="middle" class="name" data-mk={item.id}
 			>{item.label}</text
 		>
