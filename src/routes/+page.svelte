@@ -267,22 +267,24 @@
 			</header>
 
 			<div class="plot" style="height: {PLOT.height}px" bind:clientWidth={width}>
-				{#if width > 0}
-					<!-- Deliberately focusable: a custom-keyboard widget (arrows pan, +/- zoom) whose
-				     interactive marker children stay exposed to assistive tech. -->
-					<!-- svelte-ignore a11y_no_noninteractive_tabindex -->
-					<svg
-						id="explorer"
-						{width}
-						height={PLOT.height}
-						viewBox="0 0 {width} {PLOT.height}"
-						role="application"
-						tabindex="0"
-						aria-roledescription="spectrum explorer"
-						aria-label="Electromagnetic spectrum on a logarithmic frequency axis from 1 hertz to 10 to the 24 hertz. Use arrow keys to pan, plus and minus to zoom, and 0 to reset."
-						class="zoomable"
-						use:zoomable={{ width: () => width, apply: (fn) => view.update(fn) }}
-					>
+				<!-- Deliberately focusable: a custom-keyboard widget (arrows pan, +/- zoom) whose
+				     interactive marker children stay exposed to assistive tech. The svg shell renders
+				     unconditionally so #explorer always exists (the skip-link target, and present at
+				     prerender); its children fill in once the plot's width has been measured. -->
+				<!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+				<svg
+					id="explorer"
+					width={width || 1}
+					height={PLOT.height}
+					viewBox="0 0 {width || 1} {PLOT.height}"
+					role="application"
+					tabindex="0"
+					aria-roledescription="spectrum explorer"
+					aria-label="Electromagnetic spectrum on a logarithmic frequency axis from 1 hertz to 10 to the 24 hertz. Use arrow keys to pan, plus and minus to zoom, and 0 to reset."
+					class="zoomable"
+					use:zoomable={{ width: () => width, apply: (fn) => view.update(fn) }}
+				>
+					{#if width > 0}
 						<SpectrumBand {width} domain={$visibleDomain} />
 						<Markers
 							{width}
@@ -312,8 +314,8 @@
 							showLambda={$axisOptions.showLambda}
 							showEv={$axisOptions.showEv}
 						/>
-					</svg>
-				{/if}
+					{/if}
+				</svg>
 			</div>
 
 			<p class="hint hint-fine" aria-hidden="true">Scroll to zoom · Shift-scroll to pan</p>
