@@ -51,8 +51,8 @@
 			<div class="admin" class:federal={band.federal}>
 				<span class="swatch" aria-hidden="true"></span>
 				{band.federal
-					? 'Federal — government / military (managed by NTIA)'
-					: 'Non-Federal — civilian (managed by the FCC)'}
+					? 'Federal: government / military (managed by NTIA)'
+					: 'Non-Federal: civilian (managed by the FCC)'}
 			</div>
 
 			{#if band.note}

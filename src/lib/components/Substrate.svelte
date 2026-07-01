@@ -149,7 +149,7 @@
 <!-- Allocation substrate (bottom tier): the gap-free §2.106 service-category bands. Muted on
      purpose — it's the regulatory floor the recognizable-application markers stand on. The empty
      stretches below 8.3 kHz and above 275 GHz are real: nothing is allocated there. -->
-<g class="substrate" aria-label="Allocation substrate — US Table of Frequency Allocations">
+<g class="substrate" aria-label="Allocation substrate: US Table of Frequency Allocations">
 	{#each tiles as t (t.key)}
 		{#if t.w >= INTERACT_MIN_PX}
 			{@const gap = t.w >= 3 ? TILE_GAP : 0}

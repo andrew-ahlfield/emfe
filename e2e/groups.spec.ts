@@ -4,7 +4,8 @@ import { test, expect } from '@playwright/test';
 // opens an explainer card (what the band name means + typical uses) — it does not zoom.
 
 test('clicking a group chip opens its explainer card; Esc closes it', async ({ page }) => {
-	await page.goto('/');
+	// All layers on: the ELF family's members live outside the default (consumer-only) view.
+	await page.goto('/?layers=consumer,amateur,navigation,gov,science');
 	await page.waitForSelector('#explorer');
 
 	// The full-spectrum view collapses the dense radio bands into family chips (ELF, VLF/LF, …).

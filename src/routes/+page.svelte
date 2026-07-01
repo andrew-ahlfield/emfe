@@ -175,7 +175,7 @@
 				operatingSystem: 'Any (modern web browser)',
 				browserRequirements: 'Requires JavaScript and a modern browser.',
 				description:
-					'An interactive, zoomable explorer for the electromagnetic spectrum — from below ELF through radio, light, X-ray and gamma, on one logarithmic frequency axis, with U.S. (FCC) allocations and licences.',
+					'An interactive, zoomable explorer for the electromagnetic spectrum—from below ELF through radio, light, X-ray and gamma, on one logarithmic frequency axis, with U.S. (FCC) allocations and licences.',
 				isAccessibleForFree: true,
 				offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
 				inLanguage: 'en',
@@ -209,10 +209,10 @@
 <svelte:window onpopstate={onPopState} onkeydown={onKeydown} onclick={onBackgroundClick} />
 
 <svelte:head>
-	<title>EM Frequency Explorer — Electromagnetic Spectrum</title>
+	<title>EM Frequency Explorer: Electromagnetic Spectrum</title>
 	<meta
 		name="description"
-		content="An interactive, zoomable explorer for the electromagnetic spectrum — from below ELF through radio, light, X-ray and gamma, on one logarithmic frequency axis."
+		content="An interactive, zoomable explorer for the electromagnetic spectrum—from below ELF through radio, light, X-ray and gamma, on one logarithmic frequency axis."
 	/>
 	<link rel="canonical" href="https://emfe.exagrow.com/" />
 	<meta name="robots" content="index, follow, max-image-preview:large" />
@@ -220,10 +220,13 @@
 	<!-- Open Graph / social + AI surfaces -->
 	<meta property="og:type" content="website" />
 	<meta property="og:site_name" content="EM Frequency Explorer" />
-	<meta property="og:title" content="EM Frequency Explorer — the whole electromagnetic spectrum, one scale" />
+	<meta
+		property="og:title"
+		content="EM Frequency Explorer: the whole electromagnetic spectrum, one scale"
+	/>
 	<meta
 		property="og:description"
-		content="Everything we broadcast, navigate by, and see — radio to gamma on one continuous logarithmic axis, with U.S. (FCC) allocations and licences."
+		content="Everything we broadcast, navigate by, and see—radio to gamma on one continuous logarithmic axis, with U.S. (FCC) allocations and licences."
 	/>
 	<meta property="og:url" content="https://emfe.exagrow.com/" />
 	<meta property="og:image" content="https://emfe.exagrow.com/og-image.png" />
@@ -233,7 +236,7 @@
 	<meta name="twitter:title" content="EM Frequency Explorer" />
 	<meta
 		name="twitter:description"
-		content="An interactive, zoomable explorer for the electromagnetic spectrum — radio to gamma on one logarithmic axis, with U.S. (FCC) allocations."
+		content="An interactive, zoomable explorer for the electromagnetic spectrum—radio to gamma on one logarithmic axis, with U.S. (FCC) allocations."
 	/>
 	<meta name="twitter:image" content="https://emfe.exagrow.com/og-image.png" />
 
@@ -253,7 +256,7 @@
 				<div>
 					<h1>The Electromagnetic Spectrum</h1>
 					<p class="sub">
-						Everything we broadcast, navigate by, and see — on one continuous scale. Allocations and
+						Everything we broadcast, navigate by, and see—on one continuous scale. Allocations and
 						licences shown for the U.S. (FCC).
 					</p>
 				</div>

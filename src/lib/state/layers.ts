@@ -1,9 +1,10 @@
 /**
- * Content-layer visibility store. All five layers on by default (SPEC §Layers).
+ * Content-layer visibility store. First open shows just the everyday layer (SPEC §Layers) —
+ * a gentle default; the master switch brings the full stack on in one click.
  */
 
 import { writable } from 'svelte/store';
-import { LAYERS, type LayerId } from '$lib/data/types';
+import { LAYERS, DEFAULT_ON_LAYERS, type LayerId } from '$lib/data/types';
 
 export type LayerVisibility = Record<LayerId, boolean>;
 
@@ -16,10 +17,11 @@ export const LAYER_LABELS: Record<LayerId, string> = {
 	science: 'Physical science'
 };
 
-const allOn = (): LayerVisibility =>
-	Object.fromEntries(LAYERS.map((l) => [l, true])) as LayerVisibility;
+/** The first-open visibility: only the layers in {@link DEFAULT_ON_LAYERS} are shown. */
+export const defaultLayers = (): LayerVisibility =>
+	Object.fromEntries(LAYERS.map((l) => [l, DEFAULT_ON_LAYERS.includes(l)])) as LayerVisibility;
 
-export const layers = writable<LayerVisibility>(allOn());
+export const layers = writable<LayerVisibility>(defaultLayers());
 
 /** Toggle one content layer. */
 export function toggleLayer(id: LayerId): void {

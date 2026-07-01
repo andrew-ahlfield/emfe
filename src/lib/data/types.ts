@@ -13,6 +13,13 @@ export const LAYERS = ['consumer', 'amateur', 'navigation', 'gov', 'science'] as
 export type LayerId = (typeof LAYERS)[number];
 
 /**
+ * Layers shown on a first open. A curated subset — just the everyday layer — so a newcomer sees a
+ * legible chart rather than all five layers at once; the master switch turns everything on in one
+ * click. Also the baseline the URL codec diffs against (see `state/url.ts`).
+ */
+export const DEFAULT_ON_LAYERS: readonly LayerId[] = ['consumer'];
+
+/**
  * The three governance tiers (SPEC §The three tiers). `application` = a recognizable use
  * (Wi-Fi, GPS); `assignment` = a specifically designated frequency/channel (Marine Ch 16,
  * 121.5 MHz emergency). The `allocation` substrate is a separate data kind ({@link ServiceAllocation}),

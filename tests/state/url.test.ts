@@ -1,15 +1,21 @@
 import { describe, it, expect } from 'vitest';
 import { encodeState, decodeState, discreteChanged, type DeepLinkSnapshot } from '$lib/state/url';
-import { LAYERS, type LayerId } from '$lib/data/types';
+import { LAYERS, DEFAULT_ON_LAYERS, type LayerId } from '$lib/data/types';
 import { FULL_DOMAIN } from '$lib/spectrum/scale';
 import { ZOOM_RANGE } from '$lib/spectrum/zoom';
 
 const allOn = () => Object.fromEntries(LAYERS.map((l) => [l, true])) as Record<LayerId, boolean>;
+const allOff = () => Object.fromEntries(LAYERS.map((l) => [l, false])) as Record<LayerId, boolean>;
+const defaultLayers = () =>
+	Object.fromEntries(LAYERS.map((l) => [l, DEFAULT_ON_LAYERS.includes(l)])) as Record<
+		LayerId,
+		boolean
+	>;
 
 const DEFAULTS: DeepLinkSnapshot = {
 	centerExp: 12,
 	zoom: 1,
-	layers: allOn(),
+	layers: defaultLayers(),
 	license: 'extra',
 	theme: 'dark',
 	selected: null
@@ -29,7 +35,7 @@ describe('encodeState', () => {
 			...DEFAULTS,
 			zoom: 8,
 			centerExp: 9.5,
-			layers: { ...allOn(), gov: false, science: false },
+			layers: { ...defaultLayers(), science: true },
 			license: 'technician',
 			theme: 'light',
 			selected: 'wifi'
@@ -37,10 +43,15 @@ describe('encodeState', () => {
 		const p = new URLSearchParams(qs);
 		expect(p.get('z')).toBe('8');
 		expect(p.get('c')).toBe('9.5');
-		expect(p.get('off')).toBe('gov,science');
+		expect(p.get('layers')).toBe('consumer,science');
 		expect(p.get('lic')).toBe('technician');
 		expect(p.get('t')).toBe('light');
 		expect(p.get('sel')).toBe('wifi');
+	});
+
+	it('writes "layers=none" when every layer is off', () => {
+		const qs = encodeState({ ...DEFAULTS, layers: allOff() });
+		expect(new URLSearchParams(qs).get('layers')).toBe('none');
 	});
 });
 
@@ -58,6 +69,12 @@ describe('round-trip', () => {
 		expect(back).toEqual(state);
 	});
 
+	it('round-trips an all-off layer set', () => {
+		const state: DeepLinkSnapshot = { ...DEFAULTS, layers: allOff() };
+		const back = decodeState(new URLSearchParams(encodeState(state)), FULL_DOMAIN);
+		expect(back).toEqual(state);
+	});
+
 	it('round-trips the default view to defaults', () => {
 		const back = decodeState(new URLSearchParams(encodeState(DEFAULTS)), FULL_DOMAIN);
 		expect(back).toEqual(DEFAULTS);
@@ -67,7 +84,7 @@ describe('round-trip', () => {
 describe('decodeState — malformed input degrades safely', () => {
 	it('falls back to defaults on garbage', () => {
 		const back = decodeState(
-			new URLSearchParams('z=abc&c=NaN&off=foo,bar&lic=admiral&t=neon'),
+			new URLSearchParams('z=abc&c=NaN&layers=foo,bar&lic=admiral&t=neon'),
 			FULL_DOMAIN
 		);
 		expect(back).toEqual(DEFAULTS);
@@ -80,10 +97,19 @@ describe('decodeState — malformed input degrades safely', () => {
 		expect(back.centerExp).toBeLessThanOrEqual(FULL_DOMAIN.maxExp);
 	});
 
-	it('ignores unknown layer ids in the off-list', () => {
-		const back = decodeState(new URLSearchParams('off=consumer,bogus'), FULL_DOMAIN);
-		expect(back.layers.consumer).toBe(false);
+	it('ignores unknown layer ids in the on-list', () => {
+		const back = decodeState(new URLSearchParams('layers=science,bogus'), FULL_DOMAIN);
 		expect(back.layers.science).toBe(true);
+		expect(back.layers.consumer).toBe(false);
+	});
+
+	it('still honours the legacy off-list (pre-curated-default links)', () => {
+		const back = decodeState(new URLSearchParams('off=gov,bogus'), FULL_DOMAIN);
+		expect(back.layers.gov).toBe(false);
+		// The legacy format was relative to all layers on.
+		expect(back.layers.science).toBe(true);
+		expect(back.layers.amateur).toBe(true);
+		expect(back.layers.consumer).toBe(true);
 	});
 });
 

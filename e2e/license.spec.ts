@@ -21,26 +21,31 @@ test('operator-licence selector switches the held class', async ({ page }) => {
 test('licence selector dims when the amateur layer is off; a click turns the layer back on', async ({
 	page
 }) => {
+	// The amateur layer is off in the curated first-open default, so the licence selector starts
+	// dimmed (it has nothing to act on).
 	await page.goto('/');
 	const amateur = page.getByRole('switch', { name: /Amateur \+ unlicensed/ });
 	const group = page.getByRole('radiogroup', { name: 'Operator licence' });
 
-	// Hide the amateur layer → the licence selector dims (it has nothing to act on).
-	await amateur.click();
 	await expect(amateur).toHaveAttribute('aria-checked', 'false');
 	await expect(group).toHaveClass(/dimmed/);
 
-	// Clicking a class while dimmed switches the amateur layer back on and selects the class.
+	// Clicking a class while dimmed switches the amateur layer on and selects the class.
 	await group.getByRole('radio', { name: /General/ }).click();
 	await expect(amateur).toHaveAttribute('aria-checked', 'true');
 	await expect(group).not.toHaveClass(/dimmed/);
 	await expect(group.getByRole('radio', { name: /General/ })).toBeChecked();
+
+	// Hiding the layer again re-dims the selector.
+	await amateur.click();
+	await expect(amateur).toHaveAttribute('aria-checked', 'false');
+	await expect(group).toHaveClass(/dimmed/);
 });
 
 test('lowering the licence class mutes amateur bands you can no longer transmit on', async ({
 	page
 }) => {
-	await page.goto('/');
+	await page.goto('/?layers=consumer,amateur'); // the amateur layer is off by default
 	await page.waitForSelector('#explorer'); // the SVG mounts only once it has a measured width
 	// Zoom into the HF amateur region.
 	await page.evaluate(() => {

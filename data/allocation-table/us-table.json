@@ -14,7 +14,7 @@
 			"hi": 14000,
 			"federal": false,
 			"primary": ["RADIONAVIGATION"],
-			"note": "VLF navigation — the lowest frequencies any service is allocated."
+			"note": "VLF navigation—the lowest frequencies any service is allocated."
 		},
 		{ "lo": 14000, "hi": 19950, "federal": false, "primary": ["FIXED", "MARITIME MOBILE"] },
 		{
@@ -30,7 +30,7 @@
 			"hi": 61000,
 			"federal": false,
 			"primary": ["STANDARD FREQUENCY AND TIME SIGNAL"],
-			"note": "WWVB 60 kHz — what 'atomic' wall clocks sync to overnight."
+			"note": "WWVB 60 kHz—what 'atomic' wall clocks sync to overnight."
 		},
 		{ "lo": 61000, "hi": 70000, "federal": false, "primary": ["FIXED", "MARITIME MOBILE"] },
 		{
@@ -68,7 +68,7 @@
 			"hi": 435000,
 			"federal": false,
 			"primary": ["AERONAUTICAL RADIONAVIGATION"],
-			"note": "Non-directional beacons (NDB) — among the oldest navaids still flying."
+			"note": "Non-directional beacons (NDB)—among the oldest navaids still flying."
 		},
 		{
 			"lo": 435000,
@@ -81,7 +81,7 @@
 			"hi": 505000,
 			"federal": false,
 			"primary": ["MARITIME MOBILE"],
-			"note": "500 kHz — the historic maritime calling & distress frequency."
+			"note": "500 kHz—the historic maritime calling & distress frequency."
 		},
 		{
 			"lo": 505000,
@@ -101,7 +101,7 @@
 			"hi": 1705000,
 			"federal": false,
 			"primary": ["BROADCASTING"],
-			"note": "AM (mediumwave) broadcast band — 535–1705 kHz."
+			"note": "AM (mediumwave) broadcast band—535–1705 kHz."
 		},
 		{
 			"lo": 1705000,
@@ -115,7 +115,7 @@
 			"federal": false,
 			"primary": ["AMATEUR"],
 			"secondary": ["Radiolocation"],
-			"note": "160 m — the lowest amateur band, 'top band'."
+			"note": "160 m—the lowest amateur band, 'top band'."
 		},
 		{
 			"lo": 2000000,
@@ -137,7 +137,7 @@
 			"hi": 3025000,
 			"federal": false,
 			"primary": ["AERONAUTICAL MOBILE (R)"],
-			"note": "HF aeronautical route comms — oceanic ATC."
+			"note": "HF aeronautical route comms—oceanic ATC."
 		},
 		{ "lo": 3025000, "hi": 3155000, "federal": false, "primary": ["AERONAUTICAL MOBILE (OR)"] },
 		{ "lo": 3155000, "hi": 3500000, "federal": false, "primary": ["FIXED", "MOBILE"] },
@@ -166,7 +166,7 @@
 			"federal": false,
 			"primary": ["FIXED"],
 			"secondary": ["Amateur"],
-			"note": "60 m — five amateur channels, secondary to Federal fixed."
+			"note": "60 m—five amateur channels, secondary to Federal fixed."
 		},
 		{ "lo": 5410000, "hi": 5900000, "federal": false, "primary": ["FIXED", "MOBILE"] },
 		{
@@ -209,7 +209,7 @@
 			"hi": 9900000,
 			"federal": false,
 			"primary": ["BROADCASTING"],
-			"note": "31 m shortwave broadcast — the most-used SW band."
+			"note": "31 m shortwave broadcast—the most-used SW band."
 		},
 		{ "lo": 9900000, "hi": 9995000, "federal": false, "primary": ["FIXED"] },
 		{
@@ -226,7 +226,7 @@
 			"federal": false,
 			"primary": ["FIXED"],
 			"secondary": ["Amateur"],
-			"note": "30 m — a narrow CW/digital amateur band."
+			"note": "30 m—a narrow CW/digital amateur band."
 		},
 		{ "lo": 10150000, "hi": 11175000, "federal": false, "primary": ["FIXED", "MOBILE"] },
 		{ "lo": 11175000, "hi": 11400000, "federal": false, "primary": ["AERONAUTICAL MOBILE (OR)"] },
@@ -260,7 +260,7 @@
 			"hi": 14350000,
 			"federal": false,
 			"primary": ["AMATEUR", "AMATEUR-SATELLITE"],
-			"note": "20 m — the premier HF DX band."
+			"note": "20 m—the premier HF DX band."
 		},
 		{ "lo": 14350000, "hi": 14990000, "federal": false, "primary": ["FIXED"] },
 		{
@@ -366,7 +366,7 @@
 			"hi": 27410000,
 			"federal": false,
 			"primary": ["FIXED", "MOBILE"],
-			"note": "Citizens Band (CB) — 27 MHz, shared with 27.12 MHz ISM."
+			"note": "Citizens Band (CB)—27 MHz, shared with 27.12 MHz ISM."
 		},
 		{ "lo": 27410000, "hi": 28000000, "federal": false, "primary": ["FIXED", "MOBILE"] },
 		{
@@ -374,7 +374,7 @@
 			"hi": 29700000,
 			"federal": false,
 			"primary": ["AMATEUR", "AMATEUR-SATELLITE"],
-			"note": "10 m amateur band — opens worldwide at solar max."
+			"note": "10 m amateur band—opens worldwide at solar max."
 		},
 		{ "lo": 29700000, "hi": 30000000, "federal": false, "primary": ["FIXED", "MOBILE"] },
 		{
@@ -389,7 +389,7 @@
 			"hi": 54000000,
 			"federal": false,
 			"primary": ["AMATEUR"],
-			"note": "6 m — 'the magic band', sporadic-E DX."
+			"note": "6 m—'the magic band', sporadic-E DX."
 		},
 		{
 			"lo": 54000000,
@@ -417,14 +417,14 @@
 			"hi": 108000000,
 			"federal": false,
 			"primary": ["BROADCASTING"],
-			"note": "FM radio broadcast band — 88–108 MHz."
+			"note": "FM radio broadcast band—88–108 MHz."
 		},
 		{
 			"lo": 108000000,
 			"hi": 117975000,
 			"federal": false,
 			"primary": ["AERONAUTICAL RADIONAVIGATION"],
-			"note": "VOR / ILS localizer — the aviation navigation band."
+			"note": "VOR / ILS localizer—the aviation navigation band."
 		},
 		{
 			"lo": 117975000,
@@ -452,7 +452,7 @@
 			"hi": 148000000,
 			"federal": false,
 			"primary": ["AMATEUR", "AMATEUR-SATELLITE"],
-			"note": "2 m — the workhorse VHF amateur band."
+			"note": "2 m—the workhorse VHF amateur band."
 		},
 		{ "lo": 148000000, "hi": 150800000, "federal": true, "primary": ["FIXED", "MOBILE"] },
 		{
@@ -467,7 +467,7 @@
 			"hi": 162025000,
 			"federal": false,
 			"primary": ["MARITIME MOBILE"],
-			"note": "VHF marine band — Channel 16 (156.8 MHz) is distress & calling."
+			"note": "VHF marine band—Channel 16 (156.8 MHz) is distress & calling."
 		},
 		{
 			"lo": 162025000,
@@ -495,7 +495,7 @@
 			"hi": 328600000,
 			"federal": true,
 			"primary": ["FIXED", "MOBILE"],
-			"note": "Military UHF — air combat, SATCOM and the 243 MHz guard frequency."
+			"note": "Military UHF—air combat, SATCOM and the 243 MHz guard frequency."
 		},
 		{
 			"lo": 328600000,
@@ -516,7 +516,7 @@
 			"hi": 410000000,
 			"federal": false,
 			"primary": ["MOBILE-SATELLITE", "RADIONAVIGATION-SATELLITE"],
-			"note": "406 MHz — 121.5/406 distress beacons (EPIRB/ELT/PLB)."
+			"note": "406 MHz—121.5/406 distress beacons (EPIRB/ELT/PLB)."
 		},
 		{ "lo": 410000000, "hi": 420000000, "federal": true, "primary": ["FIXED", "MOBILE"] },
 		{
@@ -553,7 +553,7 @@
 			"hi": 698000000,
 			"federal": false,
 			"primary": ["BROADCASTING", "FIXED", "MOBILE"],
-			"note": "Former UHF TV 38–51 — repurposed for 600 MHz cellular."
+			"note": "Former UHF TV 38–51—repurposed for 600 MHz cellular."
 		},
 		{
 			"lo": 698000000,
@@ -575,7 +575,7 @@
 			"federal": false,
 			"primary": ["FIXED", "MOBILE"],
 			"secondary": ["Amateur", "Radiolocation"],
-			"note": "900 MHz ISM — IoT, cordless, RFID; 33 cm amateur."
+			"note": "900 MHz ISM—IoT, cordless, RFID; 33 cm amateur."
 		},
 		{
 			"lo": 928000000,
@@ -629,7 +629,7 @@
 				"RADIO ASTRONOMY",
 				"SPACE RESEARCH (passive)"
 			],
-			"note": "Protected passive band — the 1420 MHz hydrogen line lives here."
+			"note": "Protected passive band—the 1420 MHz hydrogen line lives here."
 		},
 		{
 			"lo": 1427000000,
@@ -650,7 +650,7 @@
 			"hi": 1610000000,
 			"federal": false,
 			"primary": ["AERONAUTICAL RADIONAVIGATION", "RADIONAVIGATION-SATELLITE (space-to-Earth)"],
-			"note": "GPS L1 (1575.42 MHz), GLONASS and Galileo — the core GNSS band."
+			"note": "GPS L1 (1575.42 MHz), GLONASS and Galileo—the core GNSS band."
 		},
 		{
 			"lo": 1610000000,
@@ -744,7 +744,7 @@
 			"federal": false,
 			"primary": ["FIXED", "MOBILE", "RADIOLOCATION"],
 			"secondary": ["Amateur"],
-			"note": "2.4 GHz ISM — Wi-Fi, Bluetooth, Zigbee, microwave ovens; 13 cm amateur."
+			"note": "2.4 GHz ISM—Wi-Fi, Bluetooth, Zigbee, microwave ovens; 13 cm amateur."
 		},
 		{
 			"lo": 2483500000,
@@ -758,7 +758,7 @@
 			"hi": 2690000000,
 			"federal": false,
 			"primary": ["FIXED", "MOBILE", "BROADCASTING-SATELLITE"],
-			"note": "BRS/EBS — 2.5 GHz mobile broadband (mid-band 5G)."
+			"note": "BRS/EBS—2.5 GHz mobile broadband (mid-band 5G)."
 		},
 		{
 			"lo": 2690000000,
@@ -790,7 +790,7 @@
 			"hi": 3450000000,
 			"federal": true,
 			"primary": ["RADIOLOCATION"],
-			"note": "Federal radar — being shared for 5G (CBRS neighbours above)."
+			"note": "Federal radar—being shared for 5G (CBRS neighbours above)."
 		},
 		{
 			"lo": 3450000000,
@@ -804,21 +804,21 @@
 			"hi": 3700000000,
 			"federal": false,
 			"primary": ["FIXED", "MOBILE", "RADIOLOCATION"],
-			"note": "CBRS — shared 3.5 GHz band with dynamic access (SAS)."
+			"note": "CBRS—shared 3.5 GHz band with dynamic access (SAS)."
 		},
 		{
 			"lo": 3700000000,
 			"hi": 4200000000,
 			"federal": false,
 			"primary": ["FIXED", "FIXED-SATELLITE (space-to-Earth)", "MOBILE"],
-			"note": "C-band — satellite downlinks; lower 3.7–3.98 GHz cleared for 5G."
+			"note": "C-band—satellite downlinks; lower 3.7–3.98 GHz cleared for 5G."
 		},
 		{
 			"lo": 4200000000,
 			"hi": 4400000000,
 			"federal": false,
 			"primary": ["AERONAUTICAL RADIONAVIGATION"],
-			"note": "Radar altimeters — protected for aviation safety."
+			"note": "Radar altimeters—protected for aviation safety."
 		},
 		{
 			"lo": 4400000000,
@@ -853,7 +853,7 @@
 			"hi": 5350000000,
 			"federal": false,
 			"primary": ["FIXED", "MOBILE", "AERONAUTICAL RADIONAVIGATION"],
-			"note": "U-NII — 5 GHz Wi-Fi (lower)."
+			"note": "U-NII—5 GHz Wi-Fi (lower)."
 		},
 		{
 			"lo": 5350000000,
@@ -875,21 +875,21 @@
 			"federal": false,
 			"primary": ["FIXED", "MOBILE", "RADIOLOCATION"],
 			"secondary": ["Amateur"],
-			"note": "5.8 GHz ISM — Wi-Fi, cordless, 5 cm amateur."
+			"note": "5.8 GHz ISM—Wi-Fi, cordless, 5 cm amateur."
 		},
 		{
 			"lo": 5875000000,
 			"hi": 5925000000,
 			"federal": false,
 			"primary": ["FIXED", "MOBILE"],
-			"note": "C-V2X — intelligent transportation (vehicle-to-everything)."
+			"note": "C-V2X—intelligent transportation (vehicle-to-everything)."
 		},
 		{
 			"lo": 5925000000,
 			"hi": 7125000000,
 			"federal": false,
 			"primary": ["FIXED", "FIXED-SATELLITE (Earth-to-space)", "MOBILE"],
-			"note": "6 GHz — fixed microwave links, C-band uplinks, and Wi-Fi 6E."
+			"note": "6 GHz—fixed microwave links, C-band uplinks, and Wi-Fi 6E."
 		},
 		{
 			"lo": 7125000000,
@@ -903,7 +903,7 @@
 			"hi": 10000000000,
 			"federal": true,
 			"primary": ["RADIOLOCATION"],
-			"note": "X-band radar — military, weather, and maritime."
+			"note": "X-band radar—military, weather, and maritime."
 		},
 		{
 			"lo": 10000000000,
@@ -931,7 +931,7 @@
 			"hi": 12700000000,
 			"federal": false,
 			"primary": ["BROADCASTING-SATELLITE", "FIXED-SATELLITE (space-to-Earth)"],
-			"note": "Ku-band DBS — DirecTV/Dish and Starlink user downlinks."
+			"note": "Ku-band DBS—DirecTV/Dish and Starlink user downlinks."
 		},
 		{
 			"lo": 12700000000,
@@ -1025,7 +1025,7 @@
 			"federal": false,
 			"primary": ["MOBILE", "RADIOLOCATION"],
 			"secondary": ["Amateur", "Amateur-satellite"],
-			"note": "24 GHz ISM — 1.2 cm amateur, automotive and industrial radar."
+			"note": "24 GHz ISM—1.2 cm amateur, automotive and industrial radar."
 		},
 		{
 			"lo": 24250000000,
@@ -1046,7 +1046,7 @@
 			"hi": 28350000000,
 			"federal": false,
 			"primary": ["FIXED", "FIXED-SATELLITE (Earth-to-space)", "MOBILE"],
-			"note": "28 GHz — flagship 5G mmWave and satellite uplinks."
+			"note": "28 GHz—flagship 5G mmWave and satellite uplinks."
 		},
 		{
 			"lo": 28350000000,
@@ -1132,7 +1132,7 @@
 			"hi": 47200000000,
 			"federal": false,
 			"primary": ["AMATEUR", "AMATEUR-SATELLITE"],
-			"note": "6 mm — an amateur millimetre-wave band."
+			"note": "6 mm—an amateur millimetre-wave band."
 		},
 		{
 			"lo": 47200000000,
@@ -1174,7 +1174,7 @@
 			"federal": false,
 			"primary": ["FIXED", "MOBILE", "RADIOLOCATION"],
 			"secondary": ["Amateur"],
-			"note": "60 GHz ISM — WiGig (802.11ad/ay); heavily attenuated by O₂."
+			"note": "60 GHz ISM—WiGig (802.11ad/ay); heavily attenuated by O₂."
 		},
 		{
 			"lo": 64000000000,
@@ -1188,7 +1188,7 @@
 			"hi": 76000000000,
 			"federal": false,
 			"primary": ["FIXED", "FIXED-SATELLITE (space-to-Earth)", "MOBILE"],
-			"note": "E-band — multi-gigabit microwave backhaul (71–76 GHz)."
+			"note": "E-band—multi-gigabit microwave backhaul (71–76 GHz)."
 		},
 		{
 			"lo": 76000000000,
@@ -1290,7 +1290,7 @@
 			"federal": false,
 			"primary": ["FIXED", "MOBILE", "RADIOLOCATION", "RADIONAVIGATION"],
 			"secondary": ["Amateur", "Radio astronomy"],
-			"note": "The top of the formally allocated spectrum — 275 GHz."
+			"note": "The top of the formally allocated spectrum—275 GHz."
 		}
 	]
 }

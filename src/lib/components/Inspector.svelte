@@ -139,7 +139,7 @@
 					.map((p) => peakLabel(p.hz))
 					.join(
 						', '
-					)} hertz, falling in strength from the fundamental — broad bumps, not sharp lines."
+					)} hertz, falling in strength from the fundamental—broad bumps, not sharp lines."
 			>
 				<rect class="scope-screen" x="0.5" y="0.5" width={SPEC_W - 1} height={SPEC_H - 1} rx="6" />
 				{#each spectrum.hGrid as gy (gy)}

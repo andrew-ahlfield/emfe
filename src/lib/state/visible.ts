@@ -1,9 +1,10 @@
 /**
  * Visible-light sub-filter state. The optical region got busy (lasers, LEDs, gas glows, fireworks),
- * so each group toggles independently. All on by default.
+ * so each group toggles independently. First open shows just the LEDs — enough to make the visible
+ * band read as populated without burying it; the master switch brings every source on at once.
  */
 
-import { writable } from 'svelte/store';
+import { get, writable } from 'svelte/store';
 import { OPTICAL_GROUPS, type OpticalGroup, type LayerId } from '$lib/data/types';
 import { allocations } from '$lib/data/loader';
 import { enableLayer, layers } from './layers';
@@ -13,7 +14,11 @@ export type GroupVisibility = Record<OpticalGroup, boolean>;
 const all = (on: boolean): GroupVisibility =>
 	Object.fromEntries(OPTICAL_GROUPS.map((g) => [g, on])) as GroupVisibility;
 
-export const visibleGroups = writable<GroupVisibility>(all(true));
+/** The first-open visibility: LEDs only (they're dual-licensed into consumer, the default layer). */
+export const defaultGroups = (): GroupVisibility =>
+	Object.fromEntries(OPTICAL_GROUPS.map((g) => [g, g === 'led'])) as GroupVisibility;
+
+export const visibleGroups = writable<GroupVisibility>(defaultGroups());
 
 export const GROUP_LABELS: Record<OpticalGroup, string> = {
 	laser: 'Lasers',
@@ -30,6 +35,19 @@ export const GROUP_LABELS: Record<OpticalGroup, string> = {
 const OPTICAL_LAYERS = [
 	...new Set(allocations.flatMap((a) => (a.optical ? [a.layer, a.altLayer] : [])).filter(Boolean))
 ] as LayerId[];
+
+/** Per group: the layers its entries can show under, and the primary layer to fall back to. */
+const GROUP_LAYERS = Object.fromEntries(
+	OPTICAL_GROUPS.map((g) => {
+		const members = allocations.filter((a) => a.optical === g);
+		const shown = [...new Set(members.flatMap((a) => [a.layer, a.altLayer]).filter(Boolean))];
+		return [g, { shown: shown as LayerId[], home: members[0]?.layer ?? 'science' }];
+	})
+) as Record<OpticalGroup, { shown: LayerId[]; home: LayerId }>;
+
+/** Whether any layer that can show group `g` is currently on. */
+const groupCovered = (g: OpticalGroup, $l: Record<LayerId, boolean>): boolean =>
+	GROUP_LAYERS[g].shown.some((l) => $l[l]);
 
 // Auto-collapse + graceful restore. When *no* optical layer is enabled the filter has nothing to
 // display, so it remembers what was showing and blanks the groups (the master then reads off, one
@@ -51,8 +69,14 @@ layers.subscribe(($l) => {
 	}
 });
 
-// Turning a light source on is pointless if no layer it lives in is shown — so enabling any group
-// also switches the science layer on. An explicit toggle clears the auto-restore memory.
+/**
+ * Turning a source group on must actually show something, but with the *least* side effect: a
+ * layer is pulled on only when none of the layers that group lives in is visible — and then it's
+ * the group's own primary layer, not a blanket "science on". So flipping LEDs (dual-licensed into
+ * consumer) in an everyday-only view touches nothing else, while flipping Lasers there enables
+ * physical science because lasers exist nowhere else. An explicit toggle clears the auto-restore
+ * memory.
+ */
 export function toggleGroup(g: OpticalGroup): void {
 	restore = null;
 	let turnedOn = false;
@@ -60,11 +84,17 @@ export function toggleGroup(g: OpticalGroup): void {
 		turnedOn = !s[g];
 		return { ...s, [g]: turnedOn };
 	});
-	if (turnedOn) enableLayer('science');
+	if (turnedOn && !groupCovered(g, get(layers))) enableLayer(GROUP_LAYERS[g].home);
 }
 
+/** The master switch: same minimal-cover rule as a single toggle, applied to every group. */
 export function setAllGroups(on: boolean): void {
 	restore = null;
-	if (on) enableLayer('science');
 	visibleGroups.set(all(on));
+	if (on) {
+		const $l = get(layers);
+		for (const g of OPTICAL_GROUPS) {
+			if (!groupCovered(g, $l)) enableLayer(GROUP_LAYERS[g].home);
+		}
+	}
 }

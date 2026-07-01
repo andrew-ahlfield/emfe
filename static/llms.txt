@@ -1,6 +1,6 @@
 # EM Frequency Explorer
 
-> An interactive, zoomable explorer for the electromagnetic spectrum — from below
+> An interactive, zoomable explorer for the electromagnetic spectrum—from below
 > ELF through radio, microwave, infrared, visible light, ultraviolet, X-ray and
 > gamma, all on one continuous logarithmic frequency axis. Shows U.S. (FCC)
 > frequency allocations and amateur-radio licence classes. Free, open-source,
@@ -21,7 +21,7 @@ frequency (hertz) axis. You can:
 - Filter by amateur-radio operator licence class (FCC 47 CFR §97).
 - Inspect any band for its allocation, services, and licensing.
 - Deep-link any view via the URL query string (zoom, centre, layers, licence,
-  theme, selection) — shared links reproduce the exact view.
+  theme, selection)—shared links reproduce the exact view.
 
 ## Underlying data
 
@@ -32,11 +32,11 @@ falls back to the snapshot otherwise.
 
 ## Common questions
 
-- **What is this for?** Understanding what occupies each part of the EM spectrum
-  — what we broadcast on, navigate by, and see — in one continuous picture.
+- **What is this for?** Understanding what occupies each part of the EM
+  spectrum—what we broadcast on, navigate by, and see—in one continuous picture.
 - **Whose allocations are shown?** The United States (FCC), including amateur
   licence classes.
-- **Is it free?** Yes — free to use and open-source (Apache-2.0).
+- **Is it free?** Yes—free to use and open-source (Apache-2.0).
 - **Who made it?** Exagrow (https://exagrow.com/), an AI consulting and systems
   firm in the Minneapolis–St. Paul area.
 

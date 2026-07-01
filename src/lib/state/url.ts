@@ -7,7 +7,13 @@
  * Pure module: no DOM, no stores. The component owns reading/writing `window.location`.
  */
 
-import { LAYERS, LICENSE_RANKS, type LayerId, type LicenseRank } from '$lib/data/types';
+import {
+	LAYERS,
+	DEFAULT_ON_LAYERS,
+	LICENSE_RANKS,
+	type LayerId,
+	type LicenseRank
+} from '$lib/data/types';
 import { FULL_DOMAIN, type FreqDomain } from '$lib/spectrum/scale';
 import { clampZoom, clampCenter } from '$lib/spectrum/zoom';
 import type { Theme } from './theme';
@@ -26,8 +32,11 @@ const DEFAULT_LICENSE: LicenseRank = 'extra';
 const DEFAULT_THEME: Theme = 'dark';
 const midExp = (full: FreqDomain) => (full.minExp + full.maxExp) / 2;
 
-const allLayersOn = (): Record<LayerId, boolean> =>
-	Object.fromEntries(LAYERS.map((l) => [l, true])) as Record<LayerId, boolean>;
+const defaultLayers = (): Record<LayerId, boolean> =>
+	Object.fromEntries(LAYERS.map((l) => [l, DEFAULT_ON_LAYERS.includes(l)])) as Record<
+		LayerId,
+		boolean
+	>;
 
 /** Drop trailing zeros from a fixed-precision number string (e.g. "2.50" → "2.5"). */
 function trim(n: number, places: number): string {
@@ -43,8 +52,13 @@ export function encodeState(s: DeepLinkSnapshot): string {
 		params.set('z', trim(s.zoom, 2));
 		params.set('c', trim(s.centerExp, 2));
 	}
-	const off = LAYERS.filter((l) => !s.layers[l]);
-	if (off.length > 0) params.set('off', off.join(','));
+	// Layers are written as the explicit on-list ("layers=consumer,science"), diffed against the
+	// curated first-open default — "layers=none" when everything is off. (The pre-curated-default
+	// format was an off-list relative to all-on; parseLayers still accepts it for old links.)
+	const on = LAYERS.filter((l) => s.layers[l]);
+	const isDefault =
+		on.length === DEFAULT_ON_LAYERS.length && on.every((l) => DEFAULT_ON_LAYERS.includes(l));
+	if (!isDefault) params.set('layers', on.length > 0 ? on.join(',') : 'none');
 	if (s.license !== DEFAULT_LICENSE) params.set('lic', s.license);
 	if (s.theme !== DEFAULT_THEME) params.set('t', s.theme);
 	if (s.selected) params.set('sel', s.selected);
@@ -52,13 +66,25 @@ export function encodeState(s: DeepLinkSnapshot): string {
 	return params.toString();
 }
 
-function parseLayers(raw: string | null): Record<LayerId, boolean> {
-	const layers = allLayersOn();
-	if (!raw) return layers;
-	for (const id of raw.split(',')) {
-		if ((LAYERS as readonly string[]).includes(id)) layers[id as LayerId] = false;
+function parseLayers(params: URLSearchParams): Record<LayerId, boolean> {
+	// Current format: an explicit on-list. Unknown ids are dropped; a value with no valid ids is
+	// treated as malformed and degrades to the default — except the deliberate "none".
+	const raw = params.get('layers');
+	if (raw !== null) {
+		const on = raw.split(',').filter((id) => (LAYERS as readonly string[]).includes(id));
+		if (on.length === 0 && raw !== 'none') return defaultLayers();
+		return Object.fromEntries(LAYERS.map((l) => [l, on.includes(l)])) as Record<LayerId, boolean>;
 	}
-	return layers;
+	// Legacy format (pre-curated-default links): an off-list relative to all layers on.
+	const off = params.get('off');
+	if (off !== null) {
+		const layers = Object.fromEntries(LAYERS.map((l) => [l, true])) as Record<LayerId, boolean>;
+		for (const id of off.split(',')) {
+			if ((LAYERS as readonly string[]).includes(id)) layers[id as LayerId] = false;
+		}
+		return layers;
+	}
+	return defaultLayers();
 }
 
 /**
@@ -87,7 +113,7 @@ export function decodeState(
 	const sel = params.get('sel');
 	const selected = sel && sel.length > 0 ? sel : null;
 
-	return { centerExp, zoom, layers: parseLayers(params.get('off')), license, theme, selected };
+	return { centerExp, zoom, layers: parseLayers(params), license, theme, selected };
 }
 
 /** Whether two snapshots differ in a *discrete* dimension (anything other than zoom/pan). */

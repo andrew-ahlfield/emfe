@@ -13,13 +13,13 @@
 	},
 	{
 		"id": "itu-rr",
-		"title": "ITU Radio Regulations — Nomenclature of frequency bands",
+		"title": "ITU Radio Regulations—Nomenclature of frequency bands",
 		"url": "https://www.itu.int/pub/R-REG-RR",
 		"retrieved": "2026-06-26"
 	},
 	{
 		"id": "nasa-ems",
-		"title": "NASA Science — Tour of the Electromagnetic Spectrum",
+		"title": "NASA Science—Tour of the Electromagnetic Spectrum",
 		"url": "https://science.nasa.gov/ems/",
 		"retrieved": "2026-06-26"
 	},
@@ -31,25 +31,25 @@
 	},
 	{
 		"id": "nist-asd",
-		"title": "NIST Atomic Spectra Database — emission lines",
+		"title": "NIST Atomic Spectra Database—emission lines",
 		"url": "https://www.nist.gov/pml/atomic-spectra-database",
 		"retrieved": "2026-06-29"
 	},
 	{
 		"id": "rp-photonics",
-		"title": "RP Photonics Encyclopedia — laser & LED sources",
+		"title": "RP Photonics Encyclopedia—laser & LED sources",
 		"url": "https://www.rp-photonics.com/encyclopedia.html",
 		"retrieved": "2026-06-29"
 	},
 	{
 		"id": "fireworks-chem",
-		"title": "Compound Interest — The Chemistry of Fireworks",
+		"title": "Compound Interest—The Chemistry of Fireworks",
 		"url": "https://www.compoundchem.com/2014/07/03/fireworkscolours/",
 		"retrieved": "2026-06-29"
 	},
 	{
 		"id": "schumann-ref",
-		"title": "Schumann resonances — parameters (Wikipedia, after Nickolaenko & Hayakawa)",
+		"title": "Schumann resonances—parameters (Wikipedia, after Nickolaenko & Hayakawa)",
 		"url": "https://en.wikipedia.org/wiki/Schumann_resonances",
 		"retrieved": "2026-06-29"
 	}

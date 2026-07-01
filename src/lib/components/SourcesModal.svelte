@@ -66,8 +66,7 @@
 				<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
 				<a href="https://github.com/wajeemba/emfe" target="_blank" rel="noreferrer noopener"
 					>GitHub</a
-				>
-				— code under
+				>—code under
 				<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
 				<a
 					href="https://www.apache.org/licenses/LICENSE-2.0"
