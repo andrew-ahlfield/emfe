@@ -29,8 +29,8 @@ test('a calling frequency shows as a channel tick on its band, gated by the cont
 	page
 }) => {
 	// Designated frequencies are channel ticks on their host band — zoom onto the 2 m band so its
-	// 146.52 MHz calling tick (amateur purple) reveals.
-	await page.goto('/?z=2500&c=8.167');
+	// 146.52 MHz calling tick (amateur purple) reveals. The amateur layer is off by default.
+	await page.goto('/?z=2500&c=8.167&layers=consumer,amateur');
 	await page.waitForSelector('#explorer');
 	const calling = page.locator('line.ch-tick.calling');
 	await expect.poll(() => calling.count()).toBeGreaterThan(0);

@@ -52,23 +52,23 @@ export function serviceColorVar(c: ServiceCategory): string {
 /** Plain-language explanation of what each service category *is* — surfaced in the band info card. */
 export const SERVICE_GLOSSARY: Record<ServiceCategory, string> = {
 	fixed:
-		'Point-to-point links between two fixed spots — microwave relay towers, studio-to-transmitter links, cellular backhaul. The spectrum’s quiet "plumbing"; rarely something you’d notice, which is why these bands look empty until you know what to look for.',
+		'Point-to-point links between two fixed spots—microwave relay towers, studio-to-transmitter links, cellular backhaul. The spectrum’s quiet "plumbing"; rarely something you’d notice, which is why these bands look empty until you know what to look for.',
 	mobile:
-		'Two-way radio for things that move — land mobile (police, taxis, business handhelds) and the cellular networks your phone rides on.',
-	broadcasting: 'One-to-many transmission to the public — AM/FM radio and broadcast television.',
+		'Two-way radio for things that move—land mobile (police, taxis, business handhelds) and the cellular networks your phone rides on.',
+	broadcasting: 'One-to-many transmission to the public—AM/FM radio and broadcast television.',
 	amateur:
-		'Licensed hobbyist ("ham") radio — experimentation, emergency communications, and worldwide contacts, organised by license class.',
+		'Licensed hobbyist ("ham") radio—experimentation, emergency communications, and worldwide contacts, organised by license class.',
 	aeronautical:
-		'Aviation — air-traffic-control voice plus the navigation aids (VOR, ILS, DME) that keep aircraft separated and on course.',
-	maritime: 'Ships and coast stations — distress, calling, and navigation at sea.',
+		'Aviation—air-traffic-control voice plus the navigation aids (VOR, ILS, DME) that keep aircraft separated and on course.',
+	maritime: 'Ships and coast stations—distress, calling, and navigation at sea.',
 	radionavigation:
-		'Position, navigation and timing — including the satellite systems (GPS, Galileo, GLONASS) behind every map app and precise clock.',
+		'Position, navigation and timing—including the satellite systems (GPS, Galileo, GLONASS) behind every map app and precise clock.',
 	radiolocation:
-		'Radar — finding and ranging objects by their echoes: weather, air-defense, marine, automotive, and speed radar.',
+		'Radar—finding and ranging objects by their echoes: weather, air-defense, marine, automotive, and speed radar.',
 	satellite:
-		'Communications satellites — the up- and down-links behind satellite TV, broadband constellations (Starlink), and satellite phones.',
+		'Communications satellites—the up- and down-links behind satellite TV, broadband constellations (Starlink), and satellite phones.',
 	science:
-		'Passive and scientific use — radio astronomy, Earth- and space-sensing, and the standard time/frequency stations. Often listen-only and fiercely protected from interference.',
+		'Passive and scientific use—radio astronomy, Earth- and space-sensing, and the standard time/frequency stations. Often listen-only and fiercely protected from interference.',
 	other: 'A service that doesn’t fall into the common categories.'
 };
 

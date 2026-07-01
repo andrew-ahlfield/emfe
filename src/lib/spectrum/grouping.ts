@@ -48,7 +48,7 @@ export const FAMILIES: readonly Family[] = [
 		short: 'ELF',
 		name: 'Extremely low frequency',
 		blurb:
-			"The slowest radio waves — from a few hertz up to ~10 kHz. The 50/60 Hz hum of the power grid lives here, alongside the Earth–ionosphere Schumann resonances and the enormous antennas navies use to reach submarines underwater.",
+			'The slowest radio waves—from a few hertz up to ~10 kHz. The 50/60 Hz hum of the power grid lives here, alongside the Earth–ionosphere Schumann resonances and the enormous antennas navies use to reach submarines underwater.',
 		lo: 1,
 		hi: 1e4
 	},
@@ -68,7 +68,7 @@ export const FAMILIES: readonly Family[] = [
 		short: 'MF/HF',
 		name: 'Medium / high frequency',
 		blurb:
-			"AM broadcast (medium wave) and shortwave (high frequency), 0.9–30 MHz. HF bounces off the ionosphere to skip around the planet — which is why shortwave, CB, and amateur 'ham' operators can reach the far side of the world.",
+			"AM broadcast (medium wave) and shortwave (high frequency), 0.9–30 MHz. HF bounces off the ionosphere to skip around the planet—which is why shortwave, CB, and amateur 'ham' operators can reach the far side of the world.",
 		lo: 9e5,
 		hi: 3e7
 	},
@@ -108,7 +108,7 @@ export const FAMILIES: readonly Family[] = [
 		short: 'S-band',
 		name: 'S-band',
 		blurb:
-			'1.7–2.7 GHz. The 2.4 GHz ISM band — Wi-Fi, Bluetooth, microwave ovens, cordless gear — plus a great deal of cellular (3G/4G/5G mid-band) and weather radar.',
+			'1.7–2.7 GHz. The 2.4 GHz ISM band—Wi-Fi, Bluetooth, microwave ovens, cordless gear—plus a great deal of cellular (3G/4G/5G mid-band) and weather radar.',
 		lo: 1.7e9,
 		hi: 2.7e9
 	},
@@ -168,7 +168,7 @@ export const FAMILIES: readonly Family[] = [
 		short: 'Visible',
 		name: 'Visible light',
 		blurb:
-			'The single octave our eyes evolved to see — red through violet. Lasers, LEDs, displays, and the colours of the world. A sliver of the whole spectrum.',
+			'The single octave our eyes evolved to see—red through violet. Lasers, LEDs, displays, and the colours of the world. A sliver of the whole spectrum.',
 		lo: 4e14,
 		hi: 7.9e14
 	},
@@ -198,7 +198,7 @@ export const FAMILIES: readonly Family[] = [
 		short: 'Gamma',
 		name: 'Gamma rays',
 		blurb:
-			'The most energetic light, from nuclear decay and cosmic cataclysms. Cancer radiotherapy, equipment sterilisation, and PET scans. Deeply ionising — the signature of the violent universe.',
+			'The most energetic light, from nuclear decay and cosmic cataclysms. Cancer radiotherapy, equipment sterilisation, and PET scans. Deeply ionising—the signature of the violent universe.',
 		lo: 3e19,
 		hi: 1e24
 	}
@@ -239,7 +239,7 @@ export const REGION_GROUPS: Record<string, Neighbourhood> = {
 		short: 'Radio',
 		name: 'Radio waves',
 		blurb:
-			'The long-wavelength end we broadcast and communicate with — the power-grid hum and submarine signalling up through AM/FM, broadcast television, and aviation, marine and two-way radio. Zoom in for the ELF, VLF/LF, MF/HF and VHF neighbourhoods.',
+			'The long-wavelength end we broadcast and communicate with—the power-grid hum and submarine signalling up through AM/FM, broadcast television, and aviation, marine and two-way radio. Zoom in for the ELF, VLF/LF, MF/HF and VHF neighbourhoods.',
 		lo: 1,
 		hi: 3e8
 	},
@@ -248,14 +248,18 @@ export const REGION_GROUPS: Record<string, Neighbourhood> = {
 		short: 'Microwave',
 		name: 'Microwaves',
 		blurb:
-			'Centimetre-to-millimetre waves that carry most modern wireless: Wi-Fi and Bluetooth, mobile phones, GPS, radar and satellite links — and microwave ovens. Zoom in for the UHF, L-, S-, C-, X/Ku- and K-band neighbourhoods up to EHF.',
+			'Centimetre-to-millimetre waves that carry most modern wireless: Wi-Fi and Bluetooth, mobile phones, GPS, radar and satellite links—and microwave ovens. Zoom in for the UHF, L-, S-, C-, X/Ku- and K-band neighbourhoods up to EHF.',
 		lo: 3e8,
 		hi: 3e11
 	}
 };
 
 /** The umbrella neighbourhood for a region: its dedicated region group, else its sole family. */
-function regionNeighbourhood(region: { id: string; lo: number; hi: number }): Neighbourhood | undefined {
+function regionNeighbourhood(region: {
+	id: string;
+	lo: number;
+	hi: number;
+}): Neighbourhood | undefined {
 	return REGION_GROUPS[region.id] ?? FAMILIES.find((f) => f.lo >= region.lo && f.hi <= region.hi);
 }
 
@@ -506,7 +510,10 @@ export function layoutSpectrum(
 			const cands = familyCandidates(fam, members);
 			if (cands.length === 0) continue;
 			familyCands.push(...cands);
-			coveredPx += Math.max(0, Math.min(xOf(fam.hi), regionVis1) - Math.max(xOf(fam.lo), regionVis0));
+			coveredPx += Math.max(
+				0,
+				Math.min(xOf(fam.hi), regionVis1) - Math.max(xOf(fam.lo), regionVis0)
+			);
 		}
 		const covered = regionVisPx > 0 ? coveredPx / regionVisPx : 0;
 
@@ -551,7 +558,7 @@ export function layoutSpectrum(
 			placed = lane;
 			break;
 		}
-		if (placed === -1) continue; // no room — degrade to a bare dot (label dropped)
+		if (placed === -1) continue; // no room—degrade to a bare dot (label dropped)
 		laneEnds[placed] = x1;
 		const { width: labelWidth, ...item } = c;
 		void labelWidth; // width was only needed for placement

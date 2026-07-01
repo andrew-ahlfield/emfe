@@ -7,7 +7,7 @@
 		"layer": "science",
 		"region": "infrared",
 		"minLod": 3,
-		"note": "780 nm CD laser — the original near-infrared pickup diode that reads CDs (and the light in laser printers and early fibre links). A direct-emission AlGaAs (aluminium gallium arsenide) diode; your eye can't see it, but a phone camera can.",
+		"note": "780 nm CD laser—the original near-infrared pickup diode that reads CDs (and the light in laser printers and early fibre links). A direct-emission AlGaAs (aluminium gallium arsenide) diode; your eye can't see it, but a phone camera can.",
 		"source": "rp-photonics",
 		"emission": "spectral",
 		"optical": "laser"
@@ -20,7 +20,7 @@
 		"layer": "science",
 		"region": "infrared",
 		"minLod": 3,
-		"note": "808 nm pump diode — the invisible AlGaAs workhorse that optically pumps Nd:YAG / Nd:YVO₄ crystals (the first stage inside a green laser pointer) and drives many fibre and medical lasers.",
+		"note": "808 nm pump diode—the invisible AlGaAs workhorse that optically pumps Nd:YAG / Nd:YVO₄ crystals (the first stage inside a green laser pointer) and drives many fibre and medical lasers.",
 		"source": "rp-photonics",
 		"emission": "spectral",
 		"optical": "laser"
@@ -33,7 +33,7 @@
 		"layer": "science",
 		"region": "infrared",
 		"minLod": 3,
-		"note": "1064 nm Nd:YAG / Nd:YVO₄ — the invisible infrared line hiding behind the green laser pointer: frequency-doubling it yields 532 nm. On its own it does industrial marking and medical work (tattoo and hair removal).",
+		"note": "1064 nm Nd:YAG / Nd:YVO₄—the invisible infrared line hiding behind the green laser pointer: frequency-doubling it yields 532 nm. On its own it does industrial marking and medical work (tattoo and hair removal).",
 		"source": "rp-photonics",
 		"emission": "spectral",
 		"optical": "laser"
@@ -46,7 +46,7 @@
 		"layer": "science",
 		"region": "visible",
 		"minLod": 3,
-		"note": "405 nm 'violet' Blu-ray laser — the short wavelength that focuses to a tighter spot, packing far more data onto a disc than DVD's 650 nm. A direct-emission GaN/InGaN diode (the blue-LED family) sitting right at the violet edge of vision, bordering the ultraviolet.",
+		"note": "405 nm 'violet' Blu-ray laser—the short wavelength that focuses to a tighter spot, packing far more data onto a disc than DVD's 650 nm. A direct-emission GaN/InGaN diode (the blue-LED family) sitting right at the violet edge of vision, bordering the ultraviolet.",
 		"source": "rp-photonics",
 		"emission": "spectral",
 		"optical": "laser"
@@ -60,7 +60,7 @@
 		"altLayer": "consumer",
 		"region": "visible",
 		"minLod": 3,
-		"note": "Red LED (~625 nm) — AlGaInP (aluminium gallium indium phosphide); the older, dimmer red was GaAsP. Unlike a laser an LED is incoherent and broad, emitting a ~20 nm spread rather than a single line, so it reads as a band.",
+		"note": "Red LED (~625 nm)—AlGaInP (aluminium gallium indium phosphide); the older, dimmer red was GaAsP. Unlike a laser an LED is incoherent and broad, emitting a ~20 nm spread rather than a single line, so it reads as a band.",
 		"source": "rp-photonics",
 		"emission": "spectral",
 		"optical": "led"
@@ -74,7 +74,7 @@
 		"altLayer": "consumer",
 		"region": "visible",
 		"minLod": 3,
-		"note": "Amber / orange LED (~605 nm) — AlGaInP. The colour of many indicator lamps and older traffic-signal and car turn lights.",
+		"note": "Amber / orange LED (~605 nm)—AlGaInP. The colour of many indicator lamps and older traffic-signal and car turn lights.",
 		"source": "rp-photonics",
 		"emission": "spectral",
 		"optical": "led"
@@ -88,7 +88,7 @@
 		"altLayer": "consumer",
 		"region": "visible",
 		"minLod": 3,
-		"note": "Yellow LED (~590 nm) — AlGaInP (older parts GaAsP/GaP). A narrow gap between this and green is the historically hard 'green–yellow gap' for efficient LEDs.",
+		"note": "Yellow LED (~590 nm)—AlGaInP (older parts GaAsP/GaP). A narrow gap between this and green is the historically hard 'green–yellow gap' for efficient LEDs.",
 		"source": "rp-photonics",
 		"emission": "spectral",
 		"optical": "led"
@@ -102,7 +102,7 @@
 		"altLayer": "consumer",
 		"region": "visible",
 		"minLod": 3,
-		"note": "Green LED (~525 nm) — InGaN (indium gallium nitride), the same nitride family as blue. The older 'yellow-green' LED was GaP at ~565 nm; true green only arrived with nitrides.",
+		"note": "Green LED (~525 nm)—InGaN (indium gallium nitride), the same nitride family as blue. The older 'yellow-green' LED was GaP at ~565 nm; true green only arrived with nitrides.",
 		"source": "rp-photonics",
 		"emission": "spectral",
 		"optical": "led"
@@ -116,7 +116,7 @@
 		"altLayer": "consumer",
 		"region": "visible",
 		"minLod": 3,
-		"note": "Blue LED (~470 nm) — InGaN/GaN. The breakthrough (Akasaki, Amano & Nakamura, 2014 Nobel) that made white LED lighting and full-colour displays possible.",
+		"note": "Blue LED (~470 nm)—InGaN/GaN. The breakthrough (Akasaki, Amano & Nakamura, 2014 Nobel) that made white LED lighting and full-colour displays possible.",
 		"source": "rp-photonics",
 		"emission": "spectral",
 		"optical": "led"
@@ -130,7 +130,7 @@
 		"altLayer": "consumer",
 		"region": "visible",
 		"minLod": 3,
-		"note": "White LED — not a colour at all but a broadband mix: a blue InGaN die (~450 nm) pumping a yellow Ce:YAG phosphor, whose two humps the eye blends into white. That's why it spans most of the visible band rather than sitting at one wavelength, and why cheap ones look harshly blue.",
+		"note": "White LED—not a colour at all but a broadband mix: a blue InGaN die (~450 nm) pumping a yellow Ce:YAG phosphor, whose two humps the eye blends into white. That's why it spans most of the visible band rather than sitting at one wavelength, and why cheap ones look harshly blue.",
 		"source": "rp-photonics",
 		"emission": "white",
 		"optical": "led"
@@ -145,7 +145,7 @@
 		"altLayer": "consumer",
 		"region": "visible",
 		"minLod": 3,
-		"note": "Sodium emission (589 nm) — the orange-yellow you get dropping table salt into a flame, and the near-monochromatic glow of low-pressure sodium street lamps. Almost all the light is the single 589 nm 'D-line' doublet, so every colour washes out to grey-brown under it.",
+		"note": "Sodium emission (589 nm)—the orange-yellow you get dropping table salt into a flame, and the near-monochromatic glow of low-pressure sodium street lamps. Almost all the light is the single 589 nm 'D-line' doublet, so every colour washes out to grey-brown under it.",
 		"source": "nist-asd",
 		"optical": "gas"
 	},
@@ -158,7 +158,7 @@
 		"layer": "science",
 		"region": "visible",
 		"minLod": 3,
-		"note": "The Balmer series of atomic hydrogen in a discharge tube — Hα (656 nm, red), Hβ (486 nm, cyan), Hγ (434 nm) and Hδ (410 nm, violet) — mixing to a pink glow; Hα alone is the deep red of the Sun’s chromosphere and glowing nebulae. (Note: a hydrogen *flame* is nearly invisible, pale blue — the orange of an ordinary fire is incandescent soot, a blackbody, not hydrogen.)",
+		"note": "The Balmer series of atomic hydrogen in a discharge tube—Hα (656 nm, red), Hβ (486 nm, cyan), Hγ (434 nm) and Hδ (410 nm, violet)—mixing to a pink glow; Hα alone is the deep red of the Sun’s chromosphere and glowing nebulae. (Note: a hydrogen *flame* is nearly invisible, pale blue—the orange of an ordinary fire is incandescent soot, a blackbody, not hydrogen.)",
 		"source": "nist-asd",
 		"optical": "gas"
 	},
@@ -172,7 +172,7 @@
 		"altLayer": "consumer",
 		"region": "visible",
 		"minLod": 3,
-		"note": "A real neon sign is just neon gas, whose many emission lines cluster in the orange-red — one unmistakable warm hue (also the glow inside a nixie tube, the retro display whose stacked wire numerals light up neon-orange). Every other \"neon\" colour is a fib: argon, mercury and phosphor coatings doing the work, not neon.",
+		"note": "A real neon sign is just neon gas, whose many emission lines cluster in the orange-red—one unmistakable warm hue (also the glow inside a nixie tube, the retro display whose stacked wire numerals light up neon-orange). Every other \"neon\" colour is a fib: argon, mercury and phosphor coatings doing the work, not neon.",
 		"source": "nist-asd",
 		"optical": "gas"
 	},
@@ -186,7 +186,7 @@
 		"altLayer": "consumer",
 		"region": "visible",
 		"minLod": 3,
-		"note": "The mercury-vapour lines inside fluorescent tubes and old high-bay lamps — blue (436 nm), green (546 nm) and yellow (578 nm). A strong invisible 254 nm UV line does the real work, exciting the tube's white phosphor; the spiky visible lines are why fluorescent light mangles photo colour.",
+		"note": "The mercury-vapour lines inside fluorescent tubes and old high-bay lamps—blue (436 nm), green (546 nm) and yellow (578 nm). A strong invisible 254 nm UV line does the real work, exciting the tube's white phosphor; the spiky visible lines are why fluorescent light mangles photo colour.",
 		"source": "nist-asd",
 		"optical": "gas"
 	},
@@ -199,7 +199,7 @@
 		"layer": "science",
 		"region": "visible",
 		"minLod": 3,
-		"note": "A clean gas flame glows blue-green not from heat but from excited molecular fragments — CH radicals near 431 nm and the C₂ 'Swan bands' (~474 & 516 nm). A sooty candle is the opposite: orange incandescent carbon, a smooth blackbody with no sharp lines.",
+		"note": "A clean gas flame glows blue-green not from heat but from excited molecular fragments—CH radicals near 431 nm and the C₂ 'Swan bands' (~474 & 516 nm). A sooty candle is the opposite: orange incandescent carbon, a smooth blackbody with no sharp lines.",
 		"source": "nist-asd",
 		"optical": "gas"
 	},
@@ -217,7 +217,7 @@
 		"region": "visible",
 		"optical": "gas",
 		"minLod": 3,
-		"note": "Helium discharge — a soft pinkish-peach glow. Its bright yellow 587.6 nm 'D3' line is how helium was first found, in the Sun's spectrum in 1868, decades before it was isolated on Earth.",
+		"note": "Helium discharge—a soft pinkish-peach glow. Its bright yellow 587.6 nm 'D3' line is how helium was first found, in the Sun's spectrum in 1868, decades before it was isolated on Earth.",
 		"source": "nist-asd"
 	},
 	{
@@ -234,7 +234,7 @@
 		"region": "visible",
 		"optical": "gas",
 		"minLod": 3,
-		"note": "Argon discharge — a pale lilac/violet glow from a forest of deep-red and near-infrared lines plus a little blue. The cheap inert gas behind the blue and violet tubes in 'neon' signage.",
+		"note": "Argon discharge—a pale lilac/violet glow from a forest of deep-red and near-infrared lines plus a little blue. The cheap inert gas behind the blue and violet tubes in 'neon' signage.",
 		"source": "nist-asd"
 	},
 	{
@@ -251,7 +251,7 @@
 		"region": "visible",
 		"optical": "gas",
 		"minLod": 3,
-		"note": "Krypton discharge — a pale grey-green glow. Its orange 605.8 nm line even defined the metre from 1960–1983; krypton also fills some premium incandescent and high-speed flash lamps.",
+		"note": "Krypton discharge—a pale grey-green glow. Its orange 605.8 nm line even defined the metre from 1960–1983; krypton also fills some premium incandescent and high-speed flash lamps.",
 		"source": "nist-asd"
 	},
 	{
@@ -268,7 +268,7 @@
 		"region": "visible",
 		"optical": "gas",
 		"minLod": 3,
-		"note": "Xenon discharge — a crisp blue-white. A xenon flashtube is the daylight-balanced pop of a camera flash and old cinema lamps; arc versions light car HID headlights and IMAX projectors.",
+		"note": "Xenon discharge—a crisp blue-white. A xenon flashtube is the daylight-balanced pop of a camera flash and old cinema lamps; arc versions light car HID headlights and IMAX projectors.",
 		"source": "nist-asd"
 	},
 	{
@@ -282,7 +282,7 @@
 		"optical": "gas",
 		"emission": "spectral",
 		"minLod": 3,
-		"note": "Campfire ember / hot coal — incandescence, not a chemical glow: a ~1000–1300 K blackbody whose smooth spectrum peaks deep in the infrared, with only its red-orange tail spilling into vision. Heat it more and the colour climbs red → orange → yellow → white ('red hot' to 'white hot').",
+		"note": "Campfire ember / hot coal—incandescence, not a chemical glow: a ~1000–1300 K blackbody whose smooth spectrum peaks deep in the infrared, with only its red-orange tail spilling into vision. Heat it more and the colour climbs red → orange → yellow → white ('red hot' to 'white hot').",
 		"source": "nasa-ems"
 	},
 	{
@@ -296,7 +296,7 @@
 		"optical": "fireworks",
 		"emission": "spectral",
 		"minLod": 3,
-		"note": "Firework red — strontium salts (the SrCl molecular band emitter, ~605–682 nm), usually strontium carbonate. Deep and saturated. Blend it with copper blue and the eye fuses the two into purple — there is no single-element purple emitter.",
+		"note": "Firework red—strontium salts (the SrCl molecular band emitter, ~605–682 nm), usually strontium carbonate. Deep and saturated. Blend it with copper blue and the eye fuses the two into purple—there is no single-element purple emitter.",
 		"source": "fireworks-chem"
 	},
 	{
@@ -310,7 +310,7 @@
 		"optical": "fireworks",
 		"emission": "spectral",
 		"minLod": 3,
-		"note": "Firework orange — calcium salts (CaCl, ~591–635 nm).",
+		"note": "Firework orange—calcium salts (CaCl, ~591–635 nm).",
 		"source": "fireworks-chem"
 	},
 	{
@@ -324,7 +324,7 @@
 		"optical": "fireworks",
 		"emission": "spectral",
 		"minLod": 3,
-		"note": "Firework gold/yellow — sodium's 589 nm D-line. So intense it can swamp other colours, so it's used on purpose for gold and avoided elsewhere.",
+		"note": "Firework gold/yellow—sodium's 589 nm D-line. So intense it can swamp other colours, so it's used on purpose for gold and avoided elsewhere.",
 		"source": "fireworks-chem"
 	},
 	{
@@ -338,7 +338,7 @@
 		"optical": "fireworks",
 		"emission": "spectral",
 		"minLod": 3,
-		"note": "Firework green — barium salts (BaCl, ~505–535 nm).",
+		"note": "Firework green—barium salts (BaCl, ~505–535 nm).",
 		"source": "fireworks-chem"
 	},
 	{
@@ -352,7 +352,7 @@
 		"optical": "fireworks",
 		"emission": "spectral",
 		"minLod": 3,
-		"note": "Firework blue — copper salts (the CuCl band emitter, ~420–465 nm). The hardest colour: copper only emits clean blue in a narrow, fairly cool temperature window, so a deep blue marks a skilled pyrotechnician. Mixed with strontium red it makes purple.",
+		"note": "Firework blue—copper salts (the CuCl band emitter, ~420–465 nm). The hardest colour: copper only emits clean blue in a narrow, fairly cool temperature window, so a deep blue marks a skilled pyrotechnician. Mixed with strontium red it makes purple.",
 		"source": "fireworks-chem"
 	},
 	{
@@ -366,7 +366,7 @@
 		"optical": "fireworks",
 		"emission": "white",
 		"minLod": 3,
-		"note": "Firework white / silver — burning metals (magnesium, aluminium, titanium) incandesce a brilliant broadband white: the bright sparks, strobes and glitter rather than a hue.",
+		"note": "Firework white / silver—burning metals (magnesium, aluminium, titanium) incandesce a brilliant broadband white: the bright sparks, strobes and glitter rather than a hue.",
 		"source": "fireworks-chem"
 	},
 	{
@@ -380,7 +380,7 @@
 		"region": "visible",
 		"optical": "fireworks",
 		"minLod": 3,
-		"note": "Potassium — not a firework colour but core firework chemistry: potassium nitrate (saltpetre) and potassium perchlorate are the oxidisers that make black powder and the burning stars go. Its own flame emission is a faint lilac — a violet 404 nm line plus a strong but near-invisible deep-red 766/770 nm doublet — usually drowned out by the bright colourants and by any trace of sodium.",
+		"note": "Potassium—not a firework colour but core firework chemistry: potassium nitrate (saltpetre) and potassium perchlorate are the oxidisers that make black powder and the burning stars go. Its own flame emission is a faint lilac—a violet 404 nm line plus a strong but near-invisible deep-red 766/770 nm doublet—usually drowned out by the bright colourants and by any trace of sodium.",
 		"source": "nist-asd"
 	}
 ]

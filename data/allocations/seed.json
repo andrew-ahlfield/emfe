@@ -7,7 +7,7 @@
 		"layer": "science",
 		"region": "radio",
 		"minLod": 1,
-		"note": "The Earth–ionosphere cavity ringing near 7.83 Hz — the planet's natural EM heartbeat, struck by lightning some 50 times a second. It's a resonance, not a quantum: a fundamental plus overtones (≈14.3, 20.8, 27.3, 33.8 Hz), each a broad bump (low Q ≈ 4–6, so a couple of Hz wide and widening with mode number) that drifts with the day/night ionosphere. The magnetic field is tiny — about a picotesla, strongest at the fundamental and falling off up the series — nothing like the sharp, fixed lines of atomic emission.",
+		"note": "The Earth–ionosphere cavity ringing near 7.83 Hz—the planet's natural EM heartbeat, struck by lightning some 50 times a second. It's a resonance, not a quantum: a fundamental plus overtones (≈14.3, 20.8, 27.3, 33.8 Hz), each a broad bump (low Q ≈ 4–6, so a couple of Hz wide and widening with mode number) that drifts with the day/night ionosphere. The magnetic field is tiny—about a picotesla, strongest at the fundamental and falling off up the series—nothing like the sharp, fixed lines of atomic emission.",
 		"source": "schumann-ref"
 	},
 	{
@@ -18,7 +18,7 @@
 		"layer": "consumer",
 		"region": "radio",
 		"minLod": 1,
-		"note": "Power-line hum — the 60 Hz that runs North America (50 Hz across much of the world). The grid is held to ≈±0.05 Hz under normal conditions, wandering within that window minute to minute.",
+		"note": "Power-line hum—the 60 Hz that runs North America (50 Hz across much of the world). The grid is held to ≈±0.05 Hz under normal conditions, wandering within that window minute to minute.",
 		"source": "nasa-ems"
 	},
 	{
@@ -29,7 +29,7 @@
 		"layer": "gov",
 		"region": "radio",
 		"minLod": 2,
-		"note": "US Navy ELF — 76 Hz signalling (now retired) that penetrated seawater to reach deeply submerged submarines. The catch is speed: a few characters per *minute*, so it could never carry a real message. It was a 'bell ringer' — a short coded alert telling a sub to come to periscope depth and receive full orders over the faster VLF link.",
+		"note": "US Navy ELF—76 Hz signalling (now retired) that penetrated seawater to reach deeply submerged submarines. The catch is speed: a few characters per *minute*, so it could never carry a real message. It was a 'bell ringer'—a short coded alert telling a sub to come to periscope depth and receive full orders over the faster VLF link.",
 		"source": "nasa-ems"
 	},
 	{
@@ -40,7 +40,7 @@
 		"layer": "gov",
 		"region": "radio",
 		"minLod": 2,
-		"note": "Very low frequency (24 kHz) — global time/sync broadcasts that penetrate seawater to subs.",
+		"note": "Very low frequency (24 kHz)—global time/sync broadcasts that penetrate seawater to subs.",
 		"source": "itu-rr"
 	},
 	{
@@ -51,7 +51,7 @@
 		"layer": "consumer",
 		"region": "radio",
 		"minLod": 2,
-		"note": "WWVB 60 kHz time code — what 'atomic' wall clocks quietly sync to overnight. The carrier itself is exact (locked to NIST's atomic clocks); the time code crawls out at 1 bit per second by dipping the carrier and flipping its phase, so the whole signal occupies only a couple of Hz.",
+		"note": "WWVB 60 kHz time code—what 'atomic' wall clocks quietly sync to overnight. The carrier itself is exact (locked to NIST's atomic clocks); the time code crawls out at 1 bit per second by dipping the carrier and flipping its phase, so the whole signal occupies only a couple of Hz.",
 		"source": "fcc-tofa"
 	},
 	{
@@ -62,7 +62,7 @@
 		"layer": "consumer",
 		"region": "radio",
 		"minLod": 3,
-		"note": "Low-frequency RFID (125 kHz) — animal microchips, access fobs, immobilisers.",
+		"note": "Low-frequency RFID (125 kHz)—animal microchips, access fobs, immobilisers.",
 		"source": "fcc-tofa"
 	},
 	{
@@ -74,7 +74,7 @@
 		"region": "radio",
 		"minLod": 3,
 		"reqLicense": "technician",
-		"note": "2200 m — LF experimental; 1 W EIRP (effective radiated power), CW (Morse) and narrowband digital only.",
+		"note": "2200 m—LF experimental; 1 W EIRP (effective radiated power), CW (Morse) and narrowband digital only.",
 		"source": "fcc-part97"
 	},
 	{
@@ -85,7 +85,7 @@
 		"layer": "consumer",
 		"region": "radio",
 		"minLod": 3,
-		"note": "Longwave broadcast (153–279 kHz) — continent-spanning AM heard across Europe & Asia.",
+		"note": "Longwave broadcast (153–279 kHz)—continent-spanning AM heard across Europe & Asia.",
 		"source": "itu-rr"
 	},
 	{
@@ -96,7 +96,7 @@
 		"layer": "navigation",
 		"region": "radio",
 		"minLod": 2,
-		"note": "Non-directional beacons (LF) — among the oldest radio navaids still in service.",
+		"note": "Non-directional beacons (LF)—among the oldest radio navaids still in service.",
 		"source": "fcc-tofa"
 	},
 	{
@@ -108,7 +108,7 @@
 		"region": "radio",
 		"minLod": 3,
 		"reqLicense": "technician",
-		"note": "630 m — MF band shared with maritime; 5 W EIRP.",
+		"note": "630 m—MF band shared with maritime; 5 W EIRP.",
 		"source": "fcc-part97"
 	},
 	{
@@ -119,7 +119,7 @@
 		"layer": "navigation",
 		"region": "radio",
 		"minLod": 3,
-		"note": "NAVTEX — maritime safety, weather & navigation warnings to ships (518 kHz).",
+		"note": "NAVTEX—maritime safety, weather & navigation warnings to ships (518 kHz).",
 		"source": "fcc-tofa"
 	},
 	{
@@ -141,7 +141,7 @@
 		"layer": "consumer",
 		"region": "radio",
 		"minLod": 3,
-		"note": "The AM expanded band (1610–1700 kHz) — ten channels added across the Americas in 1990 to decongest the dial. Home to relocated stations, low-power and niche broadcasters, and Travelers' Information Stations (co-primary on 1610 kHz; TIS also use 530 kHz at the bottom edge).",
+		"note": "The AM expanded band (1610–1700 kHz)—ten channels added across the Americas in 1990 to decongest the dial. Home to relocated stations, low-power and niche broadcasters, and Travelers' Information Stations (co-primary on 1610 kHz; TIS also use 530 kHz at the bottom edge).",
 		"source": "fcc-tofa"
 	},
 	{
@@ -153,7 +153,7 @@
 		"region": "radio",
 		"minLod": 2,
 		"reqLicense": "general",
-		"note": "160 m 'Top Band' — night-time DX (long-distance contacts); General and up, all modes.",
+		"note": "160 m 'Top Band'—night-time DX (long-distance contacts); General and up, all modes.",
 		"source": "fcc-part97"
 	},
 	{
@@ -164,7 +164,7 @@
 		"layer": "navigation",
 		"region": "radio",
 		"minLod": 3,
-		"note": "The 2 MHz marine MF band — single-sideband ship-to-shore plus the GMDSS distress channels: 2182 kHz (voice distress & calling) and 2187.5 kHz (digital selective calling). Still allocated and used worldwide, though the US Coast Guard ended its 2182 kHz radio watch in 2013 in favour of VHF Ch 16 and satellite.",
+		"note": "The 2 MHz marine MF band—single-sideband ship-to-shore plus the GMDSS distress channels: 2182 kHz (voice distress & calling) and 2187.5 kHz (digital selective calling). Still allocated and used worldwide, though the US Coast Guard ended its 2182 kHz radio watch in 2013 in favour of VHF Ch 16 and satellite.",
 		"source": "fcc-tofa"
 	},
 	{
@@ -176,7 +176,7 @@
 		"region": "radio",
 		"minLod": 2,
 		"reqLicense": "technician",
-		"note": "80/75 m — Technician CW (Morse) window, voice for General and up; classic nighttime band.",
+		"note": "80/75 m—Technician CW (Morse) window, voice for General and up; classic nighttime band.",
 		"source": "fcc-part97"
 	},
 	{
@@ -188,7 +188,7 @@
 		"region": "radio",
 		"minLod": 3,
 		"reqLicense": "general",
-		"note": "60 m — five fixed USB channels; 100 W ERP, General and up.",
+		"note": "60 m—five fixed USB channels; 100 W ERP, General and up.",
 		"source": "fcc-part97"
 	},
 	{
@@ -199,7 +199,7 @@
 		"layer": "consumer",
 		"region": "radio",
 		"minLod": 3,
-		"note": "Shortwave broadcast 49 m band — international radio that skips around the globe at night.",
+		"note": "Shortwave broadcast 49 m band—international radio that skips around the globe at night.",
 		"source": "itu-rr"
 	},
 	{
@@ -211,7 +211,7 @@
 		"region": "radio",
 		"minLod": 2,
 		"reqLicense": "technician",
-		"note": "40 m — reliable day and night; Technician CW (Morse), voice for General and up.",
+		"note": "40 m—reliable day and night; Technician CW (Morse), voice for General and up.",
 		"source": "fcc-part97"
 	},
 	{
@@ -222,7 +222,7 @@
 		"layer": "science",
 		"region": "radio",
 		"minLod": 3,
-		"note": "NIST WWV at 2.5 MHz — the lowest of WWV's five simultaneous shortwave time carriers (2.5/5/10/15/20 MHz). Lower frequencies carry best at night and over short ranges. Each sends seconds ticks, spoken UTC, and a 100 Hz BCD (binary-coded-decimal) time code.",
+		"note": "NIST WWV at 2.5 MHz—the lowest of WWV's five simultaneous shortwave time carriers (2.5/5/10/15/20 MHz). Lower frequencies carry best at night and over short ranges. Each sends seconds ticks, spoken UTC, and a 100 Hz BCD (binary-coded-decimal) time code.",
 		"source": "fcc-tofa"
 	},
 	{
@@ -233,7 +233,7 @@
 		"layer": "science",
 		"region": "radio",
 		"minLod": 3,
-		"note": "NIST WWV at 5 MHz — one of five simultaneous WWV shortwave time carriers (2.5/5/10/15/20 MHz); a reliable all-rounder day and night over medium range.",
+		"note": "NIST WWV at 5 MHz—one of five simultaneous WWV shortwave time carriers (2.5/5/10/15/20 MHz); a reliable all-rounder day and night over medium range.",
 		"source": "fcc-tofa"
 	},
 	{
@@ -244,7 +244,7 @@
 		"layer": "science",
 		"region": "radio",
 		"minLod": 2,
-		"note": "NIST WWV at 10 MHz — the workhorse carrier of WWV's five simultaneous shortwave time signals (2.5/5/10/15/20 MHz), usable around the clock. Carries seconds ticks, spoken UTC, and a 100 Hz BCD time code locked to NIST's atomic clocks.",
+		"note": "NIST WWV at 10 MHz—the workhorse carrier of WWV's five simultaneous shortwave time signals (2.5/5/10/15/20 MHz), usable around the clock. Carries seconds ticks, spoken UTC, and a 100 Hz BCD time code locked to NIST's atomic clocks.",
 		"source": "fcc-tofa"
 	},
 	{
@@ -255,7 +255,7 @@
 		"layer": "science",
 		"region": "radio",
 		"minLod": 3,
-		"note": "NIST WWV at 15 MHz — one of five simultaneous WWV shortwave time carriers (2.5/5/10/15/20 MHz); higher frequencies reach farther in daylight.",
+		"note": "NIST WWV at 15 MHz—one of five simultaneous WWV shortwave time carriers (2.5/5/10/15/20 MHz); higher frequencies reach farther in daylight.",
 		"source": "fcc-tofa"
 	},
 	{
@@ -266,7 +266,7 @@
 		"layer": "science",
 		"region": "radio",
 		"minLod": 3,
-		"note": "NIST WWV at 20 MHz — the highest of WWV's five simultaneous shortwave time carriers (2.5/5/10/15/20 MHz); best for long daytime paths near the solar peak.",
+		"note": "NIST WWV at 20 MHz—the highest of WWV's five simultaneous shortwave time carriers (2.5/5/10/15/20 MHz); best for long daytime paths near the solar peak.",
 		"source": "fcc-tofa"
 	},
 	{
@@ -278,7 +278,7 @@
 		"region": "radio",
 		"minLod": 3,
 		"reqLicense": "general",
-		"note": "30 m WARC (World Administrative Radio Conference) band — contesting discouraged; CW (Morse) and data only; 200 W PEP (peak envelope power), no voice.",
+		"note": "30 m WARC (World Administrative Radio Conference) band—contesting discouraged; CW (Morse) and data only; 200 W PEP (peak envelope power), no voice.",
 		"source": "fcc-part97"
 	},
 	{
@@ -289,7 +289,7 @@
 		"layer": "consumer",
 		"region": "radio",
 		"minLod": 2,
-		"note": "NFC & HF RFID (13.56 MHz ISM) — tap-to-pay, transit cards, smart labels.",
+		"note": "NFC & HF RFID (13.56 MHz ISM)—tap-to-pay, transit cards, smart labels.",
 		"source": "fcc-tofa"
 	},
 	{
@@ -313,7 +313,7 @@
 		"region": "radio",
 		"minLod": 3,
 		"reqLicense": "general",
-		"note": "17 m WARC (World Administrative Radio Conference) band — CW (Morse)/data plus voice for General and up; smooth DX (long-distance) band.",
+		"note": "17 m WARC (World Administrative Radio Conference) band—CW (Morse)/data plus voice for General and up; smooth DX (long-distance) band.",
 		"source": "fcc-part97"
 	},
 	{
@@ -325,7 +325,7 @@
 		"region": "radio",
 		"minLod": 2,
 		"reqLicense": "technician",
-		"note": "15 m — daytime DX in solar max; Technician CW (Morse), voice for General and up.",
+		"note": "15 m—daytime DX in solar max; Technician CW (Morse), voice for General and up.",
 		"source": "fcc-part97"
 	},
 	{
@@ -337,7 +337,7 @@
 		"region": "radio",
 		"minLod": 3,
 		"reqLicense": "general",
-		"note": "12 m WARC (World Administrative Radio Conference) band — CW (Morse)/data plus voice; opens near the solar peak.",
+		"note": "12 m WARC (World Administrative Radio Conference) band—CW (Morse)/data plus voice; opens near the solar peak.",
 		"source": "fcc-part97"
 	},
 	{
@@ -350,7 +350,7 @@
 		"region": "radio",
 		"minLod": 2,
 		"reqLicense": "unlicensed",
-		"note": "Citizens Band — license-free voice, 40 channels, 4 W. Channel 9 (27.065 MHz) is reserved nationwide for emergencies and traveller assistance — the red tick when you zoom in.",
+		"note": "Citizens Band—license-free voice, 40 channels, 4 W. Channel 9 (27.065 MHz) is reserved nationwide for emergencies and traveller assistance—the red tick when you zoom in.",
 		"source": "fcc-part97"
 	},
 	{
@@ -362,7 +362,7 @@
 		"region": "radio",
 		"minLod": 2,
 		"reqLicense": "technician",
-		"note": "10 m — Technician voice at 28.3–28.5 MHz; spectacular in solar max.",
+		"note": "10 m—Technician voice at 28.3–28.5 MHz; spectacular in solar max.",
 		"source": "fcc-part97"
 	},
 	{
@@ -374,7 +374,7 @@
 		"region": "radio",
 		"minLod": 2,
 		"reqLicense": "technician",
-		"note": "6 m 'Magic Band' — sporadic-E surprises; all modes for Technician and up. The marked tick at 52.525 MHz is the national FM simplex calling frequency, the first place to listen when the band opens up.",
+		"note": "6 m 'Magic Band'—sporadic-E surprises; all modes for Technician and up. The marked tick at 52.525 MHz is the national FM simplex calling frequency, the first place to listen when the band opens up.",
 		"source": "fcc-part97"
 	},
 	{
@@ -388,7 +388,7 @@
 		"note": "The RF pulse that flips proton spins in an MRI scanner. Its frequency is the Larmor frequency, set by the magnet's field: ≈8.5 MHz at 0.2 T, 64 MHz at 1.5 T, 128 MHz at 3 T (research 7 T scanners reach ~298 MHz). Any single scan's own bandwidth is just a few kHz.",
 		"source": "nasa-ems",
 		"extraSource": {
-			"title": "Wikipedia — Physics of MRI (Larmor frequency)",
+			"title": "Wikipedia—Physics of MRI (Larmor frequency)",
 			"url": "https://en.wikipedia.org/wiki/Physics_of_magnetic_resonance_imaging"
 		}
 	},
@@ -400,7 +400,7 @@
 		"layer": "consumer",
 		"region": "radio",
 		"minLod": 3,
-		"note": "Low-VHF television — channels 2–6 (54–88 MHz). Sits just below the FM band; the two don't overlap.",
+		"note": "Low-VHF television—channels 2–6 (54–88 MHz). Sits just below the FM band; the two don't overlap.",
 		"source": "fcc-tofa"
 	},
 	{
@@ -422,7 +422,7 @@
 		"layer": "navigation",
 		"region": "radio",
 		"minLod": 3,
-		"note": "VOR & ILS — aircraft course beacons (108–118 MHz).",
+		"note": "VOR & ILS—aircraft course beacons (108–118 MHz).",
 		"source": "fcc-tofa"
 	},
 	{
@@ -433,7 +433,7 @@
 		"layer": "navigation",
 		"region": "radio",
 		"minLod": 2,
-		"note": "VHF airband — air-traffic-control voice, 118–137 MHz AM. The red tick at 121.5 MHz is 'guard', the international aeronautical emergency frequency, monitored by ATC and aircraft worldwide.",
+		"note": "VHF airband—air-traffic-control voice, 118–137 MHz AM. The red tick at 121.5 MHz is 'guard', the international aeronautical emergency frequency, monitored by ATC and aircraft worldwide.",
 		"source": "fcc-tofa"
 	},
 	{
@@ -444,7 +444,7 @@
 		"layer": "gov",
 		"region": "radio",
 		"minLod": 3,
-		"note": "Polar weather-satellite image downlink (137 MHz APT) — receivable with a simple antenna.",
+		"note": "Polar weather-satellite image downlink (137 MHz APT)—receivable with a simple antenna.",
 		"source": "fcc-tofa"
 	},
 	{
@@ -456,7 +456,7 @@
 		"region": "radio",
 		"minLod": 3,
 		"reqLicense": "technician",
-		"note": "Local repeater / simplex band, Technician class and up. The marked tick at 146.52 MHz is the national FM simplex calling frequency — where hams meet before moving off-channel.",
+		"note": "Local repeater / simplex band, Technician class and up. The marked tick at 146.52 MHz is the national FM simplex calling frequency—where hams meet before moving off-channel.",
 		"source": "fcc-part97"
 	},
 	{
@@ -472,7 +472,7 @@
 		"region": "radio",
 		"minLod": 3,
 		"reqLicense": "unlicensed",
-		"note": "Multi-Use Radio Service — five license-free VHF channels, 2 W: three at 151.82–151.94 MHz and two at 154.57–154.60 MHz. The ~2.6 MHz between them is other VHF land-mobile, not MURS. Like FRS but lower in frequency, with better outdoor range.",
+		"note": "Multi-Use Radio Service—five license-free VHF channels, 2 W: three at 151.82–151.94 MHz and two at 154.57–154.60 MHz. The ~2.6 MHz between them is other VHF land-mobile, not MURS. Like FRS but lower in frequency, with better outdoor range.",
 		"source": "fcc-part97"
 	},
 	{
@@ -483,7 +483,7 @@
 		"layer": "gov",
 		"region": "radio",
 		"minLod": 3,
-		"note": "VHF business & public-safety two-way radio — the licensed land-mobile pool (utilities, security, local government, transport) that fills the VHF high band, interleaved with MURS and ending right where the marine band begins at 156 MHz.",
+		"note": "VHF business & public-safety two-way radio—the licensed land-mobile pool (utilities, security, local government, transport) that fills the VHF high band, interleaved with MURS and ending right where the marine band begins at 156 MHz.",
 		"source": "fcc-tofa"
 	},
 	{
@@ -498,7 +498,7 @@
 		"layer": "navigation",
 		"region": "radio",
 		"minLod": 3,
-		"note": "Marine VHF — ship-to-ship & coast-guard; channel 16 (156.8 MHz) is the distress call. The channels you tune sit at the bottom (156–157.45 MHz, the ship-transmit side). The duplex channels (mostly 24–28, 84–88) also have a coast-station transmit frequency 4.6 MHz higher, at 161.55–162.05 MHz — that's the upper cluster. The ~4 MHz between isn't empty: it's packed with private land-mobile, the AAR railroad road-channels, and studio-to-transmitter broadcast links — VHF is too valuable to waste.",
+		"note": "Marine VHF—ship-to-ship & coast-guard; channel 16 (156.8 MHz) is the distress call. The channels you tune sit at the bottom (156–157.45 MHz, the ship-transmit side). The duplex channels (mostly 24–28, 84–88) also have a coast-station transmit frequency 4.6 MHz higher, at 161.55–162.05 MHz—that's the upper cluster. The ~4 MHz between isn't empty: it's packed with private land-mobile, the AAR railroad road-channels, and studio-to-transmitter broadcast links—VHF is too valuable to waste.",
 		"source": "fcc-tofa"
 	},
 	{
@@ -509,7 +509,7 @@
 		"layer": "gov",
 		"region": "radio",
 		"minLod": 3,
-		"note": "AAR railroad VHF — 97 'road channels' (160.215–161.565 MHz) used across North America for train crews, dispatchers, and end-of-train telemetry. Sits in what looks like a gap in the marine band; it isn't.",
+		"note": "AAR railroad VHF—97 'road channels' (160.215–161.565 MHz) used across North America for train crews, dispatchers, and end-of-train telemetry. Sits in what looks like a gap in the marine band; it isn't.",
 		"source": "fcc-tofa"
 	},
 	{
@@ -520,7 +520,7 @@
 		"layer": "navigation",
 		"region": "radio",
 		"minLod": 3,
-		"note": "AIS — automatic ship-position beacons (161.975 / 162.025 MHz).",
+		"note": "AIS—automatic ship-position beacons (161.975 / 162.025 MHz).",
 		"source": "fcc-tofa"
 	},
 	{
@@ -531,7 +531,7 @@
 		"layer": "gov",
 		"region": "radio",
 		"minLod": 3,
-		"note": "NOAA Weather Radio — continuous forecasts & alerts, 162.40–162.55 MHz.",
+		"note": "NOAA Weather Radio—continuous forecasts & alerts, 162.40–162.55 MHz.",
 		"source": "fcc-tofa"
 	},
 	{
@@ -542,7 +542,7 @@
 		"layer": "gov",
 		"region": "radio",
 		"minLod": 3,
-		"note": "VHF 'high band' land mobile (162.55–174 MHz) — federal agencies plus business and industrial two-way radio: forestry, utilities, federal law enforcement. Densely packed, filling the gap up to VHF-TV high band.",
+		"note": "VHF 'high band' land mobile (162.55–174 MHz)—federal agencies plus business and industrial two-way radio: forestry, utilities, federal law enforcement. Densely packed, filling the gap up to VHF-TV high band.",
 		"source": "fcc-tofa"
 	},
 	{
@@ -553,7 +553,7 @@
 		"layer": "consumer",
 		"region": "radio",
 		"minLod": 3,
-		"note": "High-VHF television — channels 7–13 (174–216 MHz). The gap below it (108–174 MHz) holds FM, airband and VHF land-mobile, so VHF TV never overlaps FM.",
+		"note": "High-VHF television—channels 7–13 (174–216 MHz). The gap below it (108–174 MHz) holds FM, airband and VHF land-mobile, so VHF TV never overlaps FM.",
 		"source": "fcc-tofa"
 	},
 	{
@@ -565,7 +565,7 @@
 		"region": "radio",
 		"minLod": 3,
 		"reqLicense": "technician",
-		"note": "1.25 m (222 MHz) — FM repeaters and weak-signal work, all modes. The marked tick at 223.5 MHz is the national FM simplex calling frequency.",
+		"note": "1.25 m (222 MHz)—FM repeaters and weak-signal work, all modes. The marked tick at 223.5 MHz is the national FM simplex calling frequency.",
 		"source": "fcc-part97"
 	},
 	{
@@ -576,7 +576,7 @@
 		"layer": "consumer",
 		"region": "microwave",
 		"minLod": 3,
-		"note": "Car key fobs & garage remotes (US) — 315 MHz ISM.",
+		"note": "Car key fobs & garage remotes (US)—315 MHz ISM.",
 		"source": "fcc-tofa"
 	},
 	{
@@ -587,7 +587,7 @@
 		"layer": "gov",
 		"region": "microwave",
 		"minLod": 3,
-		"note": "Military UHF aircraft & satellite comms, 225–400 MHz. The red tick at 243.0 MHz is the military emergency ('guard') frequency — the NATO counterpart to civil 121.5.",
+		"note": "Military UHF aircraft & satellite comms, 225–400 MHz. The red tick at 243.0 MHz is the military emergency ('guard') frequency—the NATO counterpart to civil 121.5.",
 		"source": "fcc-tofa"
 	},
 	{
@@ -598,7 +598,7 @@
 		"layer": "gov",
 		"region": "microwave",
 		"minLod": 3,
-		"note": "Radiosondes — weather-balloon telemetry at 403 MHz (meteorological aids).",
+		"note": "Radiosondes—weather-balloon telemetry at 403 MHz (meteorological aids).",
 		"source": "fcc-tofa"
 	},
 	{
@@ -609,7 +609,7 @@
 		"layer": "navigation",
 		"region": "microwave",
 		"minLod": 3,
-		"note": "EPIRB / PLB distress beacons — 406 MHz, relayed by Cospas-Sarsat search-and-rescue sats.",
+		"note": "EPIRB / PLB distress beacons—406 MHz, relayed by Cospas-Sarsat search-and-rescue sats.",
 		"source": "fcc-tofa"
 	},
 	{
@@ -620,7 +620,7 @@
 		"layer": "consumer",
 		"region": "microwave",
 		"minLod": 3,
-		"note": "433 MHz ISM — car fobs (EU), weather stations, remote switches, LPD radios.",
+		"note": "433 MHz ISM—car fobs (EU), weather stations, remote switches, LPD radios.",
 		"source": "fcc-tofa"
 	},
 	{
@@ -632,7 +632,7 @@
 		"region": "microwave",
 		"minLod": 2,
 		"reqLicense": "technician",
-		"note": "70 cm (440 MHz) — repeaters, satellites, and fast-scan TV. The marked tick at 446.0 MHz is the national FM simplex calling frequency.",
+		"note": "70 cm (440 MHz)—repeaters, satellites, and fast-scan TV. The marked tick at 446.0 MHz is the national FM simplex calling frequency.",
 		"source": "fcc-part97"
 	},
 	{
@@ -643,7 +643,7 @@
 		"layer": "gov",
 		"region": "microwave",
 		"minLod": 3,
-		"note": "UHF business & public-safety two-way radio (450–470 MHz) — the licensed land-mobile pool (utilities, security, taxis, local government) that fills the gap between the walkie-talkie channel groups.",
+		"note": "UHF business & public-safety two-way radio (450–470 MHz)—the licensed land-mobile pool (utilities, security, taxis, local government) that fills the gap between the walkie-talkie channel groups.",
 		"source": "fcc-tofa"
 	},
 	{
@@ -660,7 +660,7 @@
 		"region": "radio",
 		"minLod": 3,
 		"reqLicense": "unlicensed",
-		"note": "FRS & GMRS bubble-pack walkie-talkies — two channel groups, at 462 MHz (channels 1–7, 15–22) and 467 MHz (channels 8–14); the 463–467 MHz between them is other UHF land-mobile, not walkie-talkie. FRS is license-free at low power (up to 2 W). A $35 GMRS licence (no exam, 10 years, covers your whole family) buys two upgrades on those same shared channels: much higher transmit power (up to 50 W) for far more range, and the right to set up and use repeaters — the 8 repeater-input channels (467.55–467.725 MHz, shown in purple) that FRS may not touch. Pairing a GMRS radio with a hilltop repeater extends coverage well beyond simplex line-of-sight. An amateur (ham) licence does NOT cover GMRS — separate services (FCC Part 95 vs Part 97), so even a Technician still buys the GMRS permit.",
+		"note": "FRS & GMRS bubble-pack walkie-talkies—two channel groups, at 462 MHz (channels 1–7, 15–22) and 467 MHz (channels 8–14); the 463–467 MHz between them is other UHF land-mobile, not walkie-talkie. FRS is license-free at low power (up to 2 W). A $35 GMRS licence (no exam, 10 years, covers your whole family) buys two upgrades on those same shared channels: much higher transmit power (up to 50 W) for far more range, and the right to set up and use repeaters—the 8 repeater-input channels (467.55–467.725 MHz, shown in purple) that FRS may not touch. Pairing a GMRS radio with a hilltop repeater extends coverage well beyond simplex line-of-sight. An amateur (ham) licence does NOT cover GMRS—separate services (FCC Part 95 vs Part 97), so even a Technician still buys the GMRS permit.",
 		"source": "fcc-part97"
 	},
 	{
@@ -671,7 +671,7 @@
 		"layer": "consumer",
 		"region": "radio",
 		"minLod": 3,
-		"note": "Digital TV broadcast (ATSC) — UHF channels 14–36 (470–608 MHz). The old top end (ch 38–51, 614–698 MHz) was reclaimed in the 2017 \"repack\" and handed to 600 MHz 5G, so UHF TV no longer reaches up into the cellular band.",
+		"note": "Digital TV broadcast (ATSC)—UHF channels 14–36 (470–608 MHz). The old top end (ch 38–51, 614–698 MHz) was reclaimed in the 2017 \"repack\" and handed to 600 MHz 5G, so UHF TV no longer reaches up into the cellular band.",
 		"source": "fcc-tofa"
 	},
 	{
@@ -682,7 +682,7 @@
 		"layer": "consumer",
 		"region": "microwave",
 		"minLod": 2,
-		"note": "600 MHz 5G/4G (n71) — repacked from TV; reaches deep into buildings and rural areas.",
+		"note": "600 MHz 5G/4G (n71)—repacked from TV; reaches deep into buildings and rural areas.",
 		"source": "fcc-tofa"
 	},
 	{
@@ -693,7 +693,7 @@
 		"layer": "consumer",
 		"region": "microwave",
 		"minLod": 3,
-		"note": "Commercial 700 MHz LTE/5G — Lower 700 (Bands 12/17, AT&T) plus the Upper-700 C block (Band 13, Verizon) up to 758 MHz, where public-safety FirstNet begins. Low frequencies give strong coverage and building penetration.",
+		"note": "Commercial 700 MHz LTE/5G—Lower 700 (Bands 12/17, AT&T) plus the Upper-700 C block (Band 13, Verizon) up to 758 MHz, where public-safety FirstNet begins. Low frequencies give strong coverage and building penetration.",
 		"source": "fcc-tofa"
 	},
 	{
@@ -704,7 +704,7 @@
 		"layer": "gov",
 		"region": "microwave",
 		"minLod": 3,
-		"note": "FirstNet — nationwide public-safety LTE on Band 14 (700 MHz): a full 20 MHz, the 758–768 MHz downlink paired with 788–798 MHz uplink. AT&T builds and operates it for first responders, with priority and preemption over its commercial traffic.",
+		"note": "FirstNet—nationwide public-safety LTE on Band 14 (700 MHz): a full 20 MHz, the 758–768 MHz downlink paired with 788–798 MHz uplink. AT&T builds and operates it for first responders, with priority and preemption over its commercial traffic.",
 		"source": "fcc-tofa"
 	},
 	{
@@ -715,7 +715,7 @@
 		"layer": "consumer",
 		"region": "microwave",
 		"minLod": 3,
-		"note": "850 MHz cellular (Band 5) — legacy CDMA/GSM voice, wide coverage.",
+		"note": "850 MHz cellular (Band 5)—legacy CDMA/GSM voice, wide coverage.",
 		"source": "fcc-tofa"
 	},
 	{
@@ -726,7 +726,7 @@
 		"layer": "consumer",
 		"region": "microwave",
 		"minLod": 3,
-		"note": "902–928 MHz ISM — LoRa, Z-Wave, smart meters, baby monitors, cordless phones.",
+		"note": "902–928 MHz ISM—LoRa, Z-Wave, smart meters, baby monitors, cordless phones.",
 		"source": "fcc-tofa"
 	},
 	{
@@ -738,7 +738,7 @@
 		"region": "microwave",
 		"minLod": 3,
 		"reqLicense": "technician",
-		"note": "33 cm (902–928 MHz) — amateur is *secondary* here. You share the 915 MHz ISM band (LoRa, smart meters, Z-Wave, cordless phones) and must accept their interference, and you must not interfere with the primary federal radar and Location & Monitoring Service. New ham: listen first, expect a high noise floor, and favour weak-signal/digital modes away from the busy band centre. All modes for Technician and up.",
+		"note": "33 cm (902–928 MHz)—amateur is *secondary* here. You share the 915 MHz ISM band (LoRa, smart meters, Z-Wave, cordless phones) and must accept their interference, and you must not interfere with the primary federal radar and Location & Monitoring Service. New ham: listen first, expect a high noise floor, and favour weak-signal/digital modes away from the busy band centre. All modes for Technician and up.",
 		"source": "fcc-part97"
 	},
 	{
@@ -749,7 +749,7 @@
 		"layer": "navigation",
 		"region": "microwave",
 		"minLod": 3,
-		"note": "ADS-B UAT (978 MHz) — general-aviation position broadcast (US).",
+		"note": "ADS-B UAT (978 MHz)—general-aviation position broadcast (US).",
 		"source": "fcc-tofa"
 	},
 	{
@@ -760,7 +760,7 @@
 		"layer": "navigation",
 		"region": "microwave",
 		"minLod": 3,
-		"note": "DME — aircraft distance-measuring equipment (960–1215 MHz).",
+		"note": "DME—aircraft distance-measuring equipment (960–1215 MHz).",
 		"source": "fcc-tofa"
 	},
 	{
@@ -782,7 +782,7 @@
 		"layer": "navigation",
 		"region": "microwave",
 		"minLod": 3,
-		"note": "GPS L5 — modern aviation-safety GNSS signal (1176.45 MHz).",
+		"note": "GPS L5—modern aviation-safety GNSS signal (1176.45 MHz).",
 		"source": "fcc-tofa"
 	},
 	{
@@ -793,7 +793,7 @@
 		"layer": "navigation",
 		"region": "microwave",
 		"minLod": 3,
-		"note": "GPS L2 — second GNSS frequency (1227.6 MHz), dual-band precision.",
+		"note": "GPS L2—second GNSS frequency (1227.6 MHz), dual-band precision.",
 		"source": "fcc-tofa"
 	},
 	{
@@ -805,7 +805,7 @@
 		"region": "microwave",
 		"minLod": 3,
 		"reqLicense": "technician",
-		"note": "23 cm (1.2 GHz) — ATV, satellites, and EME for Technician and up.",
+		"note": "23 cm (1.2 GHz)—ATV, satellites, and EME for Technician and up.",
 		"source": "fcc-part97"
 	},
 	{
@@ -816,7 +816,7 @@
 		"layer": "navigation",
 		"region": "microwave",
 		"minLod": 3,
-		"note": "L-band long-range air-traffic radar (1.3–1.4 GHz) — the slow-turning ARSR dishes that track airliners en route, shared with military long-range surveillance. Sits just below the protected 1400 MHz radio-astronomy window. Very much in service across the national ATC network.",
+		"note": "L-band long-range air-traffic radar (1.3–1.4 GHz)—the slow-turning ARSR dishes that track airliners en route, shared with military long-range surveillance. Sits just below the protected 1400 MHz radio-astronomy window. Very much in service across the national ATC network.",
 		"source": "fcc-tofa"
 	},
 	{
@@ -826,7 +826,7 @@
 		"layer": "science",
 		"region": "microwave",
 		"minLod": 2,
-		"note": "The 21 cm hydrogen line (1420.4 MHz) — neutral-hydrogen emission; cornerstone of radio astronomy & SETI.",
+		"note": "The 21 cm hydrogen line (1420.4 MHz)—neutral-hydrogen emission; cornerstone of radio astronomy & SETI.",
 		"source": "itu-rr"
 	},
 	{
@@ -848,7 +848,7 @@
 		"layer": "gov",
 		"region": "microwave",
 		"minLod": 3,
-		"note": "Inmarsat / mobile-satellite service — L-band sat phones & data (~1.5 GHz).",
+		"note": "Inmarsat / mobile-satellite service—L-band sat phones & data (~1.5 GHz).",
 		"source": "fcc-tofa"
 	},
 	{
@@ -859,7 +859,7 @@
 		"layer": "gov",
 		"region": "microwave",
 		"minLod": 3,
-		"note": "Aeronautical mobile telemetry (1.435–1.525 GHz) — the band test pilots and ranges use to stream airframe and engine data down from aircraft and missiles during flight testing. In active use at Edwards, Pax River and other US test ranges.",
+		"note": "Aeronautical mobile telemetry (1.435–1.525 GHz)—the band test pilots and ranges use to stream airframe and engine data down from aircraft and missiles during flight testing. In active use at Edwards, Pax River and other US test ranges.",
 		"source": "fcc-tofa"
 	},
 	{
@@ -870,7 +870,7 @@
 		"layer": "navigation",
 		"region": "microwave",
 		"minLod": 0,
-		"note": "GPS L1 at 1575.42 MHz, operated by the US Space Force — the civilian L1 C/A signal every phone, car and aircraft navigates by. Spread-spectrum and faint (~−130 dBm at the ground).",
+		"note": "GPS L1 at 1575.42 MHz, operated by the US Space Force—the civilian L1 C/A signal every phone, car and aircraft navigates by. Spread-spectrum and faint (~−130 dBm at the ground).",
 		"source": "fcc-tofa"
 	},
 	{
@@ -881,7 +881,7 @@
 		"layer": "navigation",
 		"region": "microwave",
 		"minLod": 3,
-		"note": "GLONASS L1 — the Russian GNSS constellation (≈1602 MHz).",
+		"note": "GLONASS L1—the Russian GNSS constellation (≈1602 MHz).",
 		"source": "itu-rr"
 	},
 	{
@@ -903,7 +903,7 @@
 		"layer": "consumer",
 		"region": "microwave",
 		"minLod": 3,
-		"note": "DECT cordless phones — 1.88–1.90 GHz.",
+		"note": "DECT cordless phones—1.88–1.90 GHz.",
 		"source": "fcc-tofa"
 	},
 	{
@@ -914,7 +914,7 @@
 		"layer": "consumer",
 		"region": "microwave",
 		"minLod": 2,
-		"note": "AWS cellular (1.7/2.1 GHz, Band 66) — a 4G/5G capacity workhorse.",
+		"note": "AWS cellular (1.7/2.1 GHz, Band 66)—a 4G/5G capacity workhorse.",
 		"source": "fcc-tofa"
 	},
 	{
@@ -926,7 +926,7 @@
 		"region": "microwave",
 		"minLod": 3,
 		"reqLicense": "technician",
-		"note": "13 cm (2.3 GHz) — weak-signal and ATV. Amateur is secondary and shares its upper end with the 2.4 GHz Wi-Fi/Bluetooth ISM band: accept their interference and don't cause it. Technician and up.",
+		"note": "13 cm (2.3 GHz)—weak-signal and ATV. Amateur is secondary and shares its upper end with the 2.4 GHz Wi-Fi/Bluetooth ISM band: accept their interference and don't cause it. Technician and up.",
 		"source": "fcc-part97"
 	},
 	{
@@ -937,7 +937,7 @@
 		"layer": "consumer",
 		"region": "microwave",
 		"minLod": 3,
-		"note": "Satellite radio (SiriusXM) — S-band downlink, 2.32–2.345 GHz; SiriusXM is the sole licensee of this band.",
+		"note": "Satellite radio (SiriusXM)—S-band downlink, 2.32–2.345 GHz; SiriusXM is the sole licensee of this band.",
 		"source": "fcc-tofa"
 	},
 	{
@@ -948,7 +948,7 @@
 		"layer": "consumer",
 		"region": "microwave",
 		"minLod": 2,
-		"note": "Bluetooth & Zigbee — 2.4 GHz ISM, frequency-hopping personal-area links.",
+		"note": "Bluetooth & Zigbee—2.4 GHz ISM, frequency-hopping personal-area links.",
 		"source": "fcc-tofa"
 	},
 	{
@@ -970,7 +970,7 @@
 		"layer": "consumer",
 		"region": "microwave",
 		"minLod": 3,
-		"note": "2.5 GHz 5G mid-band (Band n41) — a major capacity layer, held nationally by T-Mobile (inherited from Sprint, originally Clearwire WiMAX).",
+		"note": "2.5 GHz 5G mid-band (Band n41)—a major capacity layer, held nationally by T-Mobile (inherited from Sprint, originally Clearwire WiMAX).",
 		"source": "fcc-tofa"
 	},
 	{
@@ -981,7 +981,7 @@
 		"layer": "gov",
 		"region": "microwave",
 		"minLod": 3,
-		"note": "NEXRAD Doppler weather radar (S-band, 2.7–3.0 GHz) — the national storm-tracking network.",
+		"note": "NEXRAD Doppler weather radar (S-band, 2.7–3.0 GHz)—the national storm-tracking network.",
 		"source": "fcc-tofa"
 	},
 	{
@@ -992,7 +992,7 @@
 		"layer": "gov",
 		"region": "microwave",
 		"minLod": 3,
-		"note": "S-band radiolocation (3.0–3.3 GHz) — shipborne navigation radar and military/air-surveillance sets, just above the NEXRAD weather band. Still heavily used; the slice above it (3.55–3.7) is where the Navy radar incumbents in CBRS live.",
+		"note": "S-band radiolocation (3.0–3.3 GHz)—shipborne navigation radar and military/air-surveillance sets, just above the NEXRAD weather band. Still heavily used; the slice above it (3.55–3.7) is where the Navy radar incumbents in CBRS live.",
 		"source": "fcc-tofa"
 	},
 	{
@@ -1003,7 +1003,7 @@
 		"layer": "consumer",
 		"region": "microwave",
 		"minLod": 3,
-		"note": "5G mid-band — the capacity workhorse for modern cellular.",
+		"note": "5G mid-band—the capacity workhorse for modern cellular.",
 		"source": "fcc-tofa"
 	},
 	{
@@ -1014,7 +1014,7 @@
 		"layer": "consumer",
 		"region": "microwave",
 		"minLod": 3,
-		"note": "Citizens Broadband Radio Service — 150 MHz of shared 3.5 GHz coordinated by a Spectrum Access System in three tiers: Navy shipborne radar and satellite earth stations are protected incumbents, then auctioned Priority Access licences, then General Authorized Access free for anyone. The backbone of US private LTE/5G networks.",
+		"note": "Citizens Broadband Radio Service—150 MHz of shared 3.5 GHz coordinated by a Spectrum Access System in three tiers: Navy shipborne radar and satellite earth stations are protected incumbents, then auctioned Priority Access licences, then General Authorized Access free for anyone. The backbone of US private LTE/5G networks.",
 		"source": "fcc-tofa"
 	},
 	{
@@ -1025,7 +1025,7 @@
 		"layer": "gov",
 		"region": "microwave",
 		"minLod": 3,
-		"note": "C-band satellite downlink (3.7–4.2 GHz) — TV distribution; lower edge repurposed for 5G.",
+		"note": "C-band satellite downlink (3.7–4.2 GHz)—TV distribution; lower edge repurposed for 5G.",
 		"source": "fcc-tofa"
 	},
 	{
@@ -1047,7 +1047,7 @@
 		"layer": "gov",
 		"region": "microwave",
 		"minLod": 3,
-		"note": "Fixed and mobile service (4.4–4.94 GHz) — terrestrial microwave links and NATO/DoD tactical radio-relay (band IV), bridging the radio-altimeter band below and the 4.9 GHz public-safety band above. In active use.",
+		"note": "Fixed and mobile service (4.4–4.94 GHz)—terrestrial microwave links and NATO/DoD tactical radio-relay (band IV), bridging the radio-altimeter band below and the 4.9 GHz public-safety band above. In active use.",
 		"source": "fcc-tofa"
 	},
 	{
@@ -1058,7 +1058,7 @@
 		"layer": "gov",
 		"region": "microwave",
 		"minLod": 3,
-		"note": "The 4.9 GHz public-safety band — broadband licensed to state and local police, fire and EMS for incident-scene video, vehicle hotspots and fixed point-to-point links.",
+		"note": "The 4.9 GHz public-safety band—broadband licensed to state and local police, fire and EMS for incident-scene video, vehicle hotspots and fixed point-to-point links.",
 		"source": "fcc-tofa"
 	},
 	{
@@ -1069,7 +1069,7 @@
 		"layer": "consumer",
 		"region": "microwave",
 		"minLod": 3,
-		"note": "5 GHz Wi-Fi — more channels, shorter range than 2.4 GHz.",
+		"note": "5 GHz Wi-Fi—more channels, shorter range than 2.4 GHz.",
 		"source": "fcc-tofa"
 	},
 	{
@@ -1081,7 +1081,7 @@
 		"region": "microwave",
 		"minLod": 3,
 		"reqLicense": "technician",
-		"note": "5 cm (5.7 GHz) — microwave weak-signal and amateur TV. Secondary again, sharing the 5.8 GHz ISM / U-NII band with Wi-Fi and cordless gear: listen first and accept their interference. Technician and up.",
+		"note": "5 cm (5.7 GHz)—microwave weak-signal and amateur TV. Secondary again, sharing the 5.8 GHz ISM / U-NII band with Wi-Fi and cordless gear: listen first and accept their interference. Technician and up.",
 		"source": "fcc-part97"
 	},
 	{
@@ -1092,7 +1092,7 @@
 		"layer": "consumer",
 		"region": "microwave",
 		"minLod": 2,
-		"note": "Wi-Fi 6E/7 — the new 6 GHz band (5.925–7.125 GHz), wide and uncongested.",
+		"note": "Wi-Fi 6E/7—the new 6 GHz band (5.925–7.125 GHz), wide and uncongested.",
 		"source": "fcc-tofa"
 	},
 	{
@@ -1107,7 +1107,7 @@
 		"layer": "gov",
 		"region": "microwave",
 		"minLod": 3,
-		"note": "Military X-band satellite comms — the backbone of US/NATO wideband beyond-line-of-sight links (WGS, legacy DSCS). Split duplex: 7.25–7.75 GHz downlink, 7.90–8.40 GHz uplink, with 8.025–8.4 GHz also carrying Earth-observation satellite downlinks.",
+		"note": "Military X-band satellite comms—the backbone of US/NATO wideband beyond-line-of-sight links (WGS, legacy DSCS). Split duplex: 7.25–7.75 GHz downlink, 7.90–8.40 GHz uplink, with 8.025–8.4 GHz also carrying Earth-observation satellite downlinks.",
 		"source": "fcc-tofa"
 	},
 	{
@@ -1130,7 +1130,7 @@
 		"region": "microwave",
 		"minLod": 3,
 		"reqLicense": "technician",
-		"note": "3 cm (10 GHz) — microwave DX (long-distance), EME (moonbounce, Earth–Moon–Earth), and narrowband experiments.",
+		"note": "3 cm (10 GHz)—microwave DX (long-distance), EME (moonbounce, Earth–Moon–Earth), and narrowband experiments.",
 		"source": "fcc-part97"
 	},
 	{
@@ -1141,7 +1141,7 @@
 		"layer": "gov",
 		"region": "microwave",
 		"minLod": 3,
-		"note": "Ku-band fixed-satellite downlink (10.7–12.2 GHz) — the commercial workhorse feeding cable headends, broadcast backhaul and enterprise VSAT, sitting just below the direct-to-home DBS-TV slice.",
+		"note": "Ku-band fixed-satellite downlink (10.7–12.2 GHz)—the commercial workhorse feeding cable headends, broadcast backhaul and enterprise VSAT, sitting just below the direct-to-home DBS-TV slice.",
 		"source": "fcc-tofa"
 	},
 	{
@@ -1152,7 +1152,7 @@
 		"layer": "consumer",
 		"region": "microwave",
 		"minLod": 3,
-		"note": "Ku-band direct-broadcast satellite TV (12.2–12.7 GHz) — the little dish on the roof, operated by DirecTV and Dish Network.",
+		"note": "Ku-band direct-broadcast satellite TV (12.2–12.7 GHz)—the little dish on the roof, operated by DirecTV and Dish Network.",
 		"source": "fcc-tofa"
 	},
 	{
@@ -1163,7 +1163,7 @@
 		"layer": "gov",
 		"region": "microwave",
 		"minLod": 3,
-		"note": "Terrestrial Ku (12.75–14.0 GHz) — fixed microwave backhaul plus radiolocation, including the 13.25–13.4 GHz airborne Doppler-navigation radar slice. In active use.",
+		"note": "Terrestrial Ku (12.75–14.0 GHz)—fixed microwave backhaul plus radiolocation, including the 13.25–13.4 GHz airborne Doppler-navigation radar slice. In active use.",
 		"source": "fcc-tofa"
 	},
 	{
@@ -1174,7 +1174,7 @@
 		"layer": "consumer",
 		"region": "microwave",
 		"minLod": 3,
-		"note": "Ku-band Earth-to-space uplink (14.0–14.5 GHz) — the return path that pairs with the 12 GHz downlink. Every VSAT terminal and satellite-internet dish (Starlink user terminals, maritime and in-flight broadband) talks back to the satellite here.",
+		"note": "Ku-band Earth-to-space uplink (14.0–14.5 GHz)—the return path that pairs with the 12 GHz downlink. Every VSAT terminal and satellite-internet dish (Starlink user terminals, maritime and in-flight broadband) talks back to the satellite here.",
 		"source": "fcc-tofa"
 	},
 	{
@@ -1185,7 +1185,7 @@
 		"layer": "gov",
 		"region": "microwave",
 		"minLod": 3,
-		"note": "A mixed Ku stretch (14.5–15.7 GHz) — fixed microwave links and Earth-observation SAR imaging satellites below, airport precision-approach radar (15.4–15.7 GHz) above. All in active use.",
+		"note": "A mixed Ku stretch (14.5–15.7 GHz)—fixed microwave links and Earth-observation SAR imaging satellites below, airport precision-approach radar (15.4–15.7 GHz) above. All in active use.",
 		"source": "fcc-tofa"
 	},
 	{
@@ -1196,7 +1196,7 @@
 		"layer": "navigation",
 		"region": "microwave",
 		"minLod": 3,
-		"note": "Ku-band airport surface-detection radar (ASDE-X) — the ground radar that tracks aircraft and vehicles on runways and taxiways to prevent collisions, deployed at ~35 of the busiest US airports.",
+		"note": "Ku-band airport surface-detection radar (ASDE-X)—the ground radar that tracks aircraft and vehicles on runways and taxiways to prevent collisions, deployed at ~35 of the busiest US airports.",
 		"source": "fcc-tofa"
 	},
 	{
@@ -1206,7 +1206,7 @@
 		"layer": "science",
 		"region": "microwave",
 		"minLod": 3,
-		"note": "A maser is a laser for microwaves — Microwave Amplification by Stimulated Emission of Radiation. In space, clouds of water vapour around new and dying stars get pumped with energy and amplify passing 22.235 GHz radiation, beaming it out far brighter than a warm cloud has any right to. Radio astronomers use these natural masers to map star-forming regions and the discs whirling around galactic-core black holes — and even to gauge the distance to other galaxies.",
+		"note": "A maser is a laser for microwaves—Microwave Amplification by Stimulated Emission of Radiation. In space, clouds of water vapour around new and dying stars get pumped with energy and amplify passing 22.235 GHz radiation, beaming it out far brighter than a warm cloud has any right to. Radio astronomers use these natural masers to map star-forming regions and the discs whirling around galactic-core black holes—and even to gauge the distance to other galaxies.",
 		"source": "itu-rr"
 	},
 	{
@@ -1217,7 +1217,7 @@
 		"layer": "consumer",
 		"region": "microwave",
 		"minLod": 3,
-		"note": "5G mmWave (Band n261, ~28 GHz) — enormous capacity over a single city block; Verizon holds the largest share for its 5G Ultra Wideband.",
+		"note": "5G mmWave (Band n261, ~28 GHz)—enormous capacity over a single city block; Verizon holds the largest share for its 5G Ultra Wideband.",
 		"source": "fcc-tofa"
 	},
 	{
@@ -1228,7 +1228,7 @@
 		"layer": "gov",
 		"region": "microwave",
 		"minLod": 3,
-		"note": "Ka-band satellite (17.3–31 GHz) — high-throughput broadband (incl. modern LEO mega-constellations); the lower 17.3–17.7 GHz slice carries DBS feeder uplinks.",
+		"note": "Ka-band satellite (17.3–31 GHz)—high-throughput broadband (incl. modern LEO mega-constellations); the lower 17.3–17.7 GHz slice carries DBS feeder uplinks.",
 		"source": "fcc-tofa"
 	},
 	{
@@ -1239,7 +1239,7 @@
 		"layer": "consumer",
 		"region": "microwave",
 		"minLod": 3,
-		"note": "60 GHz WiGig (802.11ad) — multi-gigabit links that oxygen absorption stops at the wall.",
+		"note": "60 GHz WiGig (802.11ad)—multi-gigabit links that oxygen absorption stops at the wall.",
 		"source": "fcc-tofa"
 	},
 	{
@@ -1250,7 +1250,7 @@
 		"layer": "navigation",
 		"region": "microwave",
 		"minLod": 3,
-		"note": "Automotive radar (76–81 GHz) — adaptive cruise control & collision avoidance.",
+		"note": "Automotive radar (76–81 GHz)—adaptive cruise control & collision avoidance.",
 		"source": "fcc-tofa"
 	},
 	{
@@ -1261,7 +1261,7 @@
 		"layer": "science",
 		"region": "microwave",
 		"minLod": 2,
-		"note": "The 2.7 K afterglow of the Big Bang — its blackbody spectrum peaks near 160 GHz.",
+		"note": "The 2.7 K afterglow of the Big Bang—its blackbody spectrum peaks near 160 GHz.",
 		"source": "nasa-ems",
 		"altLayer": "consumer"
 	},
@@ -1273,7 +1273,7 @@
 		"layer": "science",
 		"region": "infrared",
 		"minLod": 3,
-		"note": "Terahertz 'T-rays' (~0.1–10 THz) — the band between microwaves and infrared that science learned to use last. T-ray imagers see through clothing, plastic, paper and packaging without ionising what they scan, so they show up in security body scanners and in non-destructive inspection of mail, art, pharmaceuticals and semiconductors.",
+		"note": "Terahertz 'T-rays' (~0.1–10 THz)—the band between microwaves and infrared that science learned to use last. T-ray imagers see through clothing, plastic, paper and packaging without ionising what they scan, so they show up in security body scanners and in non-destructive inspection of mail, art, pharmaceuticals and semiconductors.",
 		"source": "nasa-ems"
 	},
 	{
@@ -1284,22 +1284,22 @@
 		"layer": "science",
 		"region": "infrared",
 		"minLod": 3,
-		"note": "CO₂ laser — industrial cutting & welding, laser surgery. Not a single line: it lases across a comb of rotational transitions spanning 9.2–10.8 µm (the 10.6 µm line is just the strongest).",
+		"note": "CO₂ laser—industrial cutting & welding, laser surgery. Not a single line: it lases across a comb of rotational transitions spanning 9.2–10.8 µm (the 10.6 µm line is just the strongest).",
 		"source": "rp-photonics",
 		"emission": "spectral",
 		"optical": "laser"
 	},
 	{
-		"id": "ir",
-		"name": "IR heat",
+		"id": "thermal-camera",
+		"name": "Thermal camera",
 		"hz": 30000000000000,
-		"band": [300000000000, 400000000000000],
-		"layer": "science",
+		"band": [21400000000000, 37500000000000],
+		"layer": "consumer",
+		"altLayer": "science",
 		"region": "infrared",
 		"minLod": 3,
-		"note": "Thermal infrared (≈30 THz) — the glow of body heat and warm objects. This is what thermal cameras (FLIR / thermal imaging) and night-vision gear see, what heat lamps pour out, and the band a TV remote blinks in nearby.",
-		"source": "nasa-ems",
-		"altLayer": "consumer"
+		"note": "Thermal cameras image the long-wave infrared window (8–14 µm), where room-temperature objects—people, walls, wiring—glow brightest and the air stays transparent. FLIR imagers, night-vision gear, and building-inspection cameras all read this band: no illumination needed, only the scene's own heat glow.",
+		"source": "nasa-ems"
 	},
 	{
 		"id": "fiber",
@@ -1309,7 +1309,7 @@
 		"layer": "consumer",
 		"region": "infrared",
 		"minLod": 1,
-		"note": "Near-infrared (1550 nm) — the light that carries the internet through fibre under the oceans.",
+		"note": "Near-infrared (1550 nm)—the light that carries the internet through fibre under the oceans.",
 		"source": "nasa-ems"
 	},
 	{
@@ -1320,7 +1320,19 @@
 		"layer": "consumer",
 		"region": "infrared",
 		"minLod": 3,
-		"note": "Fibre-optic O-band (1310 nm) — short-haul datacenter and access links.",
+		"note": "Fibre-optic O-band (1310 nm)—short-haul datacenter and access links.",
+		"source": "nasa-ems"
+	},
+	{
+		"id": "heat-lamp",
+		"name": "Heat lamp",
+		"hz": 230000000000000,
+		"band": [75000000000000, 300000000000000],
+		"layer": "consumer",
+		"altLayer": "science",
+		"region": "infrared",
+		"minLod": 3,
+		"note": "A heat lamp is an incandescent bulb tuned for warmth rather than light: its ~2,200 K filament is a blackbody whose curve peaks near 1.3 µm, so most of the wattage arrives as near-infrared radiant heat. The red glow keeping diner food and bathroom floors warm is just the visible tail of that curve.",
 		"source": "nasa-ems"
 	},
 	{
@@ -1331,7 +1343,7 @@
 		"layer": "consumer",
 		"region": "infrared",
 		"minLod": 3,
-		"note": "Near-infrared (940 nm) — the invisible light a TV remote blinks. Also IR illuminators on security cameras, face-unlock dot projectors, and proximity sensors. The LED emission is genuinely broad (≈915–965 nm).",
+		"note": "Near-infrared (940 nm)—the invisible light a TV remote blinks. Also IR illuminators on security cameras, face-unlock dot projectors, and proximity sensors. The LED emission is genuinely broad (≈915–965 nm).",
 		"source": "rp-photonics",
 		"emission": "spectral",
 		"optical": "led",
@@ -1345,7 +1357,7 @@
 		"layer": "navigation",
 		"region": "infrared",
 		"minLod": 3,
-		"note": "LIDAR — pulsed near-infrared light (commonly 905 nm; some automotive units use 1550 nm) for self-driving perception and 3-D mapping. Note it's *light*, not the 77 GHz radio of automotive radar.",
+		"note": "LIDAR—pulsed near-infrared light (commonly 905 nm; some automotive units use 1550 nm) for self-driving perception and 3-D mapping. Note it's *light*, not the 77 GHz radio of automotive radar.",
 		"source": "nasa-ems"
 	},
 	{
@@ -1356,7 +1368,7 @@
 		"layer": "science",
 		"region": "visible",
 		"minLod": 3,
-		"note": "532 nm green laser — pointers, rangefinders, and laser light shows. Unlike the red and blue diodes, this colour is synthesised: an 808 nm diode pumps a Nd:YVO₄ crystal lasing at 1064 nm, which a KTP crystal frequency-doubles (its second harmonic) to 532 nm. Cheap modules that skip the IR filter leak the invisible 1064 nm (and 808 nm) light — focusable and an eye hazard — which is why quality green lasers and laser-light projectors include an IR-blocking element.",
+		"note": "532 nm green laser—pointers, rangefinders, and laser light shows. Unlike the red and blue diodes, this colour is synthesised: an 808 nm diode pumps a Nd:YVO₄ crystal lasing at 1064 nm, which a KTP crystal frequency-doubles (its second harmonic) to 532 nm. Cheap modules that skip the IR filter leak the invisible 1064 nm (and 808 nm) light—focusable and an eye hazard—which is why quality green lasers and laser-light projectors include an IR-blocking element.",
 		"source": "rp-photonics",
 		"emission": "spectral",
 		"optical": "laser"
@@ -1369,7 +1381,7 @@
 		"layer": "science",
 		"region": "visible",
 		"minLod": 3,
-		"note": "650 nm red laser — the classic laser-pointer and barcode scanner, and the pickup diode that reads DVDs. A direct-emission AlGaInP (aluminium gallium indium phosphide) diode: it makes red light straight from its semiconductor junction, so there are no harmonics to filter — just a couple of nm of thermal drift, which is why it reads as a narrow band rather than one line.",
+		"note": "650 nm red laser—the classic laser-pointer and barcode scanner, and the pickup diode that reads DVDs. A direct-emission AlGaInP (aluminium gallium indium phosphide) diode: it makes red light straight from its semiconductor junction, so there are no harmonics to filter—just a couple of nm of thermal drift, which is why it reads as a narrow band rather than one line.",
 		"source": "rp-photonics",
 		"emission": "spectral",
 		"optical": "laser"
@@ -1382,7 +1394,7 @@
 		"layer": "science",
 		"region": "visible",
 		"minLod": 3,
-		"note": "450 nm blue laser — laser projectors and cinema, plus high-power cutting and engraving diodes. A direct-emission InGaN (indium gallium nitride) diode — the gallium-nitride family Shuji Nakamura's Nobel-winning blue LED opened up — so, like the red diode, it emits its colour directly with no harmonics to filter.",
+		"note": "450 nm blue laser—laser projectors and cinema, plus high-power cutting and engraving diodes. A direct-emission diode of InGaN, the gallium-nitride family Shuji Nakamura's Nobel-winning blue LED opened up—so, like the red diode, it emits its colour directly with no harmonics to filter.",
 		"source": "rp-photonics",
 		"emission": "spectral",
 		"optical": "laser"
@@ -1396,7 +1408,7 @@
 		"altLayer": "consumer",
 		"region": "uv",
 		"minLod": 3,
-		"note": "UV-A (315–400 nm) — the blacklight in a 365 nm torch that makes fluorescent pigments and tonic water glow, plus gel-nail/ink curing and most of a suntan. The everyday face of ultraviolet, and a physical-science band in its own right.",
+		"note": "UV-A (315–400 nm)—the blacklight in a 365 nm torch that makes fluorescent pigments and tonic water glow, plus gel-nail/ink curing and most of a suntan. The everyday face of ultraviolet, and a physical-science band in its own right.",
 		"source": "nasa-ems"
 	},
 	{
@@ -1407,7 +1419,7 @@
 		"layer": "science",
 		"region": "uv",
 		"minLod": 3,
-		"note": "UV-B (280–315 nm) — drives sunburn and vitamin-D synthesis; mostly absorbed by ozone.",
+		"note": "UV-B (280–315 nm)—drives sunburn and vitamin-D synthesis; mostly absorbed by ozone.",
 		"source": "nasa-ems"
 	},
 	{
@@ -1418,7 +1430,7 @@
 		"layer": "science",
 		"region": "uv",
 		"minLod": 3,
-		"note": "Germicidal ultraviolet (≈1 PHz) — kills microbes, but is absorbed by air before it reaches you. The sunburn UV-C is often blamed for actually comes from the longer-wavelength UV-B and UV-A next door.",
+		"note": "Germicidal ultraviolet (≈1 PHz)—kills microbes, but is absorbed by air before it reaches you. The sunburn UV-C is often blamed for actually comes from the longer-wavelength UV-B and UV-A next door.",
 		"source": "nasa-ems"
 	},
 	{
@@ -1428,7 +1440,7 @@
 		"layer": "science",
 		"region": "uv",
 		"minLod": 3,
-		"note": "Hydrogen Lyman-alpha (121.6 nm) — a key UV line for observing the Sun and the early universe.",
+		"note": "Hydrogen Lyman-alpha (121.6 nm)—a key UV line for observing the Sun and the early universe.",
 		"source": "nasa-ems"
 	},
 	{
@@ -1439,7 +1451,7 @@
 		"layer": "science",
 		"region": "uv",
 		"minLod": 3,
-		"note": "Extreme-UV (13.5 nm) — the tin-plasma light that prints today's microchips.",
+		"note": "Extreme-UV (13.5 nm)—the tin-plasma light that prints today's microchips.",
 		"source": "nasa-ems"
 	},
 	{
@@ -1450,7 +1462,7 @@
 		"layer": "science",
 		"region": "xray",
 		"minLod": 3,
-		"note": "Soft X-rays (~1 keV) — solar-corona imaging and water-window microscopy.",
+		"note": "Soft X-rays (~1 keV)—solar-corona imaging and water-window microscopy.",
 		"source": "nasa-ems"
 	},
 	{
@@ -1460,7 +1472,7 @@
 		"layer": "science",
 		"region": "xray",
 		"minLod": 3,
-		"note": "Copper Kα X-rays (~8.05 keV) — the workhorse of X-ray crystallography, ejecting an electron from copper's inner K shell. Not one line but a doublet: Kα₁ (8047.8 eV) and Kα₂ (8027.8 eV), ~20 eV apart in a 2:1 intensity ratio, each ~2.3 eV wide — the natural linewidth set by the femtosecond core-hole lifetime. Crystallographers fight that splitting with monochromators; zoom right in to resolve the two lines.",
+		"note": "Copper Kα X-rays (~8.05 keV)—the workhorse of X-ray crystallography, ejecting an electron from copper's inner K shell. Not one line but a doublet: Kα₁ (8047.8 eV) and Kα₂ (8027.8 eV), ~20 eV apart in a 2:1 intensity ratio, each ~2.3 eV wide—the natural linewidth set by the femtosecond core-hole lifetime. Crystallographers fight that splitting with monochromators; zoom right in to resolve the two lines.",
 		"source": "nasa-ems",
 		"band": [1940629611620000000, 1946432785220000000],
 		"segments": [
@@ -1487,7 +1499,7 @@
 		"layer": "science",
 		"region": "gamma",
 		"minLod": 2,
-		"note": "Technetium-99m (140.5 keV) — the workhorse isotope of nuclear-medicine SPECT imaging. The nuclear transition is sharply defined, so the line is intrinsically razor-thin, far narrower than a pixel here. What a gamma camera actually records is ~10% wide (~14 keV) — but that width is the NaI detector's resolution, not the gamma ray. (Isotopic impurities wouldn't broaden it; they'd add their own separate lines.)",
+		"note": "Technetium-99m (140.5 keV)—the workhorse isotope of nuclear-medicine SPECT imaging. The nuclear transition is sharply defined, so the line is intrinsically razor-thin, far narrower than a pixel here. What a gamma camera actually records is ~10% wide (~14 keV)—but that width is the NaI detector's resolution, not the gamma ray. (Isotopic impurities wouldn't broaden it; they'd add their own separate lines.)",
 		"source": "nasa-ems"
 	},
 	{
@@ -1497,7 +1509,7 @@
 		"layer": "science",
 		"region": "gamma",
 		"minLod": 1,
-		"note": "Positron–electron annihilation — a positron (from a PET tracer's β⁺ decay) meets an electron and both vanish into two 511 keV photons flying ~180° apart; the scanner catches the pair to pinpoint the decay. The line isn't razor-thin: the electron carries momentum, so it Doppler-broadens the peak to ~2–3 keV and tilts the photons a fraction of a degree off 180°. Materials scientists read that exact broadening — positron-annihilation spectroscopy — to map electron momentum and lattice defects.",
+		"note": "Positron–electron annihilation—a positron (from a PET tracer's β⁺ decay) meets an electron and both vanish into two 511 keV photons flying ~180° apart; the scanner catches the pair to pinpoint the decay. The line isn't razor-thin: the electron carries momentum, so it Doppler-broadens the peak to ~2–3 keV and tilts the photons a fraction of a degree off 180°. Materials scientists read that exact broadening—positron-annihilation spectroscopy—to map electron momentum and lattice defects.",
 		"source": "nasa-ems",
 		"band": [123256989275000000000, 123861486525000000000]
 	},
@@ -1508,7 +1520,7 @@
 		"layer": "science",
 		"region": "gamma",
 		"minLod": 3,
-		"note": "Caesium-137 (661.7 keV) — the standard gamma line for calibrating detectors. Like other nuclear transitions it's intrinsically razor-sharp; a NaI scintillator measures it ~7% wide (~50 keV) and a cooled germanium (HPGe) detector ~0.2% (~1 keV). That spread is the instrument, not the line.",
+		"note": "Caesium-137 (661.7 keV)—the standard gamma line for calibrating detectors. Like other nuclear transitions it's intrinsically razor-sharp; a NaI scintillator measures it ~7% wide (~50 keV) and a cooled germanium (HPGe) detector ~0.2% (~1 keV). That spread is the instrument, not the line.",
 		"source": "nasa-ems"
 	},
 	{
@@ -1523,7 +1535,7 @@
 		"layer": "science",
 		"region": "gamma",
 		"minLod": 2,
-		"note": "Co-60 γ-rays — sterilising medical kit, treating cancer, and irradiating food. Every decay emits a pair of gammas, at 1.17 and 1.33 MeV — shown here as the two distinct lines they are.",
+		"note": "Co-60 γ-rays—sterilising medical kit, treating cancer, and irradiating food. Every decay emits a pair of gammas, at 1.17 and 1.33 MeV—shown here as the two distinct lines they are.",
 		"source": "nasa-ems"
 	},
 	{
@@ -1535,7 +1547,7 @@
 		"altLayer": "consumer",
 		"region": "gamma",
 		"minLod": 2,
-		"note": "High-energy cosmic γ-rays (~400 MeV) — light from pulsars, blazars and supernova remnants.",
+		"note": "High-energy cosmic γ-rays (~400 MeV)—light from pulsars, blazars and supernova remnants.",
 		"source": "nasa-ems"
 	},
 	{
@@ -1546,7 +1558,7 @@
 		"layer": "navigation",
 		"region": "microwave",
 		"minLod": 2,
-		"note": "1.6 GHz L-band — Iridium's 66-satellite constellation for satellite phones and the off-grid SOS / messaging some new phones and trackers use.",
+		"note": "1.6 GHz L-band—Iridium's 66-satellite constellation for satellite phones and the off-grid SOS / messaging some new phones and trackers use.",
 		"source": "spectrum-holdings"
 	},
 	{
@@ -1557,7 +1569,7 @@
 		"layer": "navigation",
 		"region": "microwave",
 		"minLod": 2,
-		"note": "Band n53 (2.4 GHz) — Globalstar's satellite spectrum, licensed to Apple's iPhone Emergency SOS via satellite.",
+		"note": "Band n53 (2.4 GHz)—Globalstar's satellite spectrum, licensed to Apple's iPhone Emergency SOS via satellite.",
 		"source": "spectrum-holdings"
 	},
 	{
@@ -1568,7 +1580,7 @@
 		"layer": "consumer",
 		"region": "microwave",
 		"minLod": 2,
-		"note": "39 GHz millimetre-wave (Band n260) — high-band 5G shared among T-Mobile, AT&T and Verizon; huge bandwidth, very short reach.",
+		"note": "39 GHz millimetre-wave (Band n260)—high-band 5G shared among T-Mobile, AT&T and Verizon; huge bandwidth, very short reach.",
 		"source": "spectrum-holdings"
 	},
 	{
@@ -1579,7 +1591,7 @@
 		"layer": "consumer",
 		"region": "microwave",
 		"minLod": 2,
-		"note": "600 MHz (Band 71) — T-Mobile's nationwide low-band 5G 'Extended Range', won at the 2017 incentive auction. Low frequencies reach far and punch into buildings. Sits inside the wider 5G low-band allocation.",
+		"note": "600 MHz (Band 71)—T-Mobile's nationwide low-band 5G 'Extended Range', won at the 2017 incentive auction. Low frequencies reach far and punch into buildings. Sits inside the wider 5G low-band allocation.",
 		"source": "spectrum-holdings"
 	},
 	{
@@ -1590,7 +1602,7 @@
 		"layer": "consumer",
 		"region": "microwave",
 		"minLod": 2,
-		"note": "Lower 700 MHz (Bands 12/17) — AT&T's long-reach LTE/5G low band, a sub-block of the 700 MHz commercial band.",
+		"note": "Lower 700 MHz (Bands 12/17)—AT&T's long-reach LTE/5G low band, a sub-block of the 700 MHz commercial band.",
 		"source": "spectrum-holdings"
 	},
 	{
@@ -1601,7 +1613,7 @@
 		"layer": "consumer",
 		"region": "microwave",
 		"minLod": 2,
-		"note": "Upper 700 MHz C-block (Band 13) — Verizon's original nationwide LTE backbone; the 746–757 MHz downlink paired with a 776–787 MHz uplink, at the top of the commercial 700 MHz band.",
+		"note": "Upper 700 MHz C-block (Band 13)—Verizon's original nationwide LTE backbone; the 746–757 MHz downlink paired with a 776–787 MHz uplink, at the top of the commercial 700 MHz band.",
 		"source": "spectrum-holdings"
 	},
 	{
@@ -1612,7 +1624,7 @@
 		"layer": "consumer",
 		"region": "microwave",
 		"minLod": 2,
-		"note": "AWS-4 (2 GHz) — Dish Network spectrum behind the Boost Mobile / Dish 5G build-out, at the top of the AWS cellular block.",
+		"note": "AWS-4 (2 GHz)—Dish Network spectrum behind the Boost Mobile / Dish 5G build-out, at the top of the AWS cellular block.",
 		"source": "spectrum-holdings"
 	},
 	{
@@ -1623,7 +1635,7 @@
 		"layer": "consumer",
 		"region": "microwave",
 		"minLod": 2,
-		"note": "3.45 GHz — auctioned from federal radar in 2022; AT&T and Dish are major holders for mid-band 5G (the low end of the n77 band).",
+		"note": "3.45 GHz—auctioned from federal radar in 2022; AT&T and Dish are major holders for mid-band 5G (the low end of the n77 band).",
 		"source": "spectrum-holdings"
 	},
 	{
@@ -1634,7 +1646,7 @@
 		"layer": "consumer",
 		"region": "microwave",
 		"minLod": 2,
-		"note": "C-band (3.7–3.98 GHz) — cleared from satellite in the 2021 C-band auction; Verizon's mid-band 5G Ultra Wideband, within the wider n77 band.",
+		"note": "C-band (3.7–3.98 GHz)—cleared from satellite in the 2021 C-band auction; Verizon's mid-band 5G Ultra Wideband, within the wider n77 band.",
 		"source": "spectrum-holdings"
 	}
 ]
