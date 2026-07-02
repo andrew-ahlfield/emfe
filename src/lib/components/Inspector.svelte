@@ -7,7 +7,9 @@
 	import { axisOptions } from '$lib/state/axis';
 	import {
 		LICENSE_ICON,
+		MIN_POWER_NOTE,
 		RANK_LABELS,
+		powerLimit,
 		privilegeNote,
 		privilegeStrip,
 		type RenderedSegment
@@ -72,6 +74,8 @@
 	);
 	const peakLabel = (hz: number) => (hz < 10 ? hz.toFixed(1) : String(Math.round(hz)));
 	let reqClass = $derived(allocation.reqLicense);
+	/** The §97.313 power ceiling for this amateur band + held class; '' for non-amateur bands. */
+	let maxPower = $derived(powerLimit(allocation.id, license));
 	let segments = $derived(privilegeStrip(allocation.id, license));
 	/** Distinct licence classes present in this band, low → high, for the glyph key. */
 	let classKey = $derived(
@@ -96,6 +100,13 @@
 		<div class="class-badge">
 			<span class="badge-glyph">{LICENSE_ICON[reqClass]}</span>
 			<span>{REQ_LABEL[reqClass]}</span>
+		</div>
+	{/if}
+
+	{#if maxPower}
+		<div class="power">
+			<span class="pwr-max">Max <b>{maxPower}</b></span>
+			<span class="pwr-min">{MIN_POWER_NOTE}</span>
 		</div>
 	{/if}
 
@@ -259,6 +270,26 @@
 		font-weight: 700;
 		font-size: 11px;
 		line-height: 1;
+	}
+	.power {
+		display: flex;
+		flex-direction: column;
+		gap: 1px;
+		margin-bottom: 11px;
+	}
+	.pwr-max {
+		font-family: var(--font-mono);
+		font-size: 12px;
+		color: var(--sub);
+	}
+	.pwr-max b {
+		color: var(--ink);
+		font-weight: 700;
+	}
+	.pwr-min {
+		font-size: 11.5px;
+		color: var(--faint);
+		font-style: italic;
 	}
 	.strip {
 		position: relative;

@@ -58,6 +58,12 @@ const SUBBAND_PLANS_MHZ: Record<
 	string,
 	{ band: [number, number]; segs: [number, number, LicenseRank, PrivilegeMode][] }
 > = {
+	// 160 m — no Technician access; General and Extra share the whole band with no
+	// exclusive sub-band, and phone/image is authorised edge to edge (CW and data too).
+	ham160m: {
+		band: [1.8, 2.0],
+		segs: [[1.8, 2.0, 'general', 'phone']]
+	},
 	ham80m: {
 		band: [3.5, 4.0],
 		segs: [
@@ -66,6 +72,12 @@ const SUBBAND_PLANS_MHZ: Record<
 			[3.6, 3.8, 'extra', 'phone'],
 			[3.8, 4.0, 'general', 'phone']
 		]
+	},
+	// 60 m — five fixed USB channels (General and up); voice, CW and data all allowed,
+	// so the strip reads as a single General phone span across the channel group.
+	ham60m: {
+		band: [5.3305, 5.4065],
+		segs: [[5.3305, 5.4065, 'general', 'phone']]
 	},
 	ham40m: {
 		band: [7.0, 7.3],
@@ -76,6 +88,11 @@ const SUBBAND_PLANS_MHZ: Record<
 			[7.175, 7.3, 'general', 'phone']
 		]
 	},
+	// 30 m WARC — General and up, CW and data only: no phone anywhere on the band.
+	ham30m: {
+		band: [10.1, 10.15],
+		segs: [[10.1, 10.15, 'general', 'data']]
+	},
 	ham20: {
 		band: [14.0, 14.35],
 		segs: [
@@ -85,6 +102,14 @@ const SUBBAND_PLANS_MHZ: Record<
 			[14.225, 14.35, 'general', 'phone']
 		]
 	},
+	// 17 m WARC — General and up; CW/data below 18.110 MHz, phone above it. No class split.
+	ham17m: {
+		band: [18.068, 18.168],
+		segs: [
+			[18.068, 18.11, 'general', 'data'],
+			[18.11, 18.168, 'general', 'phone']
+		]
+	},
 	ham15m: {
 		band: [21.0, 21.45],
 		segs: [
@@ -92,6 +117,14 @@ const SUBBAND_PLANS_MHZ: Record<
 			[21.025, 21.2, 'technician', 'cw'],
 			[21.2, 21.275, 'extra', 'phone'],
 			[21.275, 21.45, 'general', 'phone']
+		]
+	},
+	// 12 m WARC — General and up; CW/data below 24.930 MHz, phone above it. No class split.
+	ham12m: {
+		band: [24.89, 24.99],
+		segs: [
+			[24.89, 24.93, 'general', 'data'],
+			[24.93, 24.99, 'general', 'phone']
 		]
 	},
 	ham10m: {
@@ -183,6 +216,42 @@ export function privilegeStrip(allocationId: string, held: LicenseRank): Rendere
 	const have = licenseRank(held);
 	return segments.map((s) => ({ ...s, enabled: have >= licenseRank(s.minLicense) }));
 }
+
+/**
+ * Transmitter-power ceilings (47 CFR §97.313). Every amateur band allows the 1500 W PEP legal
+ * limit unless a stricter figure applies, so only the exceptions are tabulated. The EIRP/ERP
+ * bands quote effective radiated power (what leaves the antenna), not raw transmitter output.
+ */
+const LEGAL_MAX_POWER = '1500 W PEP';
+
+/** Bands whose ceiling is lower than the legal limit for *every* class, keyed by allocation id. */
+const HAM_POWER_EXCEPTIONS: Record<string, string> = {
+	ham2200m: '1 W EIRP', // 135.7–137.8 kHz
+	ham630m: '5 W EIRP', // 472–479 kHz
+	ham60m: '100 W ERP', // per channel, referenced to a half-wave dipole
+	ham30m: '200 W PEP' // 10.100–10.150 MHz, all classes
+};
+
+/**
+ * Bands where a Technician (folding in the closed Novice class) is held to 200 W PEP on the
+ * Novice/Technician HF segment, even though General/Extra may run the legal limit there
+ * (§97.313(c)): the bottom of 80, 40, 15 and 10 m.
+ */
+const TECH_200W_BANDS = new Set(['ham80m', 'ham40m', 'ham15m', 'ham10m']);
+
+/**
+ * The maximum transmitter power to show for an amateur band and held class — the §97.313 ceiling
+ * that caps output *before* the always-on "use the minimum necessary" rule ({@link MIN_POWER_NOTE}).
+ * Empty string for non-amateur allocations (Part 95 services set their own limits elsewhere).
+ */
+export function powerLimit(id: string, held: LicenseRank): string {
+	if (!(id.startsWith('ham') || id === '2m')) return '';
+	if (held === 'technician' && TECH_200W_BANDS.has(id)) return '200 W PEP';
+	return HAM_POWER_EXCEPTIONS[id] ?? LEGAL_MAX_POWER;
+}
+
+/** The universal §97.313(a) reminder, shown alongside every amateur band's power ceiling. */
+export const MIN_POWER_NOTE = 'Use the minimum power needed to make contact (§97.313)';
 
 /** Summary note shown beneath the privilege strip, keyed to the held license. */
 export function privilegeNote(held: LicenseRank): string {

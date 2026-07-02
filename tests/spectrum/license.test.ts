@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import {
 	hasPrivilegePlan,
+	powerLimit,
 	privilegeBands,
 	privilegeNote,
 	privilegeStrip,
@@ -8,14 +9,25 @@ import {
 } from '$lib/spectrum/license';
 
 describe('hasPrivilegePlan', () => {
-	it('is true for the classic HF bands with a documented sub-band plan', () => {
-		for (const id of ['ham80m', 'ham40m', 'ham20', 'ham15m', 'ham10m']) {
+	it('is true for every HF band with a documented sub-band plan', () => {
+		for (const id of [
+			'ham160m',
+			'ham80m',
+			'ham60m',
+			'ham40m',
+			'ham30m',
+			'ham20',
+			'ham17m',
+			'ham15m',
+			'ham12m',
+			'ham10m'
+		]) {
 			expect(hasPrivilegePlan(id)).toBe(true);
 		}
 	});
 
 	it('is false for bands without a plan', () => {
-		expect(hasPrivilegePlan('ham17m')).toBe(false);
+		expect(hasPrivilegePlan('ham6m')).toBe(false);
 		expect(hasPrivilegePlan('wifi')).toBe(false);
 		expect(hasPrivilegePlan('does-not-exist')).toBe(false);
 	});
@@ -23,7 +35,7 @@ describe('hasPrivilegePlan', () => {
 
 describe('privilegeBands', () => {
 	it('is empty for bands without a documented plan', () => {
-		expect(privilegeBands('ham17m', 'extra')).toEqual([]);
+		expect(privilegeBands('ham6m', 'extra')).toEqual([]);
 		expect(privilegeBands('does-not-exist', 'extra')).toEqual([]);
 	});
 
@@ -86,10 +98,78 @@ describe('privilegeStrip', () => {
 		expect(enabled[0].mode).toBe('cw');
 	});
 
-	it('covers the classic HF bands with sub-band plans', () => {
-		for (const id of ['ham80m', 'ham40m', 'ham20', 'ham15m', 'ham10m']) {
+	it('gives a Technician CW-only on 80/40/15 m but phone on 10 m — never phone below 10 m', () => {
+		for (const id of ['ham80m', 'ham40m', 'ham15m']) {
+			const enabled = privilegeStrip(id, 'technician').filter((s) => s.enabled);
+			expect(enabled.length).toBeGreaterThan(0);
+			expect(enabled.every((s) => s.mode === 'cw')).toBe(true);
+		}
+		// 10 m is the one HF band where a Technician may run phone (voice).
+		const tenM = privilegeStrip('ham10m', 'technician').filter((s) => s.enabled);
+		expect(tenM.some((s) => s.mode === 'phone')).toBe(true);
+	});
+
+	it('locks 30 m to CW/data — no phone segment for any class', () => {
+		for (const held of ['general', 'extra'] as const) {
+			const strip = privilegeStrip('ham30m', held);
+			expect(strip.every((s) => s.mode !== 'phone')).toBe(true);
+		}
+	});
+
+	it('opens the WARC and 160/60 m bands to General but not Technician', () => {
+		for (const id of ['ham160m', 'ham60m', 'ham30m', 'ham17m', 'ham12m']) {
+			expect(privilegeStrip(id, 'technician').some((s) => s.enabled)).toBe(false);
+			expect(privilegeStrip(id, 'general').every((s) => s.enabled)).toBe(true);
+		}
+	});
+
+	it('covers every HF band with a sub-band plan', () => {
+		for (const id of [
+			'ham160m',
+			'ham80m',
+			'ham60m',
+			'ham40m',
+			'ham30m',
+			'ham20',
+			'ham17m',
+			'ham15m',
+			'ham12m',
+			'ham10m'
+		]) {
 			expect(HAM_SUBBANDS[id]?.length).toBeGreaterThan(0);
 		}
+	});
+});
+
+describe('powerLimit', () => {
+	it('defaults to the 1500 W PEP legal limit on a full-privilege HF band', () => {
+		expect(powerLimit('ham20', 'general')).toBe('1500 W PEP');
+		expect(powerLimit('ham17m', 'extra')).toBe('1500 W PEP');
+	});
+
+	it('caps 30 m at 200 W PEP for every class', () => {
+		expect(powerLimit('ham30m', 'general')).toBe('200 W PEP');
+		expect(powerLimit('ham30m', 'extra')).toBe('200 W PEP');
+	});
+
+	it('quotes the ERP/EIRP ceilings on 60 m and the LF/VLF bands', () => {
+		expect(powerLimit('ham60m', 'general')).toBe('100 W ERP');
+		expect(powerLimit('ham630m', 'technician')).toBe('5 W EIRP');
+		expect(powerLimit('ham2200m', 'technician')).toBe('1 W EIRP');
+	});
+
+	it('holds a Technician to 200 W on their HF segments but full power on VHF', () => {
+		for (const id of ['ham80m', 'ham40m', 'ham15m', 'ham10m']) {
+			expect(powerLimit(id, 'technician')).toBe('200 W PEP');
+			expect(powerLimit(id, 'general')).toBe('1500 W PEP');
+		}
+		// A Technician runs the legal limit on 2 m — the 200 W cap is HF-segment-specific.
+		expect(powerLimit('2m', 'technician')).toBe('1500 W PEP');
+	});
+
+	it('is empty for non-amateur allocations', () => {
+		expect(powerLimit('cb', 'unlicensed')).toBe('');
+		expect(powerLimit('wifi', 'extra')).toBe('');
 	});
 });
 

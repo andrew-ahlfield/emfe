@@ -46,3 +46,37 @@ Allocations are JSON in `data/allocations/*.json`, glob-imported at build (`src/
 
 `npm run check` (svelte-check), `npm run test:unit -- --run` (vitest), `npm run test:e2e`
 (Playwright, builds + serves on 4173).
+
+## Release process
+
+The deploy *topology* — which branches map to which Netlify environments and URLs — lives in the
+[README's Deploy section](README.md#deploy). The *procedure* below is the loop you run to ship a
+change; it lives here so it's always in your working context.
+
+**Where the human gate is.** `dev` is an agent-owned staging branch: **landing work on `dev` does
+not need approval — that's the whole point of it.** Merge to `dev` yourself, let it deploy, then
+smoke-test the deploy. The review gate is *your report* (step 5), not a pre-merge ask: a human
+reads your summary of what changed and how every check went — including the smoke test against the
+live dev deployment — and decides whether to promote. Approval is required **only** to promote to
+production (`main` → `prod`), never to reach `dev`. So don't stop to ask before merging to `dev`;
+stop to *report* after the dev deploy is smoke-tested.
+
+1. Commit work on a `feature/…` (or `claude/…`) branch.
+2. Get all checks green (`npm run check`, `npm run test:unit -- --run`, `npm run test:e2e`) —
+   rework until clean.
+3. **Merge it into `dev`** (open the PR and merge — no approval needed). This publishes to the dev
+   Netlify deploy.
+4. Run the live smoke test against the **deployed** dev site: `npm run test:smoke` (point elsewhere
+   with `SMOKE_URL=…`). It loads the real deployment and checks it comes up clean, a deep-link
+   reproduces the view, and controls respond. **In a sandboxed session** the browser needs the
+   proxy/CA accommodations in [`docs/cloud-smoke-test.md`](docs/cloud-smoke-test.md); if the CA gap
+   there is still open, run it from a machine with normal egress, and at minimum confirm the deploy
+   is reachable with `curl` so the report is honest about what actually ran.
+5. **Report — this is the review gate.** Summarise what you changed and the state of every check:
+   `npm run check`, unit, e2e, and the dev-deployment smoke test, calling out any anomaly (and, if
+   the sandbox CA gap blocked the smoke run, exactly how you verified the deploy instead). The
+   human reviews this against the live dev deploy and decides whether to promote. End your turn
+   here — do not promote on your own.
+6. **On approval only:** bump the version (semver) and merge `dev` → `main`.
+7. Cut the official GitHub release from `main`.
+8. Push `main` → `prod` to go live.
