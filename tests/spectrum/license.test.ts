@@ -1,7 +1,10 @@
 import { describe, it, expect } from 'vitest';
 import {
+	classRuns,
 	hasPrivilegePlan,
+	modeRuns,
 	powerLimit,
+	powerMinNote,
 	privilegeBands,
 	privilegeNote,
 	privilegeStrip,
@@ -167,9 +170,56 @@ describe('powerLimit', () => {
 		expect(powerLimit('2m', 'technician')).toBe('1500 W PEP');
 	});
 
-	it('is empty for non-amateur allocations', () => {
-		expect(powerLimit('cb', 'unlicensed')).toBe('');
+	it('gives the fixed Part 95 limit for the personal-radio bands', () => {
+		expect(powerLimit('cb', 'unlicensed')).toBe('4 W AM · 12 W PEP SSB');
+		expect(powerLimit('frs', 'unlicensed')).toBe('FRS 2 W · GMRS up to 50 W');
+		expect(powerLimit('murs', 'unlicensed')).toBe('2 W');
+	});
+
+	it('is empty for bands with no operator power limit', () => {
 		expect(powerLimit('wifi', 'extra')).toBe('');
+		expect(powerLimit('fm-broadcast', 'extra')).toBe('');
+	});
+
+	it('attaches the §97.313 minimum-power note to amateur bands only', () => {
+		expect(powerMinNote('ham20')).toContain('§97.313');
+		expect(powerMinNote('2m')).toContain('§97.313');
+		expect(powerMinNote('cb')).toBe('');
+		expect(powerMinNote('frs')).toBe('');
+	});
+});
+
+describe('classRuns / modeRuns', () => {
+	it('merges a single-class band split only by mode into one class run (17 m)', () => {
+		const runs = classRuns(privilegeStrip('ham17m', 'general'));
+		expect(runs).toHaveLength(1);
+		expect(runs[0]).toMatchObject({ key: 'general', from: 0, to: 1, enabled: true });
+		// …while the mode row keeps the CW/data → phone split.
+		expect(modeRuns(privilegeStrip('ham17m', 'general')).map((r) => r.key)).toEqual([
+			'data',
+			'phone'
+		]);
+	});
+
+	it('merges the two Technician mode segments on 10 m into one T run', () => {
+		const runs = classRuns(privilegeStrip('ham10m', 'technician'));
+		// 28.0–28.3 data + 28.3–28.5 phone are both Technician → one run, then General above.
+		expect(runs.map((r) => r.key)).toEqual(['technician', 'general']);
+		expect(runs[0].enabled).toBe(true);
+		expect(runs[1].enabled).toBe(false); // a Technician can't work 28.5–29.7
+		expect(modeRuns(privilegeStrip('ham10m', 'technician')).map((r) => r.key)).toEqual([
+			'data',
+			'phone'
+		]);
+	});
+
+	it('keeps distinct adjacent classes separate (20 m: E, G, E, G)', () => {
+		expect(classRuns(privilegeStrip('ham20', 'extra')).map((r) => r.key)).toEqual([
+			'extra',
+			'general',
+			'extra',
+			'general'
+		]);
 	});
 });
 

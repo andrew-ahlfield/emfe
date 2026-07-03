@@ -239,19 +239,86 @@ const HAM_POWER_EXCEPTIONS: Record<string, string> = {
  */
 const TECH_200W_BANDS = new Set(['ham80m', 'ham40m', 'ham15m', 'ham10m']);
 
-/**
- * The maximum transmitter power to show for an amateur band and held class — the §97.313 ceiling
- * that caps output *before* the always-on "use the minimum necessary" rule ({@link MIN_POWER_NOTE}).
- * Empty string for non-amateur allocations (Part 95 services set their own limits elsewhere).
- */
-export function powerLimit(id: string, held: LicenseRank): string {
-	if (!(id.startsWith('ham') || id === '2m')) return '';
-	if (held === 'technician' && TECH_200W_BANDS.has(id)) return '200 W PEP';
-	return HAM_POWER_EXCEPTIONS[id] ?? LEGAL_MAX_POWER;
+/** An amateur (Part 97) band — the ids are `ham*` plus the one-off `2m`. Part 95 personal-radio
+ *  services (CB, FRS/GMRS, MURS) are *not* amateur and carry their own power rules. */
+function isAmateurBand(id: string): boolean {
+	return id.startsWith('ham') || id === '2m';
 }
 
-/** The universal §97.313(a) reminder, shown alongside every amateur band's power ceiling. */
+/**
+ * Transmitter-power ceilings for the Part 95 personal-radio services, by allocation id. Fixed per
+ * service and independent of any operator class (these are licence-by-rule / licence-free bands):
+ * CB (47 CFR §95.967), FRS & GMRS (§95.567/.1767), MURS (§95.2567).
+ */
+const PART95_POWER: Record<string, string> = {
+	cb: '4 W AM · 12 W PEP SSB',
+	frs: 'FRS 2 W · GMRS up to 50 W',
+	murs: '2 W'
+};
+
+/**
+ * The maximum transmitter power to show for a band and held class. For amateur bands it's the
+ * §97.313 ceiling (1500 W PEP, less on the exception bands and for a Technician on their HF
+ * segment); for the Part 95 personal-radio bands it's the fixed per-service limit. Empty string
+ * for everything else (broadcast, cellular, radar, … — power isn't the operator-facing fact there).
+ */
+export function powerLimit(id: string, held: LicenseRank): string {
+	if (isAmateurBand(id)) {
+		if (held === 'technician' && TECH_200W_BANDS.has(id)) return '200 W PEP';
+		return HAM_POWER_EXCEPTIONS[id] ?? LEGAL_MAX_POWER;
+	}
+	return PART95_POWER[id] ?? '';
+}
+
+/** The universal §97.313(a) reminder — a Part 97 amateur rule, so it accompanies only ham bands'
+ *  power ceilings (Part 95 services have no equivalent "minimum necessary power" mandate). */
 export const MIN_POWER_NOTE = 'Use the minimum power needed to make contact (§97.313)';
+
+/** The minimum-power reminder for a band, or '' when it doesn't apply (non-amateur). */
+export function powerMinNote(id: string): string {
+	return isAmateurBand(id) ? MIN_POWER_NOTE : '';
+}
+
+/** A contiguous run of the privilege strip sharing one key (licence class, or operating mode),
+ *  as a fraction of the band span. Used to collapse the strip so it doesn't read as split where
+ *  it isn't: the glyph row merges by class, a caption row merges by mode. */
+export interface StripRun<K> {
+	from: number;
+	to: number;
+	key: K;
+	/** True when the held class can transmit across the run (every merged segment was enabled). */
+	enabled: boolean;
+}
+
+/** Merge adjacent segments that share `keyOf` into runs — so a band split only by operating mode
+ *  (17 m: General CW/data then phone) collapses to a single General run, not two "G" segments. */
+function mergeRuns<K>(
+	segs: RenderedSegment[],
+	keyOf: (s: RenderedSegment) => K
+): StripRun<K>[] {
+	const runs: StripRun<K>[] = [];
+	for (const s of segs) {
+		const key = keyOf(s);
+		const last = runs[runs.length - 1];
+		if (last && last.key === key && Math.abs(last.to - s.from) < 1e-6) {
+			last.to = s.to;
+			last.enabled = last.enabled && s.enabled;
+		} else {
+			runs.push({ from: s.from, to: s.to, key, enabled: s.enabled });
+		}
+	}
+	return runs;
+}
+
+/** The strip's licence-class runs (one glyph each) — adjacent same-class segments merged. */
+export function classRuns(segs: RenderedSegment[]): StripRun<LicenseRank>[] {
+	return mergeRuns(segs, (s) => s.minLicense);
+}
+
+/** The strip's operating-mode runs (one caption each) — adjacent same-mode segments merged. */
+export function modeRuns(segs: RenderedSegment[]): StripRun<PrivilegeMode>[] {
+	return mergeRuns(segs, (s) => s.mode);
+}
 
 /** Summary note shown beneath the privilege strip, keyed to the held license. */
 export function privilegeNote(held: LicenseRank): string {
