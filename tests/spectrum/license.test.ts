@@ -1,7 +1,9 @@
 import { describe, it, expect } from 'vitest';
 import {
+	ALL_MODES_LABEL,
 	classRuns,
 	hasPrivilegePlan,
+	isAmateurBand,
 	modeRuns,
 	powerLimit,
 	powerMinNote,
@@ -186,6 +188,20 @@ describe('powerLimit', () => {
 		expect(powerMinNote('2m')).toContain('§97.313');
 		expect(powerMinNote('cb')).toBe('');
 		expect(powerMinNote('frs')).toBe('');
+	});
+});
+
+describe('isAmateurBand', () => {
+	it('is true for ham* ids and 2 m, false for Part 95 and everything else', () => {
+		for (const id of ['ham17m', 'ham6m', 'ham70cm', '2m']) expect(isAmateurBand(id)).toBe(true);
+		for (const id of ['cb', 'frs', 'murs', 'wifi']) expect(isAmateurBand(id)).toBe(false);
+	});
+
+	it('exposes an all-modes caption for bands with no class-varying plan', () => {
+		expect(ALL_MODES_LABEL).toMatch(/CW/);
+		expect(ALL_MODES_LABEL).toMatch(/voice/);
+		// 6 m has no documented sub-band plan → the card falls back to the all-modes caption.
+		expect(hasPrivilegePlan('ham6m')).toBe(false);
 	});
 });
 

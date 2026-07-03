@@ -6,13 +6,13 @@
 	import { planFor } from '$lib/spectrum/channels';
 	import { axisOptions } from '$lib/state/axis';
 	import {
+		ALL_MODES_LABEL,
 		LICENSE_ICON,
 		RANK_LABELS,
-		classRuns,
+		isAmateurBand,
 		modeRuns,
 		powerLimit,
 		powerMinNote,
-		privilegeNote,
 		privilegeStrip,
 		type RenderedSegment
 	} from '$lib/spectrum/license';
@@ -53,11 +53,26 @@
 		phone: 'voice'
 	};
 
-	/** Fractional [from,to] → absolute-frequency tooltip for a merged run. */
+	/** One cell of the strip: a licence-class glyph over a mode-tinted fill. `mode` is a
+	 *  {@link RenderedSegment} mode, or 'all' for a band with no class-varying plan. */
+	type StripCell = {
+		from: number;
+		to: number;
+		glyph: LicenseRank;
+		enabled: boolean;
+		mode: RenderedSegment['mode'] | 'all';
+	};
+
+	/** Fractional [from,to] → absolute-frequency tooltip. */
 	function runTitle(from: number, to: number, extra: string): string {
 		if (!allocation.band) return extra;
 		const [lo, hi] = allocation.band;
 		return `${fmtFreq(lo + from * (hi - lo))} – ${fmtFreq(lo + to * (hi - lo))} · ${extra}`;
+	}
+
+	function cellTitle(c: StripCell): string {
+		const mode = c.mode === 'all' ? 'CW / data / voice' : MODE_LABEL[c.mode];
+		return runTitle(c.from, c.to, `${RANK_LABELS[c.glyph]} · ${mode}`);
 	}
 
 	let bandText = $derived(
@@ -86,13 +101,46 @@
 	let maxPower = $derived(powerLimit(allocation.id, license));
 	let powerNote = $derived(powerMinNote(allocation.id));
 	let segments = $derived(privilegeStrip(allocation.id, license));
-	/** The strip collapsed to licence-class runs (one glyph each) so a mode-only split doesn't read
-	 *  as a class split, plus the operating-mode runs shown as a caption beneath it. */
-	let licenceRuns = $derived(classRuns(segments));
-	let opModeRuns = $derived(modeRuns(segments));
-	/** Distinct licence classes present in this band, low → high, for the glyph key. */
+	/** True for an amateur band with no class-varying sub-band plan (6 m + the VHF/UHF bands): the
+	 *  whole band is one all-mode block for the required class. Gets a single synthesised cell so
+	 *  every amateur band still states which modes are allowed. */
+	let amateurAllMode = $derived(
+		segments.length === 0 && reqClass != null && isAmateurBand(allocation.id) && allocation.band != null
+	);
+	/** The strip's cells: one per (class, mode) segment — the fill is tinted by mode so the CW/data →
+	 *  voice split is visible on the bar, and each carries its class glyph. */
+	let stripCells = $derived<StripCell[]>(
+		segments.length > 0
+			? segments.map((s) => ({
+					from: s.from,
+					to: s.to,
+					glyph: s.minLicense,
+					enabled: s.enabled,
+					mode: s.mode
+				}))
+			: amateurAllMode
+				? [
+						{
+							from: 0,
+							to: 1,
+							glyph: reqClass!,
+							enabled: licenseRank(license) >= licenseRank(reqClass!),
+							mode: 'all'
+						}
+					]
+				: []
+	);
+	/** The operating-mode caption beneath the strip — one label per mode run, or the all-mode line. */
+	let modeCaptions = $derived(
+		segments.length > 0
+			? modeRuns(segments).map((r) => ({ from: r.from, to: r.to, label: MODE_SHORT[r.key] }))
+			: amateurAllMode
+				? [{ from: 0, to: 1, label: ALL_MODES_LABEL }]
+				: []
+	);
+	/** Distinct licence classes present, low → high, for the glyph key. */
 	let classKey = $derived(
-		[...new Set(segments.map((s) => s.minLicense))].sort((a, b) => licenseRank(a) - licenseRank(b))
+		[...new Set(stripCells.map((c) => c.glyph))].sort((a, b) => licenseRank(a) - licenseRank(b))
 	);
 </script>
 
@@ -123,34 +171,32 @@
 		</div>
 	{/if}
 
-	{#if segments.length > 0 && allocation.band}
-		<!-- Strip glyphs merge by licence class so a band split only by mode (17 m: General CW/data
-		     then phone) shows one "G", not two; the mode row below carries the operating-mode split. -->
+	{#if stripCells.length > 0 && allocation.band}
+		<!-- One cell per (class, mode) segment: the class glyph rides a mode-tinted fill, so the
+		     CW → data → voice split is visible on the bar and the mode row names it beneath. -->
 		<div class="strip">
-			{#each licenceRuns as run (run.from)}
+			{#each stripCells as c, i (i)}
 				<span
-					class="seg"
-					class:off={!run.enabled}
-					style="left: {run.from * 100}%; width: {(run.to - run.from) * 100}%"
-					title={runTitle(run.from, run.to, RANK_LABELS[run.key])}
+					class="seg mode-{c.mode}"
+					class:off={!c.enabled}
+					style="left: {c.from * 100}%; width: {(c.to - c.from) * 100}%"
+					title={cellTitle(c)}
 				>
-					<span class="seg-mark">{LICENSE_ICON[run.key]}</span>
+					<span class="seg-mark">{LICENSE_ICON[c.glyph]}</span>
 				</span>
 			{/each}
 		</div>
 		<div class="mode-row">
-			{#each opModeRuns as m (m.from)}
+			{#each modeCaptions as m, i (i)}
 				<span
 					class="mode"
 					class:tick={m.from > 0}
-					style="left: {m.from * 100}%; width: {(m.to - m.from) * 100}%"
-					title={runTitle(m.from, m.to, MODE_LABEL[m.key])}>{MODE_SHORT[m.key]}</span
+					style="left: {m.from * 100}%; width: {(m.to - m.from) * 100}%">{m.label}</span
 				>
 			{/each}
 		</div>
 		<div class="strip-legend">
 			<span>{fmtFreq(allocation.band[0])}</span>
-			<span>{privilegeNote(license)}</span>
 			<span>{fmtFreq(allocation.band[1])}</span>
 		</div>
 		{#if classKey.length > 0}
@@ -337,6 +383,20 @@
 	}
 	.strip > .seg:last-child {
 		box-shadow: none;
+	}
+	/* Mode-tinted fills: a blue → purple → pink progression across CW / data / voice, all bright
+	   enough to carry the dark class glyph, so the operating-mode split reads on the bar itself. */
+	.seg.mode-cw {
+		background: color-mix(in srgb, var(--layer-amateur) 62%, #4f6bff 38%);
+	}
+	.seg.mode-data {
+		background: var(--layer-amateur);
+	}
+	.seg.mode-phone {
+		background: color-mix(in srgb, var(--layer-amateur) 60%, #ff5aa8 40%);
+	}
+	.seg.mode-all {
+		background: var(--layer-amateur);
 	}
 	.seg.off {
 		background: color-mix(in srgb, var(--layer-amateur) 20%, var(--panelb));
