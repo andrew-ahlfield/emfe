@@ -241,9 +241,13 @@ const TECH_200W_BANDS = new Set(['ham80m', 'ham40m', 'ham15m', 'ham10m']);
 
 /** An amateur (Part 97) band — the ids are `ham*` plus the one-off `2m`. Part 95 personal-radio
  *  services (CB, FRS/GMRS, MURS) are *not* amateur and carry their own power rules. */
-function isAmateurBand(id: string): boolean {
+export function isAmateurBand(id: string): boolean {
 	return id.startsWith('ham') || id === '2m';
 }
+
+/** Mode caption for an amateur band with no class-varying sub-band plan — the VHF/UHF (and 6 m)
+ *  bands, where the whole band is open to the required class for CW, data and voice alike. */
+export const ALL_MODES_LABEL = 'CW · data · voice';
 
 /**
  * Transmitter-power ceilings for the Part 95 personal-radio services, by allocation id. Fixed per
