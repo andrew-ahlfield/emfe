@@ -7,9 +7,11 @@
 	import { axisOptions } from '$lib/state/axis';
 	import {
 		LICENSE_ICON,
-		MIN_POWER_NOTE,
 		RANK_LABELS,
+		classRuns,
+		modeRuns,
 		powerLimit,
+		powerMinNote,
 		privilegeNote,
 		privilegeStrip,
 		type RenderedSegment
@@ -44,13 +46,18 @@
 		phone: 'Phone (voice)'
 	};
 
-	/** A hover tooltip that keeps the mode info the pink fill no longer encodes. */
-	function segTitle(seg: RenderedSegment): string {
-		if (!allocation.band) return '';
+	/** Compact mode captions for the strip's mode row — the fuller labels live in the tooltip. */
+	const MODE_SHORT: Record<RenderedSegment['mode'], string> = {
+		cw: 'CW',
+		data: 'data',
+		phone: 'voice'
+	};
+
+	/** Fractional [from,to] → absolute-frequency tooltip for a merged run. */
+	function runTitle(from: number, to: number, extra: string): string {
+		if (!allocation.band) return extra;
 		const [lo, hi] = allocation.band;
-		const from = lo + seg.from * (hi - lo);
-		const to = lo + seg.to * (hi - lo);
-		return `${fmtFreq(from)} – ${fmtFreq(to)} · ${RANK_LABELS[seg.minLicense]} · ${MODE_LABEL[seg.mode]}`;
+		return `${fmtFreq(lo + from * (hi - lo))} – ${fmtFreq(lo + to * (hi - lo))} · ${extra}`;
 	}
 
 	let bandText = $derived(
@@ -74,9 +81,15 @@
 	);
 	const peakLabel = (hz: number) => (hz < 10 ? hz.toFixed(1) : String(Math.round(hz)));
 	let reqClass = $derived(allocation.reqLicense);
-	/** The §97.313 power ceiling for this amateur band + held class; '' for non-amateur bands. */
+	/** The power ceiling to show (amateur §97.313 or Part 95); '' for bands without an operator
+	 *  limit. `powerNote` is the "minimum necessary power" reminder, amateur-only. */
 	let maxPower = $derived(powerLimit(allocation.id, license));
+	let powerNote = $derived(powerMinNote(allocation.id));
 	let segments = $derived(privilegeStrip(allocation.id, license));
+	/** The strip collapsed to licence-class runs (one glyph each) so a mode-only split doesn't read
+	 *  as a class split, plus the operating-mode runs shown as a caption beneath it. */
+	let licenceRuns = $derived(classRuns(segments));
+	let opModeRuns = $derived(modeRuns(segments));
 	/** Distinct licence classes present in this band, low → high, for the glyph key. */
 	let classKey = $derived(
 		[...new Set(segments.map((s) => s.minLicense))].sort((a, b) => licenseRank(a) - licenseRank(b))
@@ -96,6 +109,13 @@
 			: ''}{bandText ? ` · ${bandText}` : ''}
 	</div>
 
+	{#if maxPower}
+		<div class="power">
+			<span class="pwr-max">Max power <b>{maxPower}</b></span>
+			{#if powerNote}<span class="pwr-min">{powerNote}</span>{/if}
+		</div>
+	{/if}
+
 	{#if reqClass}
 		<div class="class-badge">
 			<span class="badge-glyph">{LICENSE_ICON[reqClass]}</span>
@@ -103,24 +123,29 @@
 		</div>
 	{/if}
 
-	{#if maxPower}
-		<div class="power">
-			<span class="pwr-max">Max <b>{maxPower}</b></span>
-			<span class="pwr-min">{MIN_POWER_NOTE}</span>
-		</div>
-	{/if}
-
 	{#if segments.length > 0 && allocation.band}
+		<!-- Strip glyphs merge by licence class so a band split only by mode (17 m: General CW/data
+		     then phone) shows one "G", not two; the mode row below carries the operating-mode split. -->
 		<div class="strip">
-			{#each segments as seg, i (i)}
+			{#each licenceRuns as run (run.from)}
 				<span
 					class="seg"
-					class:off={!seg.enabled}
-					style="left: {seg.from * 100}%; width: {(seg.to - seg.from) * 100}%"
-					title={segTitle(seg)}
+					class:off={!run.enabled}
+					style="left: {run.from * 100}%; width: {(run.to - run.from) * 100}%"
+					title={runTitle(run.from, run.to, RANK_LABELS[run.key])}
 				>
-					<span class="seg-mark">{LICENSE_ICON[seg.minLicense]}</span>
+					<span class="seg-mark">{LICENSE_ICON[run.key]}</span>
 				</span>
+			{/each}
+		</div>
+		<div class="mode-row">
+			{#each opModeRuns as m (m.from)}
+				<span
+					class="mode"
+					class:tick={m.from > 0}
+					style="left: {m.from * 100}%; width: {(m.to - m.from) * 100}%"
+					title={runTitle(m.from, m.to, MODE_LABEL[m.key])}>{MODE_SHORT[m.key]}</span
+				>
 			{/each}
 		</div>
 		<div class="strip-legend">
@@ -326,6 +351,30 @@
 	.seg.off .seg-mark {
 		color: var(--faint);
 		font-weight: 600;
+	}
+	/* Operating-mode caption under the strip: one label per mode run, aligned to the class strip,
+	   with a hairline tick at each internal mode boundary so the split reads as *mode*, not class. */
+	.mode-row {
+		position: relative;
+		height: 13px;
+		margin-bottom: 5px;
+	}
+	.mode {
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		overflow: hidden;
+		font-family: var(--font-mono);
+		font-size: 10px;
+		line-height: 1;
+		color: var(--sub);
+		white-space: nowrap;
+	}
+	.mode.tick {
+		border-left: 1px solid var(--line);
 	}
 	.strip-legend {
 		display: flex;
