@@ -443,7 +443,12 @@
 	sel: boolean
 )}
 	{@const col = fillOf(alloc, spectralColor(alloc.hz))}
-	{@const solid = alloc.optical === 'led' && alloc.emission !== 'white'}
+	<!-- LEDs and firework colours read as solid blocks of their own colour: they sit *over* the
+	     visible-spectrum gradient in that same colour, so a translucent bar would just dissolve into
+	     the rainbow behind it. The one exception is a broadband white emitter (firework white), which
+	     is so wide it has to stay a translucent envelope or it would curtain off the gradient. -->
+	{@const solid =
+		(alloc.optical === 'led' || alloc.optical === 'fireworks') && alloc.emission !== 'white'}
 	{#if alloc.lines && alloc.lines.length > 0}
 		<!-- The selected discharge gets a padded envelope so its full range — including the faint
 		     edge lines at the very top and bottom — is easy to pick out. Drawn behind the ticks. -->
@@ -703,7 +708,8 @@
 		stroke: var(--ink);
 		stroke-width: 1;
 	}
-	/* Coloured LEDs read as solid blocks of their colour (not translucent brackets). */
+	/* Coloured LEDs and firework colours read as solid blocks of their colour (not translucent
+	   brackets) — over the matching gradient a see-through fill would just disappear. */
 	.optical-bar.solid,
 	.optical-dot.solid {
 		opacity: 1;

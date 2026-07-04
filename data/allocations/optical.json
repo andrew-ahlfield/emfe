@@ -368,19 +368,5 @@
 		"minLod": 3,
 		"note": "Firework white / silver—burning metals (magnesium, aluminium, titanium) incandesce a brilliant broadband white: the bright sparks, strobes and glitter rather than a hue.",
 		"source": "fireworks-chem"
-	},
-	{
-		"id": "potassium",
-		"name": "Potassium",
-		"hz": 741326552917903,
-		"band": [389391424860372, 741326552917903],
-		"lines": [389391424860372, 391118666666667, 741326552917903],
-		"layer": "science",
-		"altLayer": "consumer",
-		"region": "visible",
-		"optical": "fireworks",
-		"minLod": 3,
-		"note": "Potassium—not a firework colour but core firework chemistry: potassium nitrate (saltpetre) and potassium perchlorate are the oxidisers that make black powder and the burning stars go. Its own flame emission is a faint lilac—a violet 404 nm line plus a strong but near-invisible deep-red 766/770 nm doublet—usually drowned out by the bright colourants and by any trace of sodium.",
-		"source": "nist-asd"
 	}
 ]

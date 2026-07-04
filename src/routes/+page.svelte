@@ -32,11 +32,18 @@
 	import VisibleFilter from '$lib/components/VisibleFilter.svelte';
 	import AllocationFilter from '$lib/components/AllocationFilter.svelte';
 	import AxisOptions from '$lib/components/AxisOptions.svelte';
-	import ThemeToggle from '$lib/components/ThemeToggle.svelte';
+	import CornerActions from '$lib/components/CornerActions.svelte';
 	import SourcesModal from '$lib/components/SourcesModal.svelte';
 
 	let width = $state(0);
 	let zoomed = $derived($view.zoom > 1);
+
+	// Any right-hand details sheet open? On desktop it covers the top-right corner, so the corner
+	// actions slide clear of it (unless the inspector is pinned — then the whole layout has already
+	// shifted left to make room, and the corner has moved with it).
+	let cardOpen = $derived(
+		$selection !== null || $groupSelection !== null || $substrateSelection !== null
+	);
 
 	// Mobile bottom-sheet ceiling: track the spectrum card's bottom edge so the info sheet can rise
 	// to just under it (never overlapping the number line) and scroll internally beyond that. Exposed
@@ -107,6 +114,18 @@
 	let restored = $state(false);
 	let prev: DeepLinkSnapshot | null = null;
 
+	// Back affordance: we already push a history entry for every discrete change (selecting a marker,
+	// opening a card, framing a neighbourhood), so "back" is just the browser's back over those. We
+	// stamp a running depth into `history.state` so the on-screen button knows when there's somewhere
+	// to go back to and never dead-ends into leaving the page. Continuous zoom/pan replaces (never
+	// pushes), so it isn't something you can "undo" here — only the things you clicked.
+	let backDepth = $state(0);
+	const historyDepth = (): number =>
+		history.state && typeof history.state.d === 'number' ? history.state.d : 0;
+	function goBack(): void {
+		if (backDepth > 0) history.back();
+	}
+
 	// Restore from the URL once, in the browser, before we start mirroring back out.
 	$effect(() => {
 		if (!browser || restored) return;
@@ -136,8 +155,14 @@
 		if (!browser || !restored) return;
 		const qs = encodeState(snap);
 		const url = qs ? `?${qs}` : window.location.pathname;
-		const method = prev && discreteChanged(prev, snap) ? 'pushState' : 'replaceState';
-		history[method](history.state, '', url);
+		const depth = historyDepth();
+		if (prev && discreteChanged(prev, snap)) {
+			history.pushState({ ...history.state, d: depth + 1 }, '', url);
+			backDepth = depth + 1;
+		} else {
+			history.replaceState({ ...history.state, d: depth }, '', url);
+			backDepth = depth;
+		}
 		prev = snap;
 	});
 
@@ -193,6 +218,7 @@
 		// Theme is not part of the deep-link (see restore effect above); leave the viewer's own scheme.
 		applyCard(s.card);
 		prev = snapshot();
+		backDepth = historyDepth();
 	}
 
 	// Structured data for search engines and AI assistants. Describes the tool as a free
@@ -288,8 +314,8 @@
      unpins it (see onclose), so the space is always reclaimed. -->
 <div class="layout" class:pinned={$inspectorPinned}>
 	<main>
-		<section class="card" bind:this={cardEl}>
-			<ThemeToggle />
+		<section class="card" class:has-back={backDepth > 0} bind:this={cardEl}>
+			<CornerActions canGoBack={backDepth > 0} shift={cardOpen && !$inspectorPinned} onback={goBack} />
 			<header>
 				<div>
 					<h1>The Electromagnetic Spectrum</h1>
@@ -515,9 +541,13 @@
 		align-items: flex-end;
 		justify-content: space-between;
 		gap: 16px;
-		/* clear the absolutely-positioned theme toggle in the top-right corner */
-		padding-right: 52px;
+		/* clear the absolutely-positioned corner actions (share + theme) in the top-right corner;
+		   widened to also clear the back button when it appears (.has-back). */
+		padding-right: 100px;
 		margin-bottom: 24px;
+	}
+	.card.has-back header {
+		padding-right: 146px;
 	}
 
 	h1 {
@@ -598,7 +628,10 @@
 			/* Compact header: title + readout on one tidy row, subtitle hidden to save height. */
 			gap: 10px;
 			margin-bottom: 14px;
-			padding-right: 44px;
+			padding-right: 84px;
+		}
+		.card.has-back header {
+			padding-right: 122px;
 		}
 		h1 {
 			font-size: 19px;
