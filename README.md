@@ -139,21 +139,10 @@ that an agent (or a human) can **close the loop** — run the app as deployed an
 do final verification that everything works as intended — before anything is
 promoted. Nothing reaches production without first being seen live on `dev`.
 
-The release process:
-
-1. Commit work on a `feature/…` (or `claude/…`) branch.
-2. Get all checks passing (`npm run check`, `npm test`, e2e) — rework until green.
-3. Open a PR into `dev`.
-4. Run the live smoke test against the `dev` deploy: `npm run test:smoke`. It loads
-   the real deployment and checks it comes up clean (no console/page errors), that a
-   shared deep-link reproduces the view, and that the controls respond. Point it at a
-   different environment with `SMOKE_URL=…` (e.g. a Netlify deploy-preview, or
-   `https://emfe.exagrow.com` to smoke prod). If rework is needed, iterate — back to
-   step 1.
-5. The agent reports any anomalies and asks for approval.
-6. On approval, bump the version (semver) and merge to `main`.
-7. Cut the official GitHub release from `main`.
-8. Push `main` → `prod` to go live.
+The step-by-step **release process** — feature branch → `dev` → smoke test →
+report & approval → `main` → `prod` — lives in
+[`CLAUDE.md`](CLAUDE.md#release-process) so it stays in the working context of the
+agent that runs it. This section is the deploy *topology* it refers back to.
 
 ## Brand & style
 
