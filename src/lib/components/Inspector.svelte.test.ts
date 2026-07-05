@@ -58,13 +58,13 @@ describe('Inspector licence badge', () => {
 describe('Inspector privilege strip', () => {
 	it('renders a sub-band strip for bands with a documented plan', async () => {
 		const screen = mount(ham20, 'extra');
-		await expect.element(screen.getByText('full band')).toBeInTheDocument();
+		await expect.element(screen.getByText('20 m ham')).toBeInTheDocument();
 		expect(screen.container.querySelectorAll('.strip .seg')).toHaveLength(4);
 	});
 
 	it('greys out the segments the held licence cannot use', async () => {
 		const screen = mount(ham20, 'general');
-		await expect.element(screen.getByText('General privileges')).toBeInTheDocument();
+		await expect.element(screen.getByText('20 m ham')).toBeInTheDocument();
 		// 20 m has two Extra-only segments → two greyed out for a General holder.
 		expect(screen.container.querySelectorAll('.strip .seg.off')).toHaveLength(2);
 	});
