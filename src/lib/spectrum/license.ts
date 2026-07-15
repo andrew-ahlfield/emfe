@@ -296,10 +296,7 @@ export interface StripRun<K> {
 
 /** Merge adjacent segments that share `keyOf` into runs — so a band split only by operating mode
  *  (17 m: General CW/data then phone) collapses to a single General run, not two "G" segments. */
-function mergeRuns<K>(
-	segs: RenderedSegment[],
-	keyOf: (s: RenderedSegment) => K
-): StripRun<K>[] {
+function mergeRuns<K>(segs: RenderedSegment[], keyOf: (s: RenderedSegment) => K): StripRun<K>[] {
 	const runs: StripRun<K>[] = [];
 	for (const s of segs) {
 		const key = keyOf(s);

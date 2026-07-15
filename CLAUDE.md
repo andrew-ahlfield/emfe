@@ -49,8 +49,8 @@ _either_ layer is on and colours by `effectiveLayer` (primary wins when its togg
 
 ## Release process
 
-The deploy *topology* — which branches map to which Netlify environments and URLs — lives in the
-[README's Deploy section](README.md#deploy). The *procedure* below is the loop you run to ship a
+The deploy _topology_ — which branches map to which Netlify environments and URLs — lives in the
+[README's Deploy section](README.md#deploy). The _procedure_ below is the loop you run to ship a
 change; it lives here so it's always in your working context.
 
 > **What `dev` is for — read this before gating any `dev` action.** `dev` exists **specifically so
@@ -65,11 +65,11 @@ change; it lives here so it's always in your working context.
 
 **Where the human gate is.** `dev` is an agent-owned staging branch: **landing work on `dev` does
 not need approval — that's the whole point of it.** Merge to `dev` yourself, let it deploy, then
-smoke-test the deploy. The review gate is *your report* (step 5), not a pre-merge ask: a human
+smoke-test the deploy. The review gate is _your report_ (step 5), not a pre-merge ask: a human
 reads your summary of what changed and how every check went — including the smoke test against the
 live dev deployment — and decides whether to promote. Approval is required **only** to promote to
 production (`main` → `prod`), never to reach `dev`. So don't stop to ask before merging to `dev`;
-stop to *report* after the dev deploy is smoke-tested.
+stop to _report_ after the dev deploy is smoke-tested.
 
 1. Commit work on a `feature/…` (or `claude/…`) branch.
 2. Get all checks green (`npm run check`, `npm run test:unit -- --run`, `npm run test:e2e`) —

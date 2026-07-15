@@ -42,9 +42,7 @@ export default defineConfig({
 		launchOptions: {
 			...(executablePath ? { executablePath } : {}),
 			args: [
-				...(proxyServer
-					? [`--proxy-server=${proxyServer}`, '--ignore-certificate-errors']
-					: []),
+				...(proxyServer ? [`--proxy-server=${proxyServer}`, '--ignore-certificate-errors'] : []),
 				// Chromium's component/telemetry fetches go out as plain HTTP, which the CONNECT-only
 				// egress proxy rejects — noise in a proxied session, so switch them off.
 				'--disable-background-networking',
