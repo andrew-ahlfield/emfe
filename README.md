@@ -142,7 +142,7 @@ promoted. Nothing reaches production without first being seen live on `dev`.
 The step-by-step **release process** — feature branch → `dev` → smoke test →
 report & approval → `main` → `prod` — lives in
 [`CLAUDE.md`](CLAUDE.md#release-process) so it stays in the working context of the
-agent that runs it. This section is the deploy *topology* it refers back to.
+agent that runs it. This section is the deploy _topology_ it refers back to.
 
 ## Brand & style
 

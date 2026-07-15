@@ -315,7 +315,11 @@
 <div class="layout" class:pinned={$inspectorPinned}>
 	<main>
 		<section class="card" class:has-back={backDepth > 0} bind:this={cardEl}>
-			<CornerActions canGoBack={backDepth > 0} shift={cardOpen && !$inspectorPinned} onback={goBack} />
+			<CornerActions
+				canGoBack={backDepth > 0}
+				shift={cardOpen && !$inspectorPinned}
+				onback={goBack}
+			/>
 			<header>
 				<div>
 					<h1>The Electromagnetic Spectrum</h1>
