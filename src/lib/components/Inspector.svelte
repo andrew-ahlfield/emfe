@@ -105,7 +105,10 @@
 	 *  whole band is one all-mode block for the required class. Gets a single synthesised cell so
 	 *  every amateur band still states which modes are allowed. */
 	let amateurAllMode = $derived(
-		segments.length === 0 && reqClass != null && isAmateurBand(allocation.id) && allocation.band != null
+		segments.length === 0 &&
+			reqClass != null &&
+			isAmateurBand(allocation.id) &&
+			allocation.band != null
 	);
 	/** The strip's cells: one per (class, mode) segment — the fill is tinted by mode so the CW/data →
 	 *  voice split is visible on the bar, and each carries its class glyph. */

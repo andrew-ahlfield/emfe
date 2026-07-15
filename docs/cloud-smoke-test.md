@@ -12,7 +12,7 @@ re-termination (a one-time CA-trust setup step).
 **Bottom line:**
 
 - **Unit tests + local e2e (`npm run check`, `npm run test:unit`, `npm run
-  test:e2e`) run green in the cloud container today** — the only blocker was the
+test:e2e`) run green in the cloud container today** — the only blocker was the
   browser build, now solved in `playwright.shared.ts`. Local e2e serves the app
   on `localhost:4173`, so the egress proxy never enters into it.
 - **The live smoke test** (`npm run test:smoke`, which drives the browser to the
@@ -82,7 +82,7 @@ certutil -d sql:"$HOME/.pki/nssdb" -A -t "C,," \
   -n ccr-agent-proxy -i /root/.ccr/agent-proxy-ca.crt   # trust the proxy CA
 ```
 
-After this the cert layer passes — the error moves *past* trust (from
+After this the cert layer passes — the error moves _past_ trust (from
 `ERR_CONNECTION_CLOSED` to a transport-level `ERR_CONNECTION_RESET`/timeout),
 confirming the CA is now accepted. What remains is the proxy's own handling of
 the browser's external-HTTPS transport, which is flaky in this container in a way
