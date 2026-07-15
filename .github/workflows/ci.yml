@@ -38,14 +38,17 @@ jobs:
       - name: Validate data
         run: npm run data:validate
 
+      # The component tests run in real headless chromium (vite.config.ts sets
+      # vitest's browser provider to playwright), so the browsers must be here
+      # before `npm run test`, not just before the e2e step.
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+
       - name: Unit + component tests
         run: npm run test
 
       - name: Build
         run: npm run build
-
-      - name: Install Playwright browsers
-        run: npx playwright install --with-deps chromium
 
       - name: End-to-end tests
         run: npm run test:e2e
