@@ -9,12 +9,20 @@ Inside a sandboxed **Claude Code cloud** session two things get in the way: a
 browser-build mismatch (handled in-repo) and the egress proxy's TLS
 re-termination (a one-time CA-trust setup step).
 
+> **Toolchain first.** Node/npm pinning and the full local-vs-cloud check story now live in
+> [`toolchain.md`](toolchain.md). This page covers only the live smoke test's proxy/CA problem.
+
 **Bottom line:**
 
-- **Unit tests + local e2e (`npm run check`, `npm run test:unit`, `npm run
-test:e2e`) run green in the cloud container today** — the only blocker was the
-  browser build, now solved in `playwright.shared.ts`. Local e2e serves the app
-  on `localhost:4173`, so the egress proxy never enters into it.
+- **The offline checks (`npm run verify` — lint, check, data:validate, component
+  tests, build, e2e) run green in the cloud container**, and never touch the
+  egress proxy: local e2e serves the app on `localhost:4173`. Every browser suite
+  resolves its Chromium through `playwright.shared.ts`.
+  > Corrected 2026-07-15: this previously claimed the browser fix covered the unit
+  > tests, and it did not. The component tests run in real Chromium via
+  > `vite.config.ts`, which was never wired to `resolveChromium()` — so `npm run
+test` died in the cloud on `Executable doesn't exist at …`. Now wired; see
+  > [`toolchain.md`](toolchain.md).
 - **The live smoke test** (`npm run test:smoke`, which drives the browser to the
   real deployment over the internet) additionally needs the proxy CA trusted by
   the browser — a one-liner once `certutil` is present (§2). After that the cert
@@ -24,15 +32,14 @@ test:e2e`) run green in the cloud container today** — the only blocker was the
 
 ## 1. Browser build mismatch — handled in-repo ✅
 
-Applies to **both** browser suites — `playwright.config.ts` (local e2e) and
-`playwright.smoke.config.ts` (live smoke) share one resolver in
-`playwright.shared.ts`.
+Applies to **all three** browser suites — `vite.config.ts` (component tests),
+`playwright.config.ts` (local e2e) and `playwright.smoke.config.ts` (live smoke)
+share one resolver in `playwright.shared.ts`.
 
 The cloud image pre-installs Chromium under `PLAYWRIGHT_BROWSERS_PATH`
-(`/opt/pw-browsers`) and sets `PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1` so
-`postinstall` can't fetch more. But the installed build (e.g. `chromium-1194`)
-rarely matches the revision this `@playwright/test` version pins
-(e.g. `chromium_headless_shell-1228`), so the default managed launch dies with:
+(`/opt/pw-browsers`). But the installed build (`chromium-1194` as probed on
+2026-07-15) rarely matches the revision this `@playwright/test` version pins
+(`chromium_headless_shell-1228`), so the default managed launch dies with:
 
 ```
 browserType.launch: Executable doesn't exist at
