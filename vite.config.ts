@@ -4,8 +4,15 @@ import { playwright } from '@vitest/browser-playwright';
 import adapter from '@sveltejs/adapter-netlify';
 import { sveltekit } from '@sveltejs/kit/vite';
 import Inspect from 'vite-plugin-inspect';
+import { resolveChromium } from './playwright.shared';
 
 const pkg = JSON.parse(readFileSync(new URL('./package.json', import.meta.url), 'utf8'));
+
+// The component tests below run in real headless Chromium, so they hit the same sandbox
+// browser-build mismatch the Playwright suites do — point at whatever Chromium is actually
+// installed. No-op locally and in CI (returns undefined → managed browser), where the matched
+// build is present. See docs/toolchain.md.
+const executablePath = resolveChromium();
 
 export default defineConfig({
 	// Expose the package version to the app (shown in the Sources & credits modal).
@@ -40,7 +47,7 @@ export default defineConfig({
 					name: 'client',
 					browser: {
 						enabled: true,
-						provider: playwright(),
+						provider: playwright(executablePath ? { launchOptions: { executablePath } } : {}),
 						instances: [{ browser: 'chromium', headless: true }]
 					},
 					include: ['{src,tests}/**/*.svelte.{test,spec}.{js,ts}'],
