@@ -25,12 +25,23 @@ export function resolveChromium(): string | undefined {
 	const root = process.env.PLAYWRIGHT_BROWSERS_PATH;
 	if (!root || !existsSync(root)) return undefined;
 
-	// Prefer the full `chromium-<rev>` build (has chrome-linux/chrome); skip the headless_shell
-	// packages, whose layout differs. Any build runs a smoke/e2e page — we just need one that works.
-	for (const dir of readdirSync(root)) {
-		if (!/^chromium-\d+$/.test(dir)) continue;
-		const exe = `${root}/${dir}/chrome-linux/chrome`;
-		if (existsSync(exe)) return exe;
+	// Prefer the full `chromium-<rev>` build; skip the headless_shell packages, whose layout
+	// differs. Any build runs a component/e2e/smoke page — we just need one that launches.
+	//
+	// Newest revision first: the directory order is filesystem-dependent, and when the image ships
+	// several builds we want a deterministic pick rather than whichever readdir happened to yield.
+	const builds = readdirSync(root)
+		.filter((dir) => /^chromium-\d+$/.test(dir))
+		.sort((a, b) => Number(b.split('-')[1]) - Number(a.split('-')[1]));
+
+	for (const dir of builds) {
+		// Playwright renamed the payload directory `chrome-linux` → `chrome-linux64` (the cloud
+		// image's chromium-1194 predates the rename; every current build is post-). Try both, so a
+		// browser-image bump can't silently drop us back to the managed lookup that fails here.
+		for (const layout of ['chrome-linux64/chrome', 'chrome-linux/chrome']) {
+			const exe = `${root}/${dir}/${layout}`;
+			if (existsSync(exe)) return exe;
+		}
 	}
 	return undefined;
 }

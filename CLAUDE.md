@@ -44,8 +44,19 @@ _either_ layer is on and colours by `effectiveLayer` (primary wins when its togg
 
 ## Checks
 
+**`npm run verify` runs exactly what CI runs** — lint, check, data:validate, component tests,
+build, e2e — and is the one command to reach for before reporting work done. Individually:
 `npm run check` (svelte-check), `npm run test:unit -- --run` (vitest), `npm run test:e2e`
 (Playwright, builds + serves on 4173).
+
+**Node ≥ 24.13.1 is required** (`nvm use` picks the pinned 24.18.0). npm 11.5.0–11.6.2 silently
+prune optional peer deps out of `package-lock.json` and re-break CI — Node 24.13.0 ships one of
+them, 24.13.1 is the first good one. `engines.npm` + `engine-strict` turn that into a hard
+`EBADENGINE` on `npm install`/`npm ci` (`npm run` is unaffected). **Never regenerate the lockfile
+to make an old npm happy** — the newer lockfile works on both. See [`docs/toolchain.md`](docs/toolchain.md).
+
+All three browser suites (component/e2e/smoke) resolve Chromium via `playwright.shared.ts`, so they
+run in a Claude Code cloud session too; keep new browser configs wired to `resolveChromium()`.
 
 ## Release process
 

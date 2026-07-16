@@ -18,10 +18,33 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # Pin from .nvmrc, never a floating major. `node-version: 24` silently followed Node's
+      # bundled npm wherever it went, and npm 11.5.0–11.6.2 prune optional peer deps from the
+      # lockfile (npm/cli#8431, reverted in 11.6.3) — so the toolchain could change the meaning of
+      # the lockfile underneath us. One version here, one for local dev. See docs/toolchain.md.
       - uses: actions/setup-node@v4
         with:
-          node-version: 24
+          node-version-file: .nvmrc
           cache: npm
+
+      - name: Toolchain versions
+        run: node -v && npm -v
+
+      # `npm ci` fails with a wall of EUSAGE that never names the real problem. Say it plainly
+      # first: the lockfile and package.json disagree, and here is what to run.
+      - name: Verify the lockfile is in sync
+        run: |
+          if ! npm ci --dry-run >/dev/null 2>&1; then
+            echo "::error::package-lock.json is out of sync with package.json."
+            echo "Regenerate it with the npm this repo pins (see .nvmrc / engines.npm):"
+            echo "    nvm use && npm install --package-lock-only"
+            echo "Do NOT regenerate with npm 11.5.0-11.6.2 — those prune the optional peer deps"
+            echo "(@emnapi/*) that npm ci then demands. See docs/toolchain.md."
+            echo "--- npm ci's own diagnosis ---"
+            npm ci --dry-run 2>&1 | grep -E "Missing|Invalid|npm error" | head -20
+            exit 1
+          fi
+          echo "Lockfile is in sync."
 
       - name: Install dependencies
         run: npm ci

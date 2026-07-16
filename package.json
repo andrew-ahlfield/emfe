@@ -4,6 +4,9 @@
 	"version": "0.36.0",
 	"license": "Apache-2.0",
 	"type": "module",
+	"engines": {
+		"npm": "<11.5.0 || >=11.6.3"
+	},
 	"scripts": {
 		"dev": "vite dev",
 		"build": "vite build",
@@ -19,6 +22,7 @@
 		"test:e2e": "playwright test",
 		"test:smoke": "playwright test --config playwright.smoke.config.ts",
 		"test:all": "npm run test && npm run test:e2e",
+		"verify": "npm run lint && npm run check && npm run data:validate && npm run test && npm run build && npm run test:e2e",
 		"data:validate": "node scripts/data-validate.ts",
 		"graph": "depcruise src --include-only ^src --output-type dot | dot -T svg -o graph.svg"
 	},
