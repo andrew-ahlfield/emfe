@@ -1,5 +1,5 @@
 /**
- * Content-layer visibility store. First open shows just the everyday layer (SPEC §Layers) —
+ * Content-layer visibility store. First open shows just the everyday layer (SPEC §Layers),
  * a gentle default; the master switch brings the full stack on in one click.
  */
 
@@ -33,7 +33,7 @@ export function enableLayer(id: LayerId): void {
 	layers.update((s) => ({ ...s, [id]: true }));
 }
 
-/** Set every content layer at once — the master on/off switch. */
+/** Set every content layer at once: the master on/off switch. */
 export function setAllLayers(on: boolean): void {
 	layers.set(Object.fromEntries(LAYERS.map((l) => [l, on])) as LayerVisibility);
 }

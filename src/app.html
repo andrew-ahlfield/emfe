@@ -7,11 +7,11 @@
 		<meta name="text-scale" content="scale" />
 		<!--
 			Defense-in-depth theming, resolved before first paint (no white flash):
-			  1. <html data-theme="dark"> above is the static default — worst case, dark.
+			  1. <html data-theme="dark"> above is the static default: worst case, dark.
 			  2. This blocking script upgrades that to the viewer's saved choice (localStorage),
 			     else their OS prefers-color-scheme, before the body renders.
 			  3. The theme store (state/theme.ts) then initializes from whatever is applied here.
-			Theme is deliberately a per-viewer preference, not part of the shareable URL — a shared
+			Theme is deliberately a per-viewer preference, not part of the shareable URL: a shared
 			link opens in the recipient's own scheme (see state/url.ts).
 		-->
 		<script>

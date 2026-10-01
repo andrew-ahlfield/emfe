@@ -3,7 +3,7 @@
  * plus gradient-stop generation for the continuous band. Frequencies in Hz.
  *
  * Pure module: no DOM, no Svelte, no app state. Colors are referenced as CSS-variable
- * strings (e.g. `var(--region-radio)`) — never literal hex — so theming stays centralized.
+ * strings (e.g. `var(--region-radio)`), never literal hex, so theming stays centralized.
  */
 
 import { clamp01, logPos, type FreqDomain } from './scale';
@@ -37,7 +37,7 @@ export interface ItuBand {
 	hi: number;
 }
 
-/** The twelve ITU bands, ELF → THF (3 Hz … 3 THz) — the radio portion only. */
+/** The twelve ITU bands, ELF → THF (3 Hz … 3 THz): the radio portion only. */
 export const ITU_BANDS: ItuBand[] = [
 	{ abbr: 'ELF', name: 'Extremely low frequency', lo: 3, hi: 30 },
 	{ abbr: 'SLF', name: 'Super low frequency', lo: 30, hi: 300 },
@@ -77,11 +77,11 @@ export interface GradientStop {
  * Build the continuous band's gradient stops for a visible domain.
  *
  * Each region keeps a **solid colour core** but its boundaries **crossfade** into the
- * neighbouring region rather than meeting at a hard edge — the spectrum is a continuum, not a
+ * neighbouring region rather than meeting at a hard edge. The spectrum is a continuum, not a
  * set of quantised buckets, and the gradient should read that way. The band also fades to
  * transparent at **both** ends (below ELF and above gamma), since asymptotically there is
  * always a lower and a higher frequency. The visible region renders as a true-colour rainbow
- * whose red/violet ends blend into infrared and ultraviolet — always at its physically accurate
+ * whose red/violet ends blend into infrared and ultraviolet, always at its physically accurate
  * width (zoom in to see it; nothing here is exaggerated).
  */
 export function bandGradientStops(domain: FreqDomain): GradientStop[] {

@@ -1,10 +1,10 @@
 /**
- * Allocation-substrate loader (the bottom tier — SPEC §The three tiers).
+ * Allocation-substrate loader (the bottom tier, SPEC §The three tiers).
  *
  * `data/allocation-table/us-table.json` is curated from the US Table of Frequency Allocations
  * (47 CFR §2.106) and tiles 8.3 kHz … 275 GHz without gaps. It lives in its own directory so the
  * application loader's `data/allocations/*.json` glob never picks it up (different shape). Pure
- * data — no DOM, no Svelte, no app state.
+ * data: no DOM, no Svelte, no app state.
  */
 
 import table from '../../../data/allocation-table/us-table.json';

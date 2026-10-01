@@ -5,7 +5,7 @@
 	import { layers, enableLayer } from '$lib/state/layers';
 
 	// The licence only applies to amateur bands, so the selector is dimmed when that layer is
-	// hidden — but a click still registers and switches the layer back on.
+	// hidden, but a click still registers and switches the layer back on.
 	let amateurOn = $derived($layers.amateur);
 
 	function pick(rank: LicenseRank) {
@@ -59,7 +59,7 @@
 		gap: 3px;
 		transition: opacity 0.15s;
 	}
-	/* Amateur layer is hidden — the licence has nothing to act on, so dim it (still clickable). */
+	/* Amateur layer is hidden: the licence has nothing to act on, so dim it (still clickable). */
 	.rows.dimmed {
 		opacity: 0.4;
 	}

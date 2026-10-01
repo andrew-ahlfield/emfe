@@ -3,7 +3,7 @@
 	import { allocations } from '$lib/data/loader';
 	import { visibleGroups, GROUP_LABELS, toggleGroup, setAllGroups } from '$lib/state/visible';
 
-	// Entry counts per optical group (static — the dataset doesn't change at runtime).
+	// Entry counts per optical group (static: the dataset doesn't change at runtime).
 	const counts = Object.fromEntries(
 		OPTICAL_GROUPS.map((g) => [g, allocations.filter((a) => a.optical === g).length])
 	) as Record<(typeof OPTICAL_GROUPS)[number], number>;

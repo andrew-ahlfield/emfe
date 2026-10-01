@@ -21,9 +21,9 @@ describe('restoreGroups (deep-link restore)', () => {
 	it('is not clobbered when an optical layer toggles on afterwards (ordering-hazard fix)', () => {
 		// A shared link may encode a layer state that hides every optical layer. Restoring it fires the
 		// visible store's blank-when-uncovered pass, which *remembers* the pre-load groups so it can
-		// restore them later. restoreGroups must clear that memory — otherwise the next optical-layer
+		// restore them later. restoreGroups must clear that memory, otherwise the next optical-layer
 		// toggle springs the remembered set back and overwrites the link's intended groups.
-		// The remembered baseline below has gas ON; the link restores gas OFF — so a regression that
+		// The remembered baseline below has gas ON; the link restores gas OFF, so a regression that
 		// failed to clear the memory would flip gas back on when science comes up, tripping the assert.
 		restoreGroups({ laser: false, led: true, gas: true, fireworks: true }); // busy baseline
 		setAllLayers(false); // hides all optical layers → subscription blanks + remembers the baseline

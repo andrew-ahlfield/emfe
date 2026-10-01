@@ -31,7 +31,7 @@ const VIEWS = [
 	{ name: 'ism-24', z: 40, c: 9.39 }, // 2.4 GHz ISM neighbourhood
 	{ name: 'light', z: 8, c: 14.6 }, // IR → visible → UV
 	{ name: 'high-energy', z: 4, c: 19 }, // X-ray → gamma
-	// transition zooms — where families flip between chip and expanded leaves
+	// transition zooms: where families flip between chip and expanded leaves
 	{ name: 'trans-2', z: 2, c: 9 },
 	{ name: 'trans-4', z: 4, c: 8.5 },
 	{ name: 'trans-5', z: 5, c: 9.2 },
@@ -47,7 +47,7 @@ const VIEWS = [
 	// uhf cluster (15 members) + edges
 	{ name: 'uhf-mid', z: 18, c: 8.75 },
 	{ name: 'uhf-edge', z: 9, c: 8.9 },
-	// layer-toggle combinations — grouping must stay overlap-free for any subset of layers
+	// layer-toggle combinations: grouping must stay overlap-free for any subset of layers
 	{ name: 'only-consumer', z: 1, c: 12, off: 'amateur,navigation,gov,science' },
 	{ name: 'only-amateur', z: 6, c: 7.3, off: 'consumer,navigation,gov,science' },
 	{ name: 'no-science', z: 4, c: 9, off: 'science' },

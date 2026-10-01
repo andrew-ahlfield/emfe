@@ -1,8 +1,8 @@
 import { test, expect, type Page } from '@playwright/test';
 
 /**
- * Live smoke test — exercises the *deployed* app (see playwright.smoke.config.ts for the target).
- * The bar is "loads clean and core functionality works", not exhaustive coverage — the unit + local
+ * Live smoke test: exercises the *deployed* app (see playwright.smoke.config.ts for the target).
+ * The bar is "loads clean and core functionality works", not exhaustive coverage; the unit + local
  * e2e suites own that. Assertions here stick to behaviour that's stable across versions, so this
  * passes against whatever is currently on `dev` and keeps passing after a promotion.
  */
@@ -37,7 +37,7 @@ test('loads clean and renders the spectrum', async ({ page }) => {
 test('a shared deep-link reproduces the view (zoom + open card)', async ({ page }) => {
 	const errors = collectErrors(page);
 
-	// Only version-stable params: z/c (zoom+centre), layers, and the legacy `sel=` marker selector —
+	// Only version-stable params: z/c (zoom+centre), layers, and the legacy `sel=` marker selector,
 	// which every version honours (the unified `card=` token maps back onto it).
 	await page.goto('/?z=5.37&c=13.51&layers=consumer,science&sel=wifi');
 

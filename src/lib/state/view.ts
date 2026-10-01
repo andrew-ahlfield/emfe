@@ -1,5 +1,5 @@
 /**
- * The view store — the single source of truth for what's on screen.
+ * The view store: the single source of truth for what's on screen.
  *
  * State is `{ centerExp, zoom }` (log10-Hz center + linear magnification). The visible
  * domain and the LOD tier are *derived* from it, so rendering, semantic zoom (Task 7), and
@@ -27,7 +27,7 @@ export const view = writable<ViewState>({ ...INITIAL_VIEW });
 
 /**
  * Undo stack for discrete view *jumps* (clicking a neighbourhood to frame it, resetting). Smooth
- * wheel/drag zoom is deliberately not recorded — only the big snaps you'd want Ctrl+Z to reverse.
+ * wheel/drag zoom is deliberately not recorded, only the big snaps you'd want Ctrl+Z to reverse.
  */
 const jumpHistory: ViewState[] = [];
 

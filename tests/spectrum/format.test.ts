@@ -84,7 +84,7 @@ describe('fmtFreq', () => {
 
 	it('uses integers ≥ 10 and two decimals below', () => {
 		expect(fmtFreq(14e6)).toBe('14 MHz');
-		// 1.575 GHz shows as "1.57 GHz" — JS toFixed(2) rounds the binary-imperfect
+		// 1.575 GHz shows as "1.57 GHz": JS toFixed(2) rounds the binary-imperfect
 		// 1.575 down, matching the prototype's GPS L1 readout.
 		expect(fmtFreq(1.575e9)).toBe('1.57 GHz');
 	});
@@ -105,15 +105,15 @@ describe('fmtLambda', () => {
 		expect(fmtLambda(5e-13)).toBe('500 fm');
 	});
 
-	it('returns an em dash below the smallest unit', () => {
-		expect(fmtLambda(1e-16)).toBe('—');
+	it('returns n/a below the smallest unit', () => {
+		expect(fmtLambda(1e-16)).toBe('n/a');
 	});
 
-	it('returns an em dash for invalid input', () => {
-		expect(fmtLambda(0)).toBe('—');
-		expect(fmtLambda(-1)).toBe('—');
-		expect(fmtLambda(Number.NaN)).toBe('—');
-		expect(fmtLambda(Number.POSITIVE_INFINITY)).toBe('—');
+	it('returns n/a for invalid input', () => {
+		expect(fmtLambda(0)).toBe('n/a');
+		expect(fmtLambda(-1)).toBe('n/a');
+		expect(fmtLambda(Number.NaN)).toBe('n/a');
+		expect(fmtLambda(Number.POSITIVE_INFINITY)).toBe('n/a');
 	});
 });
 

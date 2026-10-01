@@ -29,7 +29,7 @@
 				await navigator.share({ title: document.title, url });
 				return;
 			} catch {
-				// User dismissed the sheet, or it's unavailable — fall through to the clipboard copy.
+				// User dismissed the sheet, or it's unavailable; fall through to the clipboard copy.
 			}
 		}
 		try {
@@ -38,7 +38,7 @@
 			clearTimeout(copyTimer);
 			copyTimer = setTimeout(() => (copied = false), 1600);
 		} catch {
-			// Clipboard blocked (e.g. insecure context) — nothing more we can do silently.
+			// Clipboard blocked (e.g. insecure context): nothing more we can do silently.
 		}
 	}
 </script>
@@ -49,8 +49,8 @@
 			type="button"
 			class="corner-btn"
 			onclick={onback}
-			title="Back — undo the last thing you opened"
-			aria-label="Back — undo the last thing you opened"
+			title="Back: undo the last thing you opened"
+			aria-label="Back: undo the last thing you opened"
 		>
 			<svg viewBox="0 0 24 24" aria-hidden="true" class="icon">
 				<path

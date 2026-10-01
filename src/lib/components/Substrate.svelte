@@ -25,19 +25,19 @@
 		off?: Set<ServiceCategory>;
 		/** Administration filter: both, or only one side of the §2.106 table. */
 		admin?: 'all' | 'federal' | 'non-federal';
-		/** Click handler — surfaces a band to the inspector. */
+		/** Click handler: surfaces a band to the inspector. */
 		onpick?: (band: ServiceAllocation) => void;
 	} = $props();
 
 	const y = PLOT.substrateY;
 	const h = PLOT.substrateH;
-	/** Below this on-screen width a band is a plain tile — no hover target, no label (a11y). */
+	/** Below this on-screen width a band is a plain tile: no hover target, no label (a11y). */
 	const INTERACT_MIN_PX = 4;
-	/** Only comfortably-wide bands carry a caption now — the ribbon is a quiet floor, so it stays
+	/** Only comfortably-wide bands carry a caption now. The ribbon is a quiet floor, so it stays
 	 *  sparsely labelled (the full per-service key lives in the Allocation control panel). */
 	const LABEL_MIN_PX = 46;
 	/** Hairline gap carved between adjacent tiles so the ribbon reads as crafted segments, not one
-	 *  hard brick wall — applied only to tiles wide enough to spare it. */
+	 *  hard brick wall, applied only to tiles wide enough to spare it. */
 	const TILE_GAP = 0.5;
 	/** ~px advance of one label glyph; one centred label row inside the (now shallow) strip. */
 	const CHAR_PX = 5;
@@ -132,7 +132,7 @@
 	}
 </script>
 
-<!-- Diagonal hatch marking Federal (government) bands — layered over the dimming so "government
+<!-- Diagonal hatch marking Federal (government) bands, layered over the dimming so "government
      spectrum" reads without needing a legend. Mirrored on the Federal control-toggle segment. -->
 <defs>
 	<pattern
@@ -147,7 +147,7 @@
 </defs>
 
 <!-- Allocation substrate (bottom tier): the gap-free §2.106 service-category bands. Muted on
-     purpose — it's the regulatory floor the recognizable-application markers stand on. The empty
+     purpose: it's the regulatory floor the recognizable-application markers stand on. The empty
      stretches below 8.3 kHz and above 275 GHz are real: nothing is allocated there. -->
 <g class="substrate" aria-label="Allocation substrate: US Table of Frequency Allocations">
 	{#each tiles as t (t.key)}
@@ -209,7 +209,7 @@
 
 <style>
 	/* The ribbon is a recessed foundation: desaturated so its per-service hues never compete with the
-	   vivid spectral band above. It reads as a solid floor (not washed-out) — the rounded segments do
+	   vivid spectral band above. It reads as a solid floor (not washed-out); the rounded segments do
 	   the "quiet, crafted" work; transparency was dropping the contrast too far. */
 	.substrate {
 		filter: saturate(0.72);
@@ -217,7 +217,7 @@
 	.fill {
 		opacity: 0.9;
 	}
-	/* Federal (government) bands read dimmer — restricted spectrum the public can't use. */
+	/* Federal (government) bands read dimmer: restricted spectrum the public can't use. */
 	.federal .fill,
 	.fill.federal {
 		opacity: 0.5;
@@ -238,7 +238,7 @@
 		outline: none;
 	}
 	/* Service caption: the app's body (sans) face, solid white knocked out with a full dark outline
-	   so it reads cleanly over any tile colour — not the faint grey it was. */
+	   so it reads cleanly over any tile colour, not the faint grey it was. */
 	.svc-label {
 		font-family: var(--font-sans);
 		font-size: 8.5px;

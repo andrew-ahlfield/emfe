@@ -204,7 +204,7 @@
 		overflow-y: hidden;
 		padding: 0 22px;
 		border-top: 1px solid transparent;
-		/* The grid collapse clips the body to zero height, but its children keep their own boxes —
+		/* The grid collapse clips the body to zero height, but its children keep their own boxes,
 		   so hide it outright once collapsed (after the slide finishes), both for assistive tech and
 		   so it's genuinely gone, not just visually clipped. */
 		visibility: hidden;

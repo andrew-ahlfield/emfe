@@ -13,7 +13,7 @@ export const LAYERS = ['consumer', 'amateur', 'navigation', 'gov', 'science'] as
 export type LayerId = (typeof LAYERS)[number];
 
 /**
- * Layers shown on a first open. A curated subset — just the everyday layer — so a newcomer sees a
+ * Layers shown on a first open. A curated subset, just the everyday layer, so a newcomer sees a
  * legible chart rather than all five layers at once; the master switch turns everything on in one
  * click. Also the baseline the URL codec diffs against (see `state/url.ts`).
  */
@@ -71,19 +71,19 @@ export interface RawAllocation {
 	name: string;
 	/** Representative frequency, Hz. */
 	hz: number;
-	/** Inclusive [low, high] frequency span, Hz — when the entry is a range. */
+	/** Inclusive [low, high] frequency span, Hz, when the entry is a range. */
 	band?: [number, number];
 	/**
 	 * Occupied sub-ranges within `band`, for a service whose allocation is split across separate
 	 * groups (e.g. the 462 + 467 MHz walkie-talkie channels). When present, the bar renders as
-	 * these pieces instead of one solid span — so the empty gap between them isn't drawn as used.
+	 * these pieces instead of one solid span, so the empty gap between them isn't drawn as used.
 	 */
 	segments?: [number, number][];
 	/**
-	 * Discrete spectral emission lines (Hz) — for a gas/discharge whose light is a set of sharp lines
+	 * Discrete spectral emission lines (Hz), for a gas/discharge whose light is a set of sharp lines
 	 * rather than a continuous band (sodium 589 nm, the hydrogen Balmer series, a neon sign). Rendered
 	 * as one spectrally-coloured tick per line; `band` should span their extent and `hz` sits on the
-	 * dominant line. (A non-optical multi-mode signal — the Schumann resonances — instead lives in the
+	 * dominant line. (A non-optical multi-mode signal, the Schumann resonances, instead lives in the
 	 * channel system as a resonance plan with real per-mode widths.)
 	 */
 	lines?: number[];
@@ -95,7 +95,7 @@ export interface RawAllocation {
 	altLayer?: LayerId;
 	region: RegionId;
 	/**
-	 * Governance tier (SPEC §The three tiers). Omitted ⇒ `application` (the historical default —
+	 * Governance tier (SPEC §The three tiers). Omitted ⇒ `application` (the historical default:
 	 * the original 134 entries are all recognizable uses). `assignment` marks a specifically
 	 * designated frequency/channel. Determines which vertical lane the marker rides in.
 	 */
@@ -131,11 +131,11 @@ export interface Allocation extends Omit<RawAllocation, 'source'> {
 // ── Allocation substrate (the bottom tier) ───────────────────────────────────────────────────
 
 /**
- * One band of the US Table of Frequency Allocations (47 CFR §2.106) — the `allocation` tier.
+ * One band of the US Table of Frequency Allocations (47 CFR §2.106), the `allocation` tier.
  * Unlike a marker (a point/use), this is a contiguous span tagged with the **radio services**
  * it's allocated to. `primary` services are ALL-CAPS in the table (protected); `secondary` are
  * sentence-case (must not interfere with primary). `federal` distinguishes the Federal Table
- * (government) from the Non-Federal Table (FCC / civilian) — a first-class filter axis.
+ * (government) from the Non-Federal Table (FCC / civilian): a first-class filter axis.
  *
  * These tile the spectrum without gaps, which is the whole point: there is no "empty" radio
  * spectrum, only spectrum whose allocation a layperson wouldn't recognize.
@@ -146,9 +146,9 @@ export interface ServiceAllocation {
 	hi: number;
 	/** Federal Table (true) vs Non-Federal / FCC Table (false). */
 	federal: boolean;
-	/** Primary (protected) services — ALL-CAPS in §2.106, e.g. `FIXED`, `BROADCASTING`. */
+	/** Primary (protected) services: ALL-CAPS in §2.106, e.g. `FIXED`, `BROADCASTING`. */
 	primary: string[];
-	/** Secondary services — sentence-case in §2.106. */
+	/** Secondary services: sentence-case in §2.106. */
 	secondary?: string[];
 	/** §2.106 footnote refs that bear on this band (e.g. `US340`, `5.150`, `NG2`). */
 	footnotes?: string[];

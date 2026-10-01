@@ -25,7 +25,7 @@
 	 * One consistent rule for every region: a label shows only when the region's *on-screen slice*
 	 * is wide enough to host it, and it's centred within that slice (never bleeding into a
 	 * neighbour). On a log axis the optical/ionising regions collapse to slivers at the right when
-	 * zoomed out, so their labels simply drop and reappear as you zoom toward them — no region is
+	 * zoomed out, so their labels simply drop and reappear as you zoom toward them. No region is
 	 * special-cased, so labels can never crowd or edge each other out.
 	 */
 	let placed = $derived.by(() => {

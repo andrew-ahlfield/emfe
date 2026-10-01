@@ -39,7 +39,7 @@
 	let zoomed = $derived($view.zoom > 1);
 
 	// Any right-hand details sheet open? On desktop it covers the top-right corner, so the corner
-	// actions slide clear of it (unless the inspector is pinned — then the whole layout has already
+	// actions slide clear of it (unless the inspector is pinned; then the whole layout has already
 	// shifted left to make room, and the corner has moved with it).
 	let cardOpen = $derived(
 		$selection !== null || $groupSelection !== null || $substrateSelection !== null
@@ -118,7 +118,7 @@
 	// opening a card, framing a neighbourhood), so "back" is just the browser's back over those. We
 	// stamp a running depth into `history.state` so the on-screen button knows when there's somewhere
 	// to go back to and never dead-ends into leaving the page. Continuous zoom/pan replaces (never
-	// pushes), so it isn't something you can "undo" here — only the things you clicked.
+	// pushes), so it isn't something you can "undo" here, only the things you clicked.
 	let backDepth = $state(0);
 	const historyDepth = (): number =>
 		history.state && typeof history.state.d === 'number' ? history.state.d : 0;
@@ -141,7 +141,7 @@
 		substrateView.set({ admin: s.admin, off: s.servicesOff });
 		axisOptions.set(s.axis);
 		inspectorPinned.set(s.pinned);
-		// Theme is intentionally not restored from the URL — it's a per-viewer preference already
+		// Theme is intentionally not restored from the URL: it's a per-viewer preference already
 		// applied from localStorage / OS by the <head> bootstrap (see state/url.ts, state/theme.ts).
 		applyCard(s.card);
 		prev = snapshot();
@@ -167,7 +167,7 @@
 	});
 
 	// The marker inspector, the group explainer, and the substrate band card are all right-hand
-	// sheets — only one shows at a time. Selecting a marker closes the other two; opening the group
+	// sheets; only one shows at a time. Selecting a marker closes the other two; opening the group
 	// card closes the marker + band (band pick clears the others inline, below).
 	$effect(() => {
 		if ($selection) {
@@ -188,7 +188,7 @@
 		if (a && a.lines && a.lines.length > 0) gasIsolated.set(true);
 	});
 
-	// A click on empty space — not the info card, the controls dock, or an entry/button — brings
+	// A click on empty space (not the info card, the controls dock, or an entry/button) brings
 	// every spectrum back (un-isolate) while leaving the selected gas's card open.
 	function onBackgroundClick(e: MouseEvent) {
 		const t = e.target;
@@ -222,7 +222,7 @@
 	}
 
 	// Structured data for search engines and AI assistants. Describes the tool as a free
-	// WebApplication and the underlying U.S. (FCC) spectrum allocations as a Dataset — both
+	// WebApplication and the underlying U.S. (FCC) spectrum allocations as a Dataset, both
 	// linked to Exagrow as publisher. Serialized into <script type="application/ld+json"> in
 	// <svelte:head> below (the tag is assembled there to avoid a literal closing tag here).
 	const jsonLd = {
@@ -238,7 +238,7 @@
 				operatingSystem: 'Any (modern web browser)',
 				browserRequirements: 'Requires JavaScript and a modern browser.',
 				description:
-					'An interactive, zoomable explorer for the electromagnetic spectrum—from below ELF through radio, light, X-ray and gamma, on one logarithmic frequency axis, with U.S. (FCC) allocations and licences.',
+					'An interactive, zoomable explorer for the electromagnetic spectrum: from below ELF through radio, light, X-ray and gamma, on one logarithmic frequency axis, with U.S. (FCC) allocations and licences.',
 				isAccessibleForFree: true,
 				offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
 				inLanguage: 'en',
@@ -275,7 +275,7 @@
 	<title>EM Frequency Explorer: Electromagnetic Spectrum</title>
 	<meta
 		name="description"
-		content="An interactive, zoomable explorer for the electromagnetic spectrum—from below ELF through radio, light, X-ray and gamma, on one logarithmic frequency axis."
+		content="An interactive, zoomable explorer for the electromagnetic spectrum: from below ELF through radio, light, X-ray and gamma, on one logarithmic frequency axis."
 	/>
 	<link rel="canonical" href="https://emfe.exagrow.com/" />
 	<meta name="robots" content="index, follow, max-image-preview:large" />
@@ -289,7 +289,7 @@
 	/>
 	<meta
 		property="og:description"
-		content="Everything we broadcast, navigate by, and see—radio to gamma on one continuous logarithmic axis, with U.S. (FCC) allocations and licences."
+		content="Everything we broadcast, navigate by, and see: radio to gamma on one continuous logarithmic axis, with U.S. (FCC) allocations and licences."
 	/>
 	<meta property="og:url" content="https://emfe.exagrow.com/" />
 	<meta property="og:image" content="https://emfe.exagrow.com/og-image.png" />
@@ -299,7 +299,7 @@
 	<meta name="twitter:title" content="EM Frequency Explorer" />
 	<meta
 		name="twitter:description"
-		content="An interactive, zoomable explorer for the electromagnetic spectrum—radio to gamma on one logarithmic axis, with U.S. (FCC) allocations."
+		content="An interactive, zoomable explorer for the electromagnetic spectrum: radio to gamma on one logarithmic axis, with U.S. (FCC) allocations."
 	/>
 	<meta name="twitter:image" content="https://emfe.exagrow.com/og-image.png" />
 
@@ -324,7 +324,7 @@
 				<div>
 					<h1>The Electromagnetic Spectrum</h1>
 					<p class="sub">
-						Everything we broadcast, navigate by, and see—on one continuous scale. Allocations and
+						Everything we broadcast, navigate by, and see, on one continuous scale. Allocations and
 						licences shown for the U.S. (FCC).
 					</p>
 				</div>
@@ -500,7 +500,7 @@
 	}
 
 	/* Pinned inspector: slide the number line + dock left by the docked drawer's width so they
-	   never sit under it. Side-sheet (desktop/tablet) only — the portrait bottom sheet doesn't
+	   never sit under it. Side-sheet (desktop/tablet) only; the portrait bottom sheet doesn't
 	   overlap horizontally. */
 	.layout {
 		--inspector-shift: 396px;

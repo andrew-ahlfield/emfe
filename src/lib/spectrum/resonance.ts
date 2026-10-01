@@ -1,8 +1,8 @@
 /**
- * Frequency-spectrum geometry for a non-quantized multi-mode signal — the little chart the inspector
+ * Frequency-spectrum geometry for a non-quantized multi-mode signal: the little chart the inspector
  * draws for the Schumann resonance. We sum each mode as a broad Lorentzian peak (amplitude rolling
  * off up the series, width set by a low Q) and sample the envelope into an SVG curve, so the reader
- * sees the modes "bell down" from the fundamental as *broad bumps* — the visual opposite of the
+ * sees the modes "bell down" from the fundamental as *broad bumps*, the visual opposite of the
  * sharp, fixed lines of a quantized emitter. A spectrum (not a time trace) reads at a glance: peaks
  * sit at labelled frequencies, with no risk of being mistaken for a single transient.
  *
@@ -16,7 +16,7 @@ export interface SpectrumGeometry {
 	area: string;
 	/** y of the baseline (zero level). */
 	baseline: number;
-	/** Each mode's x position and frequency (Hz) — for the x-axis labels / drop-lines. */
+	/** Each mode's x position and frequency (Hz), for the x-axis labels / drop-lines. */
 	peaks: { x: number; hz: number }[];
 	/** y positions of the interior horizontal graticule lines. */
 	hGrid: number[];

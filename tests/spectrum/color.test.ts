@@ -26,7 +26,7 @@ describe('wavelengthToRGB', () => {
 	});
 
 	it('clamps out-of-range (IR/UV) to the nearest edge hue, further dimmed', () => {
-		// 940 nm (near-IR) clamps to the 780 nm deep-red edge — red dominant, low total.
+		// 940 nm (near-IR) clamps to the 780 nm deep-red edge: red dominant, low total.
 		const [r, g, b] = wavelengthToRGB(940);
 		expect(r).toBeGreaterThanOrEqual(g);
 		expect(r).toBeGreaterThanOrEqual(b);

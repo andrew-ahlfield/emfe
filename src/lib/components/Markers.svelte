@@ -35,7 +35,7 @@
 	/** Callout dots sit on the vertical centre line of the coloured band. */
 	const bandMid = PLOT.bandY + PLOT.bandH / 2;
 	/** A neighbourhood (collapsed family) is annotated by a bracket floating in the gap above the
-	 *  band — never touching it — rather than a translucent bar laid over the gradient. That leaves
+	 *  band (never touching it) rather than a translucent bar laid over the gradient. That leaves
 	 *  the gradient and the member dots uncovered, so the bracket reads as a grouping annotation, not
 	 *  another data bar. The arms are straight (no S bend); a small centre point rises to meet the
 	 *  chip's connector, and the rounded ends turn down toward the band. */
@@ -78,8 +78,8 @@
 
 	/**
 	 * An "emitter" colours itself by the physical colour of its light: a laser/LED (`emission`) or a
-	 * gas/discharge (`lines`). Everything else — including non-laser physical-science phenomena like
-	 * IR heat, UV bands and gamma sources — keeps its content-layer colour (science = green).
+	 * gas/discharge (`lines`). Everything else, including non-laser physical-science phenomena like
+	 * IR heat, UV bands and gamma sources, keeps its content-layer colour (science = green).
 	 */
 	const emits = (a: Allocation | null): boolean =>
 		!!a && (a.emission != null || (a.lines?.length ?? 0) > 0);
@@ -100,7 +100,7 @@
 		a?.emission === 'spectral' ? spectralColor(a.hz) : fallback;
 
 	/**
-	 * When a gas/discharge (a `lines` entry) is selected, its spectrum is the one to read — so every
+	 * When a gas/discharge (a `lines` entry) is selected, its spectrum is the one to read, so every
 	 * *other* discharge's lines dim out of the way, untangling the otherwise-overlapping forest of
 	 * ticks. Null when the selection isn't a line emitter (then nothing dims).
 	 */
@@ -118,7 +118,7 @@
 	}
 
 	/**
-	 * The operator-licence glyph(s) for an amateur allocation — the chart's cue to which class a
+	 * The operator-licence glyph(s) for an amateur allocation: the chart's cue to which class a
 	 * band belongs to. For a sub-banded band this mirrors the inspector strip: one glyph per
 	 * transmittable (opaque) sub-band, centred on it and showing *that section's* class. Plain
 	 * bands, points, and bands you can't transmit on anywhere fall back to one glyph for the band's
@@ -134,7 +134,7 @@
 		// Sub-banded band with real width: a glyph on each opaque section, centred on it. Adjacent
 		// enabled sub-bands of the *same* class are merged into one run first, so a band split only
 		// by operating mode (10 m: Technician 28.0–28.3 data + 28.3–28.5 phone) shows a single "T",
-		// not one per mode — the class is contiguous even though the mode isn't (the mode split still
+		// not one per mode: the class is contiguous even though the mode isn't (the mode split still
 		// lives in the inspector strip).
 		if (bar && hasPrivilegePlan(a.id)) {
 			const enabled = privilegeBands(a.id, license).filter((b) => b.enabled);
@@ -165,7 +165,7 @@
 					? out
 					: [{ glyph: LICENSE_ICON[enabled[0].minLicense], x: bar.x0 + bar.w / 2, onBar: true }];
 			}
-			// else: no transmittable section — fall through to the single required-class glyph.
+			// else: no transmittable section; fall through to the single required-class glyph.
 		}
 
 		// Plain band / point / fully-muted band: one glyph for the band's required class. A solid
@@ -180,7 +180,7 @@
 	}
 
 	/**
-	 * The on-screen pixel extent of an allocation's real band — or `null` when it has no band
+	 * The on-screen pixel extent of an allocation's real band, or `null` when it has no band
 	 * or is still too narrow to render as anything but a point. Once wide enough we draw the
 	 * allocation at its true width on the axis (the "render data in real bandwidth" goal).
 	 */
@@ -193,7 +193,7 @@
 	}
 
 	/**
-	 * The on-screen rects to draw for a bar — one per occupied {@link Allocation.segments} group
+	 * The on-screen rects to draw for a bar: one per occupied {@link Allocation.segments} group
 	 * when present (so the unused gap between groups isn't filled), else the single band span.
 	 */
 	function segmentsOf(a: Allocation | null): { x0: number; w: number }[] {
@@ -208,7 +208,7 @@
 	/**
 	 * For a band with a documented sub-band privilege plan, the held licence's *accessible* runs
 	 * (adjacent sub-bands merged) in screen px, plus whether the class unlocks the whole band.
-	 * `null` for bands with no plan — those fall back to the plain single/segmented bar.
+	 * `null` for bands with no plan; those fall back to the plain single/segmented bar.
 	 *
 	 * This is what makes the band expand/contract with the licence: at a class with no privilege
 	 * the runs are empty (only the transparent envelope shows); at Extra every sub-band is unlocked
@@ -237,7 +237,7 @@
 	}
 
 	/**
-	 * True when an amateur item is one the held licence can't transmit *anywhere* on — so it's
+	 * True when an amateur item is one the held licence can't transmit *anywhere* on, so it's
 	 * drawn translucent (you may listen, just not key up). A sub-banded band counts only when no
 	 * sub-band is unlocked; a plain amateur band when the class sits below its `reqLicense`.
 	 * Drives the see-through circle in point-source mode and the transparent envelope as a bar.
@@ -249,15 +249,15 @@
 	}
 
 	/**
-	 * The colour var for a non-emitter marker: its *effective* layer — the primary when that layer is
+	 * The colour var for a non-emitter marker: its *effective* layer, the primary when that layer is
 	 * on, else the alt layer that's currently showing it. So a dual-licensed entry (IR heat, medical
 	 * X-ray) reads as everyday teal when only the consumer layer is on, not stuck on its physics green.
-	 * (Emitters — lasers/LEDs/discharges — ignore this and sample their physical colour.)
+	 * (Emitters, lasers/LEDs/discharges, ignore this and sample their physical colour.)
 	 */
 	const layerColor = (a: Allocation | null): string =>
 		a ? `var(--layer-${effectiveLayer(a, layers)})` : 'var(--layer-science)';
 
-	// Filter to the visible set (application tier only — the substrate is the bottom tier, designated
+	// Filter to the visible set (application tier only: the substrate is the bottom tier, designated
 	// frequencies ride the band as channel ticks). A dual-layer entry shows when *either* layer is on.
 	let visible = $derived(
 		visibleAllocations(allocations, 3, layers)
@@ -296,7 +296,7 @@
 	// Draw order at the band line, back → front, so nothing is swallowed:
 	//   1. group envelopes (the transparent neighbourhood spans) sit underneath everything;
 	//   2. then data dots/bars and labelled leaves, each sorted widest-first so the *smaller*
-	//      an entry is, the higher it rides — a narrow band is never buried under a wide one.
+	//      an entry is, the higher it rides: a narrow band is never buried under a wide one.
 	let groupItems = $derived(placed.filter((p) => p.item.kind === 'group'));
 	let leafItems = $derived(
 		placed
@@ -450,8 +450,8 @@
 	{@const solid =
 		(alloc.optical === 'led' || alloc.optical === 'fireworks') && alloc.emission !== 'white'}
 	{#if alloc.lines && alloc.lines.length > 0}
-		<!-- The selected discharge gets a padded envelope so its full range — including the faint
-		     edge lines at the very top and bottom — is easy to pick out. Drawn behind the ticks. -->
+		<!-- The selected discharge gets a padded envelope so its full range (including the faint
+		     edge lines at the very top and bottom) is easy to pick out. Drawn behind the ticks. -->
 		{#if sel && alloc.band}
 			{@const bx0 = logPos(alloc.band[0], domain) * width}
 			{@const bx1 = logPos(alloc.band[1], domain) * width}
@@ -503,7 +503,7 @@
 	{/if}
 {/snippet}
 
-<!-- Layer 1 — neighbourhood brackets. A flat bracket floating above the band marks the family's
+<!-- Layer 1: neighbourhood brackets. A flat bracket floating above the band marks the family's
      extent without covering the gradient or its member dots (the labelled chip in layer 3 is the
      real button; this stays a mouse target but is hidden from assistive tech to avoid a double
      announcement). -->
@@ -524,7 +524,7 @@
 	</g>
 {/each}
 
-<!-- Layer 2 — data dots/bars: every visible allocation not already drawn as a label, clickable
+<!-- Layer 2: data dots and bars. Every visible allocation not already drawn as a label, clickable
      to inspect. Sorted widest-first so narrow bands ride on top of broad ones. -->
 {#each plainDots as d (d.id)}
 	{@const sel = selected === d.id}
@@ -565,7 +565,7 @@
 	</g>
 {/each}
 
-<!-- Layer 3a — group chips: the connector + label for each collapsed neighbourhood. -->
+<!-- Layer 3a: group chips, the connector + label for each collapsed neighbourhood. -->
 {#each groupItems as p (p.item.id)}
 	{@const item = p.item}
 	<g
@@ -592,7 +592,7 @@
 	</g>
 {/each}
 
-<!-- Layer 3b — labelled leaves: expanded allocations, sorted widest-first (smaller on top). -->
+<!-- Layer 3b: labelled leaves, expanded allocations sorted widest-first (smaller on top). -->
 {#each leafItems as p (p.item.id)}
 	{@const item = p.item}
 	{@const sel = selected === item.id}
@@ -709,7 +709,7 @@
 		stroke-width: 1;
 	}
 	/* Coloured LEDs and firework colours read as solid blocks of their colour (not translucent
-	   brackets) — over the matching gradient a see-through fill would just disappear. */
+	   brackets): over the matching gradient a see-through fill would just disappear. */
 	.optical-bar.solid,
 	.optical-dot.solid {
 		opacity: 1;
@@ -732,7 +732,7 @@
 	.optical-dot.solid.sel {
 		opacity: 1;
 	}
-	/* A single emission line — a thin spectral spike, one per line of a discharge/flame spectrum. */
+	/* A single emission line: a thin spectral spike, one per line of a discharge/flame spectrum. */
 	.emission-line {
 		stroke: var(--marker-stroke);
 		stroke-width: 0.5;
@@ -744,7 +744,7 @@
 	.emission-line.dim {
 		opacity: 0.1;
 	}
-	/* Padded envelope around the selected discharge's lines — brackets its full range. */
+	/* Padded envelope around the selected discharge's lines: brackets its full range. */
 	.emission-box {
 		fill: color-mix(in srgb, var(--ink) 6%, transparent);
 		stroke: var(--sub);

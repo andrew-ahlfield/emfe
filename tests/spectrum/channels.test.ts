@@ -62,7 +62,7 @@ describe('placeChannels', () => {
 	});
 
 	it('promotes the emergency channel: its red tick reveals before the full grid does', () => {
-		// A mid zoom where the CB band spans ~50px — past the landmark threshold (44) but well
+		// A mid zoom where the CB band spans ~50px, past the landmark threshold (44) but well
 		// short of the full-grid one (160), so only channel 9 should be revealed.
 		const mid = { minExp: 7.398, maxExp: 7.538 };
 		const placed = placeChannels(cb, cbBand, mid, 1000);
@@ -76,7 +76,7 @@ describe('placeChannels', () => {
 	it('reveals a single-tick guard plan by its band width (not its zero channel-extent)', () => {
 		const airband = planFor('airband')!;
 		const band = byId.get('airband')!.band as [number, number];
-		// Zoom so the airband (118–137 MHz) is a comfortable bar — the lone 121.5 guard tick reveals.
+		// Zoom so the airband (118–137 MHz) is a comfortable bar; the lone 121.5 guard tick reveals.
 		const tight = { minExp: Math.log10(110e6), maxExp: Math.log10(145e6) };
 		const placed = placeChannels(airband, band, tight, 1000);
 		expect(placed.channels).toHaveLength(1);

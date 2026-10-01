@@ -1,5 +1,5 @@
 /**
- * Log-frequency scale math — the heart of the explorer.
+ * Log-frequency scale math: the heart of the explorer.
  *
  * We work entirely in *log10 space* (domain ≈ 0–24), so the ~24-orders-of-magnitude
  * range is never a precision problem. A `FreqDomain` is just the visible exponent window;
@@ -8,7 +8,7 @@
  * Pure module: no DOM, no Svelte, no app state (SPEC §Boundaries).
  */
 
-/** Speed of light in vacuum, m/s — for frequency ↔ wavelength conversion. */
+/** Speed of light in vacuum, m/s, for frequency ↔ wavelength conversion. */
 export const SPEED_OF_LIGHT = 299_792_458;
 
 /** A visible window of the spectrum, expressed as log10(Hz) bounds. */
@@ -71,7 +71,7 @@ export function windowDomain(full: FreqDomain, centerExp: number, zoom: number):
 /**
  * "Nice" 1-2-5 tick frequencies spanning the linear range [lo, hi], for the zoomed-in axis.
  *
- * The decade ruler (ticks at powers of ten) goes blank once you zoom inside a single decade —
+ * The decade ruler (ticks at powers of ten) goes blank once you zoom inside a single decade:
  * e.g. framing the CB band at ~27 MHz, there's no 10ⁿ tick in view to read a width against. Here
  * we fall back to evenly-spaced round numbers (…, 2, 5, 10, 20, 50, …) so the scale stays legible
  * at any magnification. Returns ~`target` ticks; empty when the range is degenerate.

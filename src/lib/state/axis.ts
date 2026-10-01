@@ -1,5 +1,5 @@
 /**
- * Axis & scale display options. Both off by default — the bare frequency axis is the
+ * Axis & scale display options. Both off by default: the bare frequency axis is the
  * baseline; sci-notation (10ⁿ) and the wavelength (λ) row are opt-in overlays.
  */
 

@@ -1,5 +1,5 @@
 /*
- * EM Frequency Explorer — design tokens.
+ * EM Frequency Explorer: design tokens.
  * Every color in markup comes from a CSS custom property (SPEC §Code Style).
  * Ported from the prototype (moodboards/spectrum-atlas-prototype.html).
  */
@@ -21,7 +21,7 @@
 	/* Outline that separates a coloured marker from the band it sits on. Dark in both themes
 	   (a near-black hairline reads as a clean edge on the bright gradient). */
 	--marker-stroke: #14161c;
-	/* Neighbourhood grouping brace — a neutral annotation tone, not a content-layer colour: white
+	/* Neighbourhood grouping brace: a neutral annotation tone, not a content-layer colour. White
 	   on the dark surface (overridden to a quiet ink for light mode below). */
 	--brace: #f3f5fa;
 
@@ -66,9 +66,9 @@
 	--svc-science: #25c2cc;
 	--svc-other: #7e8794;
 
-	/* White-light emitter (white LED) — a true white bar rather than a single-wavelength tint. */
+	/* White-light emitter (white LED): a true white bar rather than a single-wavelength tint. */
 	--emit-white: #f4f4f5;
-	/* Ionizing-threshold annotation — amber so it reads against the violet UV gradient it sits on. */
+	/* Ionizing-threshold annotation: amber so it reads against the violet UV gradient it sits on. */
 	--ionizing: #ffce4a;
 
 	/* Typography. Self-hosted via @fontsource-variable (see +layout.svelte).
@@ -82,7 +82,7 @@ html[data-theme='light'] {
 	/* Light mode is its own design, not an inverted dark mode: a warm paper surface where the
 	   spectrum is ink on the page. The desk is a hair darker than the cards so panels read as
 	   raised (light mode can use elevation shadows that dark mode can't), and the accent palette
-	   is deepened below — the dark-mode neons are too pale to carry on white. */
+	   is deepened below: the dark-mode neons are too pale to carry on white. */
 	--bg: #f3efe7; /* warm paper desk */
 	--panel: #fffdf8; /* card, slightly brighter than the desk */
 	--panel2: #f6f2ea;
@@ -96,7 +96,7 @@ html[data-theme='light'] {
 	--softshadow: 0 18px 50px rgba(60, 50, 30, 0.14);
 	--glow: 0.06;
 
-	/* Vivid (not muddy) region palette — saturated and bright enough to feel alive on warm paper
+	/* Vivid (not muddy) region palette: saturated and bright enough to feel alive on warm paper
 	   while still reading clearly as labels and band colour. */
 	--region-radio: #ed4a6e;
 	--region-microwave: #ec851f;
@@ -147,7 +147,7 @@ body {
 	overscroll-behavior-y: contain;
 }
 
-/* Visible focus for keyboard users (a11y — SPEC §Boundaries). */
+/* Visible focus for keyboard users (a11y, SPEC §Boundaries). */
 :focus-visible {
 	outline: 2px solid var(--layer-consumer);
 	outline-offset: 2px;

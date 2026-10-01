@@ -1,5 +1,5 @@
 /**
- * Selection store — the id of the currently inspected allocation (or null).
+ * Selection store: the id of the currently inspected allocation (or null).
  * The Inspector (Task 6) reads it; markers (Task 5) write it on click.
  */
 
@@ -10,8 +10,8 @@ export const selection = writable<string | null>(null);
 
 /**
  * Whether a selected gas/discharge is *isolating* its spectrum (dimming the other discharges'
- * emission lines). Selecting a gas turns it on; clicking the empty background turns it off again
- * — bringing every spectrum back while keeping the selected gas's info card open.
+ * emission lines). Selecting a gas turns it on; clicking the empty background turns it off again,
+ * bringing every spectrum back while keeping the selected gas's info card open.
  */
 export const gasIsolated = writable<boolean>(true);
 

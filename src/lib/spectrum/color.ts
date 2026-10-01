@@ -1,5 +1,5 @@
 /**
- * Physical colour of light at a given frequency — so an optical marker (a laser, an LED, an
+ * Physical colour of light at a given frequency, so an optical marker (a laser, an LED, an
  * emission line) is drawn in the colour it actually *is*, sampled from the spectrum rather than
  * hardcoded. Outside the visible band the value clamps to the nearest edge hue and dims, so a
  * near-IR or near-UV source still reads as deep red / violet instead of going colourless.

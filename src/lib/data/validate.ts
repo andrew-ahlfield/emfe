@@ -6,10 +6,10 @@
  *   - every `source` resolves to a known SourceRef
  *
  * Note: bands are *allowed* to overlap (even within a layer). Real spectrum genuinely shares
- * ranges — Wi-Fi, Bluetooth, Zigbee and microwave ovens all live in the 2.4 GHz ISM band —
+ * ranges: Wi-Fi, Bluetooth, Zigbee and microwave ovens all live in the 2.4 GHz ISM band,
  * so the earlier "no overlap within a layer" rule was counterfactual and has been dropped.
  *
- * No fs, no schema engine — those live in scripts/data-validate.ts. This module is the
+ * No fs, no schema engine; those live in scripts/data-validate.ts. This module is the
  * testable core, exercised with both valid and deliberately-broken fixtures.
  */
 

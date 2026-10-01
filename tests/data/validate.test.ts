@@ -19,7 +19,7 @@ function alloc(over: Partial<RawAllocation> = {}): RawAllocation {
 	};
 }
 
-describe('validateAllocations — valid data', () => {
+describe('validateAllocations: valid data', () => {
 	it('returns no issues for a well-formed set', () => {
 		const ok: RawAllocation[] = [
 			alloc({ id: 'a', hz: 1e6, band: [5e5, 2e6] }),
@@ -30,7 +30,7 @@ describe('validateAllocations — valid data', () => {
 	});
 });
 
-describe('validateAllocations — invariant violations', () => {
+describe('validateAllocations: invariant violations', () => {
 	const cases: Array<[string, RawAllocation[], RegExp]> = [
 		[
 			'duplicate id',

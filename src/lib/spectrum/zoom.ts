@@ -1,5 +1,5 @@
 /**
- * Zoom / pan math for the log-frequency view — pure, in log10(Hz) space.
+ * Zoom / pan math for the log-frequency view: pure, in log10(Hz) space.
  *
  * The app's source of truth is `{ centerExp, zoom }` (see `state/view.ts`); these helpers
  * map a user gesture (wheel-zoom about the cursor, shift-wheel pan) to the next view state.
@@ -19,7 +19,7 @@ export interface ZoomView {
 
 /**
  * Magnification bounds: 1 = whole spectrum. Max is deep enough (~0.0007-decade window, well under
- * 1 MHz around 460 MHz) to resolve the *individual numbered channels* of the tightest plans —
+ * 1 MHz around 460 MHz) to resolve the *individual numbered channels* of the tightest plans:
  * walkie-talkie and MURS channels sit only 12.5 kHz apart and must spread out enough to label.
  */
 export const ZOOM_RANGE = { min: 1, max: 32768 } as const;

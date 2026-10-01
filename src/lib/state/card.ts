@@ -1,5 +1,5 @@
 /**
- * The right-hand details drawer shows one of three mutually-exclusive things — a marker's
+ * The right-hand details drawer shows one of three mutually-exclusive things: a marker's
  * allocation ("sig"), a spectrum neighbourhood ("grp"), or an allocation-substrate band ("band").
  * This module maps that open card to/from a single opaque URL token (`card=<kind>:<id>`), so a
  * shared link reopens whichever card the sharer had up.
@@ -19,13 +19,13 @@ export type CardTarget =
 	| { kind: 'grp'; group: Neighbourhood }
 	| { kind: 'band'; band: ServiceAllocation };
 
-/** Every selectable neighbourhood, by id — the families plus the radio/microwave umbrellas. */
+/** Every selectable neighbourhood, by id: the families plus the radio/microwave umbrellas. */
 const NEIGH_BY_ID = new Map<string, Neighbourhood>([
 	...FAMILIES.map((f) => [f.id, f] as const),
 	...Object.values(REGION_GROUPS).map((g) => [g.id, g] as const)
 ]);
 
-/** A substrate band has no id of its own — it's pinned by administration + exact edges. */
+/** A substrate band has no id of its own; it's pinned by administration + exact edges. */
 const bandId = (b: ServiceAllocation): string => `${b.federal ? 'f' : 'n'}:${b.lo}-${b.hi}`;
 
 /** The opaque URL token for an open card, or `null` when nothing is open. */

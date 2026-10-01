@@ -6,7 +6,7 @@
  *   2. invariants (validateAllocations): enums, bands, monotonicity, no per-layer overlap,
  *      every `source` resolvable.
  *
- * Run natively by Node (`node scripts/data-validate.ts`) — no build step.
+ * Run natively by Node (`node scripts/data-validate.ts`): no build step.
  */
 
 import { readFileSync, readdirSync } from 'node:fs';
@@ -23,7 +23,7 @@ const readJson = (rel: string) => JSON.parse(readFileSync(join(root, rel), 'utf8
 const ajv = new Ajv({ allErrors: true });
 addFormats(ajv);
 
-// Compile each schema once — Ajv rejects re-compiling the same $id, and we validate
+// Compile each schema once: Ajv rejects re-compiling the same $id, and we validate
 // many allocation files against the one allocations schema.
 const allocationsValidator = ajv.compile(readJson('data/schema/allocations.schema.json'));
 const sourcesValidator = ajv.compile(readJson('data/schema/sources.schema.json'));
@@ -65,7 +65,7 @@ for (const issue of validateAllocations(allAllocs, sourceIds)) {
 }
 
 // 4. Allocation substrate (the bottom tier). Schema, then gap-free contiguity within each
-//    administration stream (federal / non-federal): bands sorted by `lo` must abut exactly —
+//    administration stream (federal / non-federal): bands sorted by `lo` must abut exactly;
 //    the whole point is that there is no "empty" spectrum.
 const substrate = readJson('data/allocation-table/us-table.json') as {
 	source: string;
@@ -79,7 +79,7 @@ if (checkSchema(substrateValidator, substrate, 'us-table.json')) {
 		if (!(b.lo < b.hi)) errors.push(`invariant [substrate] band lo ${b.lo} not below hi ${b.hi}`);
 	}
 	// One gap-free union stream (each band tagged by its primary administration): sorted by `lo`,
-	// every band must abut the previous one's `hi` — no gaps (the whole point) and no overlaps.
+	// every band must abut the previous one's `hi`: no gaps (the whole point) and no overlaps.
 	const sorted = [...substrate.bands].sort((a, b) => a.lo - b.lo);
 	for (let i = 1; i < sorted.length; i++) {
 		if (sorted[i].lo > sorted[i - 1].hi) {
@@ -93,11 +93,11 @@ if (checkSchema(substrateValidator, substrate, 'us-table.json')) {
 }
 
 if (errors.length > 0) {
-	console.error(`data:validate — ${errors.length} problem(s):`);
+	console.error(`data:validate: ${errors.length} problem(s)`);
 	for (const e of errors) console.error(`  ✗ ${e}`);
 	process.exit(1);
 }
 
 console.log(
-	`data:validate — OK (${allAllocs.length} allocations, ${substrate.bands.length} substrate bands, ${sources.length} sources).`
+	`data:validate: OK (${allAllocs.length} allocations, ${substrate.bands.length} substrate bands, ${sources.length} sources).`
 );

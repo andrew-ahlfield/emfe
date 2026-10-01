@@ -3,7 +3,7 @@ import { render } from 'vitest-browser-svelte';
 import Inspector from './Inspector.svelte';
 import type { Allocation, LicenseRank } from '$lib/data/types';
 
-/** 20 m ham — an amateur band with both a license requirement and a sub-band plan. */
+/** 20 m ham: an amateur band with both a license requirement and a sub-band plan. */
 const ham20: Allocation = {
 	id: 'ham20',
 	name: '20 m ham',
@@ -17,7 +17,7 @@ const ham20: Allocation = {
 	source: { id: 'fcc-tofa', title: 'FCC Table of Frequency Allocations' }
 };
 
-/** Wi-Fi — a consumer band with no license requirement (no licence badge). */
+/** Wi-Fi: a consumer band with no license requirement (no licence badge). */
 const wifi: Allocation = {
 	id: 'wifi',
 	name: 'Wi-Fi 2.4 GHz',

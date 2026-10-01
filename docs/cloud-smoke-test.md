@@ -14,25 +14,25 @@ re-termination (a one-time CA-trust setup step).
 
 **Bottom line:**
 
-- **The offline checks (`npm run verify` — lint, check, data:validate, component
+- **The offline checks (`npm run verify`: lint, check, data:validate, component
   tests, build, e2e) run green in the cloud container**, and never touch the
   egress proxy: local e2e serves the app on `localhost:4173`. Every browser suite
   resolves its Chromium through `playwright.shared.ts`.
   > Corrected 2026-07-15: this previously claimed the browser fix covered the unit
   > tests, and it did not. The component tests run in real Chromium via
-  > `vite.config.ts`, which was never wired to `resolveChromium()` — so `npm run
+  > `vite.config.ts`, which was never wired to `resolveChromium()`, so `npm run
 test` died in the cloud on `Executable doesn't exist at …`. Now wired; see
   > [`toolchain.md`](toolchain.md).
 - **The live smoke test** (`npm run test:smoke`, which drives the browser to the
   real deployment over the internet) additionally needs the proxy CA trusted by
-  the browser — a one-liner once `certutil` is present (§2). After that the cert
+  the browser, a one-liner once `certutil` is present (§2). After that the cert
   layer passes; any remaining flakiness is the proxy's browser transport, not
   trust, so the robust "close the loop" run is still best done from direct
   egress, with `curl` used in-sandbox to confirm the deploy is live.
 
-## 1. Browser build mismatch — handled in-repo ✅
+## 1. Browser build mismatch: handled in-repo ✅
 
-Applies to **all three** browser suites — `vite.config.ts` (component tests),
+Applies to **all three** browser suites: `vite.config.ts` (component tests),
 `playwright.config.ts` (local e2e) and `playwright.smoke.config.ts` (live smoke)
 share one resolver in `playwright.shared.ts`.
 
@@ -46,7 +46,7 @@ browserType.launch: Executable doesn't exist at
 /opt/pw-browsers/chromium_headless_shell-1228/chrome-headless-shell-linux64/chrome-headless-shell
 ```
 
-Playwright has **no "any version is fine" switch** — it resolves the browser by
+Playwright has **no "any version is fine" switch**, so it resolves the browser by
 the exact pinned revision. The supported escape hatch is to point
 `launchOptions.executablePath` at a browser you know exists. `resolveChromium()`
 does that automatically: it scans `PLAYWRIGHT_BROWSERS_PATH` for whatever
@@ -54,12 +54,12 @@ does that automatically: it scans `PLAYWRIGHT_BROWSERS_PATH` for whatever
 `PLAYWRIGHT_CHROMIUM_EXECUTABLE` to force a specific binary. Both are no-ops
 locally (the env vars are unset), so managed Playwright is used as before.
 
-> Version skew between the binary and the client protocol is acceptable here —
+> Version skew between the binary and the client protocol is acceptable here;
 > we only need a browser that launches and loads a page. Verified: the full
 > local e2e suite passes on the installed `chromium-1194` against
 > `@playwright/test` 1.61.1.
 
-## 2. Egress proxy + CA trust — one-time setup ⚠️
+## 2. Egress proxy + CA trust: one-time setup ⚠️
 
 **Only the live smoke test hits this** (it drives the browser to the internet).
 Local e2e stays on `localhost`, so skip this section unless you're running
@@ -68,7 +68,7 @@ Local e2e stays on `localhost`, so skip this section unless you're running
 All outbound HTTPS is tunnelled through a policy proxy
 (`HTTPS_PROXY=http://127.0.0.1:<port>`) that **re-terminates TLS**, so every
 client must trust the proxy CA at `/root/.ccr/ca-bundle.crt`. `curl` does
-(pre-pointed at the bundle) — `curl https://dev--emfe.netlify.app/` returns
+(pre-pointed at the bundle), so `curl https://dev--emfe.netlify.app/` returns
 `200`. The smoke config routes the browser through the proxy too
 (`--proxy-server=$HTTPS_PROXY`, `proxy: { server }`).
 
@@ -89,7 +89,7 @@ certutil -d sql:"$HOME/.pki/nssdb" -A -t "C,," \
   -n ccr-agent-proxy -i /root/.ccr/agent-proxy-ca.crt   # trust the proxy CA
 ```
 
-After this the cert layer passes — the error moves _past_ trust (from
+After this the cert layer passes: the error moves _past_ trust (from
 `ERR_CONNECTION_CLOSED` to a transport-level `ERR_CONNECTION_RESET`/timeout),
 confirming the CA is now accepted. What remains is the proxy's own handling of
 the browser's external-HTTPS transport, which is flaky in this container in a way
