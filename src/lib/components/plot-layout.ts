@@ -21,7 +21,7 @@ export const PLOT = {
 	/** The continuous gradient band (application markers ride on its mid-line). */
 	bandY: 118,
 	bandH: 58,
-	/** Allocation substrate ribbon — the gap-free §2.106 service-category bands. A shallow recessed
+	/** Allocation substrate ribbon: the gap-free §2.106 service-category bands. A shallow recessed
 	 *  floor sitting just under the band (designated frequencies now ride above the band as ticks,
 	 *  so nothing sits between the band and this ribbon). */
 	substrateY: 184,

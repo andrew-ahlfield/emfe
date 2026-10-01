@@ -1,6 +1,6 @@
 /**
  * Allocation filtering for the current view. LOD filtering lands here in Task 5;
- * content-layer filtering is added in Task 8. Pure — operates on data + a Lod tier.
+ * content-layer filtering is added in Task 8. Pure: operates on data + a Lod tier.
  */
 
 import { isVisibleAtLod, type Lod } from './lod';
@@ -19,7 +19,7 @@ function layerOn(a: Allocation, layers: Record<LayerId, boolean>): boolean {
 /**
  * The layer an allocation should be *coloured* as, given which layers are on. The primary
  * `layer` wins when its toggle is on; otherwise the `altLayer` (for dual-membership entries such
- * as UV-A, which is both physical-science and consumer — science colour preferred when shown).
+ * as UV-A, which is both physical-science and consumer; science colour preferred when shown).
  */
 export function effectiveLayer(a: Allocation, layers: Record<LayerId, boolean>): LayerId {
 	if (layers[a.layer]) return a.layer;
@@ -30,7 +30,7 @@ export function effectiveLayer(a: Allocation, layers: Record<LayerId, boolean>):
 /**
  * Allocations visible at the current LOD whose content layer is enabled. The held licence never
  * removes a band: amateur bands the class can't transmit on stay on the chart, drawn translucent
- * (you can listen there, just not transmit) — that muting is a rendering concern, handled in the
+ * (you can listen there, just not transmit). That muting is a rendering concern, handled in the
  * markers, not a filter.
  */
 export function visibleAllocations(

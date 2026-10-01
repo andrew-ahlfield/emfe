@@ -82,7 +82,7 @@ export function fmtFreq(hz: number): string {
 
 /**
  * Format a frequency to its exact value in the natural SI unit, keeping up to three decimals and
- * trimming trailing zeros — for a precise designation label like `146.52 MHz` or `121.5 MHz` that
+ * trimming trailing zeros, for a precise designation label like `146.52 MHz` or `121.5 MHz` that
  * {@link fmtFreq}'s "round ≥10 to an integer" tidying would otherwise mangle to `147 MHz`.
  */
 export function fmtFreqShort(hz: number): string {
@@ -156,7 +156,7 @@ export function fmtLambdaTicks(values: number[]): string[] {
 }
 
 /**
- * Photon-energy (E = hν) labels for a set of axis-tick frequencies, with adaptive decimals — the
+ * Photon-energy (E = hν) labels for a set of axis-tick frequencies, with adaptive decimals: the
  * eV counterpart to {@link fmtLambdaTicks}, so a zoomed-in ruler doesn't print "2 eV" on every tick.
  */
 export function fmtEvTicks(values: number[]): string[] {
@@ -168,14 +168,14 @@ export function fmtEvTicks(values: number[]): string[] {
 
 /**
  * Format a wavelength (metres) with an SI-prefixed unit, e.g. `12 cm`, `550 nm`.
- * Returns `—` for non-finite or non-positive input.
+ * Returns `n/a` for non-finite or non-positive input.
  */
 export function fmtLambda(metres: number): string {
-	if (!Number.isFinite(metres) || metres <= 0) return '—';
+	if (!Number.isFinite(metres) || metres <= 0) return 'n/a';
 	for (const [name, scale] of LAMBDA_UNITS) {
 		if (metres >= scale) return `${tidy(metres / scale)} ${name}`;
 	}
-	return '—';
+	return 'n/a';
 }
 
 /** Format the wavelength of a frequency (Hz), e.g. `fmtWavelengthOf(98e6) → "3.06 m"`. */

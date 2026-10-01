@@ -61,7 +61,7 @@ describe('encodeState', () => {
 		expect(p.get('card')).toBe('sig:wifi');
 	});
 
-	it('never writes a theme parameter — colour scheme is not shareable', () => {
+	it('never writes a theme parameter: colour scheme is not shareable', () => {
 		// Theme is a per-viewer preference (localStorage / OS), deliberately outside the deep-link.
 		const qs = encodeState({ ...DEFAULTS, license: 'technician' });
 		expect(new URLSearchParams(qs).has('t')).toBe(false);
@@ -141,7 +141,7 @@ describe('round-trip', () => {
 	});
 });
 
-describe('decodeState — malformed input degrades safely', () => {
+describe('decodeState: malformed input degrades safely', () => {
 	it('falls back to defaults on garbage', () => {
 		const back = decodeState(
 			new URLSearchParams(

@@ -1,5 +1,5 @@
 /**
- * `zoomable` — a Svelte action that turns pointer/wheel gestures over the plot into view
+ * `zoomable`: a Svelte action that turns pointer/wheel gestures over the plot into view
  * updates.
  *
  *   - **scroll** → zoom about the cursor      (desktop)
@@ -9,7 +9,7 @@
  *
  * The action owns only the DOM event plumbing; the actual math lives in the pure
  * `spectrum/zoom` module, and the resulting state lives in the `view` store. This is the
- * Svelte↔(zoom-logic) boundary: the action never mutates rendered SVG — it maps a gesture to
+ * Svelte↔(zoom-logic) boundary: the action never mutates rendered SVG. It maps a gesture to
  * a `view` mutation and lets Svelte re-render from the derived domain.
  */
 
@@ -25,7 +25,7 @@ const KEY_ZOOM = 1.6;
 const KEY_PAN = 0.15;
 
 export interface ZoomableParams {
-	/** Current plot width in px (reactive — read fresh on each gesture). */
+	/** Current plot width in px (reactive: read fresh on each gesture). */
 	width: () => number;
 	/** Apply a pure view transform to the store. */
 	apply: (transform: (view: ZoomView) => ZoomView) => void;
@@ -36,7 +36,7 @@ export function zoomable(node: SVGElement, params: ZoomableParams) {
 	const localX = (clientX: number) => clientX - node.getBoundingClientRect().left;
 
 	// Gestures that start on the controls dock or the inspector drawer are left alone, so those
-	// panels keep their own scrolling; everything else — the plot and the page around it — is fair
+	// panels keep their own scrolling; everything else (the plot and the page around it) is fair
 	// game for zoom/pan.
 	const IGNORE_SELECTOR = '.dock, .drawer, .backdrop';
 	const startedInPanel = (target: EventTarget | null) =>
@@ -49,7 +49,7 @@ export function zoomable(node: SVGElement, params: ZoomableParams) {
 		event.preventDefault();
 
 		if (event.shiftKey) {
-			// Trackpads report horizontal intent on deltaX; mice on deltaY — fold both in.
+			// Trackpads report horizontal intent on deltaX; mice on deltaY. Fold both in.
 			const delta = event.deltaX + event.deltaY;
 			current.apply((v) => panByFraction(v, FULL_DOMAIN, delta * PAN_SENSITIVITY));
 			return;
@@ -60,7 +60,7 @@ export function zoomable(node: SVGElement, params: ZoomableParams) {
 		current.apply((v) => zoomAbout(v, FULL_DOMAIN, anchor, factor));
 	}
 
-	// ── Touch / pen: one-finger pan, two-finger pinch — anywhere on screen ────────────────
+	// ── Touch / pen: one-finger pan, two-finger pinch, anywhere on screen ────────────────
 	// Listening on `window` (not just the plot) means pinch/pan work wherever the user touches:
 	// there's usually only one thing to zoom. A two-finger gesture split across a panel and the
 	// band resolves each side independently (see `startedInPanel` above).
@@ -151,8 +151,8 @@ export function zoomable(node: SVGElement, params: ZoomableParams) {
 
 	// Non-passive so we can preventDefault the page scroll/gesture while interacting. Wheel and
 	// touch gestures listen on the window so scroll-to-zoom and pinch/pan work anywhere on the page
-	// (the `startedInPanel` guard hands scroll back to the dock/drawer). Keyboard stays on the plot
-	// — it's the focusable widget, and arrows should only steer the view once it's focused.
+	// (the `startedInPanel` guard hands scroll back to the dock/drawer). Keyboard stays on the plot,
+	// since it's the focusable widget, and arrows should only steer the view once it's focused.
 	window.addEventListener('wheel', onWheel, { passive: false });
 	node.addEventListener('keydown', onKeyDown);
 	window.addEventListener('pointerdown', onPointerDown);

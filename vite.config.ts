@@ -9,7 +9,7 @@ import { resolveChromium } from './playwright.shared';
 const pkg = JSON.parse(readFileSync(new URL('./package.json', import.meta.url), 'utf8'));
 
 // The component tests below run in real headless Chromium, so they hit the same sandbox
-// browser-build mismatch the Playwright suites do — point at whatever Chromium is actually
+// browser-build mismatch the Playwright suites do, so point at whatever Chromium is actually
 // installed. No-op locally and in CI (returns undefined → managed browser), where the matched
 // build is present. See docs/toolchain.md.
 const executablePath = resolveChromium();

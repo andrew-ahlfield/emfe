@@ -1,6 +1,6 @@
 <script lang="ts">
 	/**
-	 * Shared right-hand details sheet — the single shell behind all three info cards (marker
+	 * Shared right-hand details sheet: the single shell behind all three info cards (marker
 	 * inspector, spectrum-neighbourhood explainer, substrate-band details), which used to each carry
 	 * their own near-identical copy of this chrome. Non-modal: it never dims or blocks the spectrum.
 	 *
@@ -22,7 +22,7 @@
 		/** Accessible name for the dialog when open. */
 		label: string;
 		onclose: () => void;
-		/** Pinned (docked) presentation — only meaningful when `onpin` is supplied. */
+		/** Pinned (docked) presentation: only meaningful when `onpin` is supplied. */
 		pinned?: boolean;
 		/** When provided, shows the pin/dock toggle button and calls this on click. */
 		onpin?: () => void;

@@ -4,7 +4,7 @@
  * Curated JSON under data/ is the source of truth (SPEC §Tech Stack). At build time Vite
  * inlines every file in data/allocations/*.json plus the source registry; the loader
  * resolves each allocation's `source` id into a full {@link SourceRef} and returns the set
- * sorted by representative frequency. Pure data — no DOM, no Svelte, no app state.
+ * sorted by representative frequency. Pure data: no DOM, no Svelte, no app state.
  */
 
 import sourceList from '../../../data/sources.json';

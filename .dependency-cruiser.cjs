@@ -1,5 +1,5 @@
 /**
- * dependency-cruiser config — enforces the SPEC §Project Structure boundaries
+ * dependency-cruiser config that enforces the SPEC §Project Structure boundaries
  * so the architecture stays legible (run via `npm run graph`, gated in CI).
  *
  * Hard rule (SPEC): logic lives in plain .ts under src/lib; .svelte files stay
@@ -17,7 +17,7 @@ module.exports = {
 		{
 			name: 'spectrum-is-pure',
 			severity: 'error',
-			comment: 'src/lib/spectrum is pure math — no Svelte, no DOM, no app state.',
+			comment: 'src/lib/spectrum is pure math: no Svelte, no DOM, no app state.',
 			from: { path: '^src/lib/spectrum' },
 			to: { path: '\\.svelte$|^src/lib/(state|components)|^src/routes' }
 		},

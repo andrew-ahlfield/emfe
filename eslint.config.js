@@ -11,7 +11,7 @@ const gitignorePath = path.resolve(import.meta.dirname, '.gitignore');
 export default defineConfig(
 	includeIgnoreFile(gitignorePath),
 	{
-		// Reference material — the prototype mockup uses a non-standard framework
+		// Reference material: the prototype mockup uses a non-standard framework
 		// (DCLogic) and ships no production code; not linted. `.claude/**` holds
 		// scratch worktrees from isolated agent runs (duplicate trees confuse resolution).
 		ignores: ['moodboards/**', 'graph.svg', '.claude/**']

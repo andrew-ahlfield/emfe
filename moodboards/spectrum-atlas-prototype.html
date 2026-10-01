@@ -43,7 +43,7 @@ html,body{margin:0;background:var(--bg);}
       <div style="display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:24px;">
         <div>
           <div style="font-family:'Newsreader',serif;font-size:27px;font-weight:500;letter-spacing:-.01em;">The Electromagnetic Spectrum</div>
-          <div style="font-family:'Hanken Grotesk',sans-serif;font-size:13.5px;color:var(--sub);margin-top:3px;">Everything we broadcast, navigate by, and see — on one continuous scale.</div>
+          <div style="font-family:'Hanken Grotesk',sans-serif;font-size:13.5px;color:var(--sub);margin-top:3px;">Everything we broadcast, navigate by, and see, on one continuous scale.</div>
         </div>
         <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--faint);text-align:right;">ν, hertz (log)<br>{{ lodLabel }}</div>
       </div>
@@ -203,7 +203,7 @@ class Component extends DCLogic {
     const pos=(f)=> (Math.log10(f)-4)/18*100;
     const sup={'0':'⁰','1':'¹','2':'²','3':'³','4':'⁴','5':'⁵','6':'⁶','7':'⁷','8':'⁸','9':'⁹','-':'⁻'};
     const supStr=(n)=>String(n).split('').map(c=>sup[c]||c).join('');
-    const fmtLambda=(val)=>{ const u=[['km',1e3],['m',1],['cm',1e-2],['mm',1e-3],['µm',1e-6],['nm',1e-9],['pm',1e-12],['fm',1e-15]]; for(const [nm,f] of u){ if(val>=f){ const v=val/f; return (v>=10?Math.round(v):Number(v.toFixed(1)))+' '+nm; } } return '—'; };
+    const fmtLambda=(val)=>{ const u=[['km',1e3],['m',1],['cm',1e-2],['mm',1e-3],['µm',1e-6],['nm',1e-9],['pm',1e-12],['fm',1e-15]]; for(const [nm,f] of u){ if(val>=f){ const v=val/f; return (v>=10?Math.round(v):Number(v.toFixed(1)))+' '+nm; } } return 'n/a'; };
 
     const catColor={ consumer:'#2FB3A0', amateur:'#C44CF0', navigation:'#3E8BFF', gov:'#FF9A3D', science:'#46D160' };
     const rank={unlic:0,tech:1,general:2,extra:3};
@@ -212,23 +212,23 @@ class Component extends DCLogic {
     // ---------- ALLOCATION DATA ----------
     const M=[
       { id:'am',  name:'AM radio',  f:1e6,    cat:'consumer',   minLod:2, band:'MF · medium frequency', region:'Radio', note:'535–1605 kHz', alloc:'AM broadcast. Amplitude-modulated; long groundwave range at night.' },
-      { id:'cb',  name:'CB radio',  f:27e6,   cat:'amateur',    minLod:2, reqLic:0, band:'HF · 11 m', region:'Radio', note:'26.9–27.4 MHz', alloc:'Citizens Band — license-free voice, 40 channels, 4 W.' },
+      { id:'cb',  name:'CB radio',  f:27e6,   cat:'amateur',    minLod:2, reqLic:0, band:'HF · 11 m', region:'Radio', note:'26.9–27.4 MHz', alloc:'Citizens Band: license-free voice, 40 channels, 4 W.' },
       { id:'mri', name:'MRI RF',    f:64e6,   cat:'science',    minLod:3, band:'VHF', region:'Radio', note:'≈64 MHz (1.5 T)', alloc:'The RF pulse that flips proton spins inside a 1.5-tesla MRI magnet.' },
       { id:'fm',  name:'FM radio',  f:98e6,   cat:'consumer',   minLod:2, band:'VHF · very high frequency', region:'Radio', note:'88–108 MHz', alloc:'FM broadcast. Wideband stereo, line-of-sight propagation.' },
-      { id:'noaa',name:'NOAA wx sat',f:137e6, cat:'gov',        minLod:3, band:'VHF', region:'Radio', note:'137 MHz APT', alloc:'Polar weather-satellite image downlink — receivable with a simple antenna.' },
+      { id:'noaa',name:'NOAA wx sat',f:137e6, cat:'gov',        minLod:3, band:'VHF', region:'Radio', note:'137 MHz APT', alloc:'Polar weather-satellite image downlink, receivable with a simple antenna.' },
       { id:'ham20',name:'20 m ham', f:14e6,   cat:'amateur',    minLod:2, reqLic:2, isHam:true, band:'HF · high frequency', region:'Radio', note:'14.000–14.350 MHz', alloc:'Premier HF DX band. CW, digital and SSB phone segments by licence class.' },
       { id:'2m',  name:'2 m ham',   f:146e6,  cat:'amateur',    minLod:3, reqLic:1, band:'VHF', region:'Radio', note:'144–148 MHz', alloc:'Local repeater / simplex band. Technician class and up.' },
       { id:'tv',  name:'TV (UHF)',  f:600e6,  cat:'consumer',   minLod:3, band:'UHF', region:'Radio', note:'470–698 MHz', alloc:'Digital TV broadcast (ATSC). Also reused for cellular post-repack.' },
-      { id:'frs', name:'FRS / GMRS',f:465e6,  cat:'amateur',    minLod:3, reqLic:0, band:'UHF', region:'Radio', note:'462–467 MHz', alloc:'Family Radio — license-free walkie-talkies (GMRS needs a no-test permit).' },
+      { id:'frs', name:'FRS / GMRS',f:465e6,  cat:'amateur',    minLod:3, reqLic:0, band:'UHF', region:'Radio', note:'462–467 MHz', alloc:'Family Radio: license-free walkie-talkies (GMRS needs a no-test permit).' },
       { id:'adsb',name:'ADS-B',     f:1.09e9, cat:'navigation', minLod:3, band:'UHF', region:'Microwave', note:'1090 MHz', alloc:'Aircraft position broadcast. Trackable with a cheap SDR dongle.' },
       { id:'gps', name:'GPS L1',    f:1.575e9,cat:'navigation', minLod:2, band:'UHF', region:'Microwave', note:'1.575 GHz', alloc:'GNSS positioning. Spread-spectrum, ~−130 dBm at the ground.' },
       { id:'goes',name:'GOES sat',  f:1.69e9, cat:'gov',        minLod:3, band:'L-band', region:'Microwave', note:'1.69 GHz', alloc:'Geostationary weather-satellite imagery downlink.' },
       { id:'wifi',name:'Wi-Fi 2.4', f:2.45e9, cat:'consumer',   minLod:2, band:'UHF · ISM 13 cm', region:'Microwave', note:'2.400–2.4835 GHz', alloc:'Shared ISM band: Wi-Fi ch 1/6/11, Bluetooth, Zigbee, microwave ovens.' },
-      { id:'5g',  name:'5G n77',    f:3.7e9,  cat:'consumer',   minLod:3, band:'SHF', region:'Microwave', note:'3.3–4.2 GHz', alloc:'5G mid-band — the capacity workhorse for modern cellular.' },
-      { id:'wifi5',name:'Wi-Fi 5',  f:5.5e9,  cat:'consumer',   minLod:3, band:'SHF', region:'Microwave', note:'5.15–5.85 GHz', alloc:'5 GHz Wi-Fi — more channels, shorter range than 2.4 GHz.' },
+      { id:'5g',  name:'5G n77',    f:3.7e9,  cat:'consumer',   minLod:3, band:'SHF', region:'Microwave', note:'3.3–4.2 GHz', alloc:'5G mid-band: the capacity workhorse for modern cellular.' },
+      { id:'wifi5',name:'Wi-Fi 5',  f:5.5e9,  cat:'consumer',   minLod:3, band:'SHF', region:'Microwave', note:'5.15–5.85 GHz', alloc:'5 GHz Wi-Fi: more channels, shorter range than 2.4 GHz.' },
       { id:'radar',name:'Wx radar', f:9.4e9,  cat:'gov',        minLod:3, band:'X-band', region:'Microwave', note:'9.4 GHz', alloc:'Weather / marine radar. Pulsed, high peak power.' },
-      { id:'ir',  name:'IR heat',   f:30e12,  cat:'science',    minLod:3, band:'Infrared', region:'Infrared', note:'≈30 THz', alloc:'Thermal infrared — heat lamps, night vision, TV remotes nearby.' },
-      { id:'vis', name:'Visible',   f:5.4e14, cat:'science',    minLod:2, isVisible:true, band:'Visible light', region:'Visible', note:'390–700 nm', alloc:'The single octave the eye detects — a sliver of the whole spectrum.' },
+      { id:'ir',  name:'IR heat',   f:30e12,  cat:'science',    minLod:3, band:'Infrared', region:'Infrared', note:'≈30 THz', alloc:'Thermal infrared: heat lamps, night vision, TV remotes nearby.' },
+      { id:'vis', name:'Visible',   f:5.4e14, cat:'science',    minLod:2, isVisible:true, band:'Visible light', region:'Visible', note:'390–700 nm', alloc:'The single octave the eye detects, a sliver of the whole spectrum.' },
       { id:'uv',  name:'UV-C',      f:1e15,   cat:'science',    minLod:3, band:'Ultraviolet', region:'UV', note:'≈1 PHz', alloc:'Germicidal ultraviolet; also the cause of sunburn at longer UV.' },
       { id:'xray',name:'Medical X-ray',f:3e18,cat:'science',    minLod:2, band:'X-ray', region:'X-ray', note:'≈3 EHz', alloc:'Diagnostic radiography & CT. Ionising; tightly dose-controlled.' }
     ];
@@ -327,7 +327,7 @@ class Component extends DCLogic {
     let licText='', licOk=false;
     if(isAm){
       const r=selM.reqLic; licOk = selRank>=r;
-      if(r===0) licText='✓ License-free — anyone may transmit';
+      if(r===0) licText='✓ License-free, anyone may transmit';
       else if(licOk) licText='✓ '+licName[selRank]+' licence covers this band';
       else licText='✗ Requires '+licName[r]+' (you have '+licName[selRank]+')';
     }

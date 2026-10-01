@@ -72,7 +72,7 @@ test('lowering the licence class mutes amateur bands you can no longer transmit 
 
 	// Unlicensed can't transmit on 40 m → the band stays on the line (you may still listen) but
 	// goes translucent: the solid bar becomes a see-through envelope. (Licence never *removes* a
-	// band — see spectrum/filter.ts.)
+	// band; see spectrum/filter.ts.)
 	await page.getByRole('radio', { name: /Unlicensed/ }).click();
 	await expect(fortyM).toBeVisible();
 	await expect(fortyM.locator('.leaf-bar')).toHaveCount(0);

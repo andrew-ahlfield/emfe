@@ -103,7 +103,7 @@ describe('privilegeStrip', () => {
 		expect(enabled[0].mode).toBe('cw');
 	});
 
-	it('gives a Technician CW-only on 80/40/15 m but phone on 10 m — never phone below 10 m', () => {
+	it('gives a Technician CW-only on 80/40/15 m but phone on 10 m, never phone below 10 m', () => {
 		for (const id of ['ham80m', 'ham40m', 'ham15m']) {
 			const enabled = privilegeStrip(id, 'technician').filter((s) => s.enabled);
 			expect(enabled.length).toBeGreaterThan(0);
@@ -114,7 +114,7 @@ describe('privilegeStrip', () => {
 		expect(tenM.some((s) => s.mode === 'phone')).toBe(true);
 	});
 
-	it('locks 30 m to CW/data — no phone segment for any class', () => {
+	it('locks 30 m to CW/data: no phone segment for any class', () => {
 		for (const held of ['general', 'extra'] as const) {
 			const strip = privilegeStrip('ham30m', held);
 			expect(strip.every((s) => s.mode !== 'phone')).toBe(true);
@@ -168,7 +168,7 @@ describe('powerLimit', () => {
 			expect(powerLimit(id, 'technician')).toBe('200 W PEP');
 			expect(powerLimit(id, 'general')).toBe('1500 W PEP');
 		}
-		// A Technician runs the legal limit on 2 m — the 200 W cap is HF-segment-specific.
+		// A Technician runs the legal limit on 2 m; the 200 W cap is HF-segment-specific.
 		expect(powerLimit('2m', 'technician')).toBe('1500 W PEP');
 	});
 

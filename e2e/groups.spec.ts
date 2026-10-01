@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 
 // Collapsed neighbourhoods (families) render as a flat bracket + chip above the band. Clicking one
-// opens an explainer card (what the band name means + typical uses) — it does not zoom.
+// opens an explainer card (what the band name means + typical uses); it does not zoom.
 
 test('clicking a group chip opens its explainer card; Esc closes it', async ({ page }) => {
 	// All layers on: the ELF family's members live outside the default (consumer-only) view.

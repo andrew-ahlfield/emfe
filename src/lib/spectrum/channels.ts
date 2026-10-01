@@ -4,7 +4,7 @@
  *
  * Reference data (kept in code like {@link FAMILIES} / ITU_BANDS, not the allocation dataset).
  * Frequencies in Hz, from the FCC channel tables. Starting set is the citizen/short-range voice
- * services (CB, FRS/GMRS, MURS) — the ones whose channels people actually dial by number.
+ * services (CB, FRS/GMRS, MURS), the ones whose channels people actually dial by number.
  */
 
 import type { FreqDomain } from './scale';
@@ -18,13 +18,13 @@ export interface Channel {
 	/**
 	 * Special styling: `gmrs` = needs a paid GMRS licence (the repeater inputs, drawn in blue);
 	 * `distress` = an emergency/guard channel (red); `calling` = a designated calling frequency
-	 * (amateur purple). `distress`/`calling` are single landmarks promoted to reveal early — see
+	 * (amateur purple). `distress`/`calling` are single landmarks promoted to reveal early; see
 	 * {@link channelRevealPx}.
 	 */
 	tag?: 'gmrs' | 'distress' | 'calling';
 	/**
 	 * Bandwidth (Hz). A discrete channel has none and draws as a hairline tick; a *resonance* mode
-	 * (the Schumann harmonics) has a real width and draws as a bar that wide — same multi-signal
+	 * (the Schumann harmonics) has a real width and draws as a bar that wide: same multi-signal
 	 * paradigm, honest width.
 	 */
 	bw?: number;
@@ -43,7 +43,7 @@ export interface ChannelPlan {
 
 const MHz = 1e6;
 
-/** US CB — 40 channels, 26.965–27.405 MHz (note the historic 23/24/25 ordering). Channel 9 is the
+/** US CB: 40 channels, 26.965–27.405 MHz (note the historic 23/24/25 ordering). Channel 9 is the
  *  designated emergency/traveller-assistance channel, so it's drawn red like Marine 16. */
 const CB: Channel[] = (
 	[
@@ -97,7 +97,7 @@ const CB: Channel[] = (
 /**
  * FRS/GMRS walkie-talkie channels. The 22 shared FRS channels (license-free) span the 462 group
  * (1–7, 15–22) and the 467 group (8–14). On top of those, GMRS licensees get 8 *repeater input*
- * channels at 467.5500–467.7250 MHz (paired +5 MHz with channels 15–22) — license-only, tagged.
+ * channels at 467.5500–467.7250 MHz (paired +5 MHz with channels 15–22): license-only, tagged.
  */
 const FRS: Channel[] = [
 	...(
@@ -140,7 +140,7 @@ const FRS: Channel[] = [
 	).map(([n, mhz]) => ({ n, hz: mhz * MHz, tag: 'gmrs' as const }))
 ];
 
-/** MURS — 5 channels: three at 151 MHz, two at 154 MHz. */
+/** MURS: 5 channels, three at 151 MHz and two at 154 MHz. */
 const MURS: Channel[] = [
 	['1', 151.82],
 	['2', 151.88],
@@ -176,7 +176,7 @@ const WIFI24: Channel[] = Array.from({ length: 11 }, (_, i) => {
 	return { n: String(n), hz: (2412 + (n - 1) * 5) * MHz };
 });
 
-/** NOAA Weather Radio — the seven WX channels (numbered out of frequency order). */
+/** NOAA Weather Radio: the seven WX channels (numbered out of frequency order). */
 const WX: Channel[] = [
 	['WX1', 162.55],
 	['WX2', 162.4],
@@ -187,19 +187,19 @@ const WX: Channel[] = [
 	['WX7', 162.525]
 ].map(([n, mhz]) => ({ n: n as string, hz: (mhz as number) * MHz }));
 
-/** US 5 GHz Wi-Fi — the UNII 20 MHz channels (centre = 5000 + n·5 MHz). */
+/** US 5 GHz Wi-Fi: the UNII 20 MHz channels (centre = 5000 + n·5 MHz). */
 const WIFI5: Channel[] = [
 	36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112, 116, 120, 124, 128, 132, 136, 140, 144, 149,
 	153, 157, 161, 165
 ].map((n) => ({ n: String(n), hz: (5000 + n * 5) * MHz }));
 
-/** US 6 GHz Wi-Fi (6E/7) — 20 MHz channels 1, 5, 9 … 233 (centre = 5950 + n·5 MHz). */
+/** US 6 GHz Wi-Fi (6E/7): 20 MHz channels 1, 5, 9 … 233 (centre = 5950 + n·5 MHz). */
 const WIFI6E: Channel[] = Array.from({ length: 59 }, (_, i) => {
 	const n = 1 + i * 4;
 	return { n: String(n), hz: (5950 + n * 5) * MHz };
 });
 
-/** US Marine VHF — the standard channel grid (ship-side frequencies; "A" = US simplex variant). */
+/** US Marine VHF: the standard channel grid (ship-side frequencies; "A" = US simplex variant). */
 const MARINE: Channel[] = (
 	[
 		['63A', 156.175],
@@ -269,7 +269,7 @@ const MARINE: Channel[] = (
 	...(n === '16' ? { tag: 'distress' as const } : {})
 }));
 
-/** 60 m amateur band — five fixed USB channels (the only ham band that's channelised). */
+/** 60 m amateur band: five fixed USB channels (the only ham band that's channelised). */
 const HAM60: Channel[] = [
 	['1', 5.332],
 	['2', 5.348],
@@ -279,10 +279,10 @@ const HAM60: Channel[] = [
 ].map(([n, mhz]) => ({ n: n as string, hz: (mhz as number) * MHz }));
 
 /**
- * Schumann resonances — the Earth–ionosphere cavity's modes (Hz). Not channels but the *same*
+ * Schumann resonances: the Earth–ionosphere cavity's modes (Hz). Not channels but the *same*
  * multi-signal paradigm as MURS/GMRS: a set of band marks revealed on zoom. Each carries a real
  * bandwidth (low Q ≈ 4–6, so ~f/Q wide and widening up the series) so it draws as a bar that broad
- * — resonances inherently have width, unlike a discrete channel.
+ *: resonances inherently have width, unlike a discrete channel.
  */
 const SCHUMANN: Channel[] = (
 	[
@@ -295,7 +295,7 @@ const SCHUMANN: Channel[] = (
 ).map(([n, hz, bw]) => ({ n, hz, bw }));
 
 /**
- * Designated single frequencies — the aeronautical/military emergency ('guard') frequencies and the
+ * Designated single frequencies: the aeronautical/military emergency ('guard') frequencies and the
  * ham FM national calling frequencies. Each is one tick above its band (red for a guard, amateur
  * purple for a calling freq), like CB Channel 9; the full story lives on the band's own info card.
  */
@@ -333,14 +333,14 @@ export function planFor(id: string): ChannelPlan | undefined {
 /**
  * Per-channel level-of-detail, expressed as the on-screen plan span (px) a channel needs before it
  * surfaces. The dense numbered grid (`full`) only appears once the plan spans a comfortable slice
- * of the screen, so the numbers have room and don't collide. A `landmark` — the single emergency /
- * calling channel — is just one line, so it's promoted to appear far earlier, as soon as its band
+ * of the screen, so the numbers have room and don't collide. A `landmark` (the single emergency /
+ * calling channel) is just one line, so it's promoted to appear far earlier, as soon as its band
  * is a recognizable bar rather than a sliver. Tune both here; everything downstream reads them.
  */
 export const CHANNEL_REVEAL_PX = { landmark: 44, full: 160 } as const;
 
 /**
- * The on-screen band width (px) at which a given channel reveals — a generalisation of the old
+ * The on-screen band width (px) at which a given channel reveals: a generalisation of the old
  * plan-wide threshold. A single emergency/guard/calling landmark surfaces early (as soon as its band
  * is a recognizable bar); every other channel waits for the full grid. Keyed off the channel's `tag`.
  */
@@ -355,13 +355,13 @@ export interface PlacedChannel extends Channel {
 	x: number;
 	/** Revealed at the current zoom: in view AND the parent band is wide enough on screen. */
 	revealed: boolean;
-	/** On-screen width (px) of a mode's real bandwidth — undefined for a hairline channel. */
+	/** On-screen width (px) of a mode's real bandwidth; undefined for a hairline channel. */
 	barW?: number;
 }
 
 /**
  * Channels of a plan positioned for a view, gated by the parent `band`'s on-screen width (so a
- * single-tick plan — a guard or calling frequency — reveals just like a dense grid does, rather than
+ * single-tick plan (a guard or calling frequency) reveals just like a dense grid does, rather than
  * never, since its channel-extent is zero). Each channel carries its own `revealed` flag (a promoted
  * landmark can show before the full grid); `show` is the plan-wide "full grid is up" signal.
  */

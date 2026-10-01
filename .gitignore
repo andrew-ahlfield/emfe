@@ -1,4 +1,4 @@
-# Local dev tooling — Addy Osmani's agent-skills (MIT). Kept project-local,
+# Local dev tooling: Addy Osmani's agent-skills (MIT). Kept project-local,
 # not part of the shipped product, so it stays out of the repo.
 /.claude/skills/
 /.claude/agents/
@@ -26,7 +26,7 @@ dist/
 .DS_Store
 Thumbs.db
 
-# Env — secrets stay local; .env.example is the committed template
+# Env: secrets stay local; .env.example is the committed template
 .env
 .env.*
 !.env.example

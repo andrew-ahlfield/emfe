@@ -1,5 +1,5 @@
 /**
- * Semantic-zoom **group-up** layout — the "500 apartments → 6 neighbourhoods → addresses"
+ * Semantic-zoom **group-up** layout: the "500 apartments → 6 neighbourhoods → addresses"
  * mechanic for the spectrum.
  *
  * Allocations are partitioned into contiguous-frequency **families** ("neighbourhoods" on the
@@ -10,7 +10,7 @@
  *     region labels + ITU row carry the context at that scale).
  *
  * The expand/collapse decision is driven purely by **on-screen pixel size**, so detail
- * emerges smoothly as you zoom — and a final greedy lane-assignment pass guarantees that no
+ * emerges smoothly as you zoom, and a final greedy lane-assignment pass guarantees that no
  * two labels overlap (any label that can't be placed degrades to a bare dot).
  *
  * Pure module: no DOM, no Svelte, no app state (SPEC §Boundaries). Text widths are estimated
@@ -28,7 +28,7 @@ export interface Family {
 	label: string;
 	/** Compact label for the on-axis chip. */
 	short: string;
-	/** The short label spelled out — what the acronym/band name stands for. */
+	/** The short label spelled out: what the acronym/band name stands for. */
 	name: string;
 	/** A sentence or two: what this neighbourhood is and what it's generally used for. */
 	blurb: string;
@@ -48,7 +48,7 @@ export const FAMILIES: readonly Family[] = [
 		short: 'ELF',
 		name: 'Extremely low frequency',
 		blurb:
-			'The slowest radio waves—from a few hertz up to ~10 kHz. The 50/60 Hz hum of the power grid lives here, alongside the Earth–ionosphere Schumann resonances and the enormous antennas navies use to reach submarines underwater.',
+			'The slowest radio waves, from a few hertz up to ~10 kHz. The 50/60 Hz hum of the power grid lives here, alongside the Earth–ionosphere Schumann resonances and the enormous antennas navies use to reach submarines underwater.',
 		lo: 1,
 		hi: 1e4
 	},
@@ -68,7 +68,7 @@ export const FAMILIES: readonly Family[] = [
 		short: 'MF/HF',
 		name: 'Medium / high frequency',
 		blurb:
-			"AM broadcast (medium wave) and shortwave (high frequency), 0.9–30 MHz. HF bounces off the ionosphere to skip around the planet—which is why shortwave, CB, and amateur 'ham' operators can reach the far side of the world.",
+			"AM broadcast (medium wave) and shortwave (high frequency), 0.9–30 MHz. HF bounces off the ionosphere to skip around the planet, which is why shortwave, CB, and amateur 'ham' operators can reach the far side of the world.",
 		lo: 9e5,
 		hi: 3e7
 	},
@@ -108,7 +108,7 @@ export const FAMILIES: readonly Family[] = [
 		short: 'S-band',
 		name: 'S-band',
 		blurb:
-			'1.7–2.7 GHz. The 2.4 GHz ISM band—Wi-Fi, Bluetooth, microwave ovens, cordless gear—plus a great deal of cellular (3G/4G/5G mid-band) and weather radar.',
+			'1.7–2.7 GHz. The 2.4 GHz ISM band (Wi-Fi, Bluetooth, microwave ovens, cordless gear), plus a great deal of cellular (3G/4G/5G mid-band) and weather radar.',
 		lo: 1.7e9,
 		hi: 2.7e9
 	},
@@ -168,7 +168,7 @@ export const FAMILIES: readonly Family[] = [
 		short: 'Visible',
 		name: 'Visible light',
 		blurb:
-			'The single octave our eyes evolved to see—red through violet. Lasers, LEDs, displays, and the colours of the world. A sliver of the whole spectrum.',
+			'The single octave our eyes evolved to see, from red through violet. Lasers, LEDs, displays, and the colours of the world. A sliver of the whole spectrum.',
 		lo: 4e14,
 		hi: 7.9e14
 	},
@@ -198,7 +198,7 @@ export const FAMILIES: readonly Family[] = [
 		short: 'Gamma',
 		name: 'Gamma rays',
 		blurb:
-			'The most energetic light, from nuclear decay and cosmic cataclysms. Cancer radiotherapy, equipment sterilisation, and PET scans. Deeply ionising—the signature of the violent universe.',
+			'The most energetic light, from nuclear decay and cosmic cataclysms. Cancer radiotherapy, equipment sterilisation, and PET scans. Deeply ionising: the signature of the violent universe.',
 		lo: 3e19,
 		hi: 1e24
 	}
@@ -215,7 +215,7 @@ export function familyOf(hz: number): Family | undefined {
 }
 
 /**
- * A clickable spectrum "neighbourhood" for the info card — either a {@link Family} or a whole
+ * A clickable spectrum "neighbourhood" for the info card: either a {@link Family} or a whole
  * region (the coarse umbrella shown at low zoom when a region's families are too compressed to
  * stand on their own). `Family` already supplies these fields; regions add the same shape.
  */
@@ -239,7 +239,7 @@ export const REGION_GROUPS: Record<string, Neighbourhood> = {
 		short: 'Radio',
 		name: 'Radio waves',
 		blurb:
-			'The long-wavelength end we broadcast and communicate with—the power-grid hum and submarine signalling up through AM/FM, broadcast television, and aviation, marine and two-way radio. Zoom in for the ELF, VLF/LF, MF/HF and VHF neighbourhoods.',
+			'The long-wavelength end we broadcast and communicate with: the power-grid hum and submarine signalling up through AM/FM, broadcast television, and aviation, marine and two-way radio. Zoom in for the ELF, VLF/LF, MF/HF and VHF neighbourhoods.',
 		lo: 1,
 		hi: 3e8
 	},
@@ -248,7 +248,7 @@ export const REGION_GROUPS: Record<string, Neighbourhood> = {
 		short: 'Microwave',
 		name: 'Microwaves',
 		blurb:
-			'Centimetre-to-millimetre waves that carry most modern wireless: Wi-Fi and Bluetooth, mobile phones, GPS, radar and satellite links—and microwave ovens. Zoom in for the UHF, L-, S-, C-, X/Ku- and K-band neighbourhoods up to EHF.',
+			'Centimetre-to-millimetre waves that carry most modern wireless: Wi-Fi and Bluetooth, mobile phones, GPS, radar and satellite links, and microwave ovens. Zoom in for the UHF, L-, S-, C-, X/Ku- and K-band neighbourhoods up to EHF.',
 		lo: 3e8,
 		hi: 3e11
 	}
@@ -311,7 +311,7 @@ export interface LayoutResult {
 export interface LayoutOptions {
 	/** Number of stacked label lanes available. */
 	lanes?: number;
-	/** A family narrower than this (px) shows no chip — only its dots. */
+	/** A family narrower than this (px) shows no chip, only its dots. */
 	minFamilyPx?: number;
 	/** Approx px a single leaf label needs. */
 	leafSlotPx?: number;
@@ -373,7 +373,7 @@ export function layoutSpectrum(
 	const xOf = (hz: number) => logPos(hz, domain) * width;
 
 	// On-screen test, anchored to the *band* (not just the centre frequency) so a wide allocation
-	// keeps its bar while any part of its range is visible — even when its centre scrolls off.
+	// keeps its bar while any part of its range is visible, even when its centre scrolls off.
 	const onScreen = (a: Allocation): boolean => {
 		if (a.band) return xOf(a.band[1]) >= -40 && xOf(a.band[0]) <= width + 40;
 		const x = xOf(a.hz);
@@ -396,7 +396,7 @@ export function layoutSpectrum(
 		else byFamily.set(f.id, [a]);
 	}
 
-	// Pass A — decide each family's representation, producing label candidates (x-ordered).
+	// Pass A: decide each family's representation, producing label candidates (x-ordered).
 	interface Candidate extends Omit<PlacedItem, 'lane'> {
 		width: number;
 	}
@@ -419,7 +419,7 @@ export function layoutSpectrum(
 			loX = xOf(a.band[0]);
 			hiX = xOf(a.band[1]);
 			// Anchor the label over its on-screen slice ONLY when that slice is wide enough to host
-			// the label — so a genuinely wide band keeps its label as its centre scrolls off. A narrow
+			// the label, so a genuinely wide band keeps its label as its centre scrolls off. A narrow
 			// band keeps its centre x and lets the label drop near an edge; pinning a point-wide band's
 			// label to the edge made it appear to "slide" while the bar panned underneath it.
 			const onScreenW = Math.min(hiX, width) - Math.max(loX, 0);
@@ -487,7 +487,7 @@ export function layoutSpectrum(
 		return [];
 	};
 
-	// Pass A — per region, choose the finest representation that *covers* it: its families when they
+	// Pass A: per region, choose the finest representation that *covers* it, its families when they
 	// fill enough of the region's on-screen width, otherwise a single region umbrella. This is the
 	// Region → Family → Leaf semantic-zoom hierarchy: at the widest zoom the dense microwave/optical
 	// regions show one umbrella each (no gaps); zoom in and they dissolve into families, then leaves.
@@ -526,7 +526,7 @@ export function layoutSpectrum(
 		}
 	}
 
-	// Pass B — greedy lane assignment, left → right. Each candidate takes the lowest lane whose
+	// Pass B: greedy lane assignment, left → right. Each candidate takes the lowest lane whose
 	// last occupant (plus any fixed obstacle) clears it; otherwise its label is dropped.
 	candidates.sort((a, b) => a.x - b.x);
 	const laneEnds: number[] = Array.from({ length: opt.lanes }, () => -Infinity);
@@ -558,7 +558,7 @@ export function layoutSpectrum(
 			placed = lane;
 			break;
 		}
-		if (placed === -1) continue; // no room—degrade to a bare dot (label dropped)
+		if (placed === -1) continue; // no room: degrade to a bare dot (label dropped)
 		laneEnds[placed] = x1;
 		const { width: labelWidth, ...item } = c;
 		void labelWidth; // width was only needed for placement

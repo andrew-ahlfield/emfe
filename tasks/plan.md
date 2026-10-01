@@ -1,14 +1,14 @@
 # Implementation Plan: EM Frequency Explorer (`emfe`)
 
 > Companion to [SPEC.md](../SPEC.md). Task checklist lives in [todo.md](todo.md).
-> Status: **draft — awaiting human review.**
+> Status: **draft, awaiting human review.**
 
 ## Overview
 
 Rebuild the static prototype (`moodboards/spectrum-atlas-prototype.html`) as a real
 **SvelteKit + Vite + TypeScript** application: a single continuous **log-frequency axis**
 (~3 Hz → ≥10²⁴ Hz) with **semantic zoom** across ≥4 LOD tiers (Regions → ITU bands →
-Allocations → Channels). The work is greenfield — nothing is scaffolded yet. We build
+Allocations → Channels). The work is greenfield, so nothing is scaffolded yet. We build
 foundations bottom-up (scaffold → pure math → data), then deliver vertical slices that each
 leave a working, demoable explorer.
 
@@ -20,7 +20,7 @@ theme). This plan translates those idioms into the spec's architecture: **logic 
 ## Architecture Decisions
 
 - **Bottom-up foundation, then vertical slices.** A visualization can't be sliced purely
-  vertically — the scale math, data schema, and scaffold are shared prerequisites. Phase 1
+  vertically, since the scale math, data schema, and scaffold are shared prerequisites. Phase 1
   builds those; Phases 2–5 are vertical (each adds a complete user-facing capability).
 - **Progressive stores, not a monolithic state layer.** Each Svelte store (`view`, `theme`,
   `selection`, `layers`, `license`) is introduced in the slice that first needs it, rather
@@ -70,14 +70,14 @@ integration and is scheduled as early as its dependencies allow so it fails fast
 
 ## Task List
 
-### Phase 1 — Foundation
+### Phase 1: Foundation
 
 ## Task 1: Scaffold SvelteKit project + tooling
 
 **Description:** Initialize the SvelteKit + Vite + TypeScript project with the structure,
 commands, and config from SPEC.md (§Project Structure, §Commands). Wire the package scripts,
 strict TS, adapter-netlify, Vitest, Playwright, lint/format, and the code-visibility tooling
-hooks (dependency-cruiser config). No app logic yet — just a project that builds and serves a
+hooks (dependency-cruiser config). No app logic yet, just a project that builds and serves a
 blank page.
 
 **Acceptance criteria:**
@@ -105,7 +105,7 @@ blank page.
 **Description:** Implement the pure, DOM-free math in `src/lib/spectrum/`: the `FreqDomain`
 type and `logPos`/inverse, the zoom-transform ↔ visible-domain mapping, LOD derivation, and
 `fmtFreq` / `fmtLambda` formatters (ported from the prototype, extended to the full
-~3 Hz→10²⁴ Hz range). This is the most reused, most testable code — build and prove it first.
+~3 Hz→10²⁴ Hz range). This is the most reused, most testable code, so build and prove it first.
 
 **Acceptance criteria:**
 
@@ -155,13 +155,13 @@ dataset (≈ the prototype's 20 markers, each with a real `source`).
 
 ---
 
-### Phase 2 — The spectrum renders (static)
+### Phase 2: The spectrum renders (static)
 
 ## Task 4: Axis, region band & ITU row
 
 **Description:** Build the SVG visualization shell: continuous log axis with major/minor
 ticks, always-visible region labels (Radio…Gamma), the blended gradient band + glow underlay,
-and the ITU band row — all positioned via `logPos`. Introduce the `view` store (center
+and the ITU band row, all positioned via `logPos`. Introduce the `view` store (center
 exponent + zoom, initialized to full-spectrum) and `theme` store. D3 computes the scale;
 Svelte renders the SVG; every color from a CSS variable.
 
@@ -210,7 +210,7 @@ the `selection` store. Detail emerges as LOD descends.
 ## Task 6: Dock shell + Inspector
 
 **Description:** Build the collapsible bottom dock and the Inspector panel showing the
-selected allocation — name, frequency, band/region/note, description, and its **provenance**
+selected allocation: name, frequency, band/region/note, description, and its **provenance**
 (source surfaced). Layer/license/axis sub-panels are placeholders here; filled in Phase 3.
 
 **Acceptance criteria:**
@@ -234,7 +234,7 @@ selected allocation — name, frequency, band/region/note, description, and its 
 
 ---
 
-### Phase 3 — Interaction & filters
+### Phase 3: Interaction & filters
 
 ## Task 7: Zoom + pan → semantic zoom ⚠ highest risk
 
@@ -308,8 +308,8 @@ sub-band privilege strip keyed to license rank (prototype idiom). Introduce the 
 
 ## Task 10: Axis toggles + theme
 
-**Description:** Add the dock's Axis & scale toggles — scientific notation (10ⁿ) and
-wavelength λ (metres) — plus the light/dark theme toggle, all reflecting in the axis ticks and
+**Description:** Add the dock's Axis & scale toggles (scientific notation (10ⁿ) and
+wavelength λ (metres)) plus the light/dark theme toggle, all reflecting in the axis ticks and
 `:root` CSS variables.
 
 **Acceptance criteria:**
@@ -353,12 +353,12 @@ opened from the chrome. Accessible dialog (focus trap, Esc to close).
 
 ---
 
-### Phase 4 — Deep-linking, live data, mobile
+### Phase 4: Deep-linking, live data, mobile
 
 ## Task 12: Deep-link URL round-trip
 
 **Description:** Serialize view state (center ν, zoom, active layers, license, theme) into the
-URL query string and restore it on load — exact round-trip. SvelteKit routing owns the URL;
+URL query string and restore it on load, an exact round-trip. SvelteKit routing owns the URL;
 the stores sync to it.
 
 **Acceptance criteria:**
@@ -427,14 +427,14 @@ and layout adapt to mobile widths; touch targets ≥ 44×44px.
 
 ---
 
-### Phase 5 — Content, hardening & launch
+### Phase 5: Content, hardening & launch
 
 ## Task 15: Full ELF→gamma curation + annotations
 
 **Description:** Expand `data/allocations/` to the full breadth: all 12 ITU radio bands
 (ELF→THF) plus IR/Visible/UV/X-ray/Gamma curated **annotations** (phenomena, applications,
 named spectral lines), each provenance-backed. **Blocked on Open Question #1** (authoritative
-non-radio sources) — resolve sources first.
+non-radio sources), so resolve sources first.
 
 **Acceptance criteria:**
 
@@ -476,7 +476,7 @@ themes. Drive against `.claude/references/accessibility-checklist.md`.
 
 **Description:** Consolidate/complete the Playwright suite from SPEC §Testing Strategy: zoom +
 pan, layer toggles, license filter → inspector eligibility, deep-link round-trip, theme
-toggle, sources modal — as a coherent regression suite.
+toggle, sources modal) as a coherent regression suite.
 
 **Acceptance criteria:**
 
@@ -536,7 +536,7 @@ deploy-config changes.**
 
 1. **Non-radio data sources (SPEC Open Q #1):** which authoritative references for visible
    spectral lines, X-ray, gamma, and the editorial annotations? Blocks Task 15 only.
-2. **LOD tier count & thresholds:** spec says ≥4 (Regions/ITU/Allocations/Channels) — confirm
+2. **LOD tier count & thresholds:** spec says ≥4 (Regions/ITU/Allocations/Channels), so confirm
    the zoom-depth boundaries during the Phase 3 checkpoint.
 3. **FCC_API_KEY availability for CI/preview:** is a key provisioned, or do we rely on the
    snapshot in CI? (Affects Task 13 + Task 18.)
@@ -547,5 +547,5 @@ deploy-config changes.**
 - **Safe to parallelize after Task 6:** Task 8 (layers), Task 9 (license), Task 10 (axis/theme),
   Task 11 (sources) are independent feature slices over the same data/store contracts.
 - **Independent track:** Task 13 (FCC proxy) can proceed in parallel with Phase 3 once Task 3 +
-  Task 5 land. Task 15 (curation) is pure content — parallel once sources are resolved.
+  Task 5 land. Task 15 (curation) is pure content, parallel once sources are resolved.
 - **Last:** Tasks 16–18 (a11y, e2e consolidation, deploy) gate on features being in place.

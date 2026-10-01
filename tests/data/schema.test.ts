@@ -11,7 +11,7 @@ addFormats(ajv);
 const validateAllocs = ajv.compile(allocationsSchema);
 const validateSources = ajv.compile(sourcesSchema);
 
-describe('JSON schema — allocations', () => {
+describe('JSON schema: allocations', () => {
 	it('accepts the seed data', () => {
 		expect(validateAllocs(seed)).toBe(true);
 	});
@@ -36,7 +36,7 @@ describe('JSON schema — allocations', () => {
 	});
 });
 
-describe('JSON schema — sources', () => {
+describe('JSON schema: sources', () => {
 	it('accepts the source registry', () => {
 		expect(validateSources(sources)).toBe(true);
 	});

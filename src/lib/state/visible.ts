@@ -1,6 +1,6 @@
 /**
  * Visible-light sub-filter state. The optical region got busy (lasers, LEDs, gas glows, fireworks),
- * so each group toggles independently. First open shows just the LEDs — enough to make the visible
+ * so each group toggles independently. First open shows just the LEDs, enough to make the visible
  * band read as populated without burying it; the master switch brings every source on at once.
  */
 
@@ -30,7 +30,7 @@ export const GROUP_LABELS: Record<OpticalGroup, string> = {
 /**
  * Every content layer a visible-light entry can be shown under (its primary *or* alt layer). Most
  * are physical-science, but the everyday ones (LEDs, neon, fireworks…) are also dual-licensed into
- * consumer — so the filter still has content to show in an everyday-only view.
+ * consumer, so the filter still has content to show in an everyday-only view.
  */
 const OPTICAL_LAYERS = [
 	...new Set(allocations.flatMap((a) => (a.optical ? [a.layer, a.altLayer] : [])).filter(Boolean))
@@ -51,7 +51,7 @@ const groupCovered = (g: OpticalGroup, $l: Record<LayerId, boolean>): boolean =>
 
 // Auto-collapse + graceful restore. When *no* optical layer is enabled the filter has nothing to
 // display, so it remembers what was showing and blanks the groups (the master then reads off, one
-// click from re-enabling). When an optical layer comes back on it restores exactly that snapshot —
+// click from re-enabling). When an optical layer comes back on it restores exactly that snapshot,
 // unless the user has since acted explicitly (which clears the memory, so a deliberate "all off"
 // stays off). This generalises the old "tied to the science layer" rule so a dual-licensed light is
 // never hidden just because science is off while consumer is on.
@@ -71,7 +71,7 @@ layers.subscribe(($l) => {
 
 /**
  * Turning a source group on must actually show something, but with the *least* side effect: a
- * layer is pulled on only when none of the layers that group lives in is visible — and then it's
+ * layer is pulled on only when none of the layers that group lives in is visible, and then it's
  * the group's own primary layer, not a blanket "science on". So flipping LEDs (dual-licensed into
  * consumer) in an everyday-only view touches nothing else, while flipping Lasers there enables
  * physical science because lasers exist nowhere else. An explicit toggle clears the auto-restore
@@ -89,8 +89,8 @@ export function toggleGroup(g: OpticalGroup): void {
 
 /**
  * Apply a visibility snapshot verbatim (used when restoring a shared deep-link). Unlike the
- * toggles, this touches no content layers — the link also carries the layer state, restored
- * separately — but it *does* clear the auto-restore memory so the layers subscription above won't
+ * toggles, this touches no content layers (the link also carries the layer state, restored
+ * separately), but it *does* clear the auto-restore memory so the layers subscription above won't
  * later spring the groups back to whatever was showing before the link loaded. Callers must set
  * the layer state (`layers.set`) *before* this, so the subscription's blank-when-uncovered pass has
  * already run against the restored layers by the time we stamp the intended groups on top.

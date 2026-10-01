@@ -20,27 +20,27 @@
 
 	const bandTop = PLOT.bandY;
 	const bandMid = PLOT.bandY + PLOT.bandH / 2;
-	/** Minimum gap (px) between two printed channel numbers — keeps labels from overlapping. */
+	/** Minimum gap (px) between two printed channel numbers: keeps labels from overlapping. */
 	const LABEL_GAP = 16;
 
-	/** The host band [lo,hi] for each plan's allocation — gates the reveal and is needed for the
+	/** The host band [lo,hi] for each plan's allocation: gates the reveal and is needed for the
 	 *  single-tick guard/calling plans (whose own channel-extent is zero). */
 	const bandById = new Map(allocations.filter((a) => a.band).map((a) => [a.id, a.band!]));
 
-	// Channels follow their allocation's visibility: shown once the content layer is on — the same
+	// Channels follow their allocation's visibility: shown once the content layer is on, the same
 	// rule as the markers. (Channelised services are licence-free, so the licence never gates them.)
 	let visibleIds = $derived(new Set(visibleAllocations(allocations, 3, layers).map((a) => a.id)));
 
 	// Place every in-view plan; keep it if at least one channel is revealed at this zoom. The dense
 	// grid emerges as a deeper tier, but a promoted landmark (an emergency / guard / calling tick)
-	// can light up well before that — so a plan may render with just its single tick showing.
+	// can light up well before that, so a plan may render with just its single tick showing.
 	let plans = $derived(
 		CHANNEL_PLANS.filter((p) => visibleIds.has(p.id) && bandById.has(p.id))
 			.map((p) => ({ plan: p, ...placeChannels(p, bandById.get(p.id)!, domain, width) }))
 			.filter((p) => p.channels.some((c) => c.revealed))
 	);
 
-	/** Whether a plan has any ordinary "grid" channels (so its "… channels" header makes sense) —
+	/** Whether a plan has any ordinary "grid" channels (so its "… channels" header makes sense):
 	 *  a plan that's only landmark ticks (guard/calling) is named by its band's own marker instead. */
 	const hasGrid = (channels: PlacedChannel[]) =>
 		channels.some((c) => c.tag !== 'distress' && c.tag !== 'calling');
@@ -76,7 +76,7 @@
 {#each plans as p (p.plan.id)}
 	{@const revealed = p.channels.filter((c) => c.revealed)}
 	{@const show = labelled(revealed)}
-	<!-- Service name once the full grid is up — skipped for a resonance plan and for landmark-only
+	<!-- Service name once the full grid is up. Skipped for a resonance plan and for landmark-only
 	     plans (guard/calling), whose host band's own marker already names them. -->
 	{#if p.show && !p.plan.tone && hasGrid(revealed)}
 		{@const x0 = Math.max(revealed[0].x, 2)}
@@ -129,7 +129,7 @@
 		stroke-width: 1;
 		opacity: 0.65;
 	}
-	/* A resonance mode bar (Schumann) — a real-width block in the plan's tone, hairline-outlined. */
+	/* A resonance mode bar (Schumann): a real-width block in the plan's tone, hairline-outlined. */
 	.ch-bar {
 		stroke: var(--marker-stroke);
 		stroke-width: 0.75;
@@ -150,7 +150,7 @@
 		fill: var(--layer-navigation);
 		font-weight: 600;
 	}
-	/* Distress / guard channel (Marine 16, CB 9, the aero/military guards) — red, so it stands out. */
+	/* Distress / guard channel (Marine 16, CB 9, the aero/military guards): red, so it stands out. */
 	.ch-tick.distress {
 		stroke: var(--spectral-red);
 		stroke-width: 1.5;
@@ -160,7 +160,7 @@
 		fill: var(--spectral-red);
 		font-weight: 700;
 	}
-	/* Calling frequency (the ham FM national calling channels) — amateur purple. */
+	/* Calling frequency (the ham FM national calling channels): amateur purple. */
 	.ch-tick.calling {
 		stroke: var(--layer-amateur);
 		stroke-width: 1.5;

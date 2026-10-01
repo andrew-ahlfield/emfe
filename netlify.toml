@@ -11,4 +11,4 @@
   NODE_VERSION = "24"
 
 # Note: @sveltejs/adapter-netlify generates the function routing/redirects
-# automatically — no manual [[redirects]] needed.
+# automatically, so no manual [[redirects]] are needed.

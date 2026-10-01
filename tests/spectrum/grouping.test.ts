@@ -36,7 +36,7 @@ describe('families', () => {
 	});
 });
 
-describe('layoutSpectrum — group-up', () => {
+describe('layoutSpectrum: group-up', () => {
 	const W = 1200;
 
 	it('collapses a mid-sized neighbourhood into one group chip', () => {
@@ -70,7 +70,7 @@ describe('layoutSpectrum — group-up', () => {
 	});
 
 	it('keeps a wide band visible (dot + labelled leaf) when its centre scrolls off-screen', () => {
-		// A band 26.9–27.5 MHz whose centre (27.2) sits left of a window that starts at 27.3 — the
+		// A band 26.9–27.5 MHz whose centre (27.2) sits left of a window that starts at 27.3: the
 		// band's right edge is still in view, so its bar/label must not vanish (regression).
 		const band = alloc('cb', 27.2e6, { band: [26.9e6, 27.5e6] });
 		const dom: FreqDomain = { minExp: Math.log10(27.3e6), maxExp: Math.log10(27.9e6) };
@@ -91,7 +91,7 @@ describe('layoutSpectrum — group-up', () => {
 	});
 });
 
-describe('layoutSpectrum — region hierarchy', () => {
+describe('layoutSpectrum: region hierarchy', () => {
 	const W = 1440;
 	// Populate every microwave sub-band (UHF…EHF) so the region is genuinely busy.
 	const microwave: Allocation[] = [];
@@ -122,7 +122,7 @@ describe('layoutSpectrum — region hierarchy', () => {
 	});
 });
 
-describe('layoutSpectrum — no overlaps (invariant)', () => {
+describe('layoutSpectrum: no overlaps (invariant)', () => {
 	const W = 1440;
 
 	/** All 16 families populated with a spread of members, across many zoom windows. */

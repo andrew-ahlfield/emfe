@@ -14,7 +14,7 @@
 
 	let open = $derived(band !== null);
 
-	// Distinct categories present in the band (primary first), for the "what this means" glossary —
+	// Distinct categories present in the band (primary first), for the "what this means" glossary,
 	// deduped so a FIXED + MOBILE band explains each once.
 	let glossary = $derived.by<{ cat: ServiceCategory; label: string; text: string }[]>(() => {
 		if (!band) return [];

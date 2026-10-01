@@ -1,5 +1,5 @@
 /**
- * Axis tick generation — pure and testable (the rendering lives in Axis.svelte).
+ * Axis tick generation: pure and testable (the rendering lives in Axis.svelte).
  *
  * Two regimes, chosen by how many decades are on screen:
  *  - **Sub-decade** (< ~1.2 decades): round 1-2-5 frequencies, so you can read a single band's
@@ -25,7 +25,7 @@ import {
 export interface AxisTick {
 	id: string;
 	x: number;
-	/** Emphasised (taller) tick — the labelled ones. */
+	/** Emphasised (taller) tick: the labelled ones. */
 	major: boolean;
 	/** Whether this tick carries a label. */
 	labeled: boolean;
@@ -41,12 +41,12 @@ export interface AxisTick {
 
 /** Below this many visible decades, use the 1-2-5 sub-decade ruler. */
 const SUBDECADE_MAX = 1.2;
-/** Target spacing (px) between sub-decade labels — drives how many 1·2·5 ticks we ask for, so a
+/** Target spacing (px) between sub-decade labels: drives how many 1·2·5 ticks we ask for, so a
  *  narrow screen doesn't cram a fixed count of unit-suffixed labels ("14.0 MHz") into overlap.
- *  `niceTicks` can return up to ~1.5× the target, so the tightest spacing is ~2/3 of this — kept
+ *  `niceTicks` can return up to ~1.5× the target, so the tightest spacing is ~2/3 of this, kept
  *  generous enough that the widest labels (a suffixed frequency, or the λ/eV rows) never collide. */
 const SUBDECADE_LABEL_PX = 100;
-/** Target spacing between labels (px) — drives the decade label interval when zoomed far out. */
+/** Target spacing between labels (px), drives the decade label interval when zoomed far out. */
 const LABEL_TARGET_PX = 90;
 /** A decade at least this wide (px) gets 1·2·5 labels; otherwise just its power-of-ten. */
 const LABEL_125_DECADE_PX = 175;
@@ -64,8 +64,8 @@ export function axisTicks(domain: FreqDomain, width: number): AxisTick[] {
 	if (span < SUBDECADE_MAX) {
 		const lo = 10 ** domain.minExp;
 		const hi = 10 ** domain.maxExp;
-		// Ask for as many 1·2·5 labels as fit at the target spacing — fewer on a phone, more on a
-		// wide monitor — so unit-suffixed labels never overlap (and the ruler never goes sparse).
+		// Ask for as many 1·2·5 labels as fit at the target spacing: fewer on a phone, more on a
+		// wide monitor, so unit-suffixed labels never overlap (and the ruler never goes sparse).
 		const target = Math.max(2, Math.round(width / SUBDECADE_LABEL_PX));
 		const values = niceTicks(lo, hi, target);
 		const step = values.length > 1 ? values[1] - values[0] : values[0] || 1;
@@ -152,7 +152,7 @@ export function axisTicks(domain: FreqDomain, width: number): AxisTick[] {
 }
 
 /**
- * The largest gap (px) between adjacent labelled ticks, including the gaps from each edge — a
+ * The largest gap (px) between adjacent labelled ticks, including the gaps from each edge: a
  * direct measure of how sparse the ruler is. Used by the axis-density test.
  */
 export function maxLabelGap(ticks: AxisTick[], width: number): number {

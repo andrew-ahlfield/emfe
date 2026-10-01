@@ -2,7 +2,7 @@ import { defineConfig } from '@playwright/test';
 import { resolveChromium } from './playwright.shared';
 
 // In a sandboxed session (Claude Code cloud) the pinned Playwright browser usually isn't the one
-// installed under PLAYWRIGHT_BROWSERS_PATH — point at whatever Chromium is actually there. No-op
+// installed under PLAYWRIGHT_BROWSERS_PATH, so point at whatever Chromium is actually there. No-op
 // locally (returns undefined → managed browser). See docs/cloud-smoke-test.md.
 const executablePath = resolveChromium();
 

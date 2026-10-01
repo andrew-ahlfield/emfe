@@ -1,5 +1,5 @@
 /**
- * Allocation-substrate view state (the bottom tier — SPEC §The three tiers).
+ * Allocation-substrate view state (the bottom tier, SPEC §The three tiers).
  *
  * Defaults: both administrations, every service category on. `off` holds the *hidden* categories
  * so a pristine state is the empty set. The control panel's master switch is a quick

@@ -19,13 +19,13 @@
 		showEv?: boolean;
 	} = $props();
 
-	// Adaptive ruler — powers of ten with a width-aware label interval at wide zooms, round 1-2-5
+	// Adaptive ruler: powers of ten with a width-aware label interval at wide zooms, round 1-2-5
 	// frequencies once inside a decade. The scientific-notation toggle re-formats every label as
 	// `m×10ⁿ Hz`. (Pure logic + density regression test live in $lib/spectrum/ticks.)
 	let ticks = $derived(axisTicks(domain, width));
 
 	// Label rows hang below the axis at an even rhythm: the frequency labels first, then each
-	// enabled secondary row (λ, then eV) claims the next slot — so spacing stays identical no
+	// enabled secondary row (λ, then eV) claims the next slot, so spacing stays identical no
 	// matter which options are on. Add a future row by giving it the next slot index.
 	const FREQ_Y = PLOT.axisY + 21;
 	const ROW_GAP = 13;
@@ -94,7 +94,7 @@
 		font-size: 11px;
 		fill: var(--sub);
 	}
-	/* Raised exponent numerals — readable, unlike Unicode superscript glyphs. */
+	/* Raised exponent numerals: readable, unlike Unicode superscript glyphs. */
 	.exp {
 		font-size: 9px;
 	}

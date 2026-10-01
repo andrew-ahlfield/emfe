@@ -1,17 +1,17 @@
 /**
  * Deep-link (de)serialization: a compact, lossless mapping between the explorer's view state
  * and the URL query string. Only **non-default** dimensions are written, so a pristine view
- * yields an empty query and shared links stay short. Decoding is total — every missing or
+ * yields an empty query and shared links stay short. Decoding is total: every missing or
  * malformed parameter degrades to its safe default.
  *
  * The guiding rule (SPEC): sharing your link should hand the recipient *your current view*.
- * Every control that changes what's on screen is mirrored here — layers, licence, the visible-
+ * Every control that changes what's on screen is mirrored here: layers, licence, the visible-
  * light sub-filter, the allocation substrate (admin + service ribbon), the axis/scale overlays,
  * the pinned state of the details drawer, and whichever details card is open.
  *
  * The one deliberate exception is **theme (dark/light)**: it is *not* encoded. Colour scheme is a
  * per-viewer preference (OS `prefers-color-scheme`, or a local override persisted to
- * localStorage), not a property of the view being shared — a recipient should read the link in
+ * localStorage), not a property of the view being shared. A recipient should read the link in
  * their own preferred scheme, not have the sharer's forced on them. See `state/theme.ts` and the
  * bootstrap script in `app.html`.
  *
@@ -40,7 +40,7 @@ export interface DeepLinkSnapshot {
 	layers: Record<LayerId, boolean>;
 	license: LicenseRank;
 	/**
-	 * The open details card as an opaque token (`<kind>:<id>` — see `state/card.ts`), or null.
+	 * The open details card as an opaque token (`<kind>:<id>`, see `state/card.ts`), or null.
 	 * Covers all three mutually-exclusive cards: a marker's allocation, a spectrum neighbourhood,
 	 * or a substrate band. This module keeps it opaque; `card.ts` maps it to/from concrete data.
 	 */
@@ -61,7 +61,7 @@ const DEFAULT_LICENSE: LicenseRank = 'extra';
 const DEFAULT_ADMIN: Admin = 'all';
 const midExp = (full: FreqDomain) => (full.minExp + full.maxExp) / 2;
 
-/** Valid service ids for the substrate ribbon — the categories plus the catch-all "other". */
+/** Valid service ids for the substrate ribbon: the categories plus the catch-all "other". */
 const SERVICE_IDS = [...SERVICE_CATEGORIES, 'other'] as ServiceCategory[];
 
 // ── Per-dimension defaults (kept in step with the owning store) ──────────────────────────────
@@ -104,7 +104,7 @@ export function encodeState(s: DeepLinkSnapshot): string {
 		params.set('c', trim(s.centerExp, 2));
 	}
 	// Layers are written as the explicit on-list ("layers=consumer,science"), diffed against the
-	// curated first-open default — "layers=none" when everything is off. (The pre-curated-default
+	// curated first-open default: "layers=none" when everything is off. (The pre-curated-default
 	// format was an off-list relative to all-on; parseLayers still accepts it for old links.)
 	const layersOn = LAYERS.filter((l) => s.layers[l]);
 	const layersDefault =
@@ -141,7 +141,7 @@ export function encodeState(s: DeepLinkSnapshot): string {
 
 function parseLayers(params: URLSearchParams): Record<LayerId, boolean> {
 	// Current format: an explicit on-list. Unknown ids are dropped; a value with no valid ids is
-	// treated as malformed and degrades to the default — except the deliberate "none".
+	// treated as malformed and degrades to the default, except the deliberate "none".
 	const raw = params.get('layers');
 	if (raw !== null) {
 		const on = raw.split(',').filter((id) => (LAYERS as readonly string[]).includes(id));

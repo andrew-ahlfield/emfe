@@ -8,7 +8,7 @@
 
 	let open = $derived(group !== null);
 
-	// How many charted signals fall inside this neighbourhood — a feel for how busy the band is.
+	// How many charted signals fall inside this neighbourhood: a feel for how busy the band is.
 	let count = $derived(
 		group ? allocations.filter((a) => a.hz >= group!.lo && a.hz < group!.hi).length : 0
 	);

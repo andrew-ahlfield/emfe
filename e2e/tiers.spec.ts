@@ -28,14 +28,14 @@ test('allocation substrate renders and its filters drive the ribbon', async ({ p
 test('a calling frequency shows as a channel tick on its band, gated by the content layers', async ({
 	page
 }) => {
-	// Designated frequencies are channel ticks on their host band — zoom onto the 2 m band so its
+	// Designated frequencies are channel ticks on their host band. Zoom onto the 2 m band so its
 	// 146.52 MHz calling tick (amateur purple) reveals. The amateur layer is off by default.
 	await page.goto('/?z=2500&c=8.167&layers=consumer,amateur');
 	await page.waitForSelector('#explorer');
 	const calling = page.locator('line.ch-tick.calling');
 	await expect.poll(() => calling.count()).toBeGreaterThan(0);
 
-	// It follows the amateur content layer — hiding all layers hides it.
+	// It follows the amateur content layer: hiding all layers hides it.
 	await page.locator('.layers-col .master').click();
 	await expect(calling).toHaveCount(0);
 });

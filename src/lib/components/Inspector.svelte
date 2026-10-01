@@ -30,7 +30,7 @@
 	};
 	let learnMore = $derived(LEARN_MORE[allocation.id]);
 
-	/** Badge copy for the band's required class — a neutral "what licence opens this band" cue.
+	/** Badge copy for the band's required class: a neutral "what licence opens this band" cue.
 	 *  License-free reads better than "Unlicensed" for the licence-free services. */
 	const REQ_LABEL: Record<LicenseRank, string> = {
 		unlicensed: 'License-free',
@@ -46,7 +46,7 @@
 		phone: 'Phone (voice)'
 	};
 
-	/** Compact mode captions for the strip's mode row — the fuller labels live in the tooltip. */
+	/** Compact mode captions for the strip's mode row; the fuller labels live in the tooltip. */
 	const MODE_SHORT: Record<RenderedSegment['mode'], string> = {
 		cw: 'CW',
 		data: 'data',
@@ -110,7 +110,7 @@
 			isAmateurBand(allocation.id) &&
 			allocation.band != null
 	);
-	/** The strip's cells: one per (class, mode) segment — the fill is tinted by mode so the CW/data →
+	/** The strip's cells: one per (class, mode) segment. The fill is tinted by mode so the CW/data →
 	 *  voice split is visible on the bar, and each carries its class glyph. */
 	let stripCells = $derived<StripCell[]>(
 		segments.length > 0
@@ -133,7 +133,7 @@
 					]
 				: []
 	);
-	/** The operating-mode caption beneath the strip — one label per mode run, or the all-mode line. */
+	/** The operating-mode caption beneath the strip: one label per mode run, or the all-mode line. */
 	let modeCaptions = $derived(
 		segments.length > 0
 			? modeRuns(segments).map((r) => ({ from: r.from, to: r.to, label: MODE_SHORT[r.key] }))
@@ -223,7 +223,7 @@
 					.map((p) => peakLabel(p.hz))
 					.join(
 						', '
-					)} hertz, falling in strength from the fundamental—broad bumps, not sharp lines."
+					)} hertz, falling in strength from the fundamental: broad bumps, not sharp lines."
 			>
 				<rect class="scope-screen" x="0.5" y="0.5" width={SPEC_W - 1} height={SPEC_H - 1} rx="6" />
 				{#each spectrum.hGrid as gy (gy)}
@@ -314,7 +314,7 @@
 	.meta .sep {
 		margin: 0 2px;
 	}
-	/* Neutral "what licence opens this band" badge — the held class is shown by which sub-bands
+	/* Neutral "what licence opens this band" badge: the held class is shown by which sub-bands
 	   light up on the chart and in the strip, so this no longer flips green/red by privilege. */
 	.class-badge {
 		display: inline-flex;
@@ -467,7 +467,7 @@
 		color: var(--sub);
 	}
 	/* Native-SVG spectrum analyser: a dark phosphor screen, a faint graticule with a drop-line at each
-	   mode, and a glowing green curve of broad peaks belling down from the fundamental — so "broad
+	   mode, and a glowing green curve of broad peaks belling down from the fundamental, so "broad
 	   bumps, not sharp lines" reads at a glance. The screen stays dark in both themes (it's a screen). */
 	.scope {
 		margin: 0 0 14px;

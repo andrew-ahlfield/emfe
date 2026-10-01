@@ -2,7 +2,7 @@ import { defineConfig } from '@playwright/test';
 import { resolveChromium, proxyServer } from './playwright.shared';
 
 /**
- * Live smoke test config — runs against a **deployed** environment (default: the `dev` staging
+ * Live smoke test config: runs against a **deployed** environment (default: the `dev` staging
  * deploy), not a local build. This is the "close the loop" check in the release process
  * (README §Deploy step 4): after a branch lands on `dev`, verify the real deployment loads clean
  * and its core functionality works before promoting.
@@ -17,9 +17,9 @@ import { resolveChromium, proxyServer } from './playwright.shared';
  * ## Running inside a sandboxed session (Claude Code cloud, CI containers)
  *
  * Two accommodations, both env-gated (via `playwright.shared.ts`) so a normal local/CI run is
- * untouched — see `docs/cloud-smoke-test.md` for the full story and the CA step the browser needs.
+ * untouched. See `docs/cloud-smoke-test.md` for the full story and the CA step the browser needs.
  *
- *  1. **Any installed Chromium build, not just the one Playwright pins** — {@link resolveChromium}.
+ *  1. **Any installed Chromium build, not just the one Playwright pins.** See {@link resolveChromium}.
  *  2. **Egress proxy.** When `HTTPS_PROXY` is set the browser is routed through it too.
  */
 const executablePath = resolveChromium();
@@ -44,7 +44,7 @@ export default defineConfig({
 			args: [
 				...(proxyServer ? [`--proxy-server=${proxyServer}`, '--ignore-certificate-errors'] : []),
 				// Chromium's component/telemetry fetches go out as plain HTTP, which the CONNECT-only
-				// egress proxy rejects — noise in a proxied session, so switch them off.
+				// egress proxy rejects, which is noise in a proxied session, so switch them off.
 				'--disable-background-networking',
 				'--disable-component-update'
 			]

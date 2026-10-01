@@ -52,7 +52,7 @@ describe('visibleAllocations', () => {
 		expect(visibleAllocations(allocations, 2, allLayersOn)).toHaveLength(atLod.length);
 
 		const noScience = { ...allLayersOn, science: false };
-		// An entry shows if its primary OR alt layer is enabled — so a dual science+consumer entry
+		// An entry shows if its primary OR alt layer is enabled, so a dual science+consumer entry
 		// (medical X-ray) stays when science is off but consumer is on.
 		const shows = (a: Allocation) =>
 			noScience[a.layer] || (a.altLayer != null && noScience[a.altLayer]);
@@ -63,7 +63,7 @@ describe('visibleAllocations', () => {
 		expect(got.some((a) => a.layer === 'science' && a.altLayer == null)).toBe(false);
 	});
 
-	it('never removes amateur bands — the held licence only mutes them in the markers', () => {
+	it('never removes amateur bands: the held licence only mutes them in the markers', () => {
 		// The licence is no longer a filter input at all: hiding an amateur item you can't transmit
 		// on would lose the "you may still listen here" story, so muting is left to rendering.
 		const onlyAmateur = {

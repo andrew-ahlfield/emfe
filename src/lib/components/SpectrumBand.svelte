@@ -8,7 +8,7 @@
 	let { width, domain }: { width: number; domain: FreqDomain } = $props();
 
 	const gradId = 'band-gradient';
-	// The visible rainbow renders at its true physical width — no exaggeration; zoom in to see it.
+	// The visible rainbow renders at its true physical width, no exaggeration; zoom in to see it.
 	let stops = $derived(bandGradientStops(domain));
 	let bands = $derived(
 		ITU_BANDS.map((b) => {

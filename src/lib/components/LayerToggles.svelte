@@ -65,7 +65,7 @@
 		text-transform: uppercase;
 	}
 	.master {
-		/* inline-flex so the .switch (a span) is a flex item — otherwise width/height don't apply
+		/* inline-flex so the .switch (a span) is a flex item; otherwise width/height don't apply
 		   to it as an inline element and the pill collapses to zero width. */
 		display: inline-flex;
 		border: none;

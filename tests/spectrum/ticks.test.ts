@@ -16,18 +16,18 @@ const domains: FreqDomain[] = [];
 for (const zoom of ZOOMS) {
 	for (const c of CENTERS) domains.push(windowDomain(FULL_DOMAIN, c, zoom));
 }
-// The exact view from the bug report (z=7.37, c=8.33) — a ~3.3-decade window.
+// The exact view from the bug report (z=7.37, c=8.33): a ~3.3-decade window.
 domains.push(windowDomain(FULL_DOMAIN, 8.33, 7.37));
 
 /**
  * The axis must never look empty: no stretch wider than this fraction of the screen may go without
  * a labelled tick (including the gaps from each edge). 0.5 = "never more than half the axis blank"
- * — generous enough to allow honest log spacing on small screens, strict enough that the old
+ * generous enough to allow honest log spacing on small screens, strict enough that the old
  * every-3rd-power behaviour (a single "1 GHz" across a 3-decade window) would fail it.
  */
 const MAX_GAP_FRACTION = 0.5;
 
-describe('axisTicks — label density across zooms and screen sizes', () => {
+describe('axisTicks: label density across zooms and screen sizes', () => {
 	for (const width of WIDTHS) {
 		it(`never leaves a label gap wider than ${Math.round(MAX_GAP_FRACTION * 100)}% of a ${width}px axis`, () => {
 			for (const domain of domains) {

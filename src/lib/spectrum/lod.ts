@@ -1,5 +1,5 @@
 /**
- * Level-of-detail (LOD) — semantic zoom tiers.
+ * Level-of-detail (LOD): semantic zoom tiers.
  *
  * The LOD is *derived* from how many decades are currently visible: zoom out to see the
  * seven great regions; zoom in and detail emerges. Thresholds are intentionally easy to

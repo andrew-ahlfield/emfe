@@ -5,7 +5,7 @@
  *  - {@link eligibility}: can the held license transmit on a given allocation, and the
  *    ✓/✗ copy the Inspector pill shows.
  *  - {@link privilegeStrip}: for bands with a documented sub-band plan ({@link HAM_SUBBANDS}),
- *    which segments the held license unlocks — drives the Inspector's privilege strip.
+ *    which segments the held license unlocks, driving the Inspector's privilege strip.
  */
 
 import { licenseRank, type LicenseRank } from '$lib/data/types';
@@ -19,7 +19,7 @@ export const RANK_LABELS: Record<LicenseRank, string> = {
 };
 
 /**
- * A single-letter glyph per operator-licence class — U / T / G / E — shown in the licence filter,
+ * A single-letter glyph per operator-licence class (U / T / G / E) shown in the licence filter,
  * as a badge on amateur markers, and on each sub-band of the Inspector privilege strip. The class
  * initial reads more clearly than the abstract shapes it replaced.
  */
@@ -58,7 +58,7 @@ const SUBBAND_PLANS_MHZ: Record<
 	string,
 	{ band: [number, number]; segs: [number, number, LicenseRank, PrivilegeMode][] }
 > = {
-	// 160 m — no Technician access; General and Extra share the whole band with no
+	// 160 m: no Technician access; General and Extra share the whole band with no
 	// exclusive sub-band, and phone/image is authorised edge to edge (CW and data too).
 	ham160m: {
 		band: [1.8, 2.0],
@@ -73,7 +73,7 @@ const SUBBAND_PLANS_MHZ: Record<
 			[3.8, 4.0, 'general', 'phone']
 		]
 	},
-	// 60 m — five fixed USB channels (General and up); voice, CW and data all allowed,
+	// 60 m: five fixed USB channels (General and up); voice, CW and data all allowed,
 	// so the strip reads as a single General phone span across the channel group.
 	ham60m: {
 		band: [5.3305, 5.4065],
@@ -88,7 +88,7 @@ const SUBBAND_PLANS_MHZ: Record<
 			[7.175, 7.3, 'general', 'phone']
 		]
 	},
-	// 30 m WARC — General and up, CW and data only: no phone anywhere on the band.
+	// 30 m WARC: General and up, but CW and data only. No phone anywhere on the band.
 	ham30m: {
 		band: [10.1, 10.15],
 		segs: [[10.1, 10.15, 'general', 'data']]
@@ -102,7 +102,7 @@ const SUBBAND_PLANS_MHZ: Record<
 			[14.225, 14.35, 'general', 'phone']
 		]
 	},
-	// 17 m WARC — General and up; CW/data below 18.110 MHz, phone above it. No class split.
+	// 17 m WARC: General and up; CW/data below 18.110 MHz, phone above it. No class split.
 	ham17m: {
 		band: [18.068, 18.168],
 		segs: [
@@ -119,7 +119,7 @@ const SUBBAND_PLANS_MHZ: Record<
 			[21.275, 21.45, 'general', 'phone']
 		]
 	},
-	// 12 m WARC — General and up; CW/data below 24.930 MHz, phone above it. No class split.
+	// 12 m WARC: General and up; CW/data below 24.930 MHz, phone above it. No class split.
 	ham12m: {
 		band: [24.89, 24.99],
 		segs: [
@@ -165,7 +165,7 @@ export const HAM_SUBBANDS: Record<string, PrivilegeSegment[]> = Object.fromEntri
 	)
 );
 
-/** True when an allocation has a documented sub-band privilege plan — drives the chart's
+/** True when an allocation has a documented sub-band privilege plan. Drives the chart's
  *  licence-aware expand/contract rendering and keeps the band visible at every class. */
 export function hasPrivilegePlan(id: string): boolean {
 	return id in SUBBAND_PLANS_MHZ;
@@ -182,7 +182,7 @@ export interface PrivilegeBand {
 }
 
 /**
- * A band's privilege sub-bands in absolute Hz, each flagged for the held licence — the data the
+ * A band's privilege sub-bands in absolute Hz, each flagged for the held licence: the data the
  * main chart draws as the band at true width: a transparent envelope with the held class's
  * accessible sub-bands filled in. Empty for bands without a documented plan.
  */
@@ -239,13 +239,13 @@ const HAM_POWER_EXCEPTIONS: Record<string, string> = {
  */
 const TECH_200W_BANDS = new Set(['ham80m', 'ham40m', 'ham15m', 'ham10m']);
 
-/** An amateur (Part 97) band — the ids are `ham*` plus the one-off `2m`. Part 95 personal-radio
+/** An amateur (Part 97) band: the ids are `ham*` plus the one-off `2m`. Part 95 personal-radio
  *  services (CB, FRS/GMRS, MURS) are *not* amateur and carry their own power rules. */
 export function isAmateurBand(id: string): boolean {
 	return id.startsWith('ham') || id === '2m';
 }
 
-/** Mode caption for an amateur band with no class-varying sub-band plan — the VHF/UHF (and 6 m)
+/** Mode caption for an amateur band with no class-varying sub-band plan: the VHF/UHF (and 6 m)
  *  bands, where the whole band is open to the required class for CW, data and voice alike. */
 export const ALL_MODES_LABEL = 'CW · data · voice';
 
@@ -264,7 +264,7 @@ const PART95_POWER: Record<string, string> = {
  * The maximum transmitter power to show for a band and held class. For amateur bands it's the
  * §97.313 ceiling (1500 W PEP, less on the exception bands and for a Technician on their HF
  * segment); for the Part 95 personal-radio bands it's the fixed per-service limit. Empty string
- * for everything else (broadcast, cellular, radar, … — power isn't the operator-facing fact there).
+ * for everything else (broadcast, cellular, radar, …): power isn't the operator-facing fact there.
  */
 export function powerLimit(id: string, held: LicenseRank): string {
 	if (isAmateurBand(id)) {
@@ -274,7 +274,7 @@ export function powerLimit(id: string, held: LicenseRank): string {
 	return PART95_POWER[id] ?? '';
 }
 
-/** The universal §97.313(a) reminder — a Part 97 amateur rule, so it accompanies only ham bands'
+/** The universal §97.313(a) reminder, a Part 97 amateur rule, so it accompanies only ham bands'
  *  power ceilings (Part 95 services have no equivalent "minimum necessary power" mandate). */
 export const MIN_POWER_NOTE = 'Use the minimum power needed to make contact (§97.313)';
 
@@ -294,7 +294,7 @@ export interface StripRun<K> {
 	enabled: boolean;
 }
 
-/** Merge adjacent segments that share `keyOf` into runs — so a band split only by operating mode
+/** Merge adjacent segments that share `keyOf` into runs, so a band split only by operating mode
  *  (17 m: General CW/data then phone) collapses to a single General run, not two "G" segments. */
 function mergeRuns<K>(segs: RenderedSegment[], keyOf: (s: RenderedSegment) => K): StripRun<K>[] {
 	const runs: StripRun<K>[] = [];
@@ -311,12 +311,12 @@ function mergeRuns<K>(segs: RenderedSegment[], keyOf: (s: RenderedSegment) => K)
 	return runs;
 }
 
-/** The strip's licence-class runs (one glyph each) — adjacent same-class segments merged. */
+/** The strip's licence-class runs (one glyph each): adjacent same-class segments merged. */
 export function classRuns(segs: RenderedSegment[]): StripRun<LicenseRank>[] {
 	return mergeRuns(segs, (s) => s.minLicense);
 }
 
-/** The strip's operating-mode runs (one caption each) — adjacent same-mode segments merged. */
+/** The strip's operating-mode runs (one caption each): adjacent same-mode segments merged. */
 export function modeRuns(segs: RenderedSegment[]): StripRun<PrivilegeMode>[] {
 	return mergeRuns(segs, (s) => s.mode);
 }
